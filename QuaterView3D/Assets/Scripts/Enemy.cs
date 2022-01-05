@@ -1,21 +1,58 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
     public int maxHealth;
     public int curHealth;
+    public Transform target;
+    public bool isChase;
 
     Rigidbody rigid;
     BoxCollider boxCollider;
     Material mat;
+    NavMeshAgent nav;
+    Animator anim;
 
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
         boxCollider = GetComponent<BoxCollider>();
-        mat = GetComponent<MeshRenderer>().material;
+        mat = GetComponentInChildren<MeshRenderer>().material;
+        nav = GetComponent<NavMeshAgent>();
+        anim = GetComponentInChildren<Animator>();
+
+        Invoke("ChaseStart", 2);
+    }
+
+    // 따라다니기 시작
+    void ChaseStart()
+    {
+        isChase = true;
+        anim.SetBool("isWalk", true);
+    }
+
+    void Update()
+    {
+        // 포지션 준것을 따라다님
+        if(isChase)
+            nav.SetDestination(target.position);
+    }
+    void FreezeVelocity()
+    {
+        // 물체끼리 닿았을 때 서로 영향을 주는 것을 방지
+        if (isChase)
+        {
+            rigid.angularVelocity = Vector3.zero;
+            rigid.velocity = Vector3.zero;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        FreezeVelocity();
     }
 
     void OnTriggerEnter(Collider other)
@@ -40,7 +77,7 @@ public class Enemy : MonoBehaviour
             StartCoroutine(OnDamage(reactVec, false)) ;
         }
     }
-
+    // 수류탄에 맞았을 때
     public void HitByGrenade(Vector3 explosionPos)
     {
         curHealth -= 100;
@@ -62,9 +99,13 @@ public class Enemy : MonoBehaviour
         {
             mat.color = Color.gray;
             gameObject.layer = 14;
+            
+            isChase = false;
+            nav.enabled = false;
+            anim.SetTrigger("doDie");
 
             // 죽으면 넉백하는 기능
-            if (isGrenade)
+            if (isGrenade) // 수류탄에 죽으면 아예 날아가도록 구현
             {
                 reactVec = reactVec.normalized;
                 reactVec += Vector3.up * 3;

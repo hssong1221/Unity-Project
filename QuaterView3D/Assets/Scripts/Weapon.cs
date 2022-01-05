@@ -36,7 +36,6 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    //invoke 쓰면 오래 걸릴거 코루틴으로 한번에 가능
     IEnumerator Swing()
     {
         // 1 무기에 트레일과 콜라이더 활성화

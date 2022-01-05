@@ -273,11 +273,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    void FreezeRotation()
+    // 물체와 닿았을 때 플레이어에 영향이 미치지 않게 함
+    void FreezeRotation() 
     {
         rigid.angularVelocity = Vector3.zero;
     }
-
+    // 벽을 뚫고 나가는 것을 방지
     void StopToWall()
     {
         Debug.DrawRay(transform.position, transform.forward * 5, Color.green);
