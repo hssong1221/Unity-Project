@@ -40,11 +40,13 @@ public class Player : MonoBehaviour
     bool isFireReady;
     bool isReload;
     bool isBorder;
+    bool isDamage;
 
     Vector3 moveVec;
 
     Rigidbody rigid;
     Animator anim;
+    MeshRenderer[] mesh;
 
     GameObject nearObject;
     Weapon equipWeapon;
@@ -55,6 +57,7 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         // Player 안에 Mesh Object에 animator있어서 Inchildren 
         anim = GetComponentInChildren<Animator>();
+        mesh = GetComponentsInChildren<MeshRenderer>();
     }
 
     void Update()
@@ -333,6 +336,31 @@ public class Player : MonoBehaviour
             }
             Destroy(other.gameObject);
         }
+        // 적 투사체에 피격시 로직
+        else if(other.tag == "EnemyBullet")
+        {
+            if (!isDamage)
+            {
+                Bullet enemyBullet = other.GetComponent<Bullet>();
+                health -= enemyBullet.damage;
+                if (other.GetComponent<Rigidbody>() != null)
+                    Destroy(other.gameObject);
+
+                StartCoroutine(OnDamage());
+            }
+        }
+    }
+
+    IEnumerator OnDamage()
+    {
+        isDamage = true;
+        foreach(MeshRenderer m in mesh)
+            m.material.color = Color.yellow;
+        // 피격 시 무적시간 부여
+        yield return new WaitForSeconds(1f);
+        isDamage = false;
+        foreach (MeshRenderer m in mesh)
+            m.material.color = Color.white;
     }
     // player와 무기가 닿아있을 때 반응함
     void OnTriggerStay(Collider other)
