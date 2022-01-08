@@ -343,24 +343,32 @@ public class Player : MonoBehaviour
             {
                 Bullet enemyBullet = other.GetComponent<Bullet>();
                 health -= enemyBullet.damage;
-                if (other.GetComponent<Rigidbody>() != null)
-                    Destroy(other.gameObject);
 
-                StartCoroutine(OnDamage());
+                bool isBossAtk = other.name == "Boss Melee Area";
+                StartCoroutine(OnDamage(isBossAtk));
             }
+
+            if (other.GetComponent<Rigidbody>() != null)
+                Destroy(other.gameObject);
         }
     }
 
-    IEnumerator OnDamage()
+    IEnumerator OnDamage(bool isBossAtk)
     {
         isDamage = true;
         foreach(MeshRenderer m in mesh)
             m.material.color = Color.yellow;
+
+        if (isBossAtk)
+            rigid.AddForce(transform.forward * -25, ForceMode.Impulse);
         // 피격 시 무적시간 부여
         yield return new WaitForSeconds(1f);
         isDamage = false;
         foreach (MeshRenderer m in mesh)
             m.material.color = Color.white;
+
+        if (isBossAtk)
+            rigid.velocity = Vector3.zero;
     }
     // player와 무기가 닿아있을 때 반응함
     void OnTriggerStay(Collider other)
