@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 4186633210391424205}
   - component: {fileID: 4186633210391424204}
   - component: {fileID: 4186633210391424195}
+  - component: {fileID: 4089781580307377398}
   m_Layer: 0
   m_Name: Coin Bronze
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,6 +79,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4089781580307377398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6495405003548928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9497a2c453dc243b300e0cf9543e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  value: 500
 --- !u!1 &837393977396332753
 GameObject:
   m_ObjectHideFlags: 0

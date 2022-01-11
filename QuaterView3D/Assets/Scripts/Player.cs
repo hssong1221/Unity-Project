@@ -41,6 +41,7 @@ public class Player : MonoBehaviour
     bool isReload;
     bool isBorder;
     bool isDamage;
+    bool isShop;
 
     Vector3 moveVec;
 
@@ -152,7 +153,7 @@ public class Player : MonoBehaviour
         fireDelay += Time.deltaTime;
         isFireReady = equipWeapon.rate < fireDelay;
 
-        if(fDown && isFireReady && !isDodge && !isReload)
+        if(fDown && isFireReady && !isDodge && !isReload && !isShop)
         {
             equipWeapon.Use();
             anim.SetTrigger(equipWeapon.type == Weapon.Type.Melee ? "doSwing" : "doShot");
@@ -273,6 +274,13 @@ public class Player : MonoBehaviour
 
                 Destroy(nearObject);
             }
+            else if (nearObject.tag == "Shop")
+            {
+                Shop shop = nearObject.GetComponent<Shop>();
+                shop.Enter(this);
+                isShop = true;
+            }
+
         }
     }
 
@@ -373,14 +381,20 @@ public class Player : MonoBehaviour
     // player와 무기가 닿아있을 때 반응함
     void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Weapon")
+        if (other.tag == "Weapon" || other.tag == "Shop")
             nearObject = other.gameObject;
-        //Debug.Log(nearObject.name);
     }
     // player가 무기와 떨어지면 다시 값을 비움
     void OnTriggerExit(Collider other)
     {
         if (other.tag == "Weapon")
             nearObject = null;
+        else if(other.tag == "Shop")
+        {
+            Shop shop = nearObject.GetComponent<Shop>();
+            shop.Exit();
+            isShop = false;
+            nearObject = null;
+        }
     }
 }

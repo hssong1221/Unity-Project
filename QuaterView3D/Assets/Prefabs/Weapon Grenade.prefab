@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 8679731649520522715}
   - component: {fileID: 8679731649520522712}
   - component: {fileID: 8679731649520522713}
+  - component: {fileID: -8507752173286599918}
   m_Layer: 0
   m_Name: Weapon Grenade
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,6 +79,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 4
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-8507752173286599918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051502689425083350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f9497a2c453dc243b300e0cf9543e32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
+  value: 1
 --- !u!1 &2478885175300087785
 GameObject:
   m_ObjectHideFlags: 0
