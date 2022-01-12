@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     public int ammo;
     public int coin;
     public int health;
+    public int score;
 
     public int maxAmmo;
     public int maxCoin;
@@ -50,7 +51,7 @@ public class Player : MonoBehaviour
     MeshRenderer[] mesh;
 
     GameObject nearObject;
-    Weapon equipWeapon;
+    public Weapon equipWeapon;
     float fireDelay;
 
     void Awake()
@@ -59,6 +60,9 @@ public class Player : MonoBehaviour
         // Player 안에 Mesh Object에 animator있어서 Inchildren 
         anim = GetComponentInChildren<Animator>();
         mesh = GetComponentsInChildren<MeshRenderer>();
+
+        //PlayerPrefs.SetInt("MaxScore", 1234);
+        Debug.Log(PlayerPrefs.GetInt("MaxScore"));
     }
 
     void Update()
