@@ -18,6 +18,7 @@ namespace com.ThreeCS.McCree
 
         [SerializeField]
         private Text statusText; // 서버 상태 텍스트
+
         #endregion
 
 
