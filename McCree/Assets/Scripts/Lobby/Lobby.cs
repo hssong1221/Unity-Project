@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,13 +13,13 @@ namespace com.ThreeCS.McCree
     {
         #region Private Fields
 
-        [SerializeField]    // µ¿½Ã Á¢¼ÓÀÚ ¼ö 
+        [SerializeField]    // ë™ì‹œ ì ‘ì†ì ìˆ˜ 
         private Text curPlayerText;     
 
-        [SerializeField]    // ¹æ ¸¸µé±â ¸Ş´º
+        [SerializeField]    // ë°© ë§Œë“¤ê¸° ë©”ë‰´
         private GameObject createRoomMenu;
 
-        [SerializeField]    // ¹æ ¸¸µé±â ¸Ş´º ¾È¿¡ ÀÔ·ÂÄ­
+        [SerializeField]    // ë°© ë§Œë“¤ê¸° ë©”ë‰´ ì•ˆì— ì…ë ¥ì¹¸
         private InputField roomName;
 
 
@@ -37,14 +37,14 @@ namespace com.ThreeCS.McCree
 
         #region MonoBehaviourPunCallbacks Callbacks
 
-        // ¹æ¿¡ µé¾î°¡¸é ÀÛµ¿
+        // ë°©ì— ë“¤ì–´ê°€ë©´ ì‘ë™
         public override void OnJoinedRoom()
         {
             Debug.Log("Room Create!");
 
-            // ¹æ ¸¸µé±â Ã¢ ²û
+            // ë°© ë§Œë“¤ê¸° ì°½ ë”
             createRoomMenu.SetActive(false);
-            // ·ë ¾ÀÀ¸·Î ÀÌµ¿
+            // ë£¸ ì”¬ìœ¼ë¡œ ì´ë™
             SceneManager.LoadScene("Room");
         }
 
@@ -57,28 +57,28 @@ namespace com.ThreeCS.McCree
 
         #region Public Methods
 
-        // µ¿½Ã Á¢¼ÓÀÚ ¼ö Ç¥Çö
+        // ë™ì‹œ ì ‘ì†ì ìˆ˜ í‘œí˜„
         public void CheckPlayerCount()
         {
             int connectPlayer = PhotonNetwork.CountOfPlayers;
-            Debug.Log("ÇöÀç µ¿½ÃÁ¢¼ÓÀÚ¼ö " + connectPlayer);
-            curPlayerText.text = "ÇöÀç Á¢¼ÓÀÚ ¼ö : " + connectPlayer.ToString();
+            Debug.Log("í˜„ì¬ ë™ì‹œì ‘ì†ììˆ˜ " + connectPlayer);
+            curPlayerText.text = "í˜„ì¬ ì ‘ì†ì ìˆ˜ : " + connectPlayer.ToString();
         }
 
-        // ¹æ ¸¸µé±â ¹öÆ° ´­·¶À» ¶§
+        // ë°© ë§Œë“¤ê¸° ë²„íŠ¼ ëˆŒë €ì„ ë•Œ
         public void CreateRoom()
         {
-            // ¹æ ¸¸µé±â ¸Ş´º º¸ÀÌ°Ô ÇÔ
+            // ë°© ë§Œë“¤ê¸° ë©”ë‰´ ë³´ì´ê²Œ í•¨
             createRoomMenu.SetActive(true);
 
             
             Debug.Log("roomname : " + roomName.text);
 
-            // ¹æ ÀÌ¸§ÀÌ ºóÄ­ÀÌ¸é ¸ø ¸¸µé°Ô
+            // ë°© ì´ë¦„ì´ ë¹ˆì¹¸ì´ë©´ ëª» ë§Œë“¤ê²Œ
             if (string.IsNullOrEmpty(roomName.text))
                 return;
 
-            // ¹æ ÀÌ¸§À¸·Î ¹æ »ı¼º
+            // ë°© ì´ë¦„ìœ¼ë¡œ ë°© ìƒì„±
             PhotonNetwork.CreateRoom(roomName.text);
 
         }

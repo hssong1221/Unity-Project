@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,11 +13,11 @@ namespace com.ThreeCS.McCree
     {
         #region Private Fields
 
-        // °ÔÀÓ ¹öÁ¯ÀÎµ¥ Æ÷Åæ ´ÙÅ¥¸ÕÆ®¿¡¼­ ÀÖÀ¸¸é ÁÁ´Ù°í ÇÏ´õ¶ó°í ¹¹ÇÏ´ÂÁö Àß ¸ğ¸§
+        // ê²Œì„ ë²„ì ¼ì¸ë° í¬í†¤ ë‹¤íë¨¼íŠ¸ì—ì„œ ìˆìœ¼ë©´ ì¢‹ë‹¤ê³  í•˜ë”ë¼ê³  ë­í•˜ëŠ”ì§€ ì˜ ëª¨ë¦„
         string gameVersion = "1";
 
         [SerializeField]
-        private Text statusText; // ¼­¹ö »óÅÂ ÅØ½ºÆ®
+        private Text statusText; // ì„œë²„ ìƒíƒœ í…ìŠ¤íŠ¸
 
         #endregion
 
@@ -26,12 +26,12 @@ namespace com.ThreeCS.McCree
 
         void Start()
         {
-            // ¹æÀåÀÌ È¥ÀÚ ¾ÀÀ» ·Îµù ÇÏ¸é, ³ª¸ÓÁö »ç¶÷µéÀº ÀÚµ¿À¸·Î ½ÌÅ©µÊ
+            // ë°©ì¥ì´ í˜¼ì ì”¬ì„ ë¡œë”© í•˜ë©´, ë‚˜ë¨¸ì§€ ì‚¬ëŒë“¤ì€ ìë™ìœ¼ë¡œ ì‹±í¬ë¨
             //PhotonNetwork.AutomaticallySyncScene = true;
 
-            // Æ÷Åæ ¼­¹ö ¼³Á¤¿¡ µû¶ó ¸¶½ºÅÍ ¼­¹ö¿¡ ¿¬°á
+            // í¬í†¤ ì„œë²„ ì„¤ì •ì— ë”°ë¼ ë§ˆìŠ¤í„° ì„œë²„ì— ì—°ê²°
             Debug.Log("Connect to MasterServer....");
-            statusText.text = "¼­¹ö¿¡ Á¢¼Ó Áß..";
+            statusText.text = "ì„œë²„ì— ì ‘ì† ì¤‘..";
             PhotonNetwork.GameVersion = gameVersion;
             PhotonNetwork.ConnectUsingSettings();
         }
@@ -40,27 +40,27 @@ namespace com.ThreeCS.McCree
 
         #region MonoBehaviourPunCallbacks Callbacks
 
-        // ¸¶½ºÅÍ ¼­¹ö¿Í ¿¬°á ½Ã ÀÛµ¿
+        // ë§ˆìŠ¤í„° ì„œë²„ì™€ ì—°ê²° ì‹œ ì‘ë™
         public override void OnConnectedToMaster()
         {
-            // ·Îºñ¿¡ ¿¬°á
+            // ë¡œë¹„ì— ì—°ê²°
             Debug.Log("Connected MasterServer");
-            statusText.text = "¼­¹ö¿¡ ¿¬°á ¼º°ø!";
+            statusText.text = "ì„œë²„ì— ì—°ê²° ì„±ê³µ!";
         }
 
-        // ¼­¹ö Á¢¼Ó ½ÇÆĞ½Ã ÀÚµ¿ ½ÇÇà
+        // ì„œë²„ ì ‘ì† ì‹¤íŒ¨ì‹œ ìë™ ì‹¤í–‰
         public override void OnDisconnected(DisconnectCause cause)
         {
             Debug.Log("Connecting failed!! Trying re-connect..");
-            statusText.text = "¿ÀÇÁ¶óÀÎ : ¼­¹ö¿Í ¿¬°á ½ÇÆĞ\n Á¢¼Ó Àç½Ãµµ Áß...";
-            // ¼³Á¤ÇÑ Á¤º¸·Î ¸¶½ºÅÍ ¼­¹ö Á¢¼Ó ½Ãµµ
+            statusText.text = "ì˜¤í”„ë¼ì¸ : ì„œë²„ì™€ ì—°ê²° ì‹¤íŒ¨\n ì ‘ì† ì¬ì‹œë„ ì¤‘...";
+            // ì„¤ì •í•œ ì •ë³´ë¡œ ë§ˆìŠ¤í„° ì„œë²„ ì ‘ì† ì‹œë„
             PhotonNetwork.ConnectUsingSettings();
         }
 
-        // ·Îºñ¿Í ¿¬°á ½Ã ÀÛµ¿
+        // ë¡œë¹„ì™€ ì—°ê²° ì‹œ ì‘ë™
         public override void OnJoinedLobby()
         {
-            // ·Îºñ¿¡ µé¾î¿À¸é ÇÊ¿äÇÑ ¸Ş´º¸¦ º¸¿©ÁÜ
+            // ë¡œë¹„ì— ë“¤ì–´ì˜¤ë©´ í•„ìš”í•œ ë©”ë‰´ë¥¼ ë³´ì—¬ì¤Œ
             Debug.Log("Connected Lobby");
             
         }
