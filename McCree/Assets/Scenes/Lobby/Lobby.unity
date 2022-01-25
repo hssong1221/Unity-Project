@@ -661,7 +661,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &492014828
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1913,7 +1913,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1074429403}
   - component: {fileID: 1074429404}
-  - component: {fileID: 1074429405}
   m_Layer: 0
   m_Name: Lobby Manager
   m_TagString: Untagged
@@ -1950,22 +1949,10 @@ MonoBehaviour:
   curPlayerText: {fileID: 181994309}
   content: {fileID: 1544454476}
   roomListing: {fileID: 8852488632848860339, guid: a2ae24552de9002479fdc0571b0e8cc0, type: 3}
---- !u!114 &1074429405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1074429402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b631d60873517924dadcdf56949e875e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   PopUp: {fileID: 492014827}
   roomName: {fileID: 1924198344}
   roomPwd: {fileID: 1507286710}
-  createRoomBtn: {fileID: 351211084}
+  createRoomBtn: {fileID: 1777670171}
   openPopUpBtn: {fileID: 1777670171}
   closePopUpBtn: {fileID: 1331592089}
 --- !u!1 &1076209110
@@ -2331,7 +2318,7 @@ GameObject:
   - component: {fileID: 1331592090}
   - component: {fileID: 1331592089}
   m_Layer: 5
-  m_Name: Exit Btn
+  m_Name: Close Btn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3113,7 +3100,7 @@ GameObject:
   - component: {fileID: 1777670172}
   - component: {fileID: 1777670171}
   m_Layer: 5
-  m_Name: Create Button
+  m_Name: Open Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

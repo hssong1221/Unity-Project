@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,52 +17,26 @@ namespace com.ThreeCS.McCree
         string gameVersion = "1";
 
         [SerializeField]
-        protected Text statusText; // 서버 상태 텍스트
-
+        protected Button joinBtn;  // 입장 버튼
+        [SerializeField]
+        protected InputField NickName; // 닉네임
         #endregion
 
-
-        #region MonoBehaviour CallBacks
-
-        #endregion
-
-        #region MonoBehaviourPunCallbacks Callbacks
-
-        // 마스터 서버와 연결 시 작동
-        public override void OnConnectedToMaster()
+        private void Awake()
         {
-            // 로비에 연결
-            Debug.Log("Connected MasterServer");
-            statusText.text = "서버에 연결 성공!";
-            PhotonNetwork.JoinLobby();
-            SceneManager.LoadScene("Lobby");
+            joinBtn.onClick.AddListener(Join_Lobby);
         }
-
-        // 서버 접속 실패시 자동 실행
-        public override void OnDisconnected(DisconnectCause cause)
-        {
-            Debug.Log("Connecting failed!! Trying re-connect..");
-            statusText.text = "오프라인 : 서버와 연결 실패\n 접속 재시도 중...";
-            // 설정한 정보로 마스터 서버 접속 시도
-            PhotonNetwork.ConnectUsingSettings();
-        }
-
-        // 로비와 연결 시 작동
-        public override void OnJoinedLobby()
-        {
-            statusText.text = "서버에 접속 중...";
-            // 로비에 들어오면 필요한 메뉴를 보여줌
-            Debug.Log("Connected Lobby");
-        }
-
-        #endregion
 
         #region Public Methods
 
-        public void JoinLobby()
+        private void Join_Lobby()
         {
-            PhotonNetwork.JoinLobby();
-            SceneManager.LoadScene("Lobby");
+            // 닉네임이 같으면 중복된다는 코드 구현예정
+            PhotonNetwork.NickName = NickName.text;
+            PhotonNetwork.ConnectUsingSettings();
+            PunCallbacks.statusText.text = "로비에 참가 중...";
+            PunCallbacks.statusUI.SetActive(true);
+            Debug.Log(NickName.text);
         }
 
         #endregion

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,25 +16,47 @@ namespace com.ThreeCS.McCree
         [SerializeField]    // 동시 접속자 수 
         private Text curPlayerText;     
 
-        [SerializeField]
+        [SerializeField]     // 룸 리스트 prefab 붙여질 위치
         private Transform content;
         
         [SerializeField]   // 룸 리스트 하나의 Prefab
         private GameObject roomListing;
-        //private RoomList roomListing;
 
         private Dictionary<string, GameObject> roomDict = new Dictionary<string, GameObject>();
 
-        private List<RoomList> listings = new List<RoomList>();
+        private RoomOptions roomOptions; // 방 옵션
+
+        [SerializeField]   // 방 만들기 팝업
+        protected GameObject PopUp;
+
+        [SerializeField]    // 방 만들기 메뉴 안에 방 제목 입력칸
+        protected InputField roomName;
+
+        [SerializeField]    // 방 만들기 메뉴 안에 방 비밀번호 입력칸
+        protected InputField roomPwd;
+
+        [SerializeField]   // 방 만들기 버튼
+        protected Button createRoomBtn;
+
+        [SerializeField]   // 방 만들기 팝업 열기
+        protected Button openPopUpBtn;
+
+        [SerializeField]   // 방 만들기 팝업 닫기
+        protected Button closePopUpBtn;
 
         #endregion
 
         #region MonoBehaviour CallBacks
 
-        private void Update()
+        private void Awake()
         {
-            //Debug.Log(roomDict.Count + "   " + PhotonNetwork.CountOfRooms);
+            createRoomBtn.onClick.AddListener(CreateRoom);
+            openPopUpBtn.onClick.AddListener(Open_PopUp);
+            closePopUpBtn.onClick.AddListener(Close_PopUp);
+            PopUp.SetActive(false);
         }
+
+
         void FixedUpdate()
         {
             CheckPlayerCount();
@@ -42,71 +64,10 @@ namespace com.ThreeCS.McCree
 
         #endregion
 
-        #region MonoBehaviourPunCallbacks Callbacks
-        public override void OnJoinedLobby()
-        {
-            base.OnJoinedLobby();
-            Debug.Log("로비 참가 성공");
-            SceneManager.LoadScene("Lobby");
-        }
-
-        public override void OnJoinedRoom()
-        {
-            base.OnJoinedRoom();
-            Debug.Log("방 참가 성공");
-            SceneManager.LoadScene("Room");
-        }
-
-        public override void OnDisconnected(DisconnectCause cause)
-        {
-            base.OnDisconnected(cause);
-            Debug.Log("연결 끊어짐");
-        }
-
-        public override void OnCreatedRoom()
-        {
-            base.OnCreatedRoom();
-            Debug.Log("방 만들기 성공");
-            SceneManager.LoadScene("Room");
-        }
-
-        public override void OnCreateRoomFailed(short returnCode, string message)
-        {
-            base.OnCreateRoomFailed(returnCode, message);
-            Debug.Log("방 만들기 실패");
-        }
 
         // 룸에 관련된 사항이 바뀔때 호출되는 함수 
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
-            //Debug.Log("?");
-            //foreach (RoomInfo info in roomList)
-            //{
-            //    // 없어진 룸 리스트에서 없앨 때
-            //    if (info.RemovedFromList)
-            //    {
-            //        int index = listings.FindIndex(x => x.myRoomInfo.Name == info.Name);
-            //        Debug.Log(index);
-            //        if (index != -1)
-            //        {
-            //            Destroy(listings[index].gameObject);
-            //            listings.RemoveAt(index);
-            //        }
-            //    }
-            //    else // 생성된 룸 리스트에 더할 때
-            //    {
-            //        Debug.Log("???");
-            //        RoomList listing = Instantiate(roomListing, content);
-            //        if (listing != null)
-            //        {
-            //            listing.SetRoomInfo(info);
-            //            listings.Add(listing);
-            //            Debug.Log(listing.myRoomInfo);
-            //        }
-            //    }
-            //}
-            //base.OnRoomListUpdate(roomList);
-
             GameObject tempRoom = null;
             foreach (var room in roomList)
             {
@@ -138,8 +99,6 @@ namespace com.ThreeCS.McCree
 
         }
 
-        #endregion
-
         #region Public Methods
 
         // 동시 접속자 수 표현
@@ -149,6 +108,39 @@ namespace com.ThreeCS.McCree
             //Debug.Log("현재 동시접속자수 " + connectPlayer);
             curPlayerText.text = "현재 접속자 수 : " + connectPlayer.ToString();
         }
+        public void Open_PopUp()
+        {
+            CommonFunction.clear(roomName);
+            CommonFunction.clear(roomPwd);
+            roomOptions = new RoomOptions();
+            roomOptions.MaxPlayers = 7; // 7명이 기본값
+            roomOptions.IsOpen = true;
+            roomOptions.IsVisible = true;
+            PopUp.SetActive(true);
+        }
+
+        public void Close_PopUp()
+        {
+            PopUp.SetActive(false);
+        }
+
+        // 방 만들기 버튼 눌렀을 때
+        public void CreateRoom()
+        {
+            string RoomName = roomName.text;
+
+            // 방 이름이 빈칸이면 못 만들게
+            if (string.IsNullOrEmpty(roomName.text))
+                return;
+            Debug.Log(RoomName);
+
+            // 방 이름으로 방 생성
+            PhotonNetwork.JoinOrCreateRoom(RoomName, roomOptions, TypedLobby.Default);
+
+            PunCallbacks.statusText.text = "방 생성 중...";
+            PunCallbacks.statusUI.SetActive(true);
+        }
+
         #endregion
 
     }
