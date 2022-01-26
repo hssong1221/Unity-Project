@@ -53,6 +53,7 @@ namespace com.ThreeCS.McCree
             PhotonNetwork.ConnectUsingSettings();
         }
 
+        // 로비에 참가했한 후에 실행 (룸에서 나왓을 때도 실행)
         public override void OnJoinedLobby()
         {
             base.OnJoinedLobby();
@@ -62,6 +63,7 @@ namespace com.ThreeCS.McCree
             SceneManager.LoadScene("Lobby");
         }
 
+        // 로비에서 나가면서 실행
         public override void OnLeftLobby()
         {
             base.OnLeftLobby();
@@ -70,6 +72,7 @@ namespace com.ThreeCS.McCree
             statusUI.SetActive(false);
         }
 
+        // 방에 접속 한 후에 실행
         public override void OnJoinedRoom()
         {
             base.OnJoinedRoom();
@@ -79,15 +82,17 @@ namespace com.ThreeCS.McCree
             SceneManager.LoadScene("Room");
         }
 
+        // 방에서 나가면서 실행
         public override void OnLeftRoom()
         {
             base.OnLeftRoom();
             Debug.Log("방 나가기 성공");
             statusText.text = "방 나가기 성공";
             statusUI.SetActive(false);
-            SceneManager.LoadScene("Lobby");
+            //SceneManager.LoadScene("Lobby");
         }
 
+        // 방을 만든 후에 실행
         public override void OnCreatedRoom()
         {
             base.OnCreatedRoom();
@@ -97,11 +102,14 @@ namespace com.ThreeCS.McCree
             //SceneManager.LoadScene("Room");
         }
 
+        // 방 만들기 실패하면 실행
         public override void OnCreateRoomFailed(short returnCode, string message)
         {
             base.OnCreateRoomFailed(returnCode, message);
             Debug.Log("방 만들기 실패");
         }
+            
+        
     }
 
 }
