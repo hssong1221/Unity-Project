@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -46,6 +47,8 @@ namespace com.ThreeCS.McCree
 
         #endregion
 
+
+
         #region 생성자, AddListener
 
         private void Awake()
@@ -54,12 +57,15 @@ namespace com.ThreeCS.McCree
             openPopUpBtn.onClick.AddListener(Open_PopUp);
             closePopUpBtn.onClick.AddListener(Close_PopUp);
             PopUp.SetActive(false);
+
         }
 
 
         void FixedUpdate()
         {
             CheckPlayerCount();  // update말고 좋은게 있지않을까? 나중에 찾아보자
+            
+            
         }
 
         #endregion
@@ -69,6 +75,7 @@ namespace com.ThreeCS.McCree
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
             GameObject tempRoom = null;
+
             foreach (var room in roomList)
             {
                 // 룸이 삭제된 경우
@@ -88,7 +95,7 @@ namespace com.ThreeCS.McCree
                         _room.GetComponent<RoomList>().myRoomInfo = room;
                         roomDict.Add(room.Name, _room);
                     }
-                    // 룸 정보를 갱신하는 이유
+                    // 룸 정보를 갱신하는 경우
                     else
                     {
                         roomDict.TryGetValue(room.Name, out tempRoom);
@@ -146,6 +153,8 @@ namespace com.ThreeCS.McCree
 
         #endregion
 
+
+        
     }
 
 
