@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -46,7 +46,7 @@ namespace com.ThreeCS.McCree
 
         #endregion
 
-        #region MonoBehaviour CallBacks
+        #region 생성자, AddListener
 
         private void Awake()
         {
@@ -59,13 +59,13 @@ namespace com.ThreeCS.McCree
 
         void FixedUpdate()
         {
-            CheckPlayerCount();
+            CheckPlayerCount();  // update말고 좋은게 있지않을까? 나중에 찾아보자
         }
 
         #endregion
 
 
-        // 룸에 관련된 사항이 바뀔때 호출되는 함수 
+        #region 룸에 관련된 사항이 바뀔때 호출되는 함수 
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
             GameObject tempRoom = null;
@@ -98,6 +98,7 @@ namespace com.ThreeCS.McCree
             }
 
         }
+        #endregion
 
         #region Public Methods
 
@@ -116,6 +117,7 @@ namespace com.ThreeCS.McCree
             roomOptions.MaxPlayers = 7; // 7명이 기본값
             roomOptions.IsOpen = true;
             roomOptions.IsVisible = true;
+            roomOptions.PublishUserId = true;
             PopUp.SetActive(true);
         }
 
@@ -140,6 +142,7 @@ namespace com.ThreeCS.McCree
             PunCallbacks.statusText.text = "방 생성 중...";
             PunCallbacks.statusUI.SetActive(true);
         }
+
 
         #endregion
 

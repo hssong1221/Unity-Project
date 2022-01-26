@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 using Photon.Pun;
 using Photon.Realtime;
@@ -13,13 +12,14 @@ namespace com.ThreeCS.McCree
     {
         #region Varibale Fields
 
-        private RoomInfo _roomInfo;
 
         [HideInInspector]
         public Text roomText;  // 방 요약 정보 
         [HideInInspector]
         public Button roomBtn;  // 방 클릭시 조인 버튼
-        public RoomInfo myRoomInfo
+
+        private RoomInfo _roomInfo; // 방 정보
+        public RoomInfo myRoomInfo  // 방 정보 set / get
         {
             get
             {
@@ -59,6 +59,8 @@ namespace com.ThreeCS.McCree
         {
             string roomName = this.myRoomInfo.Name;
             PhotonNetwork.JoinRoom(roomName);
+            PunCallbacks.statusText.text = "방 입장 중...";
+            PunCallbacks.statusUI.SetActive(true);
             Debug.Log(roomName);
         }
         #endregion
