@@ -62,6 +62,14 @@ namespace com.ThreeCS.McCree
             SceneManager.LoadScene("Lobby");
         }
 
+        public override void OnLeftLobby()
+        {
+            base.OnLeftLobby();
+            Debug.Log("로비 떠나기 성공");
+            statusText.text = "로비 떠나기 성공";
+            statusUI.SetActive(false);
+        }
+
         public override void OnJoinedRoom()
         {
             base.OnJoinedRoom();
@@ -69,6 +77,15 @@ namespace com.ThreeCS.McCree
             statusText.text = "방 참가 성공";
             statusUI.SetActive(false);
             SceneManager.LoadScene("Room");
+        }
+
+        public override void OnLeftRoom()
+        {
+            base.OnLeftRoom();
+            Debug.Log("방 나가기 성공");
+            statusText.text = "방 나가기 성공";
+            statusUI.SetActive(false);
+            SceneManager.LoadScene("Lobby");
         }
 
         public override void OnCreatedRoom()
