@@ -26,7 +26,6 @@ namespace com.ThreeCS.McCree
         {
             // 게임 버젼
             PhotonNetwork.GameVersion = gameVersion;
-
             joinBtn.onClick.AddListener(Join_Lobby);
         }
 
