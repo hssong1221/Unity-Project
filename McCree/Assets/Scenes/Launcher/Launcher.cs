@@ -24,12 +24,14 @@ namespace com.ThreeCS.McCree
 
         private void Awake()
         {
+            // 게임 버젼
             PhotonNetwork.GameVersion = gameVersion;
             joinBtn.onClick.AddListener(Join_Lobby);
         }
 
         #region Public Methods
 
+        // join버튼 누르면 실행
         private void Join_Lobby()
         {
             // 닉네임이 같으면 중복된다는 코드 구현예정

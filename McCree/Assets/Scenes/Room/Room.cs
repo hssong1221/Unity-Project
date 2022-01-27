@@ -37,15 +37,17 @@ namespace com.ThreeCS.McCree
         [SerializeField]
         protected Button exitBtn;  // 나가기 버튼
 
+
         #endregion
 
-        #region 생성자, AddListner
+        #region 생성자, AddListner, MonoBehavior
 
         private void Awake()
         {
             exitBtn.onClick.AddListener(Exit_Room);
             PhotonNetwork.AutomaticallySyncScene = true;
             playerCountText = "인원 수 : ";
+            InvokeRepeating("RoomStatTrans", 1f, 5.1f);
         }
 
         private void Start()
@@ -57,9 +59,18 @@ namespace com.ThreeCS.McCree
 
         #endregion
 
-
-
         #region 룸에 플레이어가 나가거나 들어왔을 경우
+
+        public void AddPlayerListing(Player playerList)
+        {
+            //GameObject tempPlayer = null;
+
+            GameObject _playerDict = Instantiate(playerListing, content);
+            _playerDict.GetComponent<PlayerList>().myPlayer = playerList;
+            Debug.Log(playerList.UserId + "    " + playerList.NickName);
+            
+            playerDict.Add(playerList.UserId, _playerDict);
+        }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
@@ -121,7 +132,17 @@ namespace com.ThreeCS.McCree
             roomName.text = PhotonNetwork.CurrentRoom.Name;
         }
 
+        // 룸 상태를 변화를 시켜서 로비에있는 OnRoomListUpdate()함수가 알수 있음
+        public void RoomStatTrans()
+        {
+            Debug.Log("룸 상태 변경");
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.CurrentRoom.IsOpen = true;
+        }
+
         #endregion
+
+
     }
 
 }
