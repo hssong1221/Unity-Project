@@ -35,8 +35,12 @@ public class RoomChat : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && !chatInput.isFocused)
+        //chatInput.ActivateInputField();
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
             Send_Chat();
+        }
     }
 
     public void Send_Chat()
@@ -51,7 +55,8 @@ public class RoomChat : MonoBehaviourPunCallbacks
         photonView.RPC("ReceiveMsg", RpcTarget.OthersBuffered, msg);
         ReceiveMsg(msg);
         chatInput.ActivateInputField();
-        chatInput.text = "";
+        CommonFunction.clear(chatInput);
+        //chatInput.text = "";
     }
     [PunRPC]
     public void ReceiveMsg(string msg)

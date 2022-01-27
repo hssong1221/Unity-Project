@@ -64,8 +64,6 @@ namespace com.ThreeCS.McCree
         void FixedUpdate()
         {
             CheckPlayerCount();  // update말고 좋은게 있지않을까? 나중에 찾아보자
-            
-            
         }
 
         #endregion
@@ -118,6 +116,7 @@ namespace com.ThreeCS.McCree
         }
         public void Open_PopUp()
         {
+            Debug.Log("열기버튼누름");
             CommonFunction.clear(roomName);
             CommonFunction.clear(roomPwd);
             roomOptions = new RoomOptions();
@@ -130,12 +129,14 @@ namespace com.ThreeCS.McCree
 
         public void Close_PopUp()
         {
+            Debug.Log("닫기버튼누름");
             PopUp.SetActive(false);
         }
 
         // 방 만들기 버튼 눌렀을 때
         public void CreateRoom()
         {
+            Debug.Log("생성버튼누름");
             string RoomName = roomName.text;
 
             // 방 이름이 빈칸이면 못 만들게
