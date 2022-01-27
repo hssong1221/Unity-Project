@@ -23,7 +23,7 @@ namespace com.ThreeCS.McCree
             canvasChildrens = transform.GetComponentsInChildren<Transform>();
             foreach (Transform child in canvasChildrens)
             {
-                if (child.name == "BackGround")
+                if (child.name == "StatusBackGround")
                 {
                     statusUI = child.gameObject;
                     statusUI.SetActive(false);

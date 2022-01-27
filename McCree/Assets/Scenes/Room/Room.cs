@@ -61,17 +61,6 @@ namespace com.ThreeCS.McCree
 
         #region 룸에 플레이어가 나가거나 들어왔을 경우
 
-        public void AddPlayerListing(Player playerList)
-        {
-            //GameObject tempPlayer = null;
-
-            GameObject _playerDict = Instantiate(playerListing, content);
-            _playerDict.GetComponent<PlayerList>().myPlayer = playerList;
-            Debug.Log(playerList.UserId + "    " + playerList.NickName);
-            
-            playerDict.Add(playerList.UserId, _playerDict);
-        }
-
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             //base.OnPlayerEnteredRoom(newPlayer);
