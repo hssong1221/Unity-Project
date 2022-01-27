@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +24,7 @@ namespace com.ThreeCS.McCree
 
         private void Awake()
         {
+            PhotonNetwork.GameVersion = gameVersion;
             joinBtn.onClick.AddListener(Join_Lobby);
         }
 

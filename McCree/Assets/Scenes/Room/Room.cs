@@ -26,11 +26,13 @@ namespace com.ThreeCS.McCree
         [SerializeField]
         protected Text playerCount;  // 현재인원 / Max인원
 
+        protected string playerCountText;  // 인원 수  텍스트
+
         [SerializeField]
         protected Text roomName;  // 방 제목
 
         [SerializeField]
-        protected Button readyBtn;  // 준비 버튼
+        protected Button startBtn;  // 준비 버튼
 
         [SerializeField]
         protected Button exitBtn;  // 나가기 버튼
@@ -43,12 +45,14 @@ namespace com.ThreeCS.McCree
         {
             exitBtn.onClick.AddListener(Exit_Room);
             PhotonNetwork.AutomaticallySyncScene = true;
+            playerCountText = "인원 수 : ";
         }
 
         private void Start()
         {
             GetCurrentRoomName();      // 현재 방에 이름 가져오기
             GetCurrentRoomPlayers();   // 현재 방에있는 플레이어들
+            GetCurrentPlayersCount();  // 현재 방에있는 플레이어 수
         }
 
         #endregion
@@ -57,20 +61,12 @@ namespace com.ThreeCS.McCree
 
         #region 룸에 플레이어가 나가거나 들어왔을 경우
 
-        public void AddPlayerListing(Player playerList)
-        {
-            GameObject tempPlayer = null;
-
-            GameObject _playerDict = Instantiate(playerListing, content);
-            _playerDict.GetComponent<PlayerList>().myPlayer = playerList;
-            Debug.Log(playerList.UserId + "    " + playerList.NickName);
-            playerDict.Add(playerList.UserId, _playerDict);
-        }
-
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             //base.OnPlayerEnteredRoom(newPlayer);
             AddPlayerListing(newPlayer);
+            GetCurrentPlayersCount();
+            //Debug.Log(PhotonNetwork.IsMasterClient);
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -79,12 +75,15 @@ namespace com.ThreeCS.McCree
             playerDict.TryGetValue(otherPlayer.UserId, out tempPlayer);
             Destroy(tempPlayer);
             playerDict.Remove(otherPlayer.UserId);
+            GetCurrentPlayersCount();
+            //Debug.Log(PhotonNetwork.IsMasterClient);
         }
+
         #endregion
 
 
         #region Public Methods
-        
+
         public void Exit_Room()
         {
             PhotonNetwork.LeaveRoom();
@@ -92,9 +91,25 @@ namespace com.ThreeCS.McCree
             PunCallbacks.statusUI.SetActive(true);
             //PhotonNetwork.JoinLobby();
         }
+
+        public void AddPlayerListing(Player playerList)
+        {
+            GameObject _playerDict = Instantiate(playerListing, content);
+            _playerDict.GetComponent<PlayerList>().myPlayer = playerList;
+            //Debug.Log(playerList.UserId + "    " + playerList.NickName);
+            playerDict.Add(playerList.UserId, _playerDict);
+        }
+
+        public void GetCurrentPlayersCount()
+        {
+            playerCount.text = (playerCountText + 
+            PhotonNetwork.CurrentRoom.PlayerCount + " / " + 
+            PhotonNetwork.CurrentRoom.MaxPlayers);
+        }
+
         public void GetCurrentRoomPlayers()
         {
-            Debug.Log(PhotonNetwork.CurrentRoom.Players);
+            //Debug.Log(PhotonNetwork.CurrentRoom.Players);
             foreach (KeyValuePair<int, Player> playerInfo in PhotonNetwork.CurrentRoom.Players)
             {
                 AddPlayerListing(playerInfo.Value);
