@@ -36,7 +36,6 @@ public class RoomChat : MonoBehaviourPunCallbacks
     void Update()
     {
         //chatInput.ActivateInputField();
-
         if (Input.GetKeyDown(KeyCode.Return))
         {
             Send_Chat();
@@ -56,7 +55,6 @@ public class RoomChat : MonoBehaviourPunCallbacks
         ReceiveMsg(msg);
         chatInput.ActivateInputField();
         CommonFunction.clear(chatInput);
-        //chatInput.text = "";
     }
     [PunRPC]
     public void ReceiveMsg(string msg)
