@@ -16,6 +16,8 @@ namespace com.ThreeCS.McCree
         // stataic 변수는 처음에 지정을 못해주는듯
         // Awake함수에서 하위요소를 불러와서 각각 저장
 
+        //private PhotonView Pv;
+
         private Transform[] canvasChildrens;
 
         private void Awake()
@@ -32,7 +34,9 @@ namespace com.ThreeCS.McCree
                     statusText = child.gameObject.GetComponent<Text>();
             }
             DontDestroyOnLoad(this.gameObject);
+            //Pv = PhotonView.Get(this);
         }
+
 
         // 마스터 서버와 연결 시 작동
         public override void OnConnectedToMaster()
@@ -82,6 +86,9 @@ namespace com.ThreeCS.McCree
             SceneManager.LoadScene("Room");
         }
 
+
+
+
         // 방에서 나가면서 실행
         public override void OnLeftRoom()
         {
@@ -108,8 +115,6 @@ namespace com.ThreeCS.McCree
             base.OnCreateRoomFailed(returnCode, message);
             Debug.Log("방 만들기 실패");
         }
-            
-        
     }
 
 }

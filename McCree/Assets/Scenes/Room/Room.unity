@@ -262,7 +262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   content: {fileID: 697090799}
-  playerListing: {fileID: 6133000260981674921, guid: 12137038c1501aa49bb6d4e755d837e8, type: 3}
+  playerListing: {fileID: 1372607139932563830, guid: 339b5be4592854f499e7ad01ee83bee8, type: 3}
   playerCount: {fileID: 1966691805}
   roomName: {fileID: 909810723}
   startBtn: {fileID: 1348191927}
@@ -710,10 +710,10 @@ RectTransform:
   m_Father: {fileID: 2145354594}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -771.364, y: 10.537022}
-  m_SizeDelta: {x: -521.0759, y: 0}
+  m_AnchoredPosition: {x: 8, y: -10}
+  m_SizeDelta: {x: -8.0001, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &697090800
 MonoBehaviour:
@@ -744,16 +744,16 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Top: 20
+    m_Bottom: 20
   m_ChildAlignment: 1
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
 --- !u!1 &707867961
 GameObject:
@@ -912,7 +912,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 378.7251, y: -30.486023}
+  m_AnchoredPosition: {x: 378.7251, y: -30.486084}
   m_SizeDelta: {x: -779.1216, y: -6.9304}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &712881444
@@ -2214,7 +2214,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 12.093811, y: 14.747681}
+  m_AnchoredPosition: {x: 12.09375, y: 14.747681}
   m_SizeDelta: {x: -68.4469, y: -237.0187}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1806186790

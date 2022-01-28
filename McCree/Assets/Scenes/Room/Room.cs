@@ -37,7 +37,6 @@ namespace com.ThreeCS.McCree
         [SerializeField]
         protected Button exitBtn;  // 나가기 버튼
 
-
         #endregion
 
         #region 생성자, AddListner, MonoBehavior
@@ -89,7 +88,6 @@ namespace com.ThreeCS.McCree
             PhotonNetwork.LeaveRoom();
             PunCallbacks.statusText.text = "방 떠나는 중...";
             PunCallbacks.statusUI.SetActive(true);
-            //PhotonNetwork.JoinLobby();
         }
 
         public void AddPlayerListing(Player playerList)
