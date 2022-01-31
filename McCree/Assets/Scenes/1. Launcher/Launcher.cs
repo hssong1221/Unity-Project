@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 using Photon.Pun;
 using Photon.Realtime;
 
+using Photon.Chat;
+
 namespace com.ThreeCS.McCree
 {
     public class Launcher : MonoBehaviourPunCallbacks
@@ -20,6 +22,9 @@ namespace com.ThreeCS.McCree
         protected Button joinBtn;  // 입장 버튼
         [SerializeField]
         protected InputField NickName; // 닉네임
+
+        private PunChat punChat;
+        private ChatClient chatClient;
         #endregion
 
         private void Awake()
@@ -27,6 +32,8 @@ namespace com.ThreeCS.McCree
             // 게임 버젼
             PhotonNetwork.GameVersion = gameVersion;
             joinBtn.onClick.AddListener(Join_Lobby);
+
+            punChat = GameObject.Find("LoadingUI").GetComponent<PunChat>();
         }
 
         #region Public Methods
@@ -36,9 +43,10 @@ namespace com.ThreeCS.McCree
         {
             // 닉네임이 같으면 중복된다는 코드 구현예정
             PhotonNetwork.NickName = NickName.text;
-            PhotonNetwork.ConnectUsingSettings();
-            PunCallbacks.statusText.text = "로비에 참가 중...";
+            //PhotonNetwork.ConnectUsingSettings();
+            PunCallbacks.statusText.text = "서버에 접속 중...";
             PunCallbacks.statusUI.SetActive(true);
+            punChat.Connect();
             Debug.Log(NickName.text);
         }
 

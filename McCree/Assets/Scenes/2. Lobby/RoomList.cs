@@ -61,7 +61,6 @@ namespace com.ThreeCS.McCree
             PhotonNetwork.JoinRoom(roomName);
             PunCallbacks.statusText.text = "방 입장 중...";
             PunCallbacks.statusUI.SetActive(true);
-            Debug.Log(roomName);
         }
         #endregion
     }

@@ -16,8 +16,6 @@ namespace com.ThreeCS.McCree
         // stataic 변수는 처음에 지정을 못해주는듯
         // Awake함수에서 하위요소를 불러와서 각각 저장
 
-        //private PhotonView Pv;
-
         private Transform[] canvasChildrens;
 
         private void Awake()
@@ -34,8 +32,8 @@ namespace com.ThreeCS.McCree
                     statusText = child.gameObject.GetComponent<Text>();
             }
             DontDestroyOnLoad(this.gameObject);
-            //Pv = PhotonView.Get(this);
         }
+
 
 
         // 마스터 서버와 연결 시 작동
@@ -83,10 +81,10 @@ namespace com.ThreeCS.McCree
             Debug.Log("방 참가 성공");
             statusText.text = "방 참가 성공";
             statusUI.SetActive(false);
-            SceneManager.LoadScene("Room");
+
+            PunChat.behave = "EnterRoom";
+            PunChat.chatClient.Subscribe(new string[] { PhotonNetwork.CurrentRoom.Name }, 10);
         }
-
-
 
 
         // 방에서 나가면서 실행
@@ -96,7 +94,7 @@ namespace com.ThreeCS.McCree
             Debug.Log("방 나가기 성공");
             statusText.text = "방 나가기 성공";
             statusUI.SetActive(false);
-            //SceneManager.LoadScene("Lobby");
+            // 저절로 OnConnectedToMaster 실행한다.
         }
 
         // 방을 만든 후에 실행
