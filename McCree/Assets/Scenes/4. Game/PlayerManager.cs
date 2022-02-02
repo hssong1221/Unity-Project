@@ -15,6 +15,12 @@ namespace com.ThreeCS.McCree
         // 화면 상에 보이는 로컬 플레이어들
         public static GameObject LocalPlayerInstance;
 
+        //TEMP
+        public float moveSpeed = 10.0f;
+
+        private Vector3 movePos = Vector3.zero;
+        private Vector3 moveDir = Vector3.zero;
+
         #endregion
 
         #region MonoBehaviour CallBacks
@@ -55,32 +61,54 @@ namespace com.ThreeCS.McCree
             {
                 return;
             }
-            if(photonView.IsMine)
+        }
+
+        void FixedUpdate()
+        {
+            if (photonView.IsMine)
                 Move();
         }
 
-
         #endregion
 
-        #region private Methods
-        // 플레이어 이동 임시구현
 
+        #region private Methods
+
+        // 플레이어 이동 임시구현
         void Move()
         {
-            float hAxis = Input.GetAxis("Horizontal");
+            // 임시로 만든 키보드 입력
+            /*float hAxis = Input.GetAxis("Horizontal");
             float vAxis = Input.GetAxis("Vertical");
             Vector3 moveVec = new Vector3(hAxis, 0, vAxis).normalized;
+            
+            transform.position += moveVec * 5 * Time.deltaTime;*/
+            if (Input.GetMouseButton(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            transform.position += moveVec * 5 * Time.deltaTime; 
+                if(Physics.Raycast(ray, out RaycastHit raycastHit))
+                {
+                    movePos = raycastHit.point;
+                }
+                Debug.DrawRay(ray.origin, ray.direction * 100f, Color.green);
+            }
+            if(movePos != Vector3.zero)
+            {
+                Vector3 dir = movePos - transform.position;
+
+                float angle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+
+                transform.rotation = Quaternion.Euler(0, angle, 0);
+                transform.position = Vector3.MoveTowards(transform.position, movePos, moveSpeed * Time.deltaTime);
+            }
+
+            float dis = Vector3.Distance(transform.position, movePos);
+            if (dis <= 0.3f)
+            {
+                movePos = Vector3.zero;
+            }
         }
-
-
-
-
-
-
-
-
 
 
         /*void OnSceneLoaded(Scene scene, LoadSceneMode loadingMode)
