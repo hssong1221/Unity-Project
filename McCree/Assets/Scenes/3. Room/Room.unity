@@ -226,8 +226,6 @@ GameObject:
   m_Component:
   - component: {fileID: 155865391}
   - component: {fileID: 155865392}
-  - component: {fileID: 155865393}
-  - component: {fileID: 155865394}
   m_Layer: 0
   m_Name: Room Manager
   m_TagString: Untagged
@@ -268,45 +266,6 @@ MonoBehaviour:
   startBtn: {fileID: 1348191927}
   startText: {fileID: 2065212506}
   exitBtn: {fileID: 234687973}
---- !u!114 &155865393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 155865390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05173421665a54842aca1cc09422403d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chatList: []
-  sendBtn: {fileID: 707867963}
-  chatLog: {fileID: 1882804531}
-  chatInput: {fileID: 1126515679}
-  scr: {fileID: 1806186790}
---- !u!114 &155865394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 155865390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents: []
-  sceneViewId: 1
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
 --- !u!1 &234687971
 GameObject:
   m_ObjectHideFlags: 0
@@ -2191,7 +2150,7 @@ GameObject:
   - component: {fileID: 1806186791}
   - component: {fileID: 1806186790}
   m_Layer: 5
-  m_Name: Scroll View
+  m_Name: ChatScroll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
