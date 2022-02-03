@@ -8,7 +8,7 @@ using Photon.Realtime;
 
 namespace com.ThreeCS.McCree
 {
-    public class PlayerManager : MonoBehaviourPunCallbacks
+    public class PlayerManager : Controller
     {
         #region Public Fields
 
@@ -27,12 +27,13 @@ namespace com.ThreeCS.McCree
 
         void Awake()
         {
+            base.Awake();
+
             // 포톤뷰에 의한 내 플레이어만
             if (photonView.IsMine)
             {
                 LocalPlayerInstance = gameObject; // gameObject는 이 컴포넌트가 붙어있는 게임오브젝트 즉 플레이어를 의미
             }
-
             DontDestroyOnLoad(gameObject);
 
         }
@@ -95,7 +96,15 @@ namespace com.ThreeCS.McCree
             float vAxis = Input.GetAxis("Vertical");
             Vector3 moveVec = new Vector3(hAxis, 0, vAxis).normalized;
             
+
             transform.position += moveVec * 5 * Time.deltaTime;*/
+
+
+            Vector3 Old_Position;
+            Vector3 Cur_Position;
+
+            Old_Position = transform.position;
+
             if (Input.GetMouseButton(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -121,6 +130,9 @@ namespace com.ThreeCS.McCree
             {
                 movePos = Vector3.zero;
             }
+
+            Cur_Position = transform.position;
+            animator.SetFloat("Speed", Vector3.Distance(Old_Position, Cur_Position) * 100f);
         }
 
 
