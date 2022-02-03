@@ -45,6 +45,9 @@ namespace com.ThreeCS.McCree
         [SerializeField]   // 방 만들기 팝업 닫기
         protected Button closePopUpBtn;
 
+        [SerializeField]   // 방 최대 인원 수 설정 버튼들
+        protected List<Button> maxPlayerCountBtns;
+
         #endregion
 
 
@@ -58,18 +61,26 @@ namespace com.ThreeCS.McCree
             closePopUpBtn.onClick.AddListener(Close_PopUp);
             PopUp.SetActive(false);
 
-        }
 
+            // 방 최대인원수 버튼 onclick addlistener
+            for (int i=0; i<maxPlayerCountBtns.Count; i++)
+            {
+                Button btn = maxPlayerCountBtns[i];
+                int index = i;
+                btn.onClick.AddListener(() => UpdateMaxPlayerCount(index + 4));
+            }
 
-        void FixedUpdate()
-        {
-            CheckPlayerCount();  // update말고 좋은게 있지않을까? 나중에 찾아보자
+            // 본래 포톤 플레이어 체크는 5초마다 한번씩 이루어진다고 한다.
+            InvokeRepeating("CheckPlayerCount", 0f, 5.0f); 
         }
 
         #endregion
 
 
         #region 룸에 관련된 사항이 바뀔때 호출되는 함수 
+
+
+        // 룸 리스트들를 업데이트하는것이 아니고 변경된 roomList의 정보를 받아오는것이다.
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
             GameObject tempRoom = null;
@@ -79,6 +90,8 @@ namespace com.ThreeCS.McCree
                 // 룸이 삭제된 경우
                 if (room.RemovedFromList == true)
                 {
+                    // room.Name을 찾아서 tempRoom(gameObject)에 저장한뒤 파괴하고
+                    // 리스트에서도 삭제한다.
                     roomDict.TryGetValue(room.Name, out tempRoom);
                     Destroy(tempRoom);
                     roomDict.Remove(room.Name);
@@ -86,16 +99,20 @@ namespace com.ThreeCS.McCree
                 // 룸 정보가 갱신된경우
                 else
                 {
-                    // 룸이 하나도 없을 경우
+                    // 룸이 새로 생성되었을 경우
                     if (roomDict.ContainsKey(room.Name) == false)
                     {
+                        // roomListing을 생성하고 content위치에 생성되는
+                        // _room (gameObject)를 생성한다
                         GameObject _room = Instantiate(roomListing, content);
+                        // 룸 정보를 저장 (방 인원수, 이름)
                         _room.GetComponent<RoomList>().myRoomInfo = room;
                         roomDict.Add(room.Name, _room);
                     }
-                    // 룸 정보를 갱신하는 경우
+                    // 룸 정보를 갱신하는 경우 (방 정보 수정은 아직 구현안함)
                     else
                     {
+                        // 변경된 해당 room.Name을 찾아 방 정보를 다시 저장한다
                         roomDict.TryGetValue(room.Name, out tempRoom);
                         tempRoom.GetComponent<RoomList>().myRoomInfo = room;
                     }
@@ -111,9 +128,9 @@ namespace com.ThreeCS.McCree
         public void CheckPlayerCount()
         {
             int connectPlayer = PhotonNetwork.CountOfPlayers;
-            //Debug.Log("현재 동시접속자수 " + connectPlayer);
             curPlayerText.text = "현재 접속자 수 : " + connectPlayer.ToString();
         }
+
         public void Open_PopUp()
         {
             Debug.Log("열기버튼누름");
@@ -142,15 +159,31 @@ namespace com.ThreeCS.McCree
             // 방 이름이 빈칸이면 못 만들게
             if (string.IsNullOrEmpty(roomName.text))
                 return;
-            Debug.Log(RoomName);
 
             // 방 이름으로 방 생성
             PhotonNetwork.JoinOrCreateRoom(RoomName, roomOptions, TypedLobby.Default);
-
             PunCallbacks.statusText.text = "방 생성 중...";
             PunCallbacks.statusUI.SetActive(true);
         }
 
+        // 방 최대인원수 선택
+        public void UpdateMaxPlayerCount(int count)
+        {
+            Debug.Log(count);
+            roomOptions.MaxPlayers = (byte)count;
+
+            for (int i=0; i< maxPlayerCountBtns.Count; i++)
+            {
+                if (i == count - 4)
+                {
+                    maxPlayerCountBtns[i].image.color = new Color(0f, 0f, 0f, 1f);
+                }
+                else
+                {
+                    maxPlayerCountBtns[i].image.color = new Color(0f, 0f, 0f, 0f);
+                }
+            }
+        }
 
         #endregion
 

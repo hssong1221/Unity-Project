@@ -63,7 +63,11 @@ namespace com.ThreeCS.McCree
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             Debug.Log("씬 교체됨, 현재 씬: " + scene.name);
-            // 씬 교체될때 채팅에 관련된 오브젝트 다시 지정
+            // 씬 교체될때 채팅 창에 관련된 오브젝트 다시 지정
+            // chatLog - 대화창
+            // sendBtn - 전송 버튼
+            // chatInput - 대화 인풋 필드
+            // scr - 챗 scrollReact
             var tempchatLog = GameObject.Find("ChatLog");
             if (tempchatLog != null)
                 chatLog = tempchatLog.GetComponent<UIText>();
@@ -154,6 +158,11 @@ namespace com.ThreeCS.McCree
         {
             string msgs = messages[senders.Length - 1] + "\n";
 
+            // !(룸에 없을 때 && 메세지가 로비로 부터왔을때)
+            // == 룸에 있거나 메세지가 로비로부터 온게 아닐때 대화 로그 붙이기
+
+            // 로비일때는 로비 대화만 받고
+            // 룸에있을때는 로비 대화무시하고 방에있는 대화만 받는다는 뜻
             if ( !(PhotonNetwork.InRoom && channelName == lobbyName))
                 AddLine(msgs);
             //throw new System.NotImplementedException();
@@ -166,6 +175,10 @@ namespace com.ThreeCS.McCree
 
         public void OnSubscribed(string[] channels, bool[] results)
         {
+            // 로비는 최초 연결되어있는 상태고
+            // 방에 들어갔을때 해당 방을 구독하고
+            // 방에서 나갔을때 해당 방을 구독취소하는 식
+
             if (behave == "EnterRoom") // 방에 입장하였을때
             {
                 PunCallbacks.statusUI.SetActive(false);

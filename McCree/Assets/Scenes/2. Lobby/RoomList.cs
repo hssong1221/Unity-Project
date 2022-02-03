@@ -48,13 +48,6 @@ namespace com.ThreeCS.McCree
             roomText.text = roomInfo.MaxPlayers + ", " + roomInfo.Name;
         }
 
-        //public void Create_Btn()
-        //{
-        //    if (string.IsNullOrEmpty(roomName.text))
-        //        return;
-        //    PhotonNetwork.JoinRoom(RoomInfo.Name);
-        //}
-
         public void Join_Btn()
         {
             string roomName = this.myRoomInfo.Name;

@@ -43,7 +43,6 @@ namespace com.ThreeCS.McCree
         {
             // 닉네임이 같으면 중복된다는 코드 구현예정
             PhotonNetwork.NickName = NickName.text;
-            //PhotonNetwork.ConnectUsingSettings();
             PunCallbacks.statusText.text = "서버에 접속 중...";
             PunCallbacks.statusUI.SetActive(true);
             punChat.Connect();
