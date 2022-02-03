@@ -50,7 +50,7 @@ namespace com.ThreeCS.McCree
             startBtn.onClick.AddListener(Start_Game);
             
             playerCountText = "인원 수 : ";
-            InvokeRepeating("RoomStatTrans", 1f, 5.1f);
+            InvokeRepeating("RoomStatTrans", 1f, 3.0f);
             // 마스터 클라인트가 씬을 넘길 때 같은 방에 있는 전부가 같은 레벨에 자동동기화됨
             PhotonNetwork.AutomaticallySyncScene = true;
         }
@@ -76,7 +76,6 @@ namespace com.ThreeCS.McCree
             //base.OnPlayerEnteredRoom(newPlayer);
             AddPlayerListing(newPlayer);
             GetCurrentPlayersCount();
-            //Debug.Log(PhotonNetwork.IsMasterClient);
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -86,7 +85,6 @@ namespace com.ThreeCS.McCree
             Destroy(tempPlayer);
             playerDict.Remove(otherPlayer.UserId);
             GetCurrentPlayersCount();
-            //Debug.Log(PhotonNetwork.IsMasterClient);
         }
 
         #endregion
@@ -136,7 +134,6 @@ namespace com.ThreeCS.McCree
 
         public void GetCurrentRoomPlayers()
         {
-            //Debug.Log(PhotonNetwork.CurrentRoom.Players);
             foreach (KeyValuePair<int, Player> playerInfo in PhotonNetwork.CurrentRoom.Players)
             {
                 AddPlayerListing(playerInfo.Value);
@@ -151,9 +148,12 @@ namespace com.ThreeCS.McCree
         // 룸 상태를 변화를 시켜서 로비에있는 OnRoomListUpdate()함수가 알수 있음
         public void RoomStatTrans()
         {
-            Debug.Log("룸 상태 변경");
-            PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.CurrentRoom.IsOpen = true;
+            //Debug.Log("룸 상태 변경");
+            if (PhotonNetwork.InRoom)
+            {
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                PhotonNetwork.CurrentRoom.IsOpen = true;
+            }
         }
 
         #endregion
