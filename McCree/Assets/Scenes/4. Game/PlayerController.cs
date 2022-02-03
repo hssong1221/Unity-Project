@@ -5,49 +5,52 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
+using UnityStandardAssets.Utility;
+
 namespace com.ThreeCS.McCree
 {
     public class PlayerController : MonoBehaviourPunCallbacks
     {
-        protected GameObject character;
-        private GameObject cameraArm;
-        private Camera mainCamera;
+        public static GameObject LocalPlayerInstance;
 
-        protected Rigidbody rigidBody;
-        protected CapsuleCollider capsuleCollider; // 캐릭터 캡슐
-        protected BoxCollider groundCollider;         // isground체크용
-        protected Animator animator;
+        protected GameObject character; // Character객체 (상속가능) 
 
-        private Vector3 Offset;
+        protected Vector3 Offset;
 
         protected void Awake()
         {
             character = GameObject.FindWithTag("Player");
-            cameraArm = GameObject.FindWithTag("CameraArm");
-            mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            if (photonView.IsMine)
+            {
+                LocalPlayerInstance = gameObject; // gameObject는 이 컴포넌트가 붙어있는 게임오브젝트 즉 플레이어를 의미
+                Camera.main.GetComponent<SmoothFollow>().target = character.transform;
+                // 플레이어 마다 카메라를 설정하려면 유니티 기본 에셋 SmoothFollow를 임포트하여 써야한다고 한다. 왜인진 모름
+            }
+            Camera.main.transform.rotation = Quaternion.Euler(45, 0, 0);
+            Offset = new Vector3(0, 4.0f, -4.0f);
+            // 또한 카메라에 붙어있는 SmoothFollow.cs의 값과 연동되는데 마음대로 잘 안된다. 
 
-            animator = character.GetComponent<Animator>();
-            capsuleCollider = character.GetComponent<CapsuleCollider>();
-            //groundCollider = character.GetComponent<BoxCollider>();
-            rigidBody = character.GetComponent<Rigidbody>();
         }
-        void Start()
+        private void Start()
         {
-            Debug.Log(animator);
-            cameraArm.transform.rotation = Quaternion.Euler(45, 0, 0);
-            Offset = new Vector3(0, 4, -4);
+            //DontDestroyOnLoad(gameObject);
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             Camera_Move();
+
+            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            {
+                return;
+            }
         }
 
 
-        protected void Camera_Move()
+        private void Camera_Move()
         {
-            cameraArm.transform.position = character.transform.position + Offset;
+            Camera.main.transform.position = character.transform.position + Offset;
         }
     }
 }

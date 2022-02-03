@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Bullet
   - CameraArm
+  - CharacterCamera
   layers:
   - Default
   - TransparentFX

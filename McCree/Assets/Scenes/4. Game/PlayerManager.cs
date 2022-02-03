@@ -13,7 +13,11 @@ namespace com.ThreeCS.McCree
         #region Public Fields
 
         // 화면 상에 보이는 로컬 플레이어들
-        public static GameObject LocalPlayerInstance;
+
+        protected Rigidbody rigidBody;
+        protected CapsuleCollider capsuleCollider; // 캐릭터 캡슐
+        protected BoxCollider groundCollider;         // isground체크용
+        protected Animator animator;
 
         //TEMP
         public float moveSpeed = 10.0f;
@@ -29,13 +33,14 @@ namespace com.ThreeCS.McCree
         {
             base.Awake();  // PlayerController Awake 함수 그대로 사용
 
-            // 포톤뷰에 의한 내 플레이어만
-            if (photonView.IsMine)
-            {
-                LocalPlayerInstance = gameObject; // gameObject는 이 컴포넌트가 붙어있는 게임오브젝트 즉 플레이어를 의미
-            }
+            character = GameObject.FindWithTag("Player");
 
-            DontDestroyOnLoad(gameObject);
+            animator = character.GetComponent<Animator>();
+            capsuleCollider = character.GetComponent<CapsuleCollider>();
+            //groundCollider = character.GetComponent<BoxCollider>();
+            rigidBody = character.GetComponent<Rigidbody>();
+
+            // 포톤뷰에 의한 내 플레이어만
 
         }
 
@@ -59,10 +64,7 @@ namespace com.ThreeCS.McCree
                 GameManager.Instance.LeaveRoom();
             }
 
-            if(photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-            {
-                return;
-            }
+            
         }
 
         void FixedUpdate()
