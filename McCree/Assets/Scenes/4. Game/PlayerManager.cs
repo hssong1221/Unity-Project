@@ -19,7 +19,7 @@ namespace com.ThreeCS.McCree
         public float moveSpeed = 10.0f;
 
         private Vector3 movePos = Vector3.zero;
-        private Vector3 moveDir = Vector3.zero;
+        //private Vector3 moveDir = Vector3.zero;
 
         #endregion
 
@@ -40,6 +40,19 @@ namespace com.ThreeCS.McCree
 
         void Start()
         {
+            CameraWork _cameraWork = gameObject.GetComponent<CameraWork>();
+
+            if (_cameraWork != null)
+            {
+                if (photonView.IsMine)
+                {
+                    _cameraWork.OnStartFollowing();
+                }
+            }
+            else
+            {
+                Debug.LogError("<Color=Red><b>Missing</b></Color> CameraWork Component on player Prefab.", this);
+            }
             //SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
