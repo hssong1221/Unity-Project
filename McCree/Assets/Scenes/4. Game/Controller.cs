@@ -12,6 +12,7 @@ namespace com.ThreeCS.McCree
         protected GameObject character; // Character객체 (상속가능) 
         protected Transform rootPos;
         protected Animator animator;
+        public static bool isDeath;
 
         protected void Awake()
         {

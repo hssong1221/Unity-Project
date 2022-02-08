@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 using Photon.Pun;
 using Photon.Realtime;
 
@@ -15,6 +14,8 @@ namespace com.ThreeCS.McCree
         #region Public Fields
 
         static public GameManager Instance;
+
+
 
         #endregion
 
@@ -56,11 +57,14 @@ namespace com.ThreeCS.McCree
                     PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(ran1, 5f, ran2), Quaternion.identity, 0);
                 }
             }
+
         }
 
         void Update()
         {
-            //
+            
+
+            
         }
 
         #endregion

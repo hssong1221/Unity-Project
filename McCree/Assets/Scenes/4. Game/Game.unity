@@ -261,7 +261,7 @@ PrefabInstance:
     - target: {fileID: 6499633059782280073, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: playerPrefab
       value: 
-      objectReference: {fileID: 8259103616494292764, guid: 5be39fc2355191b48bbe4b1e34e4271e, type: 3}
+      objectReference: {fileID: 6215404349552837223, guid: db43c7ab86ae6804bbf84a4e146e3bd7, type: 3}
     - target: {fileID: 6559106700118211124, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -503,7 +503,7 @@ GameObject:
   - component: {fileID: 581167836}
   - component: {fileID: 581167835}
   - component: {fileID: 581167834}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -598,7 +598,7 @@ GameObject:
   - component: {fileID: 613953420}
   - component: {fileID: 613953419}
   - component: {fileID: 613953418}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -693,7 +693,7 @@ GameObject:
   - component: {fileID: 656414712}
   - component: {fileID: 656414711}
   - component: {fileID: 656414710}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -788,7 +788,7 @@ GameObject:
   - component: {fileID: 1543487326}
   - component: {fileID: 1543487325}
   - component: {fileID: 1543487324}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -966,7 +966,7 @@ GameObject:
   - component: {fileID: 2065844546}
   - component: {fileID: 2065844545}
   - component: {fileID: 2065844544}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Wall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
