@@ -13,6 +13,7 @@ namespace com.ThreeCS.McCree
         protected Transform rootPos;
         protected Animator animator;
         public static bool isDeath;
+        public static bool isAiming;
 
         protected void Awake()
         {

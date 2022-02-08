@@ -108,7 +108,7 @@ namespace com.ThreeCS.McCree
 		/// <summary>
 		/// Follow the target smoothly
 		/// </summary>
-		void Follow()
+		public void Follow()
 		{
 			cameraOffset.z = -distance;
 			cameraOffset.y = height;

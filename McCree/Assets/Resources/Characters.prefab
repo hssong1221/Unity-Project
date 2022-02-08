@@ -1680,7 +1680,6 @@ GameObject:
   - component: {fileID: 6215404349552739523}
   - component: {fileID: 6215404349552739522}
   - component: {fileID: 6215404349552739549}
-  - component: {fileID: 6215404349552739548}
   - component: {fileID: 6215404349552739551}
   - component: {fileID: 6215404349552739550}
   - component: {fileID: 6215404349552739545}
@@ -1779,22 +1778,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
---- !u!114 &6215404349552739548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6215404349552837223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 051379bfff9307a47813c38c74bcd188, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distance: 5
-  height: 4.5
-  followOnStart: 1
-  smoothSpeed: 0.125
 --- !u!114 &6215404349552739551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1812,9 +1795,8 @@ MonoBehaviour:
   indicatorRangeCircle: {fileID: 6215404349647825285}
   attackRangeCanvas: {fileID: 6215404349079509539}
   targetRangeCanvas: {fileID: 6215404350277232669}
-  isAiming: 0
   attackRange: 1
-  cameraWork: {fileID: 0}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!114 &6215404349552739550
 MonoBehaviour:
   m_ObjectHideFlags: 0

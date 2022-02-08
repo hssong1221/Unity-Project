@@ -21,7 +21,7 @@ namespace com.ThreeCS.McCree
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetMouseButtonDown(1))
+            if (isAiming && Input.GetMouseButtonDown(0))
             {
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
                 {

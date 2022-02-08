@@ -29,13 +29,12 @@ namespace com.ThreeCS.McCree
         public Image indicatorRangeCircle;// 목표 범위 이미지
         public Canvas attackRangeCanvas;  // 공격 사거리 캔버스
         public Canvas targetRangeCanvas;  // 목표 쪽 캔버스
-        public bool isAiming;
         private Vector3 posUp;
         public int attackRange; // 기본 공격 사거리 일단 1로 설정해놓은상태
 
-        //public float maxAttackDistance; 
+        public Vector3 offset;
 
-        public CameraWork cameraWork;
+        //public float maxAttackDistance; 
 
         #endregion
 
@@ -49,27 +48,17 @@ namespace com.ThreeCS.McCree
             if (photonView.IsMine)
             {
                 LocalPlayerInstance = gameObject; // gameObject는 이 컴포넌트가 붙어있는 게임오브젝트 즉 플레이어를 의미
+
+                Camera.main.transform.rotation = Quaternion.Euler(45, 0, 0);
+                offset = new Vector3(0.0f, 5.0f, -5f);
             }
             DontDestroyOnLoad(gameObject);
-            cameraWork = GetComponent<CameraWork>();
+            
         }
 
 
         void Start()
         {
-            CameraWork _cameraWork = gameObject.GetComponent<CameraWork>();
-
-            if (_cameraWork != null)
-            {
-                if (photonView.IsMine)
-                {
-                    _cameraWork.OnStartFollowing();
-                }
-            }
-            else
-            {
-                Debug.LogError("<Color=Red><b>Missing</b></Color> CameraWork Component on player Prefab.", this);
-            }
             //SceneManager.sceneLoaded += OnSceneLoaded;
 
             attackRange = 1;
@@ -87,6 +76,7 @@ namespace com.ThreeCS.McCree
 
         void Update()
         {
+            
             // 게임 내에서 밖으로 나오는거 임시 구현
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -99,7 +89,10 @@ namespace com.ThreeCS.McCree
             }
 
             // 공격범위 관련
-            AttackRange();
+            if (photonView.IsMine)
+                AttackRange();
+
+            Camera.main.transform.position = character.transform.position + offset;
 
             if (Input.GetKeyDown("a")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
                 attackRange = 1;
@@ -158,21 +151,11 @@ namespace com.ThreeCS.McCree
                 if (!isAiming)
                 {
                     if (attackRange == 1)
-                    {
-                        cameraWork.distance = 7;
-                        cameraWork.height = 6.3f;
-                    }
+                        offset = new Vector3(0.0f, 7.0f, -7.0f);
                     else if (attackRange == 2)
-                    {
-                        cameraWork.distance = 14;
-                        cameraWork.height = 12.6f;
-                    }
+                        offset = new Vector3(0.0f, 14.0f, -14.0f);
                     else if (attackRange == 3)
-                    {
-                        cameraWork.distance = 21;
-                        cameraWork.height = 18.9f;
-                    }
-
+                        offset = new Vector3(0.0f, 21.0f, -21.0f);
 
                     isAiming = true;
                     animator.SetBool("IsAiming", isAiming);
@@ -185,8 +168,9 @@ namespace com.ThreeCS.McCree
                     isAiming = false;
                     animator.SetBool("IsAiming", isAiming);
                     moveSpeed = 5.0f;
-                    cameraWork.distance = 5;
-                    cameraWork.height = 4.5f;
+
+                    offset = new Vector3(0.0f, 5.0f, -5.0f);
+
                     indicatorRangeCircle.GetComponent<Image>().enabled = false;
                     //targetCircle.GetComponent<Image>().enabled = false;
                 }
