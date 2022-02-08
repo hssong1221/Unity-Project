@@ -13,12 +13,23 @@ namespace com.ThreeCS.McCree
         protected Transform rootPos;
         protected Animator animator;
         public static bool isDeath;
-        public static bool isAiming;
+
+        protected Controller controller;
+        protected PlayerManager playerManager;
+        protected PlayerAutoMove playerAutoMove;
+        protected HpUI hpUI;
+
 
         protected void Awake()
         {
             character = GameObject.FindWithTag("Player");
             rootPos = character.transform.Find("Root");
+
+            controller = GetComponent<Controller>();
+            playerManager = GetComponent<PlayerManager>();
+            playerAutoMove = GetComponent<PlayerAutoMove>();
+            hpUI = GetComponent<HpUI>();
+
 
             animator = character.GetComponent<Animator>();
         }
