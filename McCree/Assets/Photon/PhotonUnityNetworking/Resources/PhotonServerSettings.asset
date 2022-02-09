@@ -42,6 +42,10 @@ MonoBehaviour:
   - SendChat
   - ReceiveMsg
   - InfoMsg
+  - TestDamaged
+  - Damaged
+  - Attack
+  - TurnOffSpeechBubble
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -20,12 +20,11 @@ namespace com.ThreeCS.McCree
         #region Private Fields
 
 	    [Tooltip("The distance in the local x-z plane to the target")]
-	    [SerializeField]
-	    private float distance = 7.0f;
+	    public float distance = 5f;
 	    
 	    [Tooltip("The height we want the camera to be above the target")]
 	    [SerializeField]
-	    private float height = 3.0f;
+	    public float height = 4.5f;
 	    
 	    /*[Tooltip("Allow the camera to be offseted vertically from the target, for example giving more view of the sceneray and less ground.")]
 	    [SerializeField]
@@ -109,7 +108,7 @@ namespace com.ThreeCS.McCree
 		/// <summary>
 		/// Follow the target smoothly
 		/// </summary>
-		void Follow()
+		public void Follow()
 		{
 			cameraOffset.z = -distance;
 			cameraOffset.y = height;
