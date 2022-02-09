@@ -17,11 +17,12 @@ namespace com.ThreeCS.McCree
         public static GameObject LocalPlayerInstance;
 
 
-        [Header("뱅 준비 사거리 표시")]
-        public Image indicatorRangeCircle;// 공격 사거리 이미지
-        public Canvas attackRangeCanvas;  // 공격 사거리 캔버스
-        public int attackRange; // 기본 공격 사거리 일단 1로 설정해놓은상태
+        //[Header("뱅 준비 사거리 표시")]
+        //public Image indicatorRangeCircle;// 공격 사거리 이미지
+        //public Canvas attackRangeCanvas;  // 공격 사거리 캔버스
+        //public int attackRange; // 기본 공격 사거리 일단 1로 설정해놓은상태
         public bool isAiming;
+        public bool isDeath;
 
         [Header("이동 관련")]
         [HideInInspector]
@@ -90,12 +91,7 @@ namespace com.ThreeCS.McCree
         {
             //SceneManager.sceneLoaded += OnSceneLoaded;
 
-            // 기본사거리
-            attackRange = 1;
-            // 기본 Indicator Range img 크기
-            indicatorRangeCircle.rectTransform.localScale = new Vector3(attackRange, attackRange, 0);
-            // 공격범위 UI 꺼주기
-            indicatorRangeCircle.GetComponent<Image>().enabled = false;
+            
         }
 
         public override void OnDisable()
@@ -128,20 +124,20 @@ namespace com.ThreeCS.McCree
 
             Camera.main.transform.position = character.transform.position + offset;
             if (Input.GetKeyDown("a")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
-                attackRange = 1;
+                ui.attackRange = 1;
             if (Input.GetKeyDown("s"))
-                attackRange = 2;
+                ui.attackRange = 2;
             if (Input.GetKeyDown("d"))
-                attackRange = 3;
-            indicatorRangeCircle.rectTransform.localScale = new Vector3(attackRange, attackRange, 0);
+                ui.attackRange = 3;
+            ui.indicatorRangeCircle.rectTransform.localScale = new Vector3(ui.attackRange, ui.attackRange, 0);
             // Range_Indicator 이미지의 크기 변경 
 
         }
 
         void FixedUpdate()
         {
-            if (isDeath == true)
-                enabled = false;
+            //if (isDeath == true)
+            //    enabled = false;
 
             
         }
@@ -158,17 +154,17 @@ namespace com.ThreeCS.McCree
             {
                 if (!isAiming)
                 {
-                    if (attackRange == 1)
+                    if (ui.attackRange == 1)
                     {
                         offset = new Vector3(0.0f, 7.0f, -7.0f);
                         maxAttackDistance = 5;
                     }
-                    else if (attackRange == 2)
+                    else if (ui.attackRange == 2)
                     {
                         offset = new Vector3(0.0f, 14.0f, -14.0f);
                         maxAttackDistance = 10;
                     }
-                    else if (attackRange == 3)
+                    else if (ui.attackRange == 3)
                     { 
                         offset = new Vector3(0.0f, 21.0f, -21.0f);
                         maxAttackDistance = 15;
@@ -177,7 +173,7 @@ namespace com.ThreeCS.McCree
                     isAiming = true;
                     animator.SetBool("IsAiming", isAiming);
                     agent.speed = 2.5f;
-                    indicatorRangeCircle.GetComponent<Image>().enabled = true;
+                    ui.indicatorRangeCircle.GetComponent<Image>().enabled = true;
                 }
                 else
                 {
@@ -185,7 +181,7 @@ namespace com.ThreeCS.McCree
                     animator.SetBool("IsAiming", isAiming);
                     agent.speed = 5.0f;
                     offset = new Vector3(0.0f, 5.0f, -5.0f);
-                    indicatorRangeCircle.GetComponent<Image>().enabled = false;
+                    ui.indicatorRangeCircle.GetComponent<Image>().enabled = false;
                 }
             }
 
@@ -208,14 +204,9 @@ namespace com.ThreeCS.McCree
 
 
                         if (distance <= maxAttackDistance)
-                            Debug.Log("캐릭터 선택 닿음");
+                            Debug.Log("캐릭터 선택 닿음  " + "거리: "+ distance);
                         else
-                            Debug.Log("캐릭터 선택 그러나 닿지않음");
-
-                        Debug.Log("거리 : " + distance);
-
-                        //distance = Mathf.Min(distance, maxAttackDistance); // 범위 
-
+                            Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
 
                         playerAutoMove.targetedEnemy = hit.collider.gameObject;
                     }

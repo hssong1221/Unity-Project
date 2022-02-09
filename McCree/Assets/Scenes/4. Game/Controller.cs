@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Photon.Pun;
 using Photon.Realtime;
@@ -12,12 +13,11 @@ namespace com.ThreeCS.McCree
         protected GameObject character; // Character객체 (상속가능) 
         protected Transform rootPos;
         protected Animator animator;
-        public static bool isDeath;
 
         protected Controller controller;
         protected PlayerManager playerManager;
         protected PlayerAutoMove playerAutoMove;
-        protected HpUI hpUI;
+        protected UI ui;
 
 
         protected void Awake()
@@ -28,7 +28,7 @@ namespace com.ThreeCS.McCree
             controller = GetComponent<Controller>();
             playerManager = GetComponent<PlayerManager>();
             playerAutoMove = GetComponent<PlayerAutoMove>();
-            hpUI = GetComponent<HpUI>();
+            ui = GetComponent<UI>();
 
 
             animator = character.GetComponent<Animator>();
@@ -44,6 +44,31 @@ namespace com.ThreeCS.McCree
         {
 
         }
+
+        #region IPunObservable implementation
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                // We own this player: send the others our data
+                stream.SendNext(this.ui.hp);
+
+                //stream.SendNext(this.ui.bangSpeechBubble);
+                //stream.SendNext(this.ui.bangText);
+
+            }
+            else
+            {
+                // Network player, receive data
+                this.ui.hp = (int)stream.ReceiveNext();
+
+                //this.ui.bangSpeechBubble = (Image)stream.ReceiveNext();
+                //this.ui.bangText = (Text)stream.ReceiveNext();
+            }
+        }
+
+        #endregion
     }
 
 }
