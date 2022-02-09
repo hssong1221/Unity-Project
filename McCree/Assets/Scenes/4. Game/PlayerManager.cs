@@ -17,10 +17,6 @@ namespace com.ThreeCS.McCree
         public static GameObject LocalPlayerInstance;
 
 
-        //[Header("뱅 준비 사거리 표시")]
-        //public Image indicatorRangeCircle;// 공격 사거리 이미지
-        //public Canvas attackRangeCanvas;  // 공격 사거리 캔버스
-        //public int attackRange; // 기본 공격 사거리 일단 1로 설정해놓은상태
         public bool isAiming;
         public bool isDeath;
 
@@ -32,7 +28,6 @@ namespace com.ThreeCS.McCree
 
         [Header("카메라 오프셋")]
         protected Vector3 offset;
-
 
         protected bool isCharacterPlayer;
         public float maxAttackDistance;

@@ -1892,9 +1892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4183951f5f89d014c84f43dea276f032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  indicatorRangeCircle: {fileID: 6215404349647825285}
-  attackRangeCanvas: {fileID: 6215404349079509539}
-  attackRange: 1
   isAiming: 0
   isDeath: 0
   rotateSpeedMovement: 0.1
@@ -2008,7 +2005,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetedEnemy: {fileID: 0}
-  isPlayerAlive: 0
 --- !u!195 &3042995828838473885
 NavMeshAgent:
   m_ObjectHideFlags: 0

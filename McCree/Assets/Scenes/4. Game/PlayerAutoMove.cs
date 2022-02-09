@@ -11,8 +11,7 @@ namespace com.ThreeCS.McCree
     public class PlayerAutoMove : Controller
     {
         public GameObject targetedEnemy;
-
-        public bool isPlayerAlive;
+        //public bool isPlayerAlive;
 
 
         private void Awake()
@@ -51,8 +50,6 @@ namespace com.ThreeCS.McCree
                 {
                     targetedEnemy.GetComponentInParent<PhotonView>().RPC("Damaged", RpcTarget.All);
                     targetedEnemy = null;
-
-
                 }
             }
         }

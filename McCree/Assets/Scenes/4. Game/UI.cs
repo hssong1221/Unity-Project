@@ -36,11 +36,8 @@ namespace com.ThreeCS.McCree
         public Image bangSpeechBubble;    // 뱅 말풍선 이미지
         public Text bangText;             // 뱅 말풍선 텍스트
 
-
-
         Vector3 offset;
 
-        Image healthImg;
 
         #endregion
 
