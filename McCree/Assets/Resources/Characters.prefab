@@ -1719,6 +1719,8 @@ MonoBehaviour:
   attackRangeCanvas: {fileID: 6215404349079509539}
   attackRange: 1
   isAiming: 0
+  rotateSpeedMovement: 0.1
+  rotateVelocity: 0
   maxAttackDistance: 5
   agent: {fileID: 0}
 --- !u!114 &6215404349552739550
@@ -1822,7 +1824,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetedEnemy: {fileID: 0}
-  attackRange: 0
   isPlayerAlive: 0
 --- !u!195 &3042995828838473885
 NavMeshAgent:

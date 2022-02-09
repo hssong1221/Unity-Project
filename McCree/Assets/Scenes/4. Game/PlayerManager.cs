@@ -24,18 +24,32 @@ namespace com.ThreeCS.McCree
         public bool isAiming;
 
         [Header("이동 관련")]
-        protected float rotateSpeedMovement = 0.1f;  // 캐릭터 회전하는 속도
-        private float rotateVelocity;
+        [HideInInspector]
+        public float rotateSpeedMovement = 0.1f;  // 캐릭터 회전하는 속도
+        [HideInInspector]
+        public float rotateVelocity;
 
         [Header("카메라 오프셋")]
         protected Vector3 offset;
 
-        protected GameObject selectedPlayer;
+
         protected bool isCharacterPlayer;
-
-        
-
         public float maxAttackDistance;
+        // 기본상태                                        offset Vector3(0.0f, 5.0f, -5.0f)
+
+        // attackRange가 1일때는  maxAttackDistance  5     offset Vector3(0.0f, 7.0f, -7.0f)
+        // indicatorRangeCircle.rectTransform.localScale  Vector3(1, 1, 0)
+
+        // attackRange가 2일때는  maxAttackDistance  10    offset Vector3(0.0f, 14.0f, -14.0f)
+        // indicatorRangeCircle.rectTransform.localScale  Vector3(2, 2, 0)
+
+        // attackRange가 3일때는  maxAttackDistance  15    offset Vector3(0.0f, 21.0f, -21.0f)
+        // indicatorRangeCircle.rectTransform.localScale  Vector3(3, 3, 0)
+
+
+        // attackRange는 총 사거리 
+        // maxAttackDistance는 Range_Indicator img 의 반지름의 길이 (정확하지 않고 추측해서 값대입)
+        // indicatorRangeCircle.rectTransform.localScale는 Range_Indicator img의 크기
 
 
 
@@ -59,18 +73,16 @@ namespace com.ThreeCS.McCree
             base.Awake();
             agent = gameObject.GetComponent<NavMeshAgent>();
 
-            selectedPlayer = GameObject.FindGameObjectWithTag("Player");
-
             // 포톤뷰에 의한 내 플레이어만
             if (photonView.IsMine)
             {
                 LocalPlayerInstance = gameObject; // gameObject는 이 컴포넌트가 붙어있는 게임오브젝트 즉 플레이어를 의미
 
+                // 카메라 x 45도, offset
                 Camera.main.transform.rotation = Quaternion.Euler(45, 0, 0);
                 offset = new Vector3(0.0f, 5.0f, -5f);
             }
             DontDestroyOnLoad(gameObject);
-            
         }
 
 
@@ -78,7 +90,9 @@ namespace com.ThreeCS.McCree
         {
             //SceneManager.sceneLoaded += OnSceneLoaded;
 
+            // 기본사거리
             attackRange = 1;
+            // 기본 Indicator Range img 크기
             indicatorRangeCircle.rectTransform.localScale = new Vector3(attackRange, attackRange, 0);
             // 공격범위 UI 꺼주기
             indicatorRangeCircle.GetComponent<Image>().enabled = false;
@@ -120,7 +134,7 @@ namespace com.ThreeCS.McCree
             if (Input.GetKeyDown("d"))
                 attackRange = 3;
             indicatorRangeCircle.rectTransform.localScale = new Vector3(attackRange, attackRange, 0);
-           
+            // Range_Indicator 이미지의 크기 변경 
 
         }
 
@@ -145,11 +159,20 @@ namespace com.ThreeCS.McCree
                 if (!isAiming)
                 {
                     if (attackRange == 1)
+                    {
                         offset = new Vector3(0.0f, 7.0f, -7.0f);
+                        maxAttackDistance = 5;
+                    }
                     else if (attackRange == 2)
+                    {
                         offset = new Vector3(0.0f, 14.0f, -14.0f);
+                        maxAttackDistance = 10;
+                    }
                     else if (attackRange == 3)
+                    { 
                         offset = new Vector3(0.0f, 21.0f, -21.0f);
+                        maxAttackDistance = 15;
+                    }
 
                     isAiming = true;
                     animator.SetBool("IsAiming", isAiming);
@@ -180,11 +203,9 @@ namespace com.ThreeCS.McCree
                     if (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player")
                     { // 클릭한 오브젝트가 자기 자신이 아닌 다른 플레이어 일때
 
-                        Vector3 posUp = new Vector3(hit.point.x, 10f, hit.point.z); // ??
-                        Vector3 position = hit.point; // 목표지점
+                        // 클릭한 물체의 위치와 내 위치의 거리 
+                        float distance = Vector3.Distance(hit.collider.transform.position, transform.position);
 
-                        var hitPosDir = (hit.point - transform.position).normalized;
-                        float distance = Vector3.Distance(hit.point, transform.position);
 
                         if (distance <= maxAttackDistance)
                             Debug.Log("캐릭터 선택 닿음");
@@ -195,14 +216,12 @@ namespace com.ThreeCS.McCree
 
                         //distance = Mathf.Min(distance, maxAttackDistance); // 범위 
 
-                        var newHitPos = transform.position + hitPosDir * distance;
 
-                        selectedPlayer.GetComponent<PlayerAutoMove>().targetedEnemy = hit.collider.gameObject;
-
+                        playerAutoMove.targetedEnemy = hit.collider.gameObject;
                     }
                     else
                     {
-                        selectedPlayer.GetComponent<PlayerAutoMove>().targetedEnemy = null;
+                        playerAutoMove.targetedEnemy = null;
                     }
                 }
             }
@@ -234,7 +253,7 @@ namespace com.ThreeCS.McCree
             }
             float speed = agent.velocity.magnitude / agent.speed;
             animator.SetFloat("Speed", speed);
-            Debug.Log(speed);
+            //Debug.Log(speed);
         }
 
         #endregion
