@@ -86,7 +86,7 @@ namespace com.ThreeCS.McCree
         {
             //SceneManager.sceneLoaded += OnSceneLoaded;
 
-            
+            StartCoroutine(corMove());
         }
 
         public override void OnDisable()
@@ -111,7 +111,6 @@ namespace com.ThreeCS.McCree
 
             if (photonView.IsMine)
             {
-                Move();        // 이동
                 AttackRange(); // 뱅 준비
                 if (isAiming)
                     Bang();
@@ -134,7 +133,11 @@ namespace com.ThreeCS.McCree
             //if (isDeath == true)
             //    enabled = false;
 
-            
+            //if (photonView.IsMine)
+            //{
+            //    Move();        // 이동
+            //}
+
         }
 
         #endregion
@@ -217,7 +220,7 @@ namespace com.ThreeCS.McCree
         // 플레이어 이동
         void Move()
         {
-            if (Input.GetButtonDown("Move"))
+            if (Input.GetButton("Move"))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -240,6 +243,38 @@ namespace com.ThreeCS.McCree
             float speed = agent.velocity.magnitude / agent.speed;
             animator.SetFloat("Speed", speed);
             //Debug.Log(speed);
+        }
+
+        IEnumerator corMove()
+        {
+            while (true)
+            {
+                //Debug.Log("time : " + Time.deltaTime);
+                if (Input.GetButtonDown("Move"))
+                {
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                    if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Floor")))
+                    {
+                        // 이동
+                        agent.SetDestination(hit.point);
+                        playerAutoMove.targetedEnemy = null;
+                        agent.stoppingDistance = 0;
+
+                        // 회전
+                        Quaternion rotationToLookAt = Quaternion.LookRotation(hit.point - transform.position);
+                        float rotationY = Mathf.SmoothDamp(transform.eulerAngles.y,
+                            rotationToLookAt.eulerAngles.y,
+                            ref rotateVelocity,
+                            rotateSpeedMovement * (Time.deltaTime * 5));
+                        transform.eulerAngles = new Vector3(0, rotationY, 0);
+                    }
+                }
+                float speed = agent.velocity.magnitude / agent.speed;
+                animator.SetFloat("Speed", speed);
+
+                yield return null;
+            }
         }
 
         #endregion
