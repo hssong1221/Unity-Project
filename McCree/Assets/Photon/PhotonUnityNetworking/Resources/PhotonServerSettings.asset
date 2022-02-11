@@ -47,6 +47,7 @@ MonoBehaviour:
   - Attack
   - TurnOffSpeechBubble
   - JobSelect
+  - AbilitySelect
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

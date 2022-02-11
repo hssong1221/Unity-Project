@@ -15,6 +15,11 @@ namespace com.ThreeCS.McCree
         public GameObject jobPanel;
         public RectTransform jobBoard;
         public Text jobText;
+
+        public GameObject abilPanel;
+        public RectTransform abilBoard;
+        public Text abilText;
+
         public float uiSpeed;
         
         [Header("체력관련 UI")]

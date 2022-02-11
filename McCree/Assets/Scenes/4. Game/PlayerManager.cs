@@ -22,9 +22,11 @@ namespace com.ThreeCS.McCree
         public bool isDeath;
 
         // 플레이어 정보 타입
-        public enum Type { Sheriff, Vice, Outlaw, Renegade }
+        public enum jType { Sheriff, Vice, Outlaw, Renegade } // 직업 타입
+        public enum aType { HumanVolcanic, BangMissed, ThreeCard, OnehpOnecard, TwocardOnehp,  TwocardOnecard, DrinkBottle }
         [Header("플레이어 정보")]
-        public Type playerType;
+        public jType playerType;
+        public aType abilityType;
 
         [Header("이동 관련")]
         [HideInInspector]
@@ -98,9 +100,11 @@ namespace com.ThreeCS.McCree
         void Start()
         {
             //SceneManager.sceneLoaded += OnSceneLoaded;
+
+            // 방장이 직업을 섞어서 나눠줌
             if (PhotonNetwork.IsMasterClient)
             {
-                Job(); //플레이어 직업 분배
+                JobandAbility(); //플레이어 직업과 능력 분배
             }
         }
 
@@ -157,18 +161,30 @@ namespace com.ThreeCS.McCree
 
         #region private Methods
 
-        // 플레이어 직업 분배
-        public void Job()
+        // 플레이어 직업과 능력 분배
+        public void JobandAbility()
         {
-            // 인구수에 맞게 하는 거 추가하기
+            // (인구수에 맞게 하는 거 추가하기)
             List<int> jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
 
-            jobList = ShuffleList(jobList);
+            // 능력 갯수에 맞게 해야함
+            List<int> abilityList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
 
+            jobList = ShuffleList(jobList);
+            abilityList = ShuffleList(abilityList);
+
+            // 직업을 나눠주고 동기화 시킴
             for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
             {
                 players[i].GetComponent<PhotonView>().RPC("JobSelect", RpcTarget.All, jobList[i]);
             }
+
+            // 능력을 나눠주고 동기화 시킴
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                players[i].GetComponent<PhotonView>().RPC("AbilitySelect", RpcTarget.All, abilityList[i]);
+            }
+
         }
 
         // 플레이어 직업 동기화
@@ -179,19 +195,51 @@ namespace com.ThreeCS.McCree
             switch (num)
             {
                 case 1:
-                    playerType = Type.Sheriff;
+                    playerType = jType.Sheriff;
                     break;
                 case 2:
                 case 3:
-                    playerType = Type.Vice;
+                    playerType = jType.Vice;
                     break;
                 case 4:
                 case 5:
                 case 6:
-                    playerType = Type.Outlaw;
+                    playerType = jType.Outlaw;
                     break;
                 case 7:
-                    playerType = Type.Renegade;
+                    playerType = jType.Renegade;
+                    break;
+            }
+
+        }
+
+        // 플레이어 능력 동기화
+        [PunRPC]
+        public void AbilitySelect(int num)
+        {
+            Debug.Log(photonView.ViewID + " and " + num);
+            switch (num)
+            {
+                case 1:
+                    abilityType = aType.BangMissed;
+                    break;
+                case 2:
+                    abilityType = aType.DrinkBottle;
+                    break;
+                case 3:
+                    abilityType = aType.HumanVolcanic;
+                    break;
+                case 4:
+                    abilityType = aType.OnehpOnecard;
+                    break;
+                case 5:
+                    abilityType = aType.ThreeCard;
+                    break;
+                case 6:
+                    abilityType = aType.TwocardOnecard;
+                    break;
+                case 7:
+                    abilityType = aType.TwocardOnehp;
                     break;
             }
 

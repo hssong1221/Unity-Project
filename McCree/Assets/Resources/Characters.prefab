@@ -1896,6 +1896,7 @@ MonoBehaviour:
   isAiming: 0
   isDeath: 0
   playerType: 0
+  abilityType: 0
   rotateSpeedMovement: 0.1
   rotateVelocity: 0
   maxAttackDistance: 5
@@ -1915,6 +1916,9 @@ MonoBehaviour:
   jobPanel: {fileID: 0}
   jobBoard: {fileID: 0}
   jobText: {fileID: 0}
+  abilPanel: {fileID: 0}
+  abilBoard: {fileID: 0}
+  abilText: {fileID: 0}
   uiSpeed: 0
   hpCanvas: {fileID: 6215404348508757469}
   hp: 4
