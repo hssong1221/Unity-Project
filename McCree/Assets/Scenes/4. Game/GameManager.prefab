@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6559106700118211130}
-  - component: {fileID: 6499633059782280073}
+  - component: {fileID: 3715993003985175830}
+  - component: {fileID: 6587235461107736644}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -31,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6499633059782280073
+--- !u!114 &3715993003985175830
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,7 +41,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 6559106700118211124}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12c87c0a8d64a8b4fb15d7606a9fd295, type: 3}
+  m_Script: {fileID: 11500000, guid: c44f0576c86313f4a8fa5dab7bdb89d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 8259103616494292764, guid: 5be39fc2355191b48bbe4b1e34e4271e, type: 3}
+  ui: {fileID: 6587235461107736644}
+  playerManager: {fileID: 0}
+  playerPrefab: {fileID: 6215404349552837223, guid: db43c7ab86ae6804bbf84a4e146e3bd7, type: 3}
+--- !u!114 &6587235461107736644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6559106700118211124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6702f66510b2e949bc390e82afde596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jobPanel: {fileID: 0}
+  jobBoard: {fileID: 0}
+  jobText: {fileID: 0}
+  uiSpeed: 3
+  hpCanvas: {fileID: 0}
+  hp: 0
+  maxHp: 0
+  damage: 1
+  hpImgs: []
+  fullBullet: {fileID: 0}
+  emptyBullet: {fileID: 0}
+  attackRangeCanvas: {fileID: 0}
+  indicatorRangeCircle: {fileID: 0}
+  attackRange: 0
+  bangCanvas: {fileID: 0}
+  bangSpeechBubble: {fileID: 0}
+  bangText: {fileID: 0}

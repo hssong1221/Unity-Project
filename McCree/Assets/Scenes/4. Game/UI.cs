@@ -8,10 +8,20 @@ using Photon.Realtime;
 
 namespace com.ThreeCS.McCree
 {
-    public class UI : Controller, IPunObservable
+    public class UI : Controller
     {
         #region Variable Field
+        [Header("게임 시작 관련 UI")]
+        public GameObject jobPanel;
+        public RectTransform jobBoard;
+        public Text jobText;
 
+        public GameObject abilPanel;
+        public RectTransform abilBoard;
+        public Text abilText;
+
+        public float uiSpeed;
+        
         [Header("체력관련 UI")]
         public Canvas hpCanvas;
         public int hp;
@@ -79,9 +89,6 @@ namespace com.ThreeCS.McCree
             {
                 if (this.hp <= 0)
                     GameManager.Instance.LeaveRoom();
-
-                //this.Fire();
-                
             }
             else
                 return;
@@ -98,7 +105,7 @@ namespace com.ThreeCS.McCree
 
         #region Methods
         
-
+        
 
         #endregion
 
