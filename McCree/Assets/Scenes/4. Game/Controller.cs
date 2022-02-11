@@ -44,31 +44,6 @@ namespace com.ThreeCS.McCree
         {
 
         }
-
-        #region IPunObservable implementation
-
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            if (stream.IsWriting)
-            {
-                // We own this player: send the others our data
-                stream.SendNext(this.ui.hp);
-
-                //stream.SendNext(this.ui.bangSpeechBubble);
-                //stream.SendNext(this.ui.bangText);
-
-            }
-            else
-            {
-                // Network player, receive data
-                this.ui.hp = (int)stream.ReceiveNext();
-
-                //this.ui.bangSpeechBubble = (Image)stream.ReceiveNext();
-                //this.ui.bangText = (Text)stream.ReceiveNext();
-            }
-        }
-
-        #endregion
     }
 
 }

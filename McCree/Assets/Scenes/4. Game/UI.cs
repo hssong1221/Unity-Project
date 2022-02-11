@@ -8,10 +8,15 @@ using Photon.Realtime;
 
 namespace com.ThreeCS.McCree
 {
-    public class UI : Controller, IPunObservable
+    public class UI : Controller
     {
         #region Variable Field
-
+        [Header("게임 시작 관련 UI")]
+        public GameObject jobPanel;
+        public RectTransform jobBoard;
+        public Text jobText;
+        public float uiSpeed;
+        
         [Header("체력관련 UI")]
         public Canvas hpCanvas;
         public int hp;
@@ -57,6 +62,7 @@ namespace com.ThreeCS.McCree
 
             }
             offset = new Vector3(0, 2.0f, 0);
+
         }
 
 
@@ -71,6 +77,7 @@ namespace com.ThreeCS.McCree
             // 뱅 말풍선 UI 꺼주기
             bangSpeechBubble.GetComponent<Image>().enabled = false;
             bangText.enabled = false;
+
         }
 
         void Update()
@@ -79,9 +86,6 @@ namespace com.ThreeCS.McCree
             {
                 if (this.hp <= 0)
                     GameManager.Instance.LeaveRoom();
-
-                //this.Fire();
-                
             }
             else
                 return;
@@ -92,13 +96,15 @@ namespace com.ThreeCS.McCree
             // 머리 위 UI 위치 고정
             hpCanvas.transform.position = character.transform.position + offset;
             bangCanvas.transform.position = character.transform.position + offset;
+
+           
         }
 
         #endregion
 
         #region Methods
         
-
+        
 
         #endregion
 

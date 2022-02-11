@@ -1782,10 +1782,10 @@ GameObject:
   - component: {fileID: 6215404349552739522}
   - component: {fileID: 6215404349552739549}
   - component: {fileID: 6215404349552739551}
+  - component: {fileID: 6215404349552739547}
   - component: {fileID: 6215404349552739550}
   - component: {fileID: 6215404349552739545}
   - component: {fileID: 6215404349552739544}
-  - component: {fileID: 6215404349552739547}
   - component: {fileID: 1461397012469081908}
   - component: {fileID: 3042995828838473885}
   m_Layer: 6
@@ -1892,12 +1892,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4183951f5f89d014c84f43dea276f032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  players: []
   isAiming: 0
   isDeath: 0
+  playerType: 0
   rotateSpeedMovement: 0.1
   rotateVelocity: 0
   maxAttackDistance: 5
   agent: {fileID: 0}
+--- !u!114 &6215404349552739547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6215404349552837223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6702f66510b2e949bc390e82afde596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jobPanel: {fileID: 0}
+  jobBoard: {fileID: 0}
+  jobText: {fileID: 0}
+  uiSpeed: 0
+  hpCanvas: {fileID: 6215404348508757469}
+  hp: 4
+  maxHp: 4
+  damage: 1
+  hpImgs:
+  - {fileID: 6215404348413605809}
+  - {fileID: 6215404348933869426}
+  - {fileID: 6215404348761064822}
+  - {fileID: 6215404348394559581}
+  - {fileID: 6215404349668338428}
+  fullBullet: {fileID: 21300000, guid: 32740803292bea0458e39d44d50b8420, type: 3}
+  emptyBullet: {fileID: 21300000, guid: 0a003c57bca9b754db461994485bf055, type: 3}
+  attackRangeCanvas: {fileID: 6215404349079509539}
+  indicatorRangeCircle: {fileID: 6215404349647825285}
+  attackRange: 1
+  bangCanvas: {fileID: 6821045863214511465}
+  bangSpeechBubble: {fileID: 5490870329244101308}
+  bangText: {fileID: 3200536594376025088}
 --- !u!114 &6215404349552739550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1958,40 +1994,9 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 6215404349552739549}
   - {fileID: 6215404349552739550}
-  - {fileID: 6215404349552739547}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &6215404349552739547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6215404349552837223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6702f66510b2e949bc390e82afde596, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpCanvas: {fileID: 6215404348508757469}
-  hp: 4
-  maxHp: 4
-  damage: 1
-  hpImgs:
-  - {fileID: 6215404348413605809}
-  - {fileID: 6215404348933869426}
-  - {fileID: 6215404348761064822}
-  - {fileID: 6215404348394559581}
-  - {fileID: 6215404349668338428}
-  fullBullet: {fileID: 21300000, guid: 32740803292bea0458e39d44d50b8420, type: 3}
-  emptyBullet: {fileID: 21300000, guid: 0a003c57bca9b754db461994485bf055, type: 3}
-  attackRangeCanvas: {fileID: 6215404349079509539}
-  indicatorRangeCircle: {fileID: 6215404349647825285}
-  attackRange: 1
-  bangCanvas: {fileID: 6821045863214511465}
-  bangSpeechBubble: {fileID: 5490870329244101308}
-  bangText: {fileID: 3200536594376025088}
 --- !u!114 &1461397012469081908
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -16,9 +16,15 @@ namespace com.ThreeCS.McCree
         // 화면 상에 보이는 로컬 플레이어들
         public static GameObject LocalPlayerInstance;
 
+        public GameObject[] players;
 
         public bool isAiming;
         public bool isDeath;
+
+        // 플레이어 정보 타입
+        public enum Type { Sheriff, Vice, Outlaw, Renegade }
+        [Header("플레이어 정보")]
+        public Type playerType;
 
         [Header("이동 관련")]
         [HideInInspector]
@@ -60,6 +66,9 @@ namespace com.ThreeCS.McCree
         // float  agent.stoppingDistance 목표 위치 가까워졌을시 정지
         // bool   agent.Auto Braking 목적지에 다다를때 속도를 줄이는지
 
+        
+
+
         #endregion
 
         #region MonoBehaviour CallBacks
@@ -68,6 +77,10 @@ namespace com.ThreeCS.McCree
         {
             base.Awake();
             agent = gameObject.GetComponent<NavMeshAgent>();
+
+            //플레이어 오브젝트가 전부 담김
+            players = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log(players.Length);
 
             // 포톤뷰에 의한 내 플레이어만
             if (photonView.IsMine)
@@ -85,8 +98,10 @@ namespace com.ThreeCS.McCree
         void Start()
         {
             //SceneManager.sceneLoaded += OnSceneLoaded;
-
-            
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Job(); //플레이어 직업 분배
+            }
         }
 
         public override void OnDisable()
@@ -141,6 +156,64 @@ namespace com.ThreeCS.McCree
 
 
         #region private Methods
+
+        // 플레이어 직업 분배
+        public void Job()
+        {
+            // 인구수에 맞게 하는 거 추가하기
+            List<int> jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
+
+            jobList = ShuffleList(jobList);
+
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                players[i].GetComponent<PhotonView>().RPC("JobSelect", RpcTarget.All, jobList[i]);
+            }
+        }
+
+        // 플레이어 직업 동기화
+        [PunRPC]
+        public void JobSelect(int num)
+        {
+            Debug.Log(photonView.ViewID + " and " + num);
+            switch (num)
+            {
+                case 1:
+                    playerType = Type.Sheriff;
+                    break;
+                case 2:
+                case 3:
+                    playerType = Type.Vice;
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                    playerType = Type.Outlaw;
+                    break;
+                case 7:
+                    playerType = Type.Renegade;
+                    break;
+            }
+
+        }
+
+        // 리스트 셔플, 자바에는 그냥 있는데 씨썁에는 없다ㅋㅋ
+        private List<T> ShuffleList<T>(List<T> list)
+        {
+            int random1, random2;
+            T temp;
+
+            for (int i = 0; i < list.Count; ++i)
+            {
+                random1 = Random.Range(0, list.Count);
+                random2 = Random.Range(0, list.Count);
+
+                temp = list[random1];
+                list[random1] = list[random2];
+                list[random2] = temp;
+            }
+            return list;
+        }
 
         // 뱅 준비 (공격 사거리 표시)
         void AttackRange()
