@@ -48,8 +48,12 @@ namespace com.ThreeCS.McCree
                 // 뱅 범위 사거리안에 적이 들어와 있을때
                 else
                 {
-                    targetedEnemy.GetComponentInParent<PhotonView>().RPC("Damaged", RpcTarget.All);
+                    // 적 한테 데미지
+                    targetedEnemy.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All);
                     targetedEnemy = null;
+
+                    // Bang 말풍선 띄우기
+                    photonView.RPC("TurnOnBangBubble", RpcTarget.All);
                 }
             }
         }
@@ -57,9 +61,6 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         void Damaged()
         {
-            this.ui.bangSpeechBubble.GetComponent<Image>().enabled = true;
-            this.ui.bangText.enabled = true;
-
             Image tempImg = ui.hpImgs[ui.hp - 1].GetComponent<Image>();
             tempImg.sprite = ui.emptyBullet;
             this.ui.hp -= ui.damage;
@@ -70,16 +71,19 @@ namespace com.ThreeCS.McCree
             //    animator.SetBool("isDeath", playerManager.isDeath);
             //}
 
-            Invoke("TurnOffSpeechBubble", 2.0f);
-            Debug.Log("hp: " + ui.hp);
         }
 
         [PunRPC]
-        void TurnOffSpeechBubble()
+        void TurnOnBangBubble()
         {
+            ui.bangGifImg.GetComponent<Image>().enabled = true;
+            ui.bangGifImg.GetComponent<Animator>().Play("BangAnim", -1, 0f);
+            Invoke("TurnOffBangBubble", 2.0f);
+        }
 
-            this.ui.bangSpeechBubble.GetComponent<Image>().enabled = false;
-            this.ui.bangText.enabled = false;
+        void TurnOffBangBubble()
+        {
+            ui.bangGifImg.GetComponent<Image>().enabled = false;
         }
     }
 }

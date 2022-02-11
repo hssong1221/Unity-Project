@@ -33,10 +33,10 @@ namespace com.ThreeCS.McCree
 
         [Header("Bang! 말풍선 관련 UI")]
         public Canvas bangCanvas;         // 뱅 말풍선 캔버스
-        public Image bangSpeechBubble;    // 뱅 말풍선 이미지
-        public Text bangText;             // 뱅 말풍선 텍스트
+        public Image bangGifImg;          // 뱅 말풍선 gif 이미지
 
-        Vector3 offset;
+        Vector3 hpOffset;
+        Vector3 bangOffset;
 
 
         #endregion
@@ -56,7 +56,8 @@ namespace com.ThreeCS.McCree
                     hpImgs[i].SetActive(false);
 
             }
-            offset = new Vector3(0, 2.0f, 0);
+            hpOffset = new Vector3(0, 2.0f, 0);
+            bangOffset = new Vector3(0, 3.0f, 0);
         }
 
 
@@ -69,9 +70,8 @@ namespace com.ThreeCS.McCree
             // 공격범위 UI 꺼주기
             indicatorRangeCircle.GetComponent<Image>().enabled = false;
             // 뱅 말풍선 UI 꺼주기
-            bangSpeechBubble.GetComponent<Image>().enabled = false;
-            bangText.enabled = false;
-        }
+            bangGifImg.GetComponent<Image>().enabled = false;
+    }
 
         void Update()
         {
@@ -90,8 +90,8 @@ namespace com.ThreeCS.McCree
             hpCanvas.transform.LookAt(hpCanvas.transform.position + Camera.main.transform.forward);
             bangCanvas.transform.LookAt(bangCanvas.transform.position + Camera.main.transform.forward);
             // 머리 위 UI 위치 고정
-            hpCanvas.transform.position = character.transform.position + offset;
-            bangCanvas.transform.position = character.transform.position + offset;
+            hpCanvas.transform.position = character.transform.position + hpOffset;
+            bangCanvas.transform.position = character.transform.position + bangOffset;
         }
 
         #endregion
