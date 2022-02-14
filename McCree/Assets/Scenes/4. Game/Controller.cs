@@ -11,7 +11,7 @@ namespace com.ThreeCS.McCree
     public class Controller : MonoBehaviourPunCallbacks
     {
         protected GameObject character; // Character객체 (상속가능) 
-        protected Transform rootPos;
+        //protected Transform rootPos;
         protected Animator animator;
 
         protected Controller controller;
@@ -23,7 +23,7 @@ namespace com.ThreeCS.McCree
         protected void Awake()
         {
             character = GameObject.FindWithTag("Player");
-            rootPos = character.transform.Find("Root");
+            //rootPos = character.transform.Find("Root");
 
             controller = GetComponent<Controller>();
             playerManager = GetComponent<PlayerManager>();
