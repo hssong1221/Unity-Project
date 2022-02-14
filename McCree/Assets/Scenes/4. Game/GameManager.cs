@@ -18,8 +18,29 @@ namespace com.ThreeCS.McCree
         // 어디서든 사용 가능
         static public GameManager Instance;
 
-        public UI ui;
         public PlayerManager playerManager;
+
+        [Header("직업 관련 UI")]
+        public GameObject jobPanel;
+        public RectTransform jobBoard;
+        public Text jobText;
+        public Image jobImage;
+        private Animator jobUIAnimator;
+
+
+
+        [Header("고유 능력 관련 UI")]
+        public GameObject abilPanel;
+        public RectTransform abilBoard;
+        public Text abilText;
+        public float uiSpeed;  // UI 넘어가는 속도
+
+        [Header("직업 일러스트")]
+        public Sprite sheriff;  // 보안관 일러스트
+        public Sprite aide;     // 부관   일러스트
+        public Sprite outlaw;   // 무법자 일러스트
+        public Sprite traitor;  // 배신자 일러스트
+        
 
         #endregion
 
@@ -39,7 +60,7 @@ namespace com.ThreeCS.McCree
             // 어디서든 쓸 수 있게 인스턴스화
             Instance = this;
 
-            ui = GetComponent<UI>();
+            jobUIAnimator = jobPanel.GetComponent<Animator>();
 
             // 접속 못하면 초기화면으로 쫓아냄
             if (!PhotonNetwork.IsConnected)
@@ -106,69 +127,76 @@ namespace com.ThreeCS.McCree
         {
             // 플레이어가 생성되고 그 안에 있는 플레이어 매니저를 가져와야함, 그 안에 정보들이 있음
             playerManager = GameObject.FindWithTag("Player").GetComponent<PlayerManager>();
+            //ui = GameObject.FindWithTag("Player").GetComponent<UI>();
+
+            Debug.Log(playerManager);
+            //Debug.Log(ui);
 
             yield return new WaitForEndOfFrame();
-            
-            float t = 0;
-            while (t < ui.uiSpeed)
-            {
-                t += 1 * Time.deltaTime;
-                ui.jobBoard.anchoredPosition = Vector3.Lerp(Vector3.up * 1000, Vector3.zero, t);
-                Debug.Log("--------직업 텍스트 출력--------");
 
-                // 플레이어 타입에 맞는 대사 출력
-                ui.jobText.text = JobText();
+            jobText.text = JobText();
+            jobUIAnimator.SetTrigger("Start");
 
-                yield return null;
-            }
+            //float t = 0;
+            //while (t < uiSpeed)
+            //{
+            //    t += 1 * Time.deltaTime;
+            //    jobBoard.anchoredPosition = Vector3.Lerp(Vector3.up * 1000, Vector3.zero, t);
+            //    Debug.Log("--------직업 텍스트 출력--------");
 
-            // 직업 설명이 내려오고 나서 읽을 시간을 줘야함
-            yield return new WaitForSeconds(5f);
+            //    // 플레이어 타입에 맞는 대사 출력
 
 
-            t = 0;
-            while (t < ui.uiSpeed)
-            {
-                t += 1 * Time.deltaTime;
-                ui.jobBoard.anchoredPosition = Vector3.Lerp(Vector3.zero, Vector3.down * 1000, t);
-                yield return null;
-            }
+            //    yield return null;
+            //}
 
-            yield return new WaitForSeconds(1f);
-
-            //-------------------------------------------------------------------
-
-            t = 0;
-            while (t < ui.uiSpeed)
-            {
-                t += 1 * Time.deltaTime;
-                ui.abilBoard.anchoredPosition = Vector3.Lerp(Vector3.up * 1000, Vector3.zero, t);
-                Debug.Log("--------능력 텍스트 출력--------");
-
-                // 플레이어 타입에 맞는 대사 출력
-                ui.abilText.text = AblityText();
-
-                yield return null;
-            }
-
-            // 능력 설명이 내려오고 나서 읽을 시간을 줘야함
-            yield return new WaitForSeconds(5f);
-
-            t = 0;
-            while (t < ui.uiSpeed)
-            {
-                t += 1 * Time.deltaTime;
-                ui.abilBoard.anchoredPosition = Vector3.Lerp(Vector3.zero, Vector3.down * 1000, t);
-                yield return null;
-            }
+            //// 직업 설명이 내려오고 나서 읽을 시간을 줘야함
+            //yield return new WaitForSeconds(5f);
 
 
-            yield return new WaitForSeconds(1f);
+            //t = 0;
+            //while (t < uiSpeed)
+            //{
+            //    t += 1 * Time.deltaTime;
+            //    jobBoard.anchoredPosition = Vector3.Lerp(Vector3.zero, Vector3.down * 1000, t);
+            //    yield return null;
+            //}
 
-            ui.jobPanel.SetActive(false);
-            ui.abilPanel.SetActive(false);
+            //yield return new WaitForSeconds(1f);
 
-            
+            ////-------------------------------------------------------------------
+
+            //t = 0;
+            //while (t < uiSpeed)
+            //{
+            //    t += 1 * Time.deltaTime;
+            //    abilBoard.anchoredPosition = Vector3.Lerp(Vector3.up * 1000, Vector3.zero, t);
+            //    Debug.Log("--------능력 텍스트 출력--------");
+
+            //    // 플레이어 타입에 맞는 대사 출력
+            //    abilText.text = AblityText();
+
+            //    yield return null;
+            //}
+
+            //// 능력 설명이 내려오고 나서 읽을 시간을 줘야함
+            //yield return new WaitForSeconds(5f);
+
+            //t = 0;
+            //while (t < uiSpeed)
+            //{
+            //    t += 1 * Time.deltaTime;
+            //    abilBoard.anchoredPosition = Vector3.Lerp(Vector3.zero, Vector3.down * 1000, t);
+            //    yield return null;
+            //}
+
+
+            //yield return new WaitForSeconds(1f);
+
+            //jobPanel.SetActive(false);
+            //abilPanel.SetActive(false);
+
+
         }
 
         // 직업 관련 텍스트
@@ -181,18 +209,22 @@ namespace com.ThreeCS.McCree
                 case PlayerManager.jType.Sheriff:
                     Debug.Log("당신은 보안관입니다.");
                     temp = "보안관 입니다. 부관을 찾고 무법자를 전부 제거하십시오.";
+                    jobImage.sprite = sheriff;
                     break;
                 case PlayerManager.jType.Vice:
                     Debug.Log("당신은 부관입니다.");
                     temp = "부관 입니다. 보안관을 도와 무법자를 전부 제거하십시오.";
+                    jobImage.sprite = aide;
                     break;
                 case PlayerManager.jType.Outlaw:
                     Debug.Log("당신은 무법자입니다.");
                     temp = "무법자 입니다. 다른 무법자와 함께 보안관을 살해하십시오.";
+                    jobImage.sprite = outlaw;
                     break;
                 case PlayerManager.jType.Renegade:
                     Debug.Log("당신은 배신자입니다.");
                     temp = "배신자 입니다. 당신은 보안관에겐 부관처럼 무법자에겐 친구처럼 보이십시오. 하지만 마지막에 살아남는건 당신 혼자이어야합니다.";
+                    jobImage.sprite = traitor;
                     break;
             }
 

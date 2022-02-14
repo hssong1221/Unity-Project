@@ -33,7 +33,8 @@ namespace com.ThreeCS.McCree
 
         void Update()
         {
-            chatClient.Service();
+            if (chatClient != null)
+                chatClient.Service();
             if (Input.GetKeyDown(KeyCode.Return) && sendBtn != null)
             {
                 Send_Chat();

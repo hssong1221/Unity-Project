@@ -1995,13 +1995,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6702f66510b2e949bc390e82afde596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jobPanel: {fileID: 0}
-  jobBoard: {fileID: 0}
-  jobText: {fileID: 0}
-  abilPanel: {fileID: 0}
-  abilBoard: {fileID: 0}
-  abilText: {fileID: 0}
-  uiSpeed: 0
   hpCanvas: {fileID: 6215404348508757469}
   hp: 4
   maxHp: 4
