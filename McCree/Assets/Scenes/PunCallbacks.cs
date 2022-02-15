@@ -40,8 +40,8 @@ namespace com.ThreeCS.McCree
         public override void OnConnectedToMaster()
         {
             Debug.Log("서버 연결 성공");
-            statusText.text = "서버에 연결 성공!";
-            statusUI.SetActive(false);
+            LoadingUI.msg_Text.text = "서버와 연결 성공!";
+            LoadingUI.msg_Text.text = "로비에 접속 중...";
             PhotonNetwork.JoinLobby();
         }
 
@@ -49,8 +49,8 @@ namespace com.ThreeCS.McCree
         public override void OnDisconnected(DisconnectCause cause)
         {
             Debug.Log("Connecting failed!! Trying re-connect..");
-            statusText.text = "서버와 연결 실패, 접속 재시도 중...";
-            statusUI.SetActive(true);
+            LoadingUI.msg_Text.text = "서버와 연결 실패, 접속 재시도 중...";
+            LoadingUI.msg_Canvas.SetActive(true);
             // 설정한 정보로 마스터 서버 접속 시도
             PhotonNetwork.ConnectUsingSettings();
         }
@@ -58,10 +58,9 @@ namespace com.ThreeCS.McCree
         // 로비에 참가했한 후에 실행 (룸에서 나왓을 때도 실행)
         public override void OnJoinedLobby()
         {
-            base.OnJoinedLobby();
+            //base.OnJoinedLobby();
             Debug.Log("로비 참가 성공");
-            statusText.text = "로비 접속 성공";
-            statusUI.SetActive(false);
+            LoadingUI.msg_Text.text = "로비와 연결 성공!";
             SceneManager.LoadScene("Lobby");
         }
 
@@ -70,8 +69,8 @@ namespace com.ThreeCS.McCree
         {
             base.OnLeftLobby();
             Debug.Log("로비 떠나기 성공");
-            statusText.text = "로비 떠나기 성공";
-            statusUI.SetActive(false);
+            LoadingUI.msg_Text.text = "로비 떠나기 성공";
+            LoadingUI.msg_Canvas.SetActive(false);
         }
 
         // 방에 접속 한 후에 실행
@@ -79,8 +78,8 @@ namespace com.ThreeCS.McCree
         {
             base.OnJoinedRoom();
             Debug.Log("방 참가 성공");
-            statusText.text = "방 참가 성공";
-            statusUI.SetActive(false);
+            LoadingUI.msg_Text.text = "방 참가 성공";
+            LoadingUI.msg_Canvas.SetActive(false);
 
             PunChat.behave = "EnterRoom";
             PunChat.chatClient.Subscribe(new string[] { PhotonNetwork.CurrentRoom.Name }, 10);
@@ -92,8 +91,8 @@ namespace com.ThreeCS.McCree
         {
             base.OnLeftRoom();
             Debug.Log("방 나가기 성공");
-            statusText.text = "방 나가기 성공";
-            statusUI.SetActive(false);
+            LoadingUI.msg_Text.text = "방 나가기 성공";
+            LoadingUI.msg_Canvas.SetActive(false);
             // 저절로 OnConnectedToMaster 실행한다.
         }
 
@@ -102,8 +101,8 @@ namespace com.ThreeCS.McCree
         {
             base.OnCreatedRoom();
             Debug.Log("방 만들기 성공");
-            statusText.text = "방 생성 성공";
-            statusUI.SetActive(false);
+            LoadingUI.msg_Text.text = "방 생성 성공";
+            LoadingUI.msg_Canvas.SetActive(false);
             //SceneManager.LoadScene("Room");
         }
 
