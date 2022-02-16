@@ -23,8 +23,10 @@ namespace com.ThreeCS.McCree
         [Header("직업 관련 UI")]
         public GameObject jobPanel;
         public RectTransform jobBoard;
-        //public Text jobText;
-        //public Image jobImage;
+        public Text jobText;
+        public Image jobImage1;         // 직업마다 이미지가 다르게 할 것
+        public Image jobImage2;
+        public Image jobImage3;
         private Animator jobUIAnimator;
 
 
@@ -36,10 +38,21 @@ namespace com.ThreeCS.McCree
         public float uiSpeed;  // UI 넘어가는 속도
 
         [Header("직업 일러스트")]
-        public Sprite sheriff;  // 보안관 일러스트
-        public Sprite aide;     // 부관   일러스트
-        public Sprite outlaw;   // 무법자 일러스트
-        public Sprite traitor;  // 배신자 일러스트
+        public Sprite sheriff1;  // 보안관 일러스트
+        public Sprite sheriff2;  
+        public Sprite sheriff3;  
+
+        public Sprite deputy1;     // 부관   일러스트
+        public Sprite deputy2;     
+        public Sprite deputy3;     
+
+        public Sprite outlaw1;   // 무법자 일러스트
+        public Sprite outlaw2;   
+        public Sprite outlaw3;   
+
+        public Sprite renegade1;  // 배신자 일러스트
+        public Sprite renegade2;  
+        public Sprite renegade3;  
         
 
         #endregion
@@ -131,10 +144,8 @@ namespace com.ThreeCS.McCree
 
             yield return new WaitForEndOfFrame();
 
-            //jobText.text = JobText();
-            jobUIAnimator.SetTrigger("Start");
-
-            
+            jobText.text = JobText();
+            yield return new WaitForSeconds(6f);
 
             //float t = 0;
             //while (t < uiSpeed)
@@ -192,7 +203,7 @@ namespace com.ThreeCS.McCree
 
             //yield return new WaitForSeconds(1f);
 
-            //jobPanel.SetActive(false);
+            jobPanel.SetActive(false);
             //abilPanel.SetActive(false);
 
 
@@ -207,23 +218,35 @@ namespace com.ThreeCS.McCree
             {
                 case PlayerManager.jType.Sheriff:
                     Debug.Log("당신은 보안관입니다.");
+                    jobUIAnimator.SetTrigger("Sheriff");
                     temp = "보안관 입니다. 부관을 찾고 무법자를 전부 제거하십시오.";
-                    //jobImage.sprite = sheriff;
+                    jobImage1.sprite = sheriff1;
+                    jobImage2.sprite = sheriff2;
+                    jobImage3.sprite = sheriff3;
                     break;
                 case PlayerManager.jType.Vice:
                     Debug.Log("당신은 부관입니다.");
+                    jobUIAnimator.SetTrigger("Deputy");
                     temp = "부관 입니다. 보안관을 도와 무법자를 전부 제거하십시오.";
-                    //jobImage.sprite = aide;
+                    jobImage1.sprite = deputy1;
+                    jobImage2.sprite = deputy2;
+                    jobImage3.sprite = deputy3;
                     break;
                 case PlayerManager.jType.Outlaw:
                     Debug.Log("당신은 무법자입니다.");
+                    jobUIAnimator.SetTrigger("Outlaw");
                     temp = "무법자 입니다. 다른 무법자와 함께 보안관을 살해하십시오.";
-                    //jobImage.sprite = outlaw;
+                    jobImage1.sprite = outlaw1;
+                    jobImage2.sprite = outlaw2;
+                    jobImage3.sprite = outlaw3;
                     break;
                 case PlayerManager.jType.Renegade:
                     Debug.Log("당신은 배신자입니다.");
+                    jobUIAnimator.SetTrigger("Renegade");
                     temp = "배신자 입니다. 당신은 보안관에겐 부관처럼 무법자에겐 친구처럼 보이십시오. 하지만 마지막에 살아남는건 당신 혼자이어야합니다.";
-                    //jobImage.sprite = traitor;
+                    jobImage1.sprite = renegade1;
+                    jobImage2.sprite = renegade2;
+                    jobImage3.sprite = renegade3;
                     break;
             }
 
