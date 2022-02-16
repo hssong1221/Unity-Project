@@ -28,14 +28,14 @@ namespace com.ThreeCS.McCree
         public Image jobImage2;
         public Image jobImage3;
         private Animator jobUIAnimator;
-
+        private Animator abilUIAnimator;
 
 
         [Header("고유 능력 관련 UI")]
         public GameObject abilPanel;
-        public RectTransform abilBoard;
+        public Image abilImage;
         public Text abilText;
-        public float uiSpeed;  // UI 넘어가는 속도
+
 
         [Header("직업 일러스트")]
         public Sprite sheriff1;  // 보안관 일러스트
@@ -52,8 +52,14 @@ namespace com.ThreeCS.McCree
 
         public Sprite renegade1;  // 배신자 일러스트
         public Sprite renegade2;  
-        public Sprite renegade3;  
-        
+        public Sprite renegade3;
+
+        [Header("어빌 일러스트")]
+        public Sprite sheriff4;  // 능력 나올 때의 직업 일러
+        public Sprite deputy4;
+        public Sprite outlaw4;
+        public Sprite renegade4;
+
 
         #endregion
 
@@ -74,6 +80,7 @@ namespace com.ThreeCS.McCree
             Instance = this;
 
             jobUIAnimator = jobPanel.GetComponent<Animator>();
+            abilUIAnimator = abilPanel.GetComponent<Animator>();
 
             // 접속 못하면 초기화면으로 쫓아냄
             if (!PhotonNetwork.IsConnected)
@@ -141,72 +148,25 @@ namespace com.ThreeCS.McCree
             Debug.Log("게임 ui 시작!!");
             // 플레이어가 생성되고 그 안에 있는 플레이어 매니저를 가져와야함, 그 안에 정보들이 있음
             playerManager = GameObject.FindWithTag("Player").GetComponent<PlayerManager>();
-
+            jobPanel.SetActive(true);
             yield return new WaitForEndOfFrame();
 
+            // 직업 선택 텍스트랑 애니메이션 재생
             jobText.text = JobText();
             yield return new WaitForSeconds(6f);
 
-            //float t = 0;
-            //while (t < uiSpeed)
-            //{
-            //    t += 1 * Time.deltaTime;
-            //    jobBoard.anchoredPosition = Vector3.Lerp(Vector3.up * 1000, Vector3.zero, t);
-            //    Debug.Log("--------직업 텍스트 출력--------");
-
-            //    // 플레이어 타입에 맞는 대사 출력
-
-
-            //    yield return null;
-            //}
-
-            //// 직업 설명이 내려오고 나서 읽을 시간을 줘야함
-            //yield return new WaitForSeconds(5f);
-
-
-            //t = 0;
-            //while (t < uiSpeed)
-            //{
-            //    t += 1 * Time.deltaTime;
-            //    jobBoard.anchoredPosition = Vector3.Lerp(Vector3.zero, Vector3.down * 1000, t);
-            //    yield return null;
-            //}
-
-            //yield return new WaitForSeconds(1f);
-
-            ////-------------------------------------------------------------------
-
-            //t = 0;
-            //while (t < uiSpeed)
-            //{
-            //    t += 1 * Time.deltaTime;
-            //    abilBoard.anchoredPosition = Vector3.Lerp(Vector3.up * 1000, Vector3.zero, t);
-            //    Debug.Log("--------능력 텍스트 출력--------");
-
-            //    // 플레이어 타입에 맞는 대사 출력
-            //    abilText.text = AblityText();
-
-            //    yield return null;
-            //}
-
-            //// 능력 설명이 내려오고 나서 읽을 시간을 줘야함
-            //yield return new WaitForSeconds(5f);
-
-            //t = 0;
-            //while (t < uiSpeed)
-            //{
-            //    t += 1 * Time.deltaTime;
-            //    abilBoard.anchoredPosition = Vector3.Lerp(Vector3.zero, Vector3.down * 1000, t);
-            //    yield return null;
-            //}
-
-
-            //yield return new WaitForSeconds(1f);
-
             jobPanel.SetActive(false);
-            //abilPanel.SetActive(false);
 
+            abilPanel.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
+            abilUIAnimator.SetTrigger("Abil");
+            abilText.text += AblityText();
+            abilText.text += "\n3. 당신의 능력을 잘 활용하십시오";
+            
 
+            yield return new WaitForSeconds(12f);
+
+            abilPanel.SetActive(false);
         }
 
         // 직업 관련 텍스트
@@ -216,37 +176,56 @@ namespace com.ThreeCS.McCree
             Debug.Log(playerManager.playerType);
             switch (playerManager.playerType)
             {
+                // 플레이어 타입마다 다른 그림 부여 (애니메이션도 다 다르게 하려 햇는데 일단 하나로 함)
                 case PlayerManager.jType.Sheriff:
                     Debug.Log("당신은 보안관입니다.");
                     jobUIAnimator.SetTrigger("Sheriff");
-                    temp = "보안관 입니다. 부관을 찾고 무법자를 전부 제거하십시오.";
+                    temp = "SHERIFF\n보 안 관.";
+                    
+                    // 직업 이미지 3장 
                     jobImage1.sprite = sheriff1;
                     jobImage2.sprite = sheriff2;
                     jobImage3.sprite = sheriff3;
+
+                    // 능력 이미지랑 텍스트
+                    abilImage.sprite = sheriff4;
+                    abilText.text = "1. 부관을 찾고 무법자를 모두 사살하십시오.\n";
                     break;
                 case PlayerManager.jType.Vice:
                     Debug.Log("당신은 부관입니다.");
                     jobUIAnimator.SetTrigger("Deputy");
-                    temp = "부관 입니다. 보안관을 도와 무법자를 전부 제거하십시오.";
+                    temp = "DEPUTY\n 부  관";
+                    
                     jobImage1.sprite = deputy1;
                     jobImage2.sprite = deputy2;
                     jobImage3.sprite = deputy3;
+
+                    abilImage.sprite = deputy4;
+                    abilText.text = "1. 보안관을 도와 무법자를 모두 사살하십시오.\n";
                     break;
                 case PlayerManager.jType.Outlaw:
                     Debug.Log("당신은 무법자입니다.");
                     jobUIAnimator.SetTrigger("Outlaw");
-                    temp = "무법자 입니다. 다른 무법자와 함께 보안관을 살해하십시오.";
+                    temp = "OUTLAW\n무 법 자";
+
                     jobImage1.sprite = outlaw1;
                     jobImage2.sprite = outlaw2;
                     jobImage3.sprite = outlaw3;
+
+                    abilImage.sprite = outlaw4;
+                    abilText.text = "1. 무법자들과 함께 보안관을 사살하십시오.\n";
                     break;
                 case PlayerManager.jType.Renegade:
                     Debug.Log("당신은 배신자입니다.");
                     jobUIAnimator.SetTrigger("Renegade");
-                    temp = "배신자 입니다. 당신은 보안관에겐 부관처럼 무법자에겐 친구처럼 보이십시오. 하지만 마지막에 살아남는건 당신 혼자이어야합니다.";
+                    temp = "RENEGADE\n배 신 자";
+
                     jobImage1.sprite = renegade1;
                     jobImage2.sprite = renegade2;
                     jobImage3.sprite = renegade3;
+
+                    abilImage.sprite = renegade4;
+                    abilText.text = "1. 보안관에겐 부관처럼 무법자에겐 친구처럼 보이십시오. 하지만 마지막에 남는 사람은 당신 혼자여야 합니다.\n";
                     break;
             }
 
@@ -256,30 +235,33 @@ namespace com.ThreeCS.McCree
         // 능력 관련 텍스트
         public string AblityText()
         {
+            // 능력 UI 애니메이션 
+            
+
             string temp = "";
             Debug.Log(playerManager.abilityType);
             switch (playerManager.abilityType)
             {
                 case PlayerManager.aType.BangMissed:
-                    temp = "뱅과 빗나감이 같은 능력이 됩니다.";
+                    temp = "2. 뱅과 빗나감이 같은 능력이 됩니다.";
                     break;
                 case PlayerManager.aType.DrinkBottle:
-                    temp = "당신옆에 항상 술통이 있습니다.";
+                    temp = "2. 당신옆에 항상 술통이 있습니다.";
                     break;
                 case PlayerManager.aType.HumanVolcanic:
-                    temp = "뱅을 마구 쏠 수 있습니다.";
+                    temp = "2. 뱅을 마구 쏠 수 있습니다.";
                     break;
                 case PlayerManager.aType.OnehpOnecard:
-                    temp = "체력이 달았다면 카드를 얻습니다.";
+                    temp = "2. 체력이 달았다면 카드를 얻습니다.";
                     break;
                 case PlayerManager.aType.ThreeCard:
-                    temp = "카드를 뽑을 때 3장을 보고 2장을 가져옵니다.";
+                    temp = "2. 카드를 뽑을 때 3장을 보고 2장을 가져옵니다.";
                     break;
                 case PlayerManager.aType.TwocardOnecard:
-                    temp = "카드 펼치기를 할 때 2장을 뽑고 한장을 선택할 수 있습니다.";
+                    temp = "2. 카드 펼치기를 할 때 2장을 뽑고 한장을 선택할 수 있습니다.";
                     break;
                 case PlayerManager.aType.TwocardOnehp:
-                    temp = "카드 2장을 버리고 체력을 얻습니다.";
+                    temp = "2. 카드 2장을 버리고 체력을 얻습니다.";
                     break;
             }
 
