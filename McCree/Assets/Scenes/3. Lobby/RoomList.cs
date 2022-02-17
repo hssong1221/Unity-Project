@@ -52,8 +52,9 @@ namespace com.ThreeCS.McCree
         {
             string roomName = this.myRoomInfo.Name;
             PhotonNetwork.JoinRoom(roomName);
-            PunCallbacks.statusText.text = "방 입장 중...";
-            PunCallbacks.statusUI.SetActive(true);
+            LoadingUI.msg_Text.text = "방 입장 중...";
+            //LoadingUI.close_Btn.gameObject.SetActive(false);
+            LoadingUI.msg_Canvas.SetActive(true);
         }
         #endregion
     }

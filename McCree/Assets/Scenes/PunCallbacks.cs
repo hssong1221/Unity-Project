@@ -34,8 +34,6 @@ namespace com.ThreeCS.McCree
             DontDestroyOnLoad(this.gameObject);
         }
 
-
-
         // 마스터 서버와 연결 시 작동
         public override void OnConnectedToMaster()
         {

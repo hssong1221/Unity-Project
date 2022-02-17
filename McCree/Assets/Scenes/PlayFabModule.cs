@@ -44,7 +44,7 @@ namespace com.ThreeCS.McCree
 
         public void GetAccountSuccess(GetAccountInfoResult result)
         {
-            Debug.Log("성공적으로 데이터를 받아옴"); // 왜 로그가 출력이 안됨?
+            Debug.Log("성공적으로 데이터를 받아옴"); 
             player_ID = result.AccountInfo.Username;
             player_NickName = result.AccountInfo.TitleInfo.DisplayName;
             player_FabID = result.AccountInfo.PlayFabId;

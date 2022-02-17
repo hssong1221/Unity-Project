@@ -77,6 +77,7 @@ namespace com.ThreeCS.McCree
         #endregion
 
 
+
         #region 룸에 관련된 사항이 바뀔때 호출되는 함수 
 
 
