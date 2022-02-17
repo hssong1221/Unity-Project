@@ -47,7 +47,7 @@ namespace com.ThreeCS.McCree
             chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat,
                 "1.0", new Photon.Chat.AuthenticationValues(PhotonNetwork.LocalPlayer.NickName));
             PhotonNetwork.IsMessageQueueRunning = true;
-            PunCallbacks.statusText.text = "서버에 접속 중...";
+            LoadingUI.msg_Text.text = "채팅 서버에 접속 중...";
             enabled = true;
             behave = "InitialConnecting";
         }
@@ -63,32 +63,50 @@ namespace com.ThreeCS.McCree
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            Debug.Log("씬 교체됨, 현재 씬: " + scene.name);
-            // 씬 교체될때 채팅 창에 관련된 오브젝트 다시 지정
-            // chatLog - 대화창
-            // sendBtn - 전송 버튼
-            // chatInput - 대화 인풋 필드
-            // scr - 챗 scrollReact
-            var tempchatLog = GameObject.Find("ChatLog");
-            if (tempchatLog != null)
-                chatLog = tempchatLog.GetComponent<UIText>();
-
-            var tempsendBtn = GameObject.Find("sendBtn");
-            if (tempsendBtn != null)
+            if (scene.name == "Register" || scene.name == "Login")
             {
-                sendBtn = tempsendBtn.GetComponent<Button>();
-                sendBtn.onClick.AddListener(Send_Chat);
+                LoadingUI.msg_Canvas.SetActive(false);
+                LoadingUI.close_Btn.gameObject.SetActive(true);
+            }
+            else if (scene.name == "Lobby" || scene.name == "Room")
+            {
+                LoadingUI.msg_Canvas.SetActive(false);
+                LoadingUI.close_Btn.gameObject.SetActive(false);
+
+                Debug.Log("씬 교체됨, 현재 씬: " + scene.name);
+                // 씬 교체될때 채팅 창에 관련된 오브젝트 다시 지정
+                // chatLog - 대화창
+                // sendBtn - 전송 버튼
+                // chatInput - 대화 인풋 필드
+                // scr - 챗 scrollReact
+                var tempchatLog = GameObject.Find("ChatLog");
+                if (tempchatLog != null)
+                    chatLog = tempchatLog.GetComponent<UIText>();
+
+                var tempsendBtn = GameObject.Find("sendBtn");
+                if (tempsendBtn != null)
+                {
+                    sendBtn = tempsendBtn.GetComponent<Button>();
+                    sendBtn.onClick.AddListener(Send_Chat);
+                }
+
+                var tempchatInput = GameObject.Find("chatInputField");
+                if (tempchatInput != null)
+                    chatInput = tempchatInput.GetComponent<InputField>();
+
+                var tempsrc = GameObject.Find("ChatScroll");
+                if (tempsrc != null)
+                    scr = tempsrc.GetComponent<ScrollRect>();
+
+                chatList = new List<string>();
+            }
+            else if (scene.name == "Game")
+            {
+                LoadingUI.msg_Canvas.SetActive(false);
             }
 
-            var tempchatInput = GameObject.Find("chatInputField");
-            if (tempchatInput != null)
-                chatInput = tempchatInput.GetComponent<InputField>();
 
-            var tempsrc = GameObject.Find("ChatScroll");
-            if (tempsrc != null)
-                scr = tempsrc.GetComponent<ScrollRect>();
-
-            chatList = new List<string>();
+            
         }
 
 
@@ -139,7 +157,8 @@ namespace com.ThreeCS.McCree
 
         public void OnConnected()
         {
-            Debug.Log("포톤 채팅 연결 완료");
+            LoadingUI.msg_Text.text = "채팅 서버 연결 성공!";
+            //Debug.Log("포톤 채팅 연결 완료");
             chatClient.Subscribe(new string[] { lobbyName }, 10);
         }
 
@@ -182,7 +201,7 @@ namespace com.ThreeCS.McCree
 
             if (behave == "EnterRoom") // 방에 입장하였을때
             {
-                PunCallbacks.statusUI.SetActive(false);
+                LoadingUI.msg_Canvas.SetActive(false);
                 SceneManager.LoadScene("Room");
                 string msgs = string.Format("​<color=navy>[{0}]님이 입장하셨습니다.</color>", PhotonNetwork.LocalPlayer.NickName);
                 chatClient.PublishMessage(PhotonNetwork.CurrentRoom.Name, msgs);
@@ -190,6 +209,7 @@ namespace com.ThreeCS.McCree
 
             else if (behave == "InitialConnecting") // 최초 연결할때
             {
+                LoadingUI.msg_Text.text = "로비 채팅에 접속 중...";
                 PhotonNetwork.ConnectUsingSettings();
             }
             //throw new System.NotImplementedException();

@@ -6,15 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/1. Launcher/Launcher.unity
+    path: Assets/Scenes/0. Launcher/Launcher.unity
+    guid: 4fd4ad7aeeb110145962dfda260ccc5c
+  - enabled: 1
+    path: Assets/Scenes/1. Login/Login.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/2. Lobby/Lobby.unity
+    path: Assets/Scenes/2. Register/Register.unity
+    guid: 65043447b65c82a47a0d56ba8d7569a7
+  - enabled: 1
+    path: Assets/Scenes/3. Lobby/Lobby.unity
     guid: ddd8c699f02a12741a1ba9ffa8497c97
   - enabled: 1
-    path: Assets/Scenes/3. Room/Room.unity
+    path: Assets/Scenes/4. Room/Room.unity
     guid: 9dabc0299df5217479d3ba73075d9fda
   - enabled: 1
-    path: Assets/Scenes/4. Game/Game.unity
+    path: Assets/Scenes/5. Game/Game.unity
     guid: 10d983182dd5c9c499f7aa2c95fbf421
   m_configObjects: {}
