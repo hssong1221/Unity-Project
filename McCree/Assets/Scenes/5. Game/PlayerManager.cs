@@ -23,7 +23,7 @@ namespace com.ThreeCS.McCree
 
         // 플레이어 정보 타입
         public enum jType { Sheriff, Vice, Outlaw, Renegade } // 직업 타입
-        public enum aType { HumanVolcanic, BangMissed, ThreeCard, OnehpOnecard, TwocardOnehp,  TwocardOnecard, DrinkBottle }
+        public enum aType { HumanVolcanic, BangMissed, ThreeCard, OnehpOnecard, TwocardOnehp,  TwocardOnecard, DrinkBottle } //능력 타입
         [Header("플레이어 정보")]
         public jType playerType;
         public aType abilityType;
@@ -80,10 +80,6 @@ namespace com.ThreeCS.McCree
             base.Awake();
             agent = gameObject.GetComponent<NavMeshAgent>();
 
-            //플레이어 오브젝트가 전부 담김
-            players = GameObject.FindGameObjectsWithTag("Player");
-            Debug.Log(players.Length);
-
             // 포톤뷰에 의한 내 플레이어만
             if (photonView.IsMine)
             {
@@ -101,11 +97,19 @@ namespace com.ThreeCS.McCree
         {
             //SceneManager.sceneLoaded += OnSceneLoaded;
 
+            photonView.RPC("PlayerListSync", RpcTarget.All);
+
             // 방장이 직업을 섞어서 나눠줌
-            if (PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.IsMasterClient && photonView.IsMine)
             {
-                JobandAbility(); //플레이어 직업과 능력 분배
+                Debug.Log("방장이 직업과 능력을 섞어 ");
+
+                StartCoroutine(JobandAbility());
+
+                //JobandAbility(); //플레이어 직업과 능력 분배
             }
+            else
+                return;
         }
 
         public override void OnDisable()
@@ -165,8 +169,10 @@ namespace com.ThreeCS.McCree
         #region private Methods
 
         // 플레이어 직업과 능력 분배
-        public void JobandAbility()
+        IEnumerator JobandAbility()
         {
+            yield return new WaitForEndOfFrame();
+
             // (인구수에 맞게 하는 거 추가하기)
             List<int> jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
 
@@ -174,17 +180,28 @@ namespace com.ThreeCS.McCree
             List<int> abilityList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
 
             jobList = ShuffleList(jobList);
+            Debug.Log("잡리스트" + jobList[0] + " "+ jobList[1] + " " + jobList[2]);
             abilityList = ShuffleList(abilityList);
+            Debug.Log("어빌리스트" + abilityList[0] + " " + abilityList[1] + " " + abilityList[2]);
+
+            //*****************꼼수로 수정한 부분(나중에 더 좋은 방법 찾으면 무조건 바꿔야함)*********************
+
+            // 다른 플레이어 오브젝트 생성떄까지 잠시 대기 (더 좋은 방법이 있을 거 같은데 능력 부족이라 이렇게 밖에 못하겠음)
+            yield return new WaitForSeconds(1f);
+
+            //*****************꼼수로 수정한 부분(나중에 더 좋은 방법 찾으면 무조건 바꿔야함)*********************
 
             // 직업을 나눠주고 동기화 시킴
             for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
             {
+                Debug.Log("잡 리스트 번호 : " + jobList[i]);
                 players[i].GetComponent<PhotonView>().RPC("JobSelect", RpcTarget.All, jobList[i]);
             }
 
             // 능력을 나눠주고 동기화 시킴
             for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
             {
+                Debug.Log("잡 리스트 번호 : " + abilityList[i]);
                 players[i].GetComponent<PhotonView>().RPC("AbilitySelect", RpcTarget.All, abilityList[i]);
             }
 
@@ -264,6 +281,18 @@ namespace com.ThreeCS.McCree
             return list;
         }
 
+        
+        // 플레이어 현재 리스트 동기화
+
+        [PunRPC]
+        public void PlayerListSync()
+        {
+            //플레이어 오브젝트가 전부 담김
+            this.players = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log("플레이어 수(많큼 나올 듯) : " + players.Length);
+        }
+        
+        
         // 뱅 준비 (공격 사거리 표시)
         void AttackRange()
         {
@@ -366,5 +395,6 @@ namespace com.ThreeCS.McCree
 
         #endregion
     }
+
 }
 

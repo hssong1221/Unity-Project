@@ -145,12 +145,15 @@ namespace com.ThreeCS.McCree
 
         IEnumerator GameStart()
         {
+            //*****************꼼수로 수정한 부분(나중에 더 좋은 방법 찾으면 무조건 바꿔야함)*********************
+            // 플레이어 정보 생길 때까지 잠시 대기  
+            yield return new WaitForSeconds(2f);
+            //*****************꼼수로 수정한 부분(나중에 더 좋은 방법 찾으면 무조건 바꿔야함)*********************
+
             Debug.Log("게임 ui 시작!!");
             // 플레이어가 생성되고 그 안에 있는 플레이어 매니저를 가져와야함, 그 안에 정보들이 있음
             playerManager = GameObject.FindWithTag("Player").GetComponent<PlayerManager>();
             jobPanel.SetActive(true);
-            Debug.Log(playerManager);
-            //Debug.Log(ui);
 
             yield return new WaitForEndOfFrame();
 
@@ -276,10 +279,11 @@ namespace com.ThreeCS.McCree
         public void SpawnPlayer()
         {
             Debug.Log("로컬플레이어를 생성합니다.");
-            int ran1 = Random.Range(-10, 10);
-            int ran2 = Random.Range(-10, 10);
+
+            float ran1 = Random.Range(-5, 5);
+            float ran2 = Random.Range(-5, 5);
             // 로컬 플레이어를 스폰합니다. 동기화도 됨
-            PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(ran1, 5f, ran2), Quaternion.identity, 0);
+            PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(ran1, 2f, ran2), Quaternion.identity, 0);
         }
 
         // 방 나가기 임시 구현
