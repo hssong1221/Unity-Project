@@ -23,6 +23,9 @@ namespace com.ThreeCS.McCree
 
         public Sprite fullBullet;
         public Sprite emptyBullet;
+        public Text nickName; // 닉네임
+        
+
 
 
         [Header("뱅 준비 사거리 표시 관련 UI")]
@@ -59,6 +62,11 @@ namespace com.ThreeCS.McCree
             }
             hpOffset = new Vector3(0, 2.0f, 0);
             bangOffset = new Vector3(0, 3.0f, 0);
+
+            if (photonView.IsMine)
+            {
+                nickName.text = PhotonNetwork.LocalPlayer.NickName;
+            }
         }
 
 
@@ -76,20 +84,26 @@ namespace com.ThreeCS.McCree
 
         void Update()
         {
+            // 플레이어 머리 위 UI 각도 고정
+            hpCanvas.transform.LookAt(hpCanvas.transform.position + Camera.main.transform.forward);
+            bangCanvas.transform.LookAt(bangCanvas.transform.position + Camera.main.transform.forward);
+
             if (photonView.IsMine)
             {
+                // 각자 캐릭터 머리 위 UI 위치 고정
+                hpCanvas.transform.position = character.transform.position + hpOffset;
+                bangCanvas.transform.position = character.transform.position + bangOffset;
+
                 if (this.hp <= 0)
                     GameManager.Instance.LeaveRoom();
             }
             else
                 return;
 
-            // 플레이어 머리 위 UI 각도 고정
-            hpCanvas.transform.LookAt(hpCanvas.transform.position + Camera.main.transform.forward);
-            bangCanvas.transform.LookAt(bangCanvas.transform.position + Camera.main.transform.forward);
-            // 머리 위 UI 위치 고정
-            hpCanvas.transform.position = character.transform.position + hpOffset;
-            bangCanvas.transform.position = character.transform.position + bangOffset;
+            
+           
+
+            
         }
 
         #endregion
