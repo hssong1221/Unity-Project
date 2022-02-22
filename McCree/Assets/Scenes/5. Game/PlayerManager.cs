@@ -22,7 +22,7 @@ namespace com.ThreeCS.McCree
         public bool isDeath;
 
         // 플레이어 정보 타입
-        public enum jType { Sheriff, Vice, Outlaw, Renegade } // 직업 타입
+        public enum jType { Error, Sheriff, Vice, Outlaw, Renegade } // 직업 타입
         public enum aType { HumanVolcanic, BangMissed, ThreeCard, OnehpOnecard, TwocardOnehp,  TwocardOnecard, DrinkBottle } //능력 타입
         [Header("플레이어 정보")]
         public jType playerType;
@@ -187,7 +187,13 @@ namespace com.ThreeCS.McCree
             //*****************꼼수로 수정한 부분(나중에 더 좋은 방법 찾으면 무조건 바꿔야함)*********************
 
             // 다른 플레이어 오브젝트 생성떄까지 잠시 대기 (더 좋은 방법이 있을 거 같은데 능력 부족이라 이렇게 밖에 못하겠음)
-            yield return new WaitForSeconds(1f);
+
+            while (PhotonNetwork.PlayerList.Length != playerManager.players.Length)
+            {
+                Debug.Log("PM 방 총원 : " + PhotonNetwork.PlayerList.Length);
+                Debug.Log("PM 현재 로딩된 인원 수 : " + playerManager.players.Length);
+                yield return null;
+            }
 
             //*****************꼼수로 수정한 부분(나중에 더 좋은 방법 찾으면 무조건 바꿔야함)*********************
 
