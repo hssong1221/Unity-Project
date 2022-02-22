@@ -151,8 +151,27 @@ namespace com.ThreeCS.McCree
             //*****************꼼수로 수정한 부분(나중에 더 좋은 방법 찾으면 무조건 바꿔야함)*********************
 
             Debug.Log("게임 ui 시작!!");
+
             // 플레이어가 생성되고 그 안에 있는 플레이어 매니저를 가져와야함, 그 안에 정보들이 있음
-            playerManager = GameObject.FindWithTag("Player").GetComponent<PlayerManager>();
+            GameObject[] temp;
+            temp = GameObject.FindGameObjectsWithTag("Player");
+            
+            foreach (GameObject item in temp)
+            {
+                if (item.GetComponent<PhotonView>().IsMine)
+                {
+                    playerManager = item.GetComponent<PlayerManager>();
+                    break;
+                }
+            }
+
+            while (PhotonNetwork.PlayerList.Length != playerManager.players.Length)
+            {
+                Debug.Log("GM 방 총원 : " + PhotonNetwork.PlayerList.Length);
+                Debug.Log("GM 현재 로딩된 인원 수 : " + playerManager.players.Length);
+                yield return null;
+            }
+
             jobPanel.SetActive(true);
 
             yield return new WaitForEndOfFrame();
