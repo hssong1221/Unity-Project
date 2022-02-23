@@ -26,6 +26,9 @@ namespace com.ThreeCS.McCree
         public static ChatClient chatClient;
         public static string behave;
 
+        private const byte LoadingGameScene = 0;
+
+
         void Awake()
         {
             chatClient = new ChatClient(this);
@@ -55,11 +58,38 @@ namespace com.ThreeCS.McCree
         void OnEnable()
         {
             // 활성화 되면 한번 실행해주는 함수
-
-
             // 델리게이트 체인 추가
             SceneManager.sceneLoaded += OnSceneLoaded;
+
+            PhotonNetwork.NetworkingClient.EventReceived += NetworkingClient_EventReceived;
         }
+
+        void OnDisable()
+        {
+            PhotonNetwork.NetworkingClient.EventReceived -= NetworkingClient_EventReceived;
+        }
+
+        // ----------------- 게임씬 이동할때 다른 클라이언트들에게 로딩하라고 알려주는 함수 -----------
+        
+        public void Function_Loading_GameScene()
+        {
+            object[] datas = new object[] { };
+            SendOptions sendOptions = new SendOptions { Reliability = true };
+
+            PhotonNetwork.RaiseEvent(LoadingGameScene, datas, RaiseEventOptions.Default, sendOptions);
+        }
+
+        private void NetworkingClient_EventReceived(EventData obj)
+        {
+            if (obj.Code == LoadingGameScene)
+            {
+                Debug.Log("ㅇㅁㄴㅁㄴㅇㅁㄴㅇ");
+                LoadingUI.msg_Text.text = "게임에 참여하는 중...";
+                LoadingUI.msg_Canvas.SetActive(true);
+            }
+        }
+        // ------------------------------------------------------------------------------
+
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -134,6 +164,10 @@ namespace com.ThreeCS.McCree
                 scr.verticalNormalizedPosition = 0.0f;
             }
         }
+
+
+
+
 
         #region IChatClientListener
         // 이 밑은 IChatClientListener 인터페이스

@@ -92,6 +92,8 @@ namespace com.ThreeCS.McCree
 
         void Start()
         {
+            PhotonNetwork.IsMessageQueueRunning = true;
+
             if (playerPrefab == null)
             {
                 Debug.Log("플레이어 프리팹이 생성되지 못했습니다. 게임매니저에서 확인하세요.");
