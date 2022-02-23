@@ -119,7 +119,7 @@ namespace com.ThreeCS.McCree
                 PhotonNetwork.CurrentRoom.IsVisible = false;
 
                 GameLoading(); // 자기화면 로딩
-                punChat.Function_Loading_GameScene(); // 남의화면 로딩하라고 일러줌
+                punChat.Function_Loading_GameScene(); // PunChat에서 남의화면 로딩하라고 일러줌
 
                 PhotonNetwork.IsMessageQueueRunning = false;
                 PhotonNetwork.LoadLevel("Game");

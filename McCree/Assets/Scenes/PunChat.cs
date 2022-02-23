@@ -12,7 +12,7 @@ using ExitGames.Client.Photon;
 
 namespace com.ThreeCS.McCree
 {
-    // 로비 채팅은 Photon Chat을 이용하여 사용
+    // 로비, 룸 채팅은 Photon Chat을 이용하여 사용
     public class PunChat : MonoBehaviour, IChatClientListener
     {
         private List<string> chatList = new List<string>();
@@ -57,7 +57,8 @@ namespace com.ThreeCS.McCree
 
         void OnEnable()
         {
-            // 활성화 되면 한번 실행해주는 함수
+            // 활성화 될 때마다 호출되는 함수 (Awake/Start와 달리 활성화 될 때마다)
+
             // 델리게이트 체인 추가
             SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -66,10 +67,12 @@ namespace com.ThreeCS.McCree
 
         void OnDisable()
         {
+            // 비활성화 될 때마다 호출되는 함수 (스크립트든 오브젝트든)
+
             PhotonNetwork.NetworkingClient.EventReceived -= NetworkingClient_EventReceived;
         }
 
-        // ----------------- 게임씬 이동할때 다른 클라이언트들에게 로딩하라고 알려주는 함수 -----------
+        // -------------- 룸에서 게임씬 이동할때 다른 클라이언트들에게 로딩하라고 알려주는 함수 -----------
         
         public void Function_Loading_GameScene()
         {
@@ -83,7 +86,7 @@ namespace com.ThreeCS.McCree
         {
             if (obj.Code == LoadingGameScene)
             {
-                Debug.Log("ㅇㅁㄴㅁㄴㅇㅁㄴㅇ");
+                Debug.Log("마스터 클라이언트가 게임을 시작");
                 LoadingUI.msg_Text.text = "게임에 참여하는 중...";
                 LoadingUI.msg_Canvas.SetActive(true);
             }
