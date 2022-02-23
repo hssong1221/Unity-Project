@@ -12,7 +12,7 @@ using ExitGames.Client.Photon;
 
 namespace com.ThreeCS.McCree
 {
-    // 로비 채팅은 Photon Chat을 이용하여 사용
+    // 로비, 룸 채팅은 Photon Chat을 이용하여 사용
     public class PunChat : MonoBehaviour, IChatClientListener
     {
         private List<string> chatList = new List<string>();
@@ -25,6 +25,9 @@ namespace com.ThreeCS.McCree
 
         public static ChatClient chatClient;
         public static string behave;
+
+        private const byte LoadingGameScene = 0;
+
 
         void Awake()
         {
@@ -54,12 +57,42 @@ namespace com.ThreeCS.McCree
 
         void OnEnable()
         {
-            // 활성화 되면 한번 실행해주는 함수
-
+            // 활성화 될 때마다 호출되는 함수 (Awake/Start와 달리 활성화 될 때마다)
 
             // 델리게이트 체인 추가
             SceneManager.sceneLoaded += OnSceneLoaded;
+
+            PhotonNetwork.NetworkingClient.EventReceived += NetworkingClient_EventReceived;
         }
+
+        void OnDisable()
+        {
+            // 비활성화 될 때마다 호출되는 함수 (스크립트든 오브젝트든)
+
+            PhotonNetwork.NetworkingClient.EventReceived -= NetworkingClient_EventReceived;
+        }
+
+        // -------------- 룸에서 게임씬 이동할때 다른 클라이언트들에게 로딩하라고 알려주는 함수 -----------
+        
+        public void Function_Loading_GameScene()
+        {
+            object[] datas = new object[] { };
+            SendOptions sendOptions = new SendOptions { Reliability = true };
+
+            PhotonNetwork.RaiseEvent(LoadingGameScene, datas, RaiseEventOptions.Default, sendOptions);
+        }
+
+        private void NetworkingClient_EventReceived(EventData obj)
+        {
+            if (obj.Code == LoadingGameScene)
+            {
+                Debug.Log("마스터 클라이언트가 게임을 시작");
+                LoadingUI.msg_Text.text = "게임에 참여하는 중...";
+                LoadingUI.msg_Canvas.SetActive(true);
+            }
+        }
+        // ------------------------------------------------------------------------------
+
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
@@ -134,6 +167,10 @@ namespace com.ThreeCS.McCree
                 scr.verticalNormalizedPosition = 0.0f;
             }
         }
+
+
+
+
 
         #region IChatClientListener
         // 이 밑은 IChatClientListener 인터페이스

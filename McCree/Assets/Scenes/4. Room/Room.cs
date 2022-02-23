@@ -40,6 +40,8 @@ namespace com.ThreeCS.McCree
         [SerializeField]
         protected Button exitBtn;  // 나가기 버튼
 
+        private PunChat punChat;
+
         #endregion
 
         #region 생성자, AddListner, MonoBehavior
@@ -48,15 +50,19 @@ namespace com.ThreeCS.McCree
         {
             exitBtn.onClick.AddListener(Exit_Room);
             startBtn.onClick.AddListener(Start_Game);
+
             
             playerCountText = "인원 수 : ";
             InvokeRepeating("RoomStatTrans", 1f, 3.0f);
-            // 마스터 클라인트가 씬을 넘길 때 같은 방에 있는 전부가 같은 레벨에 자동동기화됨
             PhotonNetwork.AutomaticallySyncScene = true;
+
         }
 
         private void Start()
         {
+            punChat = GameObject.Find("LoadingUI").GetComponent<PunChat>();
+
+
             GetCurrentRoomName();      // 현재 방에 이름 가져오기
             GetCurrentRoomPlayers();   // 현재 방에있는 플레이어들
             GetCurrentPlayersCount();  // 현재 방에있는 플레이어 수
@@ -106,21 +112,30 @@ namespace com.ThreeCS.McCree
         // 시작하기 버튼을 눌렀을 때
         public void Start_Game()
         {
-            LoadingUI.msg_Text.text = "게임에 참여하는 중...";
-            LoadingUI.msg_Canvas.SetActive(true);
-
             // 마스터 클라이언트만 로드레벨을 해야함
             if (PhotonNetwork.IsMasterClient) 
             {
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                PhotonNetwork.CurrentRoom.IsVisible = false;
+
+                GameLoading(); // 자기화면 로딩
+                punChat.Function_Loading_GameScene(); // PunChat에서 남의화면 로딩하라고 일러줌
+
+                PhotonNetwork.IsMessageQueueRunning = false;
                 PhotonNetwork.LoadLevel("Game");
             }
+        }
+
+        private void GameLoading()
+        {
+            LoadingUI.msg_Text.text = "게임에 참여하는 중...";
+            LoadingUI.msg_Canvas.SetActive(true);
         }
 
         public void AddPlayerListing(Player playerList)
         {
             GameObject _playerDict = Instantiate(playerListing, content);
             _playerDict.GetComponent<PlayerList>().myPlayer = playerList;
-            //Debug.Log(playerList.UserId + "    " + playerList.NickName);
             playerDict.Add(playerList.UserId, _playerDict);
         }
 
