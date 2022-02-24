@@ -35,19 +35,13 @@ namespace com.ThreeCS.McCree
                     // 이동
                     playerManager.agent.SetDestination(targetedEnemy.transform.position);
                     playerManager.agent.stoppingDistance = playerManager.maxAttackDistance;
-
-                    // 회전
-                    Quaternion rotationToLookAt = Quaternion.LookRotation(targetedEnemy.transform.position - transform.position);
-                    float rotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y,
-                        rotationToLookAt.eulerAngles.y,
-                        ref playerManager.rotateVelocity,
-                        playerManager.rotateSpeedMovement * (Time.deltaTime * 5));
-
-                    transform.eulerAngles = new Vector3(0, rotationY, 0);
+                    // 회전은 Move가 해줌
+     
                 }
                 // 뱅 범위 사거리안에 적이 들어와 있을때
                 else
                 {
+                    transform.LookAt(targetedEnemy.transform); // 쏠때 적 바라보기
                     // 적 한테 데미지
                     targetedEnemy.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All);
                     targetedEnemy = null;
@@ -61,9 +55,9 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         void Damaged()
         {
-            Image tempImg = ui.hpImgs[ui.hp - 1].GetComponent<Image>();
+            Image tempImg = ui.hpImgs[playerInfo.hp - 1].GetComponent<Image>();
             tempImg.sprite = ui.emptyBullet;
-            this.ui.hp -= ui.damage;
+            playerInfo.hp -= playerInfo.damage;
 
             //if (this.hpUI.hp == 0)
             //{

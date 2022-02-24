@@ -15,9 +15,6 @@ namespace com.ThreeCS.McCree
         
         [Header("체력관련 UI")]
         public Canvas hpCanvas;
-        public int hp;
-        public int maxHp;
-        public int damage = 1;
 
         public GameObject[] hpImgs;
 
@@ -51,21 +48,16 @@ namespace com.ThreeCS.McCree
         {
             base.Awake();  // Controller Awake 함수 그대로 사용
 
-            for (int i = 0; i < hpImgs.Length; i++)
-            {
-
-                if (i < maxHp)
-                    hpImgs[i].SetActive(true);
-                else
-                    hpImgs[i].SetActive(false);
-
-            }
             hpOffset = new Vector3(0, 2.0f, 0);
             bangOffset = new Vector3(0, 3.0f, 0);
 
             if (photonView.IsMine)
             {
                 nickName.text = PhotonNetwork.LocalPlayer.NickName;
+            }
+            else
+            {
+                nickName.text = GetComponent<PhotonView>().Owner.NickName;
             }
         }
 
@@ -94,7 +86,7 @@ namespace com.ThreeCS.McCree
                 hpCanvas.transform.position = character.transform.position + hpOffset;
                 bangCanvas.transform.position = character.transform.position + bangOffset;
 
-                if (this.hp <= 0)
+                if (playerInfo.isDeath && playerInfo.hp <= 0)
                     GameManager.Instance.LeaveRoom();
             }
             else

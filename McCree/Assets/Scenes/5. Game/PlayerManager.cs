@@ -37,6 +37,8 @@ namespace com.ThreeCS.McCree
         [Header("카메라 오프셋")]
         protected Vector3 offset;
 
+        private Rigidbody rb;
+
         protected bool isCharacterPlayer;
         public float maxAttackDistance;
         // 기본상태                                        offset Vector3(0.0f, 5.0f, -5.0f)
@@ -79,6 +81,7 @@ namespace com.ThreeCS.McCree
         {
             base.Awake();
             agent = gameObject.GetComponent<NavMeshAgent>();
+            //rb = gameObject.GetComponent<Rigidbody>();
 
             // 포톤뷰에 의한 내 플레이어만
             if (photonView.IsMine)
@@ -159,6 +162,11 @@ namespace com.ThreeCS.McCree
             if (photonView.IsMine)
             {
                 Move();        // 이동
+
+                //물리적 가속도를 0으로 만들면 충돌했을때에 떨림이나
+                //오브젝트가 밀리는 현상이 발생하지 않게된다고함
+                //rb.velocity = Vector3.zero;
+                //rb.angularVelocity = Vector3.zero;
             }
 
         }
@@ -211,6 +219,18 @@ namespace com.ThreeCS.McCree
                 players[i].GetComponent<PhotonView>().RPC("AbilitySelect", RpcTarget.All, abilityList[i]);
             }
 
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                Debug.Log("체력 동기화 : " + playerManager.players[i]);
+                players[i].GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All);
+            }
+
+        }
+
+        [PunRPC]
+        public void SyncHp()
+        {
+            playerInfo.Show_Hp();
         }
 
         // 플레이어 직업 동기화
@@ -221,18 +241,26 @@ namespace com.ThreeCS.McCree
             {
                 case 1:
                     playerType = jType.Sheriff;
+                    playerInfo.hp = 5;
+                    playerInfo.maxHp = 5;
                     break;
                 case 2:
                 case 3:
                     playerType = jType.Vice;
+                    playerInfo.hp = 4;
+                    playerInfo.maxHp = 4;
                     break;
                 case 4:
                 case 5:
                 case 6:
                     playerType = jType.Outlaw;
+                    playerInfo.hp = 3;
+                    playerInfo.maxHp = 3;
                     break;
                 case 7:
                     playerType = jType.Renegade;
+                    playerInfo.hp = 2;
+                    playerInfo.maxHp = 2;
                     break;
             }
 
@@ -396,6 +424,19 @@ namespace com.ThreeCS.McCree
             }
             float speed = agent.velocity.magnitude / agent.speed;
             animator.SetFloat("Speed", speed);
+
+            //if (speed == 0)
+            //{
+            //    agent.updatePosition = false;
+            //    agent.updateRotation = false;
+            //    agent.velocity = Vector3.zero;
+            //}
+            //else
+            //{
+            //    agent.updatePosition = true;
+            //    agent.updateRotation = true;
+            // }
+
             //Debug.Log(speed);
         }
 

@@ -17,6 +17,7 @@ namespace com.ThreeCS.McCree
         protected Controller controller;
         protected PlayerManager playerManager;
         protected PlayerAutoMove playerAutoMove;
+        protected PlayerInfo playerInfo;
         protected UI ui;
 
 
@@ -28,6 +29,7 @@ namespace com.ThreeCS.McCree
             controller = GetComponent<Controller>();
             playerManager = GetComponent<PlayerManager>();
             playerAutoMove = GetComponent<PlayerAutoMove>();
+            playerInfo = GetComponent<PlayerInfo>();
             ui = GetComponent<UI>();
 
 
