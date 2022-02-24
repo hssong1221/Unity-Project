@@ -23,7 +23,7 @@ namespace com.ThreeCS.McCree
         {
 
         }
-
+        
         void Update()
         {
             if (targetedEnemy != null) // PlayerManager에서 isAiming상태에서 적을 클릭했을시에만 발생
@@ -35,13 +35,13 @@ namespace com.ThreeCS.McCree
                     // 이동
                     playerManager.agent.SetDestination(targetedEnemy.transform.position);
                     playerManager.agent.stoppingDistance = playerManager.maxAttackDistance;
-                    // 회전은 Move가 해줌
-     
                 }
                 // 뱅 범위 사거리안에 적이 들어와 있을때
                 else
                 {
+                    playerManager.agent.SetDestination(transform.position); // 쏠때 제자리
                     transform.LookAt(targetedEnemy.transform); // 쏠때 적 바라보기
+
                     // 적 한테 데미지
                     targetedEnemy.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All);
                     targetedEnemy = null;

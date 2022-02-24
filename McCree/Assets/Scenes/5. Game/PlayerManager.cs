@@ -93,9 +93,9 @@ namespace com.ThreeCS.McCree
                 offset = new Vector3(0.0f, 5.0f, -5f);
             }
             DontDestroyOnLoad(gameObject);
+
         }
-
-
+        
         void Start()
         {
             //SceneManager.sceneLoaded += OnSceneLoaded;
@@ -366,8 +366,7 @@ namespace com.ThreeCS.McCree
             }
 
         }
-       
-
+        
         // 뱅!
         void Bang()
         {
@@ -413,31 +412,18 @@ namespace com.ThreeCS.McCree
                     playerAutoMove.targetedEnemy = null;
                     agent.stoppingDistance = 0;
 
-                    // 회전
-                    Quaternion rotationToLookAt = Quaternion.LookRotation(hit.point - transform.position);
-                    float rotationY = Mathf.SmoothDamp(transform.eulerAngles.y,
-                        rotationToLookAt.eulerAngles.y,
-                        ref rotateVelocity,
-                        rotateSpeedMovement * (Time.deltaTime * 5));
-                    transform.eulerAngles = new Vector3(0, rotationY, 0);
+                    // 회전이 딱히 필요없음
+                    //Quaternion rotationToLookAt = Quaternion.LookRotation(hit.point - transform.position);
+                    //float rotationY = Mathf.SmoothDamp(transform.eulerAngles.y,
+                    //    rotationToLookAt.eulerAngles.y,
+                    //    ref rotateVelocity,
+                    //    rotateSpeedMovement * (Time.deltaTime * 5));
+                    //transform.eulerAngles = new Vector3(0, rotationY, 0);
                 }
             }
             float speed = agent.velocity.magnitude / agent.speed;
             animator.SetFloat("Speed", speed);
-
-            //if (speed == 0)
-            //{
-            //    agent.updatePosition = false;
-            //    agent.updateRotation = false;
-            //    agent.velocity = Vector3.zero;
-            //}
-            //else
-            //{
-            //    agent.updatePosition = true;
-            //    agent.updateRotation = true;
-            // }
-
-            //Debug.Log(speed);
+            
         }
 
         #endregion
