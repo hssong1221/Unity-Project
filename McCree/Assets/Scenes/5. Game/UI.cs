@@ -12,7 +12,6 @@ namespace com.ThreeCS.McCree
     {
         #region Variable Field
 
-        
         [Header("체력관련 UI")]
         public Canvas hpCanvas;
 
@@ -22,15 +21,10 @@ namespace com.ThreeCS.McCree
         public Sprite emptyBullet;
         public Text nickName; // 닉네임
         
-
-
-
         [Header("뱅 준비 사거리 표시 관련 UI")]
         public Canvas attackRangeCanvas;  // 공격 사거리 캔버스
         public Image indicatorRangeCircle;// 공격 사거리 이미지
         public int attackRange; // 기본 공격 사거리 일단 1로 설정해놓은상태
-
-
 
         [Header("Bang! 말풍선 관련 UI")]
         public Canvas bangCanvas;         // 뱅 말풍선 캔버스
@@ -38,7 +32,6 @@ namespace com.ThreeCS.McCree
 
         Vector3 hpOffset;
         Vector3 bangOffset;
-
 
         #endregion
 

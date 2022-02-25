@@ -60,6 +60,11 @@ namespace com.ThreeCS.McCree
         public Sprite outlaw4;
         public Sprite renegade4;
 
+        [Header("개인 (나한테만 보이는) UI")]
+        public MineUI mineUI;
+
+
+
 
         #endregion
 
@@ -88,6 +93,9 @@ namespace com.ThreeCS.McCree
                 SceneManager.LoadScene("Launcher");
                 return;
             }
+
+            mineUI = GameObject.FindWithTag("MineUI").GetComponent<MineUI>();
+
         }
 
         void Start()
@@ -163,6 +171,7 @@ namespace com.ThreeCS.McCree
                 if (item.GetComponent<PhotonView>().IsMine)
                 {
                     playerManager = item.GetComponent<PlayerManager>();
+                    mineUI.playerInfo = item.GetComponent<PlayerInfo>();
                     break;
                 }
             }

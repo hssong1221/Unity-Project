@@ -2045,6 +2045,7 @@ MonoBehaviour:
   hp: 0
   maxHp: 0
   damage: 1
+  mycards: []
   isDeath: 0
 --- !u!1 &6215404349552837225
 GameObject:

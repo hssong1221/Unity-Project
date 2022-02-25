@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Bullet
   - PhotonView
+  - MineUI
+  - GameManager
   layers:
   - Default
   - TransparentFX
