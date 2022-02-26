@@ -13,33 +13,17 @@ namespace com.ThreeCS.McCree
         public Sprite avoidImg;
         public Sprite healImg;
 
+        [Header("카드 테두리, 내용")]
+        public Image cardInImg;
+        public GameObject cardBorder;
 
         cType content;
-        [HideInInspector]
-        public Image contentImg;
+        Sprite contentImg;
+
 
         public Card(cType content)
         {
             ability = content;
-
-            Debug.Log(bangImg);
-
-            if (content == cType.Bang)
-            {
-                cardImg.sprite = bangImg;
-                Debug.Log(cardImg);
-            }
-            else if (content == cType.Avoid)
-            {
-                cardImg.sprite = avoidImg;
-                Debug.Log(cardImg);
-            }
-            else if (content == cType.Heal)
-            {
-                cardImg.sprite = healImg;
-                Debug.Log(cardImg);
-            }
-
         }
 
         public cType ability
@@ -48,7 +32,7 @@ namespace com.ThreeCS.McCree
             set => content = value;
         }
 
-        public Image cardImg
+        public Sprite cardImg
         {
             get => contentImg;
             set => contentImg = value;
@@ -59,6 +43,24 @@ namespace com.ThreeCS.McCree
             Bang,
             Avoid,
             Heal
+        }
+
+
+        public void matchImg()
+        {
+            if (this.content == cType.Bang)
+            {
+                this.cardImg = bangImg;
+            }
+            else if (this.content == cType.Avoid)
+            {
+                this.cardImg = avoidImg;
+            }
+            else if (this.content == cType.Heal)
+            {
+                this.cardImg = healImg;
+            }
+            cardInImg.sprite = this.cardImg;
         }
 
     }

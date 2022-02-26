@@ -1903,6 +1903,8 @@ MonoBehaviour:
   abilityType: 0
   rotateSpeedMovement: 0.1
   rotateVelocity: 0
+  cardObject: {fileID: 2643383449535095578, guid: 25721e9ab19bfd1409d58b81e2fc801e, type: 3}
+  pos: {fileID: 0}
   maxAttackDistance: 5
   agent: {fileID: 0}
 --- !u!114 &6215404349552739550

@@ -13,19 +13,19 @@ namespace com.ThreeCS.McCree
         {
             Card card = this.gameObject.AddComponent<Card>();
             card.ability = Card.cType.Bang;
-            for (int i = 0; i < 3; i++) // 뱅 30개
+            for (int i = 0; i < 30; i++) // 뱅 30개
             {
                 cardList.Add(card);
             }
             Card card2 = this.gameObject.AddComponent<Card>();
             card2.ability = Card.cType.Avoid;
-            for (int i = 0; i < 1; i++) // 회피 10개
+            for (int i = 0; i < 10; i++) // 회피 10개
             {
                 cardList.Add(card2);
             }
             Card card3 = this.gameObject.AddComponent<Card>();
             card3.ability = Card.cType.Heal;
-            for (int i = 0; i < 1; i++) // 힐 10개
+            for (int i = 0; i < 10; i++) // 힐 10개
             {
                 cardList.Add(card3);
             }

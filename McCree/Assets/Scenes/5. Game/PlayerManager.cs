@@ -40,8 +40,8 @@ namespace com.ThreeCS.McCree
 
 
         private CardSet cardSet; // 마스터만 줄꺼임
-        public Card card;
-        public Transform cardpos;
+        public Card cardObject;
+        public Transform pos;
 
         protected bool isCharacterPlayer;
         public float maxAttackDistance;
@@ -86,6 +86,8 @@ namespace com.ThreeCS.McCree
             base.Awake();
             agent = gameObject.GetComponent<NavMeshAgent>();
             //rb = gameObject.GetComponent<Rigidbody>();
+
+            pos = GameObject.FindWithTag("CardsPos").transform;
 
             // 포톤뷰에 의한 내 플레이어만
             if (photonView.IsMine)
@@ -273,8 +275,9 @@ namespace com.ThreeCS.McCree
                 //    Debug.Log(startCards[k]);
                 //}
 
+                // photon sibal string int array 기본적인 내용밖에 전송불가능하지만
+                // json으로 직렬화 시키면 다른 타입도 photon으로 전송가능 
                 var json = JsonConvert.SerializeObject(startCards);
-
 
                 players[i].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, json);
             }
@@ -290,20 +293,21 @@ namespace com.ThreeCS.McCree
 
             for (int k = 0; k < startCards.Length; k++)
             {
-                //Card card = this.gameObject.AddComponent<Card>(startCards[k]);
-                Instantiate(card, cardpos);
+                cardObject.ability = startCards[k]; // 뽑은 카드이름
+                cardObject.matchImg(); // 뽑은 카드 그림 매칭
+                 
+                playerInfo.mycards.Add(cardObject); // 내가 가지고있는 카드셋 mycards에 추가 
 
-                //Card card = new Card(startCards[k]);
-                playerInfo.mycards.Add(card);
+                if (photonView.IsMine) // 내 개인 UI에 내껏만 추가 
+                    Instantiate(cardObject, pos);
             }
 
-            for (int i = 0; i < playerInfo.mycards.Count; i++)
-            {
-                Debug.Log(playerInfo.mycards[i].ability.ToString());
-            }
+            //for (int i = 0; i < playerInfo.mycards.Count; i++)
+            //{
+            //    Debug.Log(playerInfo.mycards[i].ability.ToString());
+            //}
 
-
-            mineUI.Show_Start_Cards();
+            //mineUI.Show_Start_Cards();
         }
 
         [PunRPC]
@@ -375,24 +379,6 @@ namespace com.ThreeCS.McCree
             }
 
         }
-
-        //// 리스트 셔플, 자바에는 그냥 있는데 씨썁에는 없다ㅋㅋ
-        //private List<T> ShuffleList<T>(List<T> list)
-        //{
-        //    int random1, random2;
-        //    T temp;
-
-        //    for (int i = 0; i < list.Count; ++i)
-        //    {
-        //        random1 = Random.Range(0, list.Count);
-        //        random2 = Random.Range(0, list.Count);
-
-        //        temp = list[random1];
-        //        list[random1] = list[random2];
-        //        list[random2] = temp;
-        //    }
-        //    return list;
-        //}
 
         
         // 플레이어 현재 리스트 동기화

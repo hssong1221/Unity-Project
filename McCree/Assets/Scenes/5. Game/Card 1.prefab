@@ -257,4 +257,5 @@ MonoBehaviour:
   bangImg: {fileID: 21300000, guid: 1455c6839bd50924084574aba24d40d5, type: 3}
   avoidImg: {fileID: 21300000, guid: b688a84e333e7374793d3cd47e3ece57, type: 3}
   healImg: {fileID: 21300000, guid: 751bb5b80a2a6fc4c8face3381032aa0, type: 3}
-  contentImg: {fileID: 0}
+  cardInImg: {fileID: 2643383447711097965}
+  cardBorder: {fileID: 2643383449535095574}

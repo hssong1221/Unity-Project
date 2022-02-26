@@ -8,6 +8,7 @@ TagManager:
   - PhotonView
   - MineUI
   - GameManager
+  - CardsPos
   layers:
   - Default
   - TransparentFX
