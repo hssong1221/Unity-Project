@@ -12,12 +12,8 @@ namespace com.ThreeCS.McCree
     {
         #region Variable Field
 
-        
         [Header("체력관련 UI")]
         public Canvas hpCanvas;
-        public int hp;
-        public int maxHp;
-        public int damage = 1;
 
         public GameObject[] hpImgs;
 
@@ -25,15 +21,10 @@ namespace com.ThreeCS.McCree
         public Sprite emptyBullet;
         public Text nickName; // 닉네임
         
-
-
-
         [Header("뱅 준비 사거리 표시 관련 UI")]
         public Canvas attackRangeCanvas;  // 공격 사거리 캔버스
         public Image indicatorRangeCircle;// 공격 사거리 이미지
         public int attackRange; // 기본 공격 사거리 일단 1로 설정해놓은상태
-
-
 
         [Header("Bang! 말풍선 관련 UI")]
         public Canvas bangCanvas;         // 뱅 말풍선 캔버스
@@ -41,7 +32,6 @@ namespace com.ThreeCS.McCree
 
         Vector3 hpOffset;
         Vector3 bangOffset;
-
 
         #endregion
 
@@ -51,21 +41,16 @@ namespace com.ThreeCS.McCree
         {
             base.Awake();  // Controller Awake 함수 그대로 사용
 
-            for (int i = 0; i < hpImgs.Length; i++)
-            {
-
-                if (i < maxHp)
-                    hpImgs[i].SetActive(true);
-                else
-                    hpImgs[i].SetActive(false);
-
-            }
             hpOffset = new Vector3(0, 2.0f, 0);
             bangOffset = new Vector3(0, 3.0f, 0);
 
             if (photonView.IsMine)
             {
                 nickName.text = PhotonNetwork.LocalPlayer.NickName;
+            }
+            else
+            {
+                nickName.text = GetComponent<PhotonView>().Owner.NickName;
             }
         }
 
@@ -94,7 +79,7 @@ namespace com.ThreeCS.McCree
                 hpCanvas.transform.position = character.transform.position + hpOffset;
                 bangCanvas.transform.position = character.transform.position + bangOffset;
 
-                if (this.hp <= 0)
+                if (playerInfo.isDeath && playerInfo.hp <= 0)
                     GameManager.Instance.LeaveRoom();
             }
             else

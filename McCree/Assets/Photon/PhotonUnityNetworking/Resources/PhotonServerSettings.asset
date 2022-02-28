@@ -52,6 +52,8 @@ MonoBehaviour:
   - AbilitySelect
   - PlayerListSync
   - RPC_GameLoading
+  - SyncHp
+  - GiveCards
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

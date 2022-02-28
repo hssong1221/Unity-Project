@@ -17,7 +17,9 @@ namespace com.ThreeCS.McCree
         protected Controller controller;
         protected PlayerManager playerManager;
         protected PlayerAutoMove playerAutoMove;
+        protected PlayerInfo playerInfo;
         protected UI ui;
+        protected MineUI mineUI;
 
 
         protected void Awake()
@@ -28,10 +30,12 @@ namespace com.ThreeCS.McCree
             controller = GetComponent<Controller>();
             playerManager = GetComponent<PlayerManager>();
             playerAutoMove = GetComponent<PlayerAutoMove>();
+            playerInfo = GetComponent<PlayerInfo>();
             ui = GetComponent<UI>();
+            mineUI = GameObject.FindWithTag("MineUI").GetComponent<MineUI>();
 
 
-            animator = character.GetComponent<Animator>();
+            animator = GetComponent<Animator>();
         }
         // Start is called before the first frame update
         void Start()
