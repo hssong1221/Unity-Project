@@ -19,6 +19,7 @@ namespace com.ThreeCS.McCree
         static public GameManager Instance;
 
         public PlayerManager playerManager;
+        public CameraWork cameraWork;
 
         [Header("직업 관련 UI")]
         public GameObject jobPanel;
@@ -87,6 +88,8 @@ namespace com.ThreeCS.McCree
             jobUIAnimator = jobPanel.GetComponent<Animator>();
             abilUIAnimator = abilPanel.GetComponent<Animator>();
 
+            
+
             // 접속 못하면 초기화면으로 쫓아냄
             if (!PhotonNetwork.IsConnected)
             {
@@ -112,6 +115,9 @@ namespace com.ThreeCS.McCree
                 {
                     // 플레이어 스폰 구현(추후에 스폰 장소를 따로 구현할 예정)
                     SpawnPlayer();
+
+                    // 플레이어 카메라 생성
+                    cameraWork = GetComponent<CameraWork>();
 
                     // 게임을 시작하면 나오는 UI
                     StartCoroutine(GameStart());
