@@ -8,15 +8,16 @@ namespace com.ThreeCS.McCree
     public class CameraWork : MonoBehaviour
     {
         // 가상 카메라
-        private CinemachineVirtualCamera Cam1;
+        private CinemachineVirtualCamera Cam;
         public Transform target;
         public GameObject player;
 
         void Start()
         {
             Debug.Log("-------------------카메라 스크립트 작동!!!");
-            Cam1 = GetComponent<CinemachineVirtualCamera>();
+            Cam = GetComponent<CinemachineVirtualCamera>();
             player = null;
+            Debug.Log(Cam.name);
         }
 
         // 일단 자기 플레이가 가장 위에 생성된다고 가정하고 만듬
@@ -29,9 +30,18 @@ namespace com.ThreeCS.McCree
 
                 if (player != null)
                 {
-                    target = player.transform;
-                    Cam1.Follow = target;
-                    Cam1.LookAt = target;
+                    if(Cam.name == "CM vcam1")
+                    {
+                        target = player.transform;
+                        Cam.Follow = target;
+                        Cam.LookAt = target;
+                    }
+                    else if(Cam.name == "CM vcam2")
+                    {
+                        target = player.transform;
+                        Cam.LookAt = target;
+                    }
+                    
                 }
             }
         }

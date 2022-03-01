@@ -466,7 +466,7 @@ namespace com.ThreeCS.McCree
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Floor")))
+                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, (1 << LayerMask.NameToLayer("Floor")) + (1 << LayerMask.NameToLayer("Building")) ))
                 {
                     // 이동
                     agent.SetDestination(hit.point);

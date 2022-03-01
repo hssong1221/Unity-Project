@@ -316,8 +316,8 @@ namespace com.ThreeCS.McCree
         {
             Debug.Log("로컬플레이어를 생성합니다.");
 
-            float ran1 = Random.Range(-5, 5);
-            float ran2 = Random.Range(-5, 5);
+            float ran1 = Random.Range(-2, 2);
+            float ran2 = Random.Range(-2, 2);
             // 로컬 플레이어를 스폰합니다. 동기화도 됨
             PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(ran1, 2f, ran2), Quaternion.identity, 0);
         }
