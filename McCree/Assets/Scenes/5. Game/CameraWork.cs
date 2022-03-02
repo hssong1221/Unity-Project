@@ -7,10 +7,21 @@ namespace com.ThreeCS.McCree
 {
     public class CameraWork : MonoBehaviour
     {
+        #region private Fields
+
         // 가상 카메라
         private CinemachineVirtualCamera Cam;
+
+        #endregion
+
+        #region Public Fields
+
         public Transform target;
         public GameObject player;
+
+        #endregion
+
+        #region MonoBehaviour CallBacks
 
         void Start()
         {
@@ -45,6 +56,8 @@ namespace com.ThreeCS.McCree
                 }
             }
         }
+
+        #endregion
 
     }
 

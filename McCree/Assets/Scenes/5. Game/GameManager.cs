@@ -63,20 +63,18 @@ namespace com.ThreeCS.McCree
 
         [Header("개인 (나한테만 보이는) UI")]
         public MineUI mineUI;
-
-
-
-
         #endregion
 
 
         #region Private Fields
-
         // 플레이어 프리팹
+        
         [SerializeField]
+        [Header("플레이어 프리팹")]
         private GameObject playerPrefab;
 
         #endregion
+
 
         #region MonoBehaviour CallBacks
 
@@ -205,8 +203,8 @@ namespace com.ThreeCS.McCree
             abilText.text += AblityText();
             abilText.text += "\n3. 당신의 능력을 잘 활용하십시오";
             
-
-            yield return new WaitForSeconds(12f);
+            // 사람들이 텍스트를 읽을 시간 부여
+            //yield return new WaitForSeconds(12f);
 
             abilPanel.SetActive(false);
         }

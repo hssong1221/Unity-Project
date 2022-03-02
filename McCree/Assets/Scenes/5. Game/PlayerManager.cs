@@ -196,9 +196,9 @@ namespace com.ThreeCS.McCree
             List<int> abilityList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
 
             jobList = CommonFunction.ShuffleList(jobList);
-            Debug.Log("잡리스트" + jobList[0] + " "+ jobList[1] + " " + jobList[2]);
+            //Debug.Log("잡리스트" + jobList[0] + " "+ jobList[1] + " " + jobList[2]);
             abilityList = CommonFunction.ShuffleList(abilityList);
-            Debug.Log("어빌리스트" + abilityList[0] + " " + abilityList[1] + " " + abilityList[2]);
+            //Debug.Log("어빌리스트" + abilityList[0] + " " + abilityList[1] + " " + abilityList[2]);
 
 
             while (PhotonNetwork.PlayerList.Length != playerManager.players.Length)
@@ -480,11 +480,24 @@ namespace com.ThreeCS.McCree
                     //    ref rotateVelocity,
                     //    rotateSpeedMovement * (Time.deltaTime * 5));
                     //transform.eulerAngles = new Vector3(0, rotationY, 0);
+
                 }
             }
             float speed = agent.velocity.magnitude / agent.speed;
             animator.SetFloat("Speed", speed);
             
+        }
+
+        public void Move(Transform target)
+        {
+            // 이동
+            agent.SetDestination(target.position);
+            playerAutoMove.targetedEnemy = null;
+            agent.stoppingDistance = 0;
+
+            
+            float speed = agent.velocity.magnitude / agent.speed;
+            animator.SetFloat("Speed", speed);
         }
 
         #endregion
