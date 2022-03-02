@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6559106700118211130}
   - component: {fileID: 3715993003985175830}
-  - component: {fileID: 6587235461107736644}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -44,35 +43,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c44f0576c86313f4a8fa5dab7bdb89d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ui: {fileID: 6587235461107736644}
   playerManager: {fileID: 0}
-  playerPrefab: {fileID: 6215404349552837223, guid: db43c7ab86ae6804bbf84a4e146e3bd7, type: 3}
---- !u!114 &6587235461107736644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6559106700118211124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6702f66510b2e949bc390e82afde596, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  cameraWork: {fileID: 0}
   jobPanel: {fileID: 0}
   jobBoard: {fileID: 0}
   jobText: {fileID: 0}
-  uiSpeed: 3
-  hpCanvas: {fileID: 0}
-  hp: 0
-  maxHp: 0
-  damage: 1
-  hpImgs: []
-  fullBullet: {fileID: 0}
-  emptyBullet: {fileID: 0}
-  attackRangeCanvas: {fileID: 0}
-  indicatorRangeCircle: {fileID: 0}
-  attackRange: 0
-  bangCanvas: {fileID: 0}
-  bangSpeechBubble: {fileID: 0}
-  bangText: {fileID: 0}
+  jobImage1: {fileID: 0}
+  jobImage2: {fileID: 0}
+  jobImage3: {fileID: 0}
+  abilPanel: {fileID: 0}
+  abilImage: {fileID: 0}
+  abilText: {fileID: 0}
+  sheriff1: {fileID: 0}
+  sheriff2: {fileID: 0}
+  sheriff3: {fileID: 0}
+  deputy1: {fileID: 0}
+  deputy2: {fileID: 0}
+  deputy3: {fileID: 0}
+  outlaw1: {fileID: 0}
+  outlaw2: {fileID: 0}
+  outlaw3: {fileID: 0}
+  renegade1: {fileID: 0}
+  renegade2: {fileID: 0}
+  renegade3: {fileID: 0}
+  sheriff4: {fileID: 0}
+  deputy4: {fileID: 0}
+  outlaw4: {fileID: 0}
+  renegade4: {fileID: 0}
+  mineUI: {fileID: 0}
+  playerPrefab: {fileID: 6215404349552837223, guid: db43c7ab86ae6804bbf84a4e146e3bd7, type: 3}

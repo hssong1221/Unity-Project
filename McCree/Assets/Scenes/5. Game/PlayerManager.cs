@@ -95,8 +95,8 @@ namespace com.ThreeCS.McCree
                 LocalPlayerInstance = gameObject; // gameObject는 이 컴포넌트가 붙어있는 게임오브젝트 즉 플레이어를 의미
 
                 // 카메라 x 45도, offset
-                Camera.main.transform.rotation = Quaternion.Euler(45, 0, 0);
-                offset = new Vector3(0.0f, 5.0f, -5f);
+                /*Camera.main.transform.rotation = Quaternion.Euler(45, 0, 0);
+                offset = new Vector3(0.0f, 5.0f, -5f);*/
             }
             DontDestroyOnLoad(gameObject);
 
@@ -150,7 +150,7 @@ namespace com.ThreeCS.McCree
                     Bang();
             }
 
-            Camera.main.transform.position = character.transform.position + offset;
+            //Camera.main.transform.position = character.transform.position + offset;
             if (Input.GetKeyDown("a")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
                 ui.attackRange = 1;
             if (Input.GetKeyDown("s"))
@@ -200,9 +200,6 @@ namespace com.ThreeCS.McCree
             abilityList = CommonFunction.ShuffleList(abilityList);
             Debug.Log("어빌리스트" + abilityList[0] + " " + abilityList[1] + " " + abilityList[2]);
 
-            //*****************꼼수로 수정한 부분(나중에 더 좋은 방법 찾으면 무조건 바꿔야함)*********************
-
-            // 다른 플레이어 오브젝트 생성떄까지 잠시 대기 (더 좋은 방법이 있을 거 같은데 능력 부족이라 이렇게 밖에 못하겠음)
 
             while (PhotonNetwork.PlayerList.Length != playerManager.players.Length)
             {
@@ -211,7 +208,6 @@ namespace com.ThreeCS.McCree
                 yield return null;
             }
 
-            //*****************꼼수로 수정한 부분(나중에 더 좋은 방법 찾으면 무조건 바꿔야함)*********************
 
             // 직업을 나눠주고 동기화 시킴
             for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
@@ -470,7 +466,7 @@ namespace com.ThreeCS.McCree
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, 1 << LayerMask.NameToLayer("Floor")))
+                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, (1 << LayerMask.NameToLayer("Floor")) + (1 << LayerMask.NameToLayer("Building")) ))
                 {
                     // 이동
                     agent.SetDestination(hit.point);
