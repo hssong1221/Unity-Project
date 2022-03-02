@@ -9,6 +9,9 @@ TagManager:
   - MineUI
   - GameManager
   - CardsPos
+  - Wall
+  - Floor
+  - Portal
   layers:
   - Default
   - TransparentFX
