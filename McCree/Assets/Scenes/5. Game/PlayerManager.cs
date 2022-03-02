@@ -14,20 +14,16 @@ namespace com.ThreeCS.McCree
     {
         #region Variable Fields
 
-        // 화면 상에 보이는 로컬 플레이어들
+        // 화면 상에 보이는 로컬 플레이어
         public static GameObject LocalPlayerInstance;
-
-        public GameObject[] players;
 
         public bool isAiming;
         public bool isDeath;
 
         // 플레이어 정보 타입
-        public enum jType { Error, Sheriff, Vice, Outlaw, Renegade } // 직업 타입
-        public enum aType { HumanVolcanic, BangMissed, ThreeCard, OnehpOnecard, TwocardOnehp,  TwocardOnecard, DrinkBottle } //능력 타입
         [Header("플레이어 정보")]
-        public jType playerType;
-        public aType abilityType;
+        public GameManager.jType playerType;
+        public GameManager.aType abilityType;
 
         [Header("이동 관련")]
         [HideInInspector]
@@ -74,8 +70,8 @@ namespace com.ThreeCS.McCree
         // float  agent.stoppingDistance 목표 위치 가까워졌을시 정지
         // bool   agent.Auto Braking 목적지에 다다를때 속도를 줄이는지
 
-        
 
+        GameManager gameManager;
 
         #endregion
 
@@ -85,8 +81,6 @@ namespace com.ThreeCS.McCree
         {
             base.Awake();
             agent = gameObject.GetComponent<NavMeshAgent>();
-            //rb = gameObject.GetComponent<Rigidbody>();
-
             pos = GameObject.FindWithTag("CardsPos").transform;
 
             // 포톤뷰에 의한 내 플레이어만
@@ -100,28 +94,22 @@ namespace com.ThreeCS.McCree
             }
             DontDestroyOnLoad(gameObject);
 
+            gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         }
         
         void Start()
         {
-            //SceneManager.sceneLoaded += OnSceneLoaded;
-
-            photonView.RPC("PlayerListSync", RpcTarget.All);
-
-            // 방장이 직업을 섞어서 나눠줌
-            if (PhotonNetwork.IsMasterClient && photonView.IsMine)
-            {
-                Debug.Log("방장이 직업과 능력을 섞어 ");
-
-                StartCoroutine(JobandAbility());
-
-                StartCoroutine(Cards());
-
-                //JobandAbility(); //플레이어 직업과 능력 분배
-            }
-            else
-                return;
+            photonView.RPC("PlayerListSync", RpcTarget.All); // 플레이어 리스트 동기화
         }
+
+        [PunRPC]
+        public void PlayerListSync()
+        {
+            //플레이어 오브젝트가 전부 담김
+            gameManager.playerList = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log("플레이어 수(많큼 나올 듯) : " + gameManager.playerList.Length);
+        }
+
 
         public override void OnDisable()
         {
@@ -184,103 +172,53 @@ namespace com.ThreeCS.McCree
 
         #region private Methods
 
-        // 플레이어 직업과 능력 분배
-        IEnumerator JobandAbility()
-        {
-            yield return new WaitForEndOfFrame();
-
-            // (인구수에 맞게 하는 거 추가하기)
-            List<int> jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
-
-            // 능력 갯수에 맞게 해야함
-            List<int> abilityList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
-
-            jobList = CommonFunction.ShuffleList(jobList);
-            //Debug.Log("잡리스트" + jobList[0] + " "+ jobList[1] + " " + jobList[2]);
-            abilityList = CommonFunction.ShuffleList(abilityList);
-            //Debug.Log("어빌리스트" + abilityList[0] + " " + abilityList[1] + " " + abilityList[2]);
 
 
-            while (PhotonNetwork.PlayerList.Length != playerManager.players.Length)
-            {
-                Debug.Log("PM 방 총원 : " + PhotonNetwork.PlayerList.Length);
-                Debug.Log("PM 현재 로딩된 인원 수 : " + playerManager.players.Length);
-                yield return null;
-            }
+        //IEnumerator Cards()
+        //{
+        //    yield return new WaitForSeconds(10f); // 변수 설정문제때문에 늦춤
+        //    // wait싹빼고 순서대로 로직 짜야함 고민 ㄱ
+
+        //    cardSet = gameObject.AddComponent<CardSet>(); // 마스터 클라이언트만 카드 셋 정보 가지고있는다
+
+        //    yield return new WaitForEndOfFrame(); // 기다리지않으면 cardSet의 Start가 돌아가지않는다
+
+        //    //for (int i = 0; i < cardSet.cardList.Count; i++) // 전체 카드 보기
+        //    //    Debug.Log(i+"번째: " + cardSet.cardList[i].ability.ToString());
 
 
-            // 직업을 나눠주고 동기화 시킴
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                Debug.Log("잡 리스트 번호 : " + jobList[i]);
-                players[i].GetComponent<PhotonView>().RPC("JobSelect", RpcTarget.All, jobList[i]);
-            }
-
-            // 능력을 나눠주고 동기화 시킴
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                Debug.Log("잡 리스트 번호 : " + abilityList[i]);
-                players[i].GetComponent<PhotonView>().RPC("AbilitySelect", RpcTarget.All, abilityList[i]);
-            }
-
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                Debug.Log("체력 동기화 : " + playerManager.players[i]);
-                players[i].GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All);
-            }
-
-
-
-
-        }
-
-        IEnumerator Cards()
-        {
-            yield return new WaitForSeconds(10f); // 변수 설정문제때문에 늦춤
-            // wait싹빼고 순서대로 로직 짜야함 고민 ㄱ
-
-            cardSet = gameObject.AddComponent<CardSet>(); // 마스터 클라이언트만 카드 셋 정보 가지고있는다
-
-            yield return new WaitForEndOfFrame(); // 기다리지않으면 cardSet의 Start가 돌아가지않는다
-
-            //for (int i = 0; i < cardSet.cardList.Count; i++) // 전체 카드 보기
-            //    Debug.Log(i+"번째: " + cardSet.cardList[i].ability.ToString());
-
-
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                // 해당 플레이어의 PhotonView
-                PhotonView player = players[i].GetComponent<PhotonView>(); 
+        //    for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        //    {
+        //        // 해당 플레이어의 PhotonView
+        //        PhotonView player = players[i].GetComponent<PhotonView>(); 
                 
-                // 해당플레이어의 최대 체력
-                int MHp = player.GetComponent<PlayerInfo>().maxHp;
+        //        // 해당플레이어의 최대 체력
+        //        int MHp = player.GetComponent<PlayerInfo>().maxHp;
 
-                // 해당플레이어가 가져갈 카드 이름
-                Card.cType[] startCards = new Card.cType[MHp];
+        //        // 해당플레이어가 가져갈 카드 이름
+        //        Card.cType[] startCards = new Card.cType[MHp];
 
-                // 해당 플레이어의 체력 수 만큼 카드 뽑음
-                for (int j = 0; j < MHp; j++)
-                {
-                    startCards[j] = cardSet.cardList[0].ability;
-                    cardSet.cardList.RemoveAt(0);
-                }
+        //        // 해당 플레이어의 체력 수 만큼 카드 뽑음
+        //        for (int j = 0; j < MHp; j++)
+        //        {
+        //            startCards[j] = cardSet.cardList[0].ability;
+        //            cardSet.cardList.RemoveAt(0);
+        //        }
 
-                //Debug.Log("뽑은것:");
-                //for (int k = 0; k < startCards.Length; k++)
-                //{
-                //    Debug.Log(startCards[k]);
-                //}
+        //        //Debug.Log("뽑은것:");
+        //        //for (int k = 0; k < startCards.Length; k++)
+        //        //{
+        //        //    Debug.Log(startCards[k]);
+        //        //}
 
-                // photon sibal string int array 기본적인 내용밖에 전송불가능하지만
-                // json으로 직렬화 시키면 다른 타입도 photon으로 전송가능 
-                var json = JsonConvert.SerializeObject(startCards);
+        //        // photon sibal string int array 기본적인 내용밖에 전송불가능하지만
+        //        // json으로 직렬화 시키면 다른 타입도 photon으로 전송가능 
+        //        var json = JsonConvert.SerializeObject(startCards);
 
-                players[i].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, json);
-            }
+        //        players[i].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, json);
+        //    }
 
-
-
-        }
+        //}
 
         [PunRPC]
         public void GiveCards(string jsonData)
@@ -306,87 +244,6 @@ namespace com.ThreeCS.McCree
             //mineUI.Show_Start_Cards();
         }
 
-        [PunRPC]
-        public void SyncHp()
-        {
-            playerInfo.Show_Hp();
-        }
-
-        // 플레이어 직업 동기화
-        [PunRPC]
-        public void JobSelect(int num)
-        {
-            switch (num)
-            {
-                case 1:
-                    playerType = jType.Sheriff;
-                    playerInfo.hp = 5;
-                    playerInfo.maxHp = 5;
-                    break;
-                case 2:
-                case 3:
-                    playerType = jType.Vice;
-                    playerInfo.hp = 4;
-                    playerInfo.maxHp = 4;
-                    break;
-                case 4:
-                case 5:
-                case 6:
-                    playerType = jType.Outlaw;
-                    playerInfo.hp = 3;
-                    playerInfo.maxHp = 3;
-                    break;
-                case 7:
-                    playerType = jType.Renegade;
-                    playerInfo.hp = 2;
-                    playerInfo.maxHp = 2;
-                    break;
-            }
-
-        }
-
-        // 플레이어 능력 동기화
-        [PunRPC]
-        public void AbilitySelect(int num)
-        {
-            switch (num)
-            {
-                case 1:
-                    abilityType = aType.BangMissed;
-                    break;
-                case 2:
-                    abilityType = aType.DrinkBottle;
-                    break;
-                case 3:
-                    abilityType = aType.HumanVolcanic;
-                    break;
-                case 4:
-                    abilityType = aType.OnehpOnecard;
-                    break;
-                case 5:
-                    abilityType = aType.ThreeCard;
-                    break;
-                case 6:
-                    abilityType = aType.TwocardOnecard;
-                    break;
-                case 7:
-                    abilityType = aType.TwocardOnehp;
-                    break;
-            }
-
-        }
-
-        
-        // 플레이어 현재 리스트 동기화
-
-        [PunRPC]
-        public void PlayerListSync()
-        {
-            //플레이어 오브젝트가 전부 담김
-            this.players = GameObject.FindGameObjectsWithTag("Player");
-            Debug.Log("플레이어 수(많큼 나올 듯) : " + players.Length);
-        }
-        
         
         // 뱅 준비 (공격 사거리 표시)
         void AttackRange()
@@ -500,6 +357,82 @@ namespace com.ThreeCS.McCree
             animator.SetFloat("Speed", speed);
         }
 
+
+        #endregion
+
+
+        #region 마스터로 부터 받은 정보 로컬과 동기화
+        [PunRPC]
+        public void JobSelect(int num) // 내 직업 동기화 
+        {
+            switch (num)
+            {
+                case 1:
+                    playerManager.playerType = GameManager.jType.Sheriff;
+                    playerInfo.hp = 5;
+                    playerInfo.maxHp = 5;
+                    break;
+                case 2:
+                case 3:
+                    playerManager.playerType = GameManager.jType.Vice;
+                    playerInfo.hp = 4;
+                    playerInfo.maxHp = 4;
+                    break;
+                case 4:
+                case 5:
+                case 6:
+                    playerManager.playerType = GameManager.jType.Outlaw;
+                    playerInfo.hp = 3;
+                    playerInfo.maxHp = 3;
+                    break;
+                case 7:
+                    playerManager.playerType = GameManager.jType.Renegade;
+                    playerInfo.hp = 2;
+                    playerInfo.maxHp = 2;
+                    break;
+            }
+        }
+
+        [PunRPC]
+        public void AbilitySelect(int num) // 내 능력 동기화 
+        {
+            switch (num)
+            {
+                case 1:
+                    playerManager.abilityType = GameManager.aType.BangMissed;
+                    break;
+                case 2:
+                    playerManager.abilityType = GameManager.aType.DrinkBottle;
+                    break;
+                case 3:
+                    playerManager.abilityType = GameManager.aType.HumanVolcanic;
+                    break;
+                case 4:
+                    playerManager.abilityType = GameManager.aType.OnehpOnecard;
+                    break;
+                case 5:
+                    playerManager.abilityType = GameManager.aType.ThreeCard;
+                    break;
+                case 6:
+                    playerManager.abilityType = GameManager.aType.TwocardOnecard;
+                    break;
+                case 7:
+                    playerManager.abilityType = GameManager.aType.TwocardOnehp;
+                    break;
+            }
+        }
+
+        [PunRPC] 
+        public void SyncHp() // 내 체력 동기화
+        {
+            playerInfo.Show_Hp();
+        }
+
+        [PunRPC]
+        public void AnimStart() // 애니메이션 플레이
+        {
+            StartCoroutine(gameManager.GameStart());
+        }
         #endregion
     }
 

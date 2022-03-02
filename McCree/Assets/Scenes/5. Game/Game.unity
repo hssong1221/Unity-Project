@@ -7337,6 +7337,76 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4737614941742494, guid: 528dda3b894d15b468c2f71de15d489f, type: 3}
   m_PrefabInstance: {fileID: 157555833}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &165585973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 165585975}
+  - component: {fileID: 165585974}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: GameManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &165585974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165585973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c44f0576c86313f4a8fa5dab7bdb89d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerList: []
+  playerPrefab: {fileID: 6215404349552837223, guid: db43c7ab86ae6804bbf84a4e146e3bd7, type: 3}
+  jobPanel: {fileID: 701814724}
+  jobBoard: {fileID: 903927746}
+  jobText: {fileID: 1692311706}
+  jobImage1: {fileID: 129067297}
+  jobImage2: {fileID: 1538761088}
+  jobImage3: {fileID: 958114539}
+  abilPanel: {fileID: 1650749900}
+  abilImage: {fileID: 83871023}
+  abilText: {fileID: 243941168}
+  sheriff1: {fileID: -1836120431684336037, guid: 83b8c4c4ba1e36447bbefd0e4ab10294, type: 3}
+  sheriff2: {fileID: -3689370695421367102, guid: b34db70a35d530647b80f336beb1e8fd, type: 3}
+  sheriff3: {fileID: 21300000, guid: 0dd92b26feb86f542b9890c9f7dcf981, type: 3}
+  deputy1: {fileID: 21300000, guid: 2f0bffead2ff66d4f8601872b6906bc6, type: 3}
+  deputy2: {fileID: 21300000, guid: 2f0bffead2ff66d4f8601872b6906bc6, type: 3}
+  deputy3: {fileID: 21300000, guid: 2f0bffead2ff66d4f8601872b6906bc6, type: 3}
+  outlaw1: {fileID: 21300000, guid: f92350949cfd95e4f815800af31d5b45, type: 3}
+  outlaw2: {fileID: 21300000, guid: f92350949cfd95e4f815800af31d5b45, type: 3}
+  outlaw3: {fileID: 21300000, guid: f92350949cfd95e4f815800af31d5b45, type: 3}
+  renegade1: {fileID: 21300000, guid: af7da4d173f414b4ca7684383381b7f7, type: 3}
+  renegade2: {fileID: 21300000, guid: af7da4d173f414b4ca7684383381b7f7, type: 3}
+  renegade3: {fileID: 21300000, guid: af7da4d173f414b4ca7684383381b7f7, type: 3}
+  sheriff4: {fileID: 21300000, guid: 512567abd27d62949a8f3bda1343ae8c, type: 3}
+  deputy4: {fileID: 21300000, guid: 2f0bffead2ff66d4f8601872b6906bc6, type: 3}
+  outlaw4: {fileID: 21300000, guid: f92350949cfd95e4f815800af31d5b45, type: 3}
+  renegade4: {fileID: 21300000, guid: af7da4d173f414b4ca7684383381b7f7, type: 3}
+--- !u!4 &165585975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 165585973}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 981.5774, y: 509.5127, z: 58.281616}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &173675947
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39195,7 +39265,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2096931761
 PrefabInstance:

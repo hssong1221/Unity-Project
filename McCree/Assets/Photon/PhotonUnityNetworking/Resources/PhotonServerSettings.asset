@@ -54,6 +54,7 @@ MonoBehaviour:
   - RPC_GameLoading
   - SyncHp
   - GiveCards
+  - AnimStart
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
