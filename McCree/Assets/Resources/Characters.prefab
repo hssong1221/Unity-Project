@@ -1896,7 +1896,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4183951f5f89d014c84f43dea276f032, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
   isAiming: 0
   isDeath: 0
   playerType: 0

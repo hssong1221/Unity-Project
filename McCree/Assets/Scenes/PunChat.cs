@@ -171,7 +171,6 @@ namespace com.ThreeCS.McCree
 
 
 
-
         #region IChatClientListener
         // 이 밑은 IChatClientListener 인터페이스
         // OnJoinedRoom exitroom 뭐시기처럼 메세지 받거나 친추등 기능 구현할수있는 인터페이스
