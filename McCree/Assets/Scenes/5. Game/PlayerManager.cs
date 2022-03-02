@@ -70,9 +70,6 @@ namespace com.ThreeCS.McCree
         // float  agent.stoppingDistance 목표 위치 가까워졌을시 정지
         // bool   agent.Auto Braking 목적지에 다다를때 속도를 줄이는지
 
-
-        GameManager gameManager;
-
         #endregion
 
         #region MonoBehaviour CallBacks
@@ -94,7 +91,6 @@ namespace com.ThreeCS.McCree
             }
             DontDestroyOnLoad(gameObject);
 
-            gameManager = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
         }
         
         void Start()
@@ -106,8 +102,8 @@ namespace com.ThreeCS.McCree
         public void PlayerListSync()
         {
             //플레이어 오브젝트가 전부 담김
-            gameManager.playerList = GameObject.FindGameObjectsWithTag("Player");
-            Debug.Log("플레이어 수(많큼 나올 듯) : " + gameManager.playerList.Length);
+            GameManager.Instance.playerList = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log("플레이어 수(많큼 나올 듯) : " + GameManager.Instance.playerList.Length);
         }
 
 
@@ -431,7 +427,10 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         public void AnimStart() // 애니메이션 플레이
         {
-            StartCoroutine(gameManager.GameStart());
+            if (photonView.IsMine)
+            { 
+                StartCoroutine(GameManager.Instance.GameStart());
+            }
         }
         #endregion
     }

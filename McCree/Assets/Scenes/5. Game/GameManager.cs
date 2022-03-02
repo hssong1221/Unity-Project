@@ -95,8 +95,6 @@ namespace com.ThreeCS.McCree
         public Sprite renegade4;
 
 
-        private void Awake()
-
         void Awake()
         {
             // 어디서든 쓸 수 있게 인스턴스화
@@ -255,7 +253,12 @@ namespace com.ThreeCS.McCree
             yield return new WaitForSeconds(0.5f);
             abilUIAnimator.SetTrigger("Abil");
 
-            yield return new WaitForSeconds(12f);
+
+            Debug.Log("ㅁㄴ이ㅏㅁㄴ으ㅏㅣㅁㄴ으;ㅣ");
+            abilText.text += AblityText();
+            abilText.text += "\n3. 당신의 능력을 잘 활용하십시오";
+
+            // 사람들이 텍스트를 읽을 시간 부여
             yield return new WaitForSeconds(12f);
 
             abilPanel.SetActive(false);

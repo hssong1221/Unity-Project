@@ -7,7 +7,6 @@ TagManager:
   - Bullet
   - PhotonView
   - MineUI
-  - GameManager
   - CardsPos
   - Wall
   - Floor
