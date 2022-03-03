@@ -32,7 +32,6 @@ namespace com.ThreeCS.McCree
             playerAutoMove = GetComponent<PlayerAutoMove>();
             playerInfo = GetComponent<PlayerInfo>();
             ui = GetComponent<UI>();
-            mineUI = GameObject.FindWithTag("MineUI").GetComponent<MineUI>();
 
 
             animator = GetComponent<Animator>();

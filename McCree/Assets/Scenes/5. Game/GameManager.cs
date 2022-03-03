@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 using Photon.Pun;
 using Photon.Realtime;
-
+using Newtonsoft.Json;
 
 namespace com.ThreeCS.McCree
 {
@@ -31,7 +31,9 @@ namespace com.ThreeCS.McCree
         private PhotonView photonView;
         private PlayerManager playerManager;
         private PlayerInfo playerInfo;
-        private MineUI mineUI;
+
+        // 마스터만 사용하는 (전체) 카드 셋 
+        private CardSet cardSet; // 마스터만 줄꺼임
 
         public enum jType
         {
@@ -109,7 +111,6 @@ namespace com.ThreeCS.McCree
                 SceneManager.LoadScene("Launcher");
                 return;
             }
-            mineUI = GameObject.FindWithTag("MineUI").GetComponent<MineUI>();
 
         }
 
@@ -153,6 +154,8 @@ namespace com.ThreeCS.McCree
                     photonView = player.GetComponent<PhotonView>();
                     playerManager = player.GetComponent<PlayerManager>();
                     playerInfo = player.GetComponent<PlayerInfo>();
+
+                    MineUI.Instance.FindMinePv(player);
                     break;
                 }
             }
@@ -182,6 +185,9 @@ namespace com.ThreeCS.McCree
 
                 // 카드 나눠주는것
                 //StartCoroutine(Cards());
+                
+                // 임시 카드셋
+                cardSet = gameObject.AddComponent<CardSet>();
             }
         }
 
@@ -356,6 +362,49 @@ namespace com.ThreeCS.McCree
             return temp;
         }
 
+        IEnumerator Cards()
+        {
+            cardSet = gameObject.AddComponent<CardSet>(); // 마스터 클라이언트만 카드 셋 정보 가지고있는다
+
+            yield return new WaitForEndOfFrame(); // 기다리지않으면 cardSet의 Start가 돌아가지않는다
+
+            //for (int i = 0; i < cardSet.cardList.Count; i++) // 전체 카드 보기
+            //    Debug.Log(i+"번째: " + cardSet.cardList[i].ability.ToString());
+
+
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                // 해당 플레이어의 PhotonView
+                PhotonView player = playerList[i].GetComponent<PhotonView>();
+
+                // 해당플레이어의 최대 체력
+                int MHp = player.GetComponent<PlayerInfo>().maxHp;
+
+                // 해당플레이어가 가져갈 카드 이름
+                Card.cType[] startCards = new Card.cType[MHp];
+
+                // 해당 플레이어의 체력 수 만큼 카드 뽑음
+                for (int j = 0; j < MHp; j++)
+                {
+                    startCards[j] = cardSet.cardList[0].ability;
+                    cardSet.cardList.RemoveAt(0);
+                }
+
+                //Debug.Log("뽑은것:");
+                //for (int k = 0; k < startCards.Length; k++)
+                //{
+                //    Debug.Log(startCards[k]);
+                //}
+
+                // photon sibal string int array 기본적인 내용밖에 전송불가능하지만
+                // json으로 직렬화 시키면 다른 타입도 photon으로 전송가능 
+                var json = JsonConvert.SerializeObject(startCards);
+
+                playerList[i].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, json);
+            }
+
+        }
+
 
 
         #region Photon Callback
@@ -403,6 +452,11 @@ namespace com.ThreeCS.McCree
 
             PhotonNetwork.LoadLevel("Game");
         }*/
+
+        public CardSet Get_CardSet()
+        {
+            return (cardSet);
+        }
 
         #endregion
 
