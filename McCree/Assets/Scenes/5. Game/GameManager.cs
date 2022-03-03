@@ -240,27 +240,23 @@ namespace com.ThreeCS.McCree
 
         public IEnumerator GameStart()
         {
+            // 직업 선택 텍스트랑 애니메이션 재생
+
             yield return new WaitForEndOfFrame();
             jobPanel.SetActive(true);
-
-            // 직업 선택 텍스트랑 애니메이션 재생
             jobText.text = JobText();
+
             yield return new WaitForSeconds(6f);
-
             jobPanel.SetActive(false);
-
             abilPanel.SetActive(true);
+
             yield return new WaitForSeconds(0.5f);
             abilUIAnimator.SetTrigger("Abil");
-
-
-            Debug.Log("ㅁㄴ이ㅏㅁㄴ으ㅏㅣㅁㄴ으;ㅣ");
             abilText.text += AblityText();
             abilText.text += "\n3. 당신의 능력을 잘 활용하십시오";
 
             // 사람들이 텍스트를 읽을 시간 부여
-            yield return new WaitForSeconds(12f);
-
+            //yield return new WaitForSeconds(12f);
             abilPanel.SetActive(false);
         }
 

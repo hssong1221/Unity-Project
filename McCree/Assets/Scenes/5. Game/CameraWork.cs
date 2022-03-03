@@ -47,7 +47,19 @@ namespace com.ThreeCS.McCree
                         Cam.Follow = target;
                         Cam.LookAt = target;
                     }
-                    else if(Cam.name == "CM vcam2")
+                    else if (Cam.name == "CM vcam2")
+                    {
+                        target = player.transform;
+                        Cam.Follow = target;
+                        Cam.LookAt = target;
+                    }
+                    else if (Cam.name == "CM vcam3")
+                    {
+                        target = player.transform;
+                        Cam.Follow = target;
+                        Cam.LookAt = target;
+                    }
+                    else if(Cam.name == "CM vcam4")
                     {
                         target = player.transform;
                         Cam.LookAt = target;
