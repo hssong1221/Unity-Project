@@ -35,7 +35,7 @@ namespace com.ThreeCS.McCree
         protected Vector3 offset;
 
 
-        private CardSet cardSet; // 마스터만 줄꺼임
+        
         public Card cardObject;
         public Transform pos;
 
@@ -170,75 +170,9 @@ namespace com.ThreeCS.McCree
 
 
 
-        //IEnumerator Cards()
-        //{
-        //    yield return new WaitForSeconds(10f); // 변수 설정문제때문에 늦춤
-        //    // wait싹빼고 순서대로 로직 짜야함 고민 ㄱ
+        
 
-        //    cardSet = gameObject.AddComponent<CardSet>(); // 마스터 클라이언트만 카드 셋 정보 가지고있는다
-
-        //    yield return new WaitForEndOfFrame(); // 기다리지않으면 cardSet의 Start가 돌아가지않는다
-
-        //    //for (int i = 0; i < cardSet.cardList.Count; i++) // 전체 카드 보기
-        //    //    Debug.Log(i+"번째: " + cardSet.cardList[i].ability.ToString());
-
-
-        //    for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-        //    {
-        //        // 해당 플레이어의 PhotonView
-        //        PhotonView player = players[i].GetComponent<PhotonView>(); 
-                
-        //        // 해당플레이어의 최대 체력
-        //        int MHp = player.GetComponent<PlayerInfo>().maxHp;
-
-        //        // 해당플레이어가 가져갈 카드 이름
-        //        Card.cType[] startCards = new Card.cType[MHp];
-
-        //        // 해당 플레이어의 체력 수 만큼 카드 뽑음
-        //        for (int j = 0; j < MHp; j++)
-        //        {
-        //            startCards[j] = cardSet.cardList[0].ability;
-        //            cardSet.cardList.RemoveAt(0);
-        //        }
-
-        //        //Debug.Log("뽑은것:");
-        //        //for (int k = 0; k < startCards.Length; k++)
-        //        //{
-        //        //    Debug.Log(startCards[k]);
-        //        //}
-
-        //        // photon sibal string int array 기본적인 내용밖에 전송불가능하지만
-        //        // json으로 직렬화 시키면 다른 타입도 photon으로 전송가능 
-        //        var json = JsonConvert.SerializeObject(startCards);
-
-        //        players[i].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, json);
-        //    }
-
-        //}
-
-        [PunRPC]
-        public void GiveCards(string jsonData)
-        {
-            Card.cType[] startCards = JsonConvert.DeserializeObject<Card.cType[]>(jsonData);
-
-            for (int k = 0; k < startCards.Length; k++)
-            {
-                cardObject.ability = startCards[k]; // 뽑은 카드이름
-                cardObject.matchImg(); // 뽑은 카드 그림 매칭
-                 
-                playerInfo.mycards.Add(cardObject); // 내가 가지고있는 카드셋 mycards에 추가 
-
-                if (photonView.IsMine) // 내 개인 UI에 내껏만 추가 
-                    Instantiate(cardObject, pos);
-            }
-
-            //for (int i = 0; i < playerInfo.mycards.Count; i++)
-            //{
-            //    Debug.Log(playerInfo.mycards[i].ability.ToString());
-            //}
-
-            //mineUI.Show_Start_Cards();
-        }
+        
 
         
         // 뱅 준비 (공격 사거리 표시)
@@ -432,6 +366,46 @@ namespace com.ThreeCS.McCree
                 StartCoroutine(GameManager.Instance.GameStart());
             }
         }
+
+        [PunRPC]
+        public void GiveCards(string jsonData, Vector3 objPos) // 카드 나눠주기
+        {
+            Card.cType[] startCards = JsonConvert.DeserializeObject<Card.cType[]>(jsonData);
+
+            for (int k = 0; k < startCards.Length; k++)
+            {
+
+                cardObject.ability = startCards[k]; // 뽑은 카드이름
+                //cardObject.posValue(objPos);
+                cardObject.matchImg(); // 뽑은 카드 그림 매칭
+
+
+
+                if (photonView.IsMine) // 내 개인 UI에 내껏만 추가 
+                {
+                    var card = Instantiate(cardObject, MineUI.Instance.pos_CardSpwan.position, Quaternion.identity, MineUI.Instance.pos_CardParent);
+                    var card2 = card.GetComponent<Card>();
+                    playerInfo.mycards.Add(card2);
+
+                    MineUI.Instance.CardAlignment();
+                }
+                else 
+                { 
+                    playerInfo.mycards.Add(cardObject); // 내가 가지고있는 카드셋 mycards에 추가 
+                }
+
+
+
+            }
+
+            //for (int i = 0; i < playerInfo.mycards.Count; i++)
+            //{
+            //    Debug.Log(playerInfo.mycards[i].ability.ToString());
+            //}
+
+            //mineUI.Show_Start_Cards();
+        }
+
         #endregion
     }
 

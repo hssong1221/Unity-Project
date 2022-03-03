@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace com.ThreeCS.McCree
 {
@@ -19,6 +20,13 @@ namespace com.ThreeCS.McCree
 
         cType content;
         Sprite contentImg;
+
+        Transform cardPos;
+        public PRS originPRS;
+        //public float cpos_x;
+        //public float cpos_y;
+        //public float cpos_z;
+
 
 
         public Card(cType content)
@@ -46,6 +54,14 @@ namespace com.ThreeCS.McCree
         }
 
 
+        public void posValue(Vector3 myCardPos)
+        {
+            cardPos.position = new Vector3(myCardPos.x, myCardPos.y, myCardPos.z);
+            //cpos_x = myCardPos.position.x;
+            //cpos_y = myCardPos.position.y;
+            //cpos_z = myCardPos.position.z;
+        }
+
         public void matchImg()
         {
             if (this.content == cType.Bang)
@@ -61,6 +77,23 @@ namespace com.ThreeCS.McCree
                 this.cardImg = healImg;
             }
             cardInImg.sprite = this.cardImg;
+        }
+
+        public void MoveTransform (PRS prs, bool useDotween, float dotweenTime = 0)
+        {
+            if (useDotween)
+            {
+                Debug.Log("do tween");
+                transform.DOMove(prs.pos, dotweenTime);
+                transform.DORotateQuaternion(prs.rot, dotweenTime);
+                transform.DOScale(prs.scale, dotweenTime);
+            }
+            else
+            {
+                transform.position = prs.pos;
+                transform.rotation = prs.rot;
+                transform.localScale = prs.scale;
+            }
         }
 
     }
