@@ -27,6 +27,7 @@ namespace com.ThreeCS.McCree
 
                 for (int i = 0; i < num; i++) // Are you Serious?
                 {
+                    Debug.Log(restCard.cardList[i].ability);
                     startCards[i] = restCard.cardList[i].ability;
                     restCard.cardList.RemoveAt(i);
                 }
