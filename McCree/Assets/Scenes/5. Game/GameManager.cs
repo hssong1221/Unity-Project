@@ -14,6 +14,8 @@ namespace com.ThreeCS.McCree
 {
     public class GameManager : MonoBehaviourPunCallbacks
     {
+        #region Variable Fields
+
         // 게임 매니저 어디서든 사용가능?
         static public GameManager Instance;
 
@@ -96,6 +98,14 @@ namespace com.ThreeCS.McCree
         public Sprite outlaw4;
         public Sprite renegade4;
 
+        [Header("맵 기준점")]
+        public Transform[] points;
+        public GameObject[] maps;
+
+        #endregion
+
+
+        #region MonoBehaviour CallBacks
 
         void Awake()
         {
@@ -126,12 +136,19 @@ namespace com.ThreeCS.McCree
             {
                 if (PlayerManager.LocalPlayerInstance == null)
                 {
+                    Map();
+
                     StartCoroutine(SpawnPlayer()); // PhotonNetwork.Instantiate
+
                     cameraWork = GetComponent<CameraWork>(); // 본인 카메라 가져오기
                 }
             }
             StartCoroutine(WaitAllPlayers()); // 다른 플레이어 기다리기
         }
+
+        #endregion
+
+        #region Coroutine
 
         IEnumerator SpawnPlayer()
         {
@@ -229,8 +246,6 @@ namespace com.ThreeCS.McCree
             yield return new WaitForEndOfFrame();
         }
 
-
-
         // 애니메이션 스타트
         IEnumerator AnimPlay()
         {
@@ -265,6 +280,54 @@ namespace com.ThreeCS.McCree
             //yield return new WaitForSeconds(12f);
             abilPanel.SetActive(false);
         }
+
+        IEnumerator Cards()
+        {
+            cardSet = gameObject.AddComponent<CardSet>(); // 마스터 클라이언트만 카드 셋 정보 가지고있는다
+
+            yield return new WaitForEndOfFrame(); // 기다리지않으면 cardSet의 Start가 돌아가지않는다
+
+            //for (int i = 0; i < cardSet.cardList.Count; i++) // 전체 카드 보기
+            //    Debug.Log(i+"번째: " + cardSet.cardList[i].ability.ToString());
+
+
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                // 해당 플레이어의 PhotonView
+                PhotonView player = playerList[i].GetComponent<PhotonView>();
+
+                // 해당플레이어의 최대 체력
+                int MHp = player.GetComponent<PlayerInfo>().maxHp;
+
+                // 해당플레이어가 가져갈 카드 이름
+                Card.cType[] startCards = new Card.cType[MHp];
+
+                // 해당 플레이어의 체력 수 만큼 카드 뽑음
+                for (int j = 0; j < MHp; j++)
+                {
+                    startCards[j] = cardSet.cardList[0].ability;
+                    cardSet.cardList.RemoveAt(0);
+                }
+
+                //Debug.Log("뽑은것:");
+                //for (int k = 0; k < startCards.Length; k++)
+                //{
+                //    Debug.Log(startCards[k]);
+                //}
+
+                // photon sibal string int array 기본적인 내용밖에 전송불가능하지만
+                // json으로 직렬화 시키면 다른 타입도 photon으로 전송가능 
+                var json = JsonConvert.SerializeObject(startCards);
+
+                playerList[i].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, json);
+            }
+
+        }
+
+
+        #endregion
+
+        #region Public Methods
 
         // 직업 관련 텍스트
         public string JobText()
@@ -362,79 +425,6 @@ namespace com.ThreeCS.McCree
             return temp;
         }
 
-        IEnumerator Cards()
-        {
-            cardSet = gameObject.AddComponent<CardSet>(); // 마스터 클라이언트만 카드 셋 정보 가지고있는다
-
-            yield return new WaitForEndOfFrame(); // 기다리지않으면 cardSet의 Start가 돌아가지않는다
-
-            //for (int i = 0; i < cardSet.cardList.Count; i++) // 전체 카드 보기
-            //    Debug.Log(i+"번째: " + cardSet.cardList[i].ability.ToString());
-
-
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                // 해당 플레이어의 PhotonView
-                PhotonView player = playerList[i].GetComponent<PhotonView>();
-
-                // 해당플레이어의 최대 체력
-                int MHp = player.GetComponent<PlayerInfo>().maxHp;
-
-                // 해당플레이어가 가져갈 카드 이름
-                Card.cType[] startCards = new Card.cType[MHp];
-
-                // 해당 플레이어의 체력 수 만큼 카드 뽑음
-                for (int j = 0; j < MHp; j++)
-                {
-                    startCards[j] = cardSet.cardList[0].ability;
-                    cardSet.cardList.RemoveAt(0);
-                }
-
-                //Debug.Log("뽑은것:");
-                //for (int k = 0; k < startCards.Length; k++)
-                //{
-                //    Debug.Log(startCards[k]);
-                //}
-
-                // photon sibal string int array 기본적인 내용밖에 전송불가능하지만
-                // json으로 직렬화 시키면 다른 타입도 photon으로 전송가능 
-                var json = JsonConvert.SerializeObject(startCards);
-
-                playerList[i].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, json);
-            }
-
-        }
-
-
-
-        #region Photon Callback
-
-        public override void OnPlayerEnteredRoom(Player other)
-        {
-            Debug.Log("플레이어가 입장했습니다 : " + other.NickName); 
-            if (PhotonNetwork.IsMasterClient)
-            {
-                Debug.Log("당신이 마스터 클라이언트(방장)입니다."); 
-
-                //LoadArena();
-            }
-        }
-
-        public override void OnPlayerLeftRoom(Player other)
-        {
-            Debug.Log("플레이어가 나갔습니다 : " + other.NickName); 
-            if (PhotonNetwork.IsMasterClient)
-            {
-                Debug.LogFormat("마스터클라이언트가 바뀌었습니다. :  {0}", PhotonNetwork.IsMasterClient);
-
-                //LoadArena();
-            }
-        }
-        #endregion
-
-
-        #region Public Methods
-
         // 방 나가기 임시 구현
         public void LeaveRoom()
         {
@@ -458,6 +448,41 @@ namespace com.ThreeCS.McCree
             return (cardSet);
         }
 
+        // 맵 생성 임시 구현
+        public void Map()
+        {
+            for(int i = 0; i < 8; i++)
+            {
+                GameObject temp = Instantiate(maps[0], points[i]);
+
+            }
+        }
+
+        #endregion
+
+        #region Photon Callback
+
+        public override void OnPlayerEnteredRoom(Player other)
+        {
+            Debug.Log("플레이어가 입장했습니다 : " + other.NickName);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Debug.Log("당신이 마스터 클라이언트(방장)입니다.");
+
+                //LoadArena();
+            }
+        }
+
+        public override void OnPlayerLeftRoom(Player other)
+        {
+            Debug.Log("플레이어가 나갔습니다 : " + other.NickName);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                Debug.LogFormat("마스터클라이언트가 바뀌었습니다. :  {0}", PhotonNetwork.IsMasterClient);
+
+                //LoadArena();
+            }
+        }
         #endregion
 
     }

@@ -292,6 +292,7 @@ namespace com.ThreeCS.McCree
 
 
         #region 마스터로 부터 받은 정보 로컬과 동기화
+
         [PunRPC]
         public void JobSelect(int num) // 내 직업 동기화 
         {
