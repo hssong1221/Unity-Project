@@ -13,30 +13,26 @@ namespace com.ThreeCS.McCree
     {
         private void Update()
         {
-            transform.Rotate(Vector3.up * 30.0f * Time.deltaTime);
+            transform.Rotate(Vector3.up * 40.0f * Time.deltaTime);
         }
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Player")
             {
-                int num = 1;
+                int num = 1; // 아이템 부딪히면 나눠줄 카드 개수
 
-                Card.cType[] startCards = new Card.cType[num];
+                // 콜라이더를 포톤으로 못넘겨서 플레이어 넘버를 넘겨줌
 
-                CardSet restCard = GameManager.Instance.Get_CardSet();
+                PhotonView pv = other.GetComponent<PhotonView>(); // 부딪힌 플레이어 PhotonView
+                Vector3 pos = transform.position; // 아이템 위치
+                int pvNum = pv.OwnerActorNr;      // 부딪힌 플레이어 넘버
 
-                for (int i = 0; i < num; i++) // Are you Serious?
+
+                if (pv.IsMine)
                 {
-                    Debug.Log(restCard.cardList[i].ability);
-                    startCards[i] = restCard.cardList[i].ability;
-                    restCard.cardList.RemoveAt(i);
+                    // 마스터한테만 보낸다 (카드셋에서 카드 뽑기)
+                    other.GetComponent<PhotonView>().RPC("Draw_Card", RpcTarget.MasterClient, num, pvNum, pos);
                 }
-                
-                var json = JsonConvert.SerializeObject(startCards);
-               
-                
-                other.GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, json, transform.position);
-
             }
         }
     }

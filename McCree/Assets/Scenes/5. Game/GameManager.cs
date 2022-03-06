@@ -205,6 +205,7 @@ namespace com.ThreeCS.McCree
                 
                 // 임시 카드셋
                 cardSet = gameObject.AddComponent<CardSet>();
+
             }
         }
 

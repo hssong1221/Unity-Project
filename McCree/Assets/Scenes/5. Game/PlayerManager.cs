@@ -375,12 +375,8 @@ namespace com.ThreeCS.McCree
 
             for (int k = 0; k < startCards.Length; k++)
             {
-
                 cardObject.ability = startCards[k]; // 뽑은 카드이름
-                //cardObject.posValue(objPos);
                 cardObject.matchImg(); // 뽑은 카드 그림 매칭
-
-
 
                 if (photonView.IsMine) // 내 개인 UI에 내껏만 추가 
                 {
@@ -394,17 +390,35 @@ namespace com.ThreeCS.McCree
                 { 
                     playerInfo.mycards.Add(cardObject); // 내가 가지고있는 카드셋 mycards에 추가 
                 }
-
-
-
             }
+        }
 
-            //for (int i = 0; i < playerInfo.mycards.Count; i++)
-            //{
-            //    Debug.Log(playerInfo.mycards[i].ability.ToString());
-            //}
+        [PunRPC]
+        public void Draw_Card(int num, int otherNum, Vector3 pos)
+        {
+            Card.cType[] startCards = new Card.cType[num];
+            
+            CardSet restCard = GameManager.Instance.Get_CardSet();
 
-            //mineUI.Show_Start_Cards();
+            for (int i = 0; i < num; i++) // Are you Serious?
+            {
+                Debug.Log(restCard.cardList[i].ability);
+                startCards[i] = restCard.cardList[i].ability;
+                restCard.cardList.RemoveAt(i);
+            }
+            // 카드셋에서 뽑은다음
+            var json = JsonConvert.SerializeObject(startCards);
+
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                // 해당 Collider를 플레이어 넘버와 비교하여 찾아 카드 준다.
+                PhotonView pv = GameManager.Instance.playerList[i].GetComponent<PhotonView>();
+                if (pv.OwnerActorNr == otherNum)
+                {
+                    pv.RPC("GiveCards", RpcTarget.All, json, pos);
+                    break;
+                }
+            }
         }
 
         #endregion

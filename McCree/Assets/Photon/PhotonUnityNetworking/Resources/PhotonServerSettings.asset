@@ -55,6 +55,7 @@ MonoBehaviour:
   - SyncHp
   - GiveCards
   - AnimStart
+  - Draw_Card
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
