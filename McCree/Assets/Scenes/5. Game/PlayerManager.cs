@@ -369,14 +369,31 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public void GiveCards(string jsonData, Vector3 objPos) // 카드 나눠주기
+        public void GiveCardSet(string jsonData)
         {
+            GameManager.Instance.cardSet = gameObject.AddComponent<CardSet>();
+
             Card.cType[] startCards = JsonConvert.DeserializeObject<Card.cType[]>(jsonData);
 
-            for (int k = 0; k < startCards.Length; k++)
+            for (int i = 0; i < startCards.Length; i++)
             {
-                cardObject.ability = startCards[k]; // 뽑은 카드이름
-                cardObject.matchImg(); // 뽑은 카드 그림 매칭
+                Card card = new Card(startCards[i]);
+                GameManager.Instance.cardSet.cardList.Add(card);
+            }
+        }
+
+
+        [PunRPC]
+        public void GiveCards(int num, Vector3 objPos) // 카드 나눠주기
+        {
+            Debug.Log("num: "+num);
+            for (int i = 0; i < num; i++)
+            {
+                Card DrawCard = GameManager.Instance.cardSet.cardList[0];
+
+                cardObject.ability = DrawCard.ability;
+                cardObject.matchImg();
+
 
                 if (photonView.IsMine) // 내 개인 UI에 내껏만 추가 
                 {
@@ -386,40 +403,16 @@ namespace com.ThreeCS.McCree
 
                     MineUI.Instance.CardAlignment();
                 }
-                else 
-                { 
+                else
+                {
                     playerInfo.mycards.Add(cardObject); // 내가 가지고있는 카드셋 mycards에 추가 
                 }
+
+                GameManager.Instance.cardSet.cardList.RemoveAt(0);
             }
         }
 
-        [PunRPC]
-        public void Draw_Card(int num, int otherNum, Vector3 pos)
-        {
-            Card.cType[] startCards = new Card.cType[num];
-            
-            CardSet restCard = GameManager.Instance.Get_CardSet();
-
-            for (int i = 0; i < num; i++) // Are you Serious?
-            {
-                Debug.Log(restCard.cardList[i].ability);
-                startCards[i] = restCard.cardList[i].ability;
-                restCard.cardList.RemoveAt(i);
-            }
-            // 카드셋에서 뽑은다음
-            var json = JsonConvert.SerializeObject(startCards);
-
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                // 해당 Collider를 플레이어 넘버와 비교하여 찾아 카드 준다.
-                PhotonView pv = GameManager.Instance.playerList[i].GetComponent<PhotonView>();
-                if (pv.OwnerActorNr == otherNum)
-                {
-                    pv.RPC("GiveCards", RpcTarget.All, json, pos);
-                    break;
-                }
-            }
-        }
+        
 
         #endregion
     }
