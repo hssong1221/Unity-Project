@@ -100,7 +100,7 @@ namespace com.ThreeCS.McCree
 
         [Header("맵 기준점")]
         public Transform[] points;
-        public GameObject[] maps;
+        public List<GameObject> maps;
 
         #endregion
 
@@ -451,9 +451,11 @@ namespace com.ThreeCS.McCree
         // 맵 생성 임시 구현
         public void Map()
         {
+            maps = CommonFunction.ShuffleList(maps);
+
             for(int i = 0; i < 8; i++)
             {
-                GameObject temp = Instantiate(maps[0], points[i]);
+                GameObject temp = Instantiate(maps[i], points[i]);
 
             }
         }
