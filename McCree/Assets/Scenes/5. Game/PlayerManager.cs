@@ -168,13 +168,6 @@ namespace com.ThreeCS.McCree
 
         #region private Methods
 
-
-
-        
-
-        
-
-        
         // 뱅 준비 (공격 사거리 표시)
         void AttackRange()
         {

@@ -5409,7 +5409,7 @@ PrefabInstance:
       objectReference: {fileID: 43846550}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: maps.Array.size
-      value: 1
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: points.Array.size
@@ -5419,6 +5419,42 @@ PrefabInstance:
       propertyPath: maps.Array.data[0]
       value: 
       objectReference: {fileID: 356811134052853647, guid: 1d6a16f97cfd5ca41bc614971c1408d5, type: 3}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: maps.Array.data[1]
+      value: 
+      objectReference: {fileID: 356811134052853647, guid: 24c27ed7da770e1428991e9fc8d74425, type: 3}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: maps.Array.data[2]
+      value: 
+      objectReference: {fileID: 356811134052853647, guid: dcc7521285ff9a049976f14e2f442bf6, type: 3}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: maps.Array.data[3]
+      value: 
+      objectReference: {fileID: 356811134052853647, guid: 3d6311caf13a2b84c90562edfff3c4ea, type: 3}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: maps.Array.data[4]
+      value: 
+      objectReference: {fileID: 356811134052853647, guid: 24ce9c079f58d794990464b3827bac78, type: 3}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: maps.Array.data[5]
+      value: 
+      objectReference: {fileID: 356811134052853647, guid: 081b65324e983db4ca19b4c153010f26, type: 3}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: maps.Array.data[6]
+      value: 
+      objectReference: {fileID: 356811134052853647, guid: 5ee82d7581d8e2e4eba919eb12006103, type: 3}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: maps.Array.data[7]
+      value: 
+      objectReference: {fileID: 356811134052853647, guid: 9b97d2e6f18223a45a19fa7e2a6640df, type: 3}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: maps.Array.data[8]
+      value: 
+      objectReference: {fileID: 356811134052853647, guid: 9b97d2e6f18223a45a19fa7e2a6640df, type: 3}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: maps.Array.data[9]
+      value: 
+      objectReference: {fileID: 356811134052853647, guid: 9b97d2e6f18223a45a19fa7e2a6640df, type: 3}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: points.Array.data[0]
       value: 
@@ -5490,6 +5526,10 @@ PrefabInstance:
     - target: {fileID: 6559106700118211124, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: m_TagString
       value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 6559106700118211124, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6559106700118211130, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: m_RootOrder
@@ -9613,7 +9653,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730401958}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.407366, y: 0.20000002, z: 1.5204484}
+  m_LocalPosition: {x: -9.19, y: 0.20000002, z: 6.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2102337737}
