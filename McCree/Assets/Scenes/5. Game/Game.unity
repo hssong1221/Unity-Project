@@ -5236,6 +5236,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 121083427}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: bang_c
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: heal_c
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: mineUI
       value: 
       objectReference: {fileID: 511686265}
@@ -5243,6 +5251,10 @@ PrefabInstance:
       propertyPath: outlaw
       value: 
       objectReference: {fileID: 21300000, guid: f92350949cfd95e4f815800af31d5b45, type: 3}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: avoid_c
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: bangImg
       value: 

@@ -369,17 +369,30 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public void GiveCards(string jsonData, Vector3 objPos) // 카드 나눠주기
+        public void GiveCardSet(string jsonData)
         {
+            GameManager.Instance.cardSet = gameObject.AddComponent<CardSet>();
+
             Card.cType[] startCards = JsonConvert.DeserializeObject<Card.cType[]>(jsonData);
 
-            for (int k = 0; k < startCards.Length; k++)
+            for (int i = 0; i < startCards.Length; i++)
             {
+                Card card = new Card(startCards[i]);
+                GameManager.Instance.cardSet.cardList.Add(card);
+            }
+        }
 
-                cardObject.ability = startCards[k]; // 뽑은 카드이름
-                //cardObject.posValue(objPos);
-                cardObject.matchImg(); // 뽑은 카드 그림 매칭
 
+        [PunRPC]
+        public void GiveCards(int num, Vector3 objPos) // 카드 나눠주기
+        {
+            Debug.Log("num: "+num);
+            for (int i = 0; i < num; i++)
+            {
+                Card DrawCard = GameManager.Instance.cardSet.cardList[0];
+
+                cardObject.ability = DrawCard.ability;
+                cardObject.matchImg();
 
 
                 if (photonView.IsMine) // 내 개인 UI에 내껏만 추가 
@@ -390,22 +403,16 @@ namespace com.ThreeCS.McCree
 
                     MineUI.Instance.CardAlignment();
                 }
-                else 
-                { 
+                else
+                {
                     playerInfo.mycards.Add(cardObject); // 내가 가지고있는 카드셋 mycards에 추가 
                 }
 
-
-
+                GameManager.Instance.cardSet.cardList.RemoveAt(0);
             }
-
-            //for (int i = 0; i < playerInfo.mycards.Count; i++)
-            //{
-            //    Debug.Log(playerInfo.mycards[i].ability.ToString());
-            //}
-
-            //mineUI.Show_Start_Cards();
         }
+
+        
 
         #endregion
     }
