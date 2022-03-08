@@ -17,7 +17,7 @@ namespace com.ThreeCS.McCree
     {
         #region Variable Fields
 
-        // 게임 매니저 어디서든 사용가능?
+        // 게임 매니저 어디서든 사용가능
         static public GameManager Instance;
 
         // 내 카메라
@@ -145,9 +145,7 @@ namespace com.ThreeCS.McCree
             {
                 if (PlayerManager.LocalPlayerInstance == null)
                 {
-                    Map();
-
-                    StartCoroutine(SpawnPlayer()); // PhotonNetwork.Instantiate
+                    StartCoroutine(InstantiateResource()); 
 
                     cameraWork = GetComponent<CameraWork>(); // 본인 카메라 가져오기
                 }
@@ -158,6 +156,36 @@ namespace com.ThreeCS.McCree
         #endregion
 
         #region Coroutine
+
+        // 캐릭터 생성 후 맵 스폰 순서대로
+        IEnumerator InstantiateResource()
+        {
+            yield return new WaitForEndOfFrame();
+
+            StartCoroutine(SpawnPlayer());
+
+            StartCoroutine(SpawnMap());
+        }
+
+        // 맵 생성
+        IEnumerator SpawnMap()
+        {
+            // 방장만 맵 스폰
+            if(PhotonNetwork.IsMasterClient)
+            {
+                // 맵 랜덤화
+                maps = CommonFunction.ShuffleList(maps);
+
+                // 맵은 8칸 + 가운데 마을1칸(이건 중앙 고정)
+                for (int i = 0; i < 8; i++)
+                {
+                    // 맵 모듈을 스폰해서 동기화
+                    PhotonNetwork.Instantiate("World/" + maps[i].name, points[i].position, Quaternion.identity, 0);
+                }
+                yield return new WaitForEndOfFrame();
+            }
+            
+        }
 
         IEnumerator SpawnPlayer()
         {
@@ -229,9 +257,9 @@ namespace com.ThreeCS.McCree
             List<int> abilityList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
 
             jobList = CommonFunction.ShuffleList(jobList);
-            Debug.Log("잡리스트" + jobList[0] + " " + jobList[1] + " " + jobList[2]);
+            //Debug.Log("잡리스트" + jobList[0] + " " + jobList[1] + " " + jobList[2]);
             abilityList = CommonFunction.ShuffleList(abilityList);
-            Debug.Log("어빌리스트" + abilityList[0] + " " + abilityList[1] + " " + abilityList[2]);
+            //Debug.Log("어빌리스트" + abilityList[0] + " " + abilityList[1] + " " + abilityList[2]);
 
 
             // 직업을 나눠주고 동기화 시킴
@@ -244,7 +272,7 @@ namespace com.ThreeCS.McCree
             // 능력을 나눠주고 동기화 시킴
             for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
             {
-                Debug.Log("잡 리스트 번호 : " + abilityList[i]);
+                Debug.Log("어빌 리스트 번호 : " + abilityList[i]);
                 playerList[i].GetComponent<PhotonView>().RPC("AbilitySelect", RpcTarget.All, abilityList[i]);
             }
 
@@ -510,17 +538,7 @@ namespace com.ThreeCS.McCree
         }
 
 
-        // 맵 생성 임시 구현
-        public void Map()
-        {
-            maps = CommonFunction.ShuffleList(maps);
-
-            for(int i = 0; i < 8; i++)
-            {
-                GameObject temp = Instantiate(maps[i], points[i]);
-
-            }
-        }
+        
 
         #endregion
 

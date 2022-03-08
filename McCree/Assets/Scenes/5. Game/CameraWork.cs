@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
+using Photon.Pun;
+
 namespace com.ThreeCS.McCree
 {
     public class CameraWork : MonoBehaviour
@@ -25,19 +27,23 @@ namespace com.ThreeCS.McCree
 
         void Start()
         {
-            Debug.Log("-------------------카메라 스크립트 작동!!!");
             Cam = GetComponent<CinemachineVirtualCamera>();
             player = null;
-            Debug.Log(Cam.name);
         }
 
-        // 일단 자기 플레이가 가장 위에 생성된다고 가정하고 만듬
         void Update()
         {
             if(player == null)
             {
-                player = GameObject.FindWithTag("Player");
-                Debug.Log(player);
+                // 플레이어 리스트에서 내 거 찾아서 가상 카메라 붙이기
+                foreach (GameObject player in GameManager.Instance.playerList)
+                {
+                    if (player.GetComponent<PhotonView>().IsMine)
+                    {
+                        this.player = player;
+                        break;
+                    }
+                }
 
                 if (player != null)
                 {
