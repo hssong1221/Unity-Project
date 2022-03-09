@@ -31,7 +31,7 @@ namespace com.ThreeCS.McCree
             player = null;
         }
 
-        void Update()
+        void FixedUpdate()
         {
             if(player == null)
             {

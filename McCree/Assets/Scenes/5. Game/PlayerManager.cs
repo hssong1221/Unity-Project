@@ -70,6 +70,20 @@ namespace com.ThreeCS.McCree
         // float  agent.stoppingDistance 목표 위치 가까워졌을시 정지
         // bool   agent.Auto Braking 목적지에 다다를때 속도를 줄이는지
 
+
+        // 캐릭터 키보드 움직임 구현
+        float h;
+        float v;
+        Vector3 Old_Position;
+        Vector3 Cur_Position;
+
+        Vector3 moveVec;
+        Vector3 moveDir;
+        Vector3 lookForward;
+        Vector3 lookRight;
+
+
+
         #endregion
 
         #region MonoBehaviour CallBacks
@@ -129,6 +143,9 @@ namespace com.ThreeCS.McCree
 
             if (photonView.IsMine)
             {
+                // 키네마틱 리지드 바디라서 픽스드 업데이트에 할 필요가 없음 
+                Move();
+
                 AttackRange(); // 뱅 준비
                 if (isAiming)
                     Bang();
@@ -146,7 +163,7 @@ namespace com.ThreeCS.McCree
 
         }
 
-        void FixedUpdate()
+        /*void FixedUpdate()
         {
             //if (isDeath == true)
             //    enabled = false;
@@ -161,7 +178,7 @@ namespace com.ThreeCS.McCree
                 //rb.angularVelocity = Vector3.zero;
             }
 
-        }
+        }*/
 
         #endregion
 
@@ -242,7 +259,31 @@ namespace com.ThreeCS.McCree
         // 플레이어 이동
         void Move()
         {
-            if (Input.GetButton("Move"))
+            // 키보드로 움직임 임시 구현
+
+            h = Input.GetAxis("Horizontal");
+            v = Input.GetAxis("Vertical");
+            moveVec = new Vector3(h, 0, v);
+
+            Old_Position = transform.position;
+
+            lookForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
+            lookRight = new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z).normalized;
+            
+            moveDir = lookForward * moveVec.z + lookRight * moveVec.x;
+
+            // 회전 다시 돌아오는것을 막기위해
+            if (!(h == 0 && v == 0))
+            {
+                transform.forward = moveDir;
+            }
+
+            transform.position += 5f * Time.deltaTime * moveDir;
+
+            Cur_Position = transform.position;
+            animator.SetFloat("Speed", Vector3.Distance(Old_Position, Cur_Position) * 100f);
+
+            /*if (Input.GetButton("Move"))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -262,12 +303,12 @@ namespace com.ThreeCS.McCree
                     //transform.eulerAngles = new Vector3(0, rotationY, 0);
 
                 }
-            }
-            float speed = agent.velocity.magnitude / agent.speed;
-            animator.SetFloat("Speed", speed);
-            
+                float speed = agent.velocity.magnitude / agent.speed;
+                animator.SetFloat("Speed", speed);
+            }*/
         }
 
+        // 포탈에 상호작용 했을 때 동작
         public void Move(Transform target)
         {
             // 이동
