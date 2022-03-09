@@ -24,7 +24,9 @@ namespace com.ThreeCS.McCree
 
         protected void Awake()
         {
-            character = GameObject.FindWithTag("Player");
+
+            character = transform.gameObject;
+            //character = GameObject.FindWithTag("Player");
             //rootPos = character.transform.Find("Root");
 
             controller = GetComponent<Controller>();
@@ -32,7 +34,6 @@ namespace com.ThreeCS.McCree
             playerAutoMove = GetComponent<PlayerAutoMove>();
             playerInfo = GetComponent<PlayerInfo>();
             ui = GetComponent<UI>();
-
 
             animator = GetComponent<Animator>();
         }

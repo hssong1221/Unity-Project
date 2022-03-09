@@ -23,7 +23,7 @@ namespace com.ThreeCS.McCree
                 for (int i = 0; i < num; i++)
                 {
                     Item.iType pickItem = GameManager.Instance.entireItemSet.Pick_Item();
-                    
+
                     var json = JsonConvert.SerializeObject(pickItem);
 
                     if (other.GetComponent<PhotonView>().IsMine)

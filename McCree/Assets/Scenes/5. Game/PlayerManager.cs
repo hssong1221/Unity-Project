@@ -347,6 +347,9 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         public void JobSelect(int num) // 내 직업 동기화 
         {
+            Debug.Log(playerManager);
+            Debug.Log(playerManager.playerType);
+            Debug.Log(GameManager.jType.Sheriff);
             switch (num)
             {
                 case 1:
@@ -422,37 +425,23 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         public void GiveItems(string jsonData)
         {
-            // 전체 
             Item.iType pickedItem = JsonConvert.DeserializeObject<Item.iType>(jsonData);
 
-            if (GameManager.Instance.entireItemSet.itemSet[pickedItem] > 0)
+            if (photonView.IsMine)
             {
-                GameManager.Instance.entireItemSet.itemSet[pickedItem] -= 1;
-
-                if (photonView.IsMine)
+                foreach (ItemList itemList in playerInfo.myItemList)
                 {
-                    foreach (ItemList itemList in playerInfo.myItemList)
+                    if (itemList.item.ability == pickedItem)
                     {
-                        if (itemList.item.ability == pickedItem)
-                        {
-                            itemList.count++;
-                            break;
-                        }
+                        itemList.count++;
+                        break;
                     }
-                    return_itemNoticeText("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
-                    Invoke("TurnOffItemText", 2.0f);
-                }
-
-            }
-            else
-            {
-                if (photonView.IsMine)
-                {
-                    return_itemNoticeText("<color=#FF8181>" + pickedItem.ToString() + " 은 더 이상 없습니다!" + "</color>");
                 }
             }
+            return_itemNoticeText("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
         }
 
+        // 2초후 안사라지는 버그는 내일 고쳐봄
         void return_itemNoticeText(string sentece)
         {
             if (ui.itemNotice1.enabled)
@@ -494,17 +483,6 @@ namespace com.ThreeCS.McCree
             ui.itemNotice3.enabled = false;
         }
 
-        [PunRPC]
-        public void GiveItemSet(string jsonData)
-        {
-            if (photonView.IsMine)
-            {
-                Dictionary<Item.iType, int> dic = JsonConvert.DeserializeObject<Dictionary<Item.iType, int>>(jsonData);
-
-                GameManager.Instance.entireItemSet = gameObject.AddComponent<ItemSet>();
-                GameManager.Instance.entireItemSet.itemSet = new Dictionary<Item.iType, int>(dic);
-            }
-        }
         #endregion
     }
 
