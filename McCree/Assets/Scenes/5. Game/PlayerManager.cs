@@ -20,6 +20,8 @@ namespace com.ThreeCS.McCree
         public bool isAiming;
         public bool isDeath;
 
+        private bool isInventoryOpen;
+
         // 플레이어 정보 타입
         [Header("플레이어 정보")]
         public GameManager.jType playerType;
@@ -34,10 +36,8 @@ namespace com.ThreeCS.McCree
         [Header("카메라 오프셋")]
         protected Vector3 offset;
 
-
-        
-        public Card cardObject;
-        public Transform pos;
+        [Header("아이템 Prefab")]
+        public Item itemObject;
 
         protected bool isCharacterPlayer;
         public float maxAttackDistance;
@@ -78,7 +78,6 @@ namespace com.ThreeCS.McCree
         {
             base.Awake();
             agent = gameObject.GetComponent<NavMeshAgent>();
-            pos = GameObject.FindWithTag("CardsPos").transform;
 
             // 포톤뷰에 의한 내 플레이어만
             if (photonView.IsMine)
@@ -92,7 +91,7 @@ namespace com.ThreeCS.McCree
             DontDestroyOnLoad(gameObject);
 
         }
-        
+
         void Start()
         {
             photonView.RPC("PlayerListSync", RpcTarget.All); // 플레이어 리스트 동기화
@@ -115,14 +114,14 @@ namespace com.ThreeCS.McCree
 
         void Update()
         {
-            
+
             // 게임 내에서 밖으로 나오는거 임시 구현
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 GameManager.Instance.LeaveRoom();
             }
 
-            if(photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
             {
                 return;
             }
@@ -130,6 +129,7 @@ namespace com.ThreeCS.McCree
             if (photonView.IsMine)
             {
                 AttackRange(); // 뱅 준비
+                Inventory();
                 if (isAiming)
                     Bang();
             }
@@ -170,11 +170,11 @@ namespace com.ThreeCS.McCree
 
 
 
-        
 
-        
 
-        
+
+
+
         // 뱅 준비 (공격 사거리 표시)
         void AttackRange()
         {
@@ -193,7 +193,7 @@ namespace com.ThreeCS.McCree
                         maxAttackDistance = 10;
                     }
                     else if (ui.attackRange == 3)
-                    { 
+                    {
                         offset = new Vector3(0.0f, 21.0f, -21.0f);
                         maxAttackDistance = 15;
                     }
@@ -201,7 +201,7 @@ namespace com.ThreeCS.McCree
                     isAiming = true;
                     animator.SetBool("IsAiming", isAiming);
                     agent.speed = 2.5f;
-                    ui.indicatorRangeCircle.GetComponent<Image>().enabled = true;
+                    ui.indicatorRangeCircle.enabled = true;
                 }
                 else
                 {
@@ -209,12 +209,12 @@ namespace com.ThreeCS.McCree
                     animator.SetBool("IsAiming", isAiming);
                     agent.speed = 5.0f;
                     offset = new Vector3(0.0f, 5.0f, -5.0f);
-                    ui.indicatorRangeCircle.GetComponent<Image>().enabled = false;
+                    ui.indicatorRangeCircle.enabled = false;
                 }
             }
 
         }
-        
+
         // 뱅!
         void Bang()
         {
@@ -231,7 +231,7 @@ namespace com.ThreeCS.McCree
 
 
                         if (distance <= maxAttackDistance)
-                            Debug.Log("캐릭터 선택 닿음  " + "거리: "+ distance);
+                            Debug.Log("캐릭터 선택 닿음  " + "거리: " + distance);
                         else
                             Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
 
@@ -253,7 +253,7 @@ namespace com.ThreeCS.McCree
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, (1 << LayerMask.NameToLayer("Floor")) + (1 << LayerMask.NameToLayer("Building")) ))
+                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, (1 << LayerMask.NameToLayer("Floor")) + (1 << LayerMask.NameToLayer("Building"))))
                 {
                     // 이동
                     agent.SetDestination(hit.point);
@@ -272,7 +272,7 @@ namespace com.ThreeCS.McCree
             }
             float speed = agent.velocity.magnitude / agent.speed;
             animator.SetFloat("Speed", speed);
-            
+
         }
 
         public void Move(Transform target)
@@ -282,9 +282,26 @@ namespace com.ThreeCS.McCree
             playerAutoMove.targetedEnemy = null;
             agent.stoppingDistance = 0;
 
-            
+
             float speed = agent.velocity.magnitude / agent.speed;
             animator.SetFloat("Speed", speed);
+        }
+
+        void Inventory()
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                if (!isInventoryOpen)
+                {
+                    MineUI.Instance.statusPanel.SetActive(true);
+                    isInventoryOpen = true;
+                }
+                else
+                {
+                    MineUI.Instance.statusPanel.SetActive(false);
+                    isInventoryOpen = false;
+                }
+            }
         }
 
 
@@ -353,7 +370,7 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        [PunRPC] 
+        [PunRPC]
         public void SyncHp() // 내 체력 동기화
         {
             playerInfo.Show_Hp();
@@ -363,50 +380,91 @@ namespace com.ThreeCS.McCree
         public void AnimStart() // 애니메이션 플레이
         {
             if (photonView.IsMine)
-            { 
+            {
                 StartCoroutine(GameManager.Instance.GameStart());
             }
         }
 
         [PunRPC]
-        public void GiveCards(string jsonData, Vector3 objPos) // 카드 나눠주기
+        public void GiveItems(string jsonData)
         {
-            Card.cType[] startCards = JsonConvert.DeserializeObject<Card.cType[]>(jsonData);
+            // 전체 
+            Item.iType pickedItem = JsonConvert.DeserializeObject<Item.iType>(jsonData);
 
-            for (int k = 0; k < startCards.Length; k++)
+            if (GameManager.Instance.entireItemSet.itemSet[pickedItem] > 0)
             {
+                GameManager.Instance.entireItemSet.itemSet[pickedItem] -= 1;
 
-                cardObject.ability = startCards[k]; // 뽑은 카드이름
-                //cardObject.posValue(objPos);
-                cardObject.matchImg(); // 뽑은 카드 그림 매칭
-
-
-
-                if (photonView.IsMine) // 내 개인 UI에 내껏만 추가 
+                if (photonView.IsMine)
                 {
-                    var card = Instantiate(cardObject, MineUI.Instance.pos_CardSpwan.position, Quaternion.identity, MineUI.Instance.pos_CardParent);
-                    var card2 = card.GetComponent<Card>();
-                    playerInfo.mycards.Add(card2);
-
-                    MineUI.Instance.CardAlignment();
+                    foreach (ItemList itemList in playerInfo.myItemList)
+                    {
+                        if (itemList.item.ability == pickedItem)
+                        {
+                            itemList.count++;
+                            break;
+                        }
+                    }
                 }
-                else 
-                { 
-                    playerInfo.mycards.Add(cardObject); // 내가 가지고있는 카드셋 mycards에 추가 
-                }
-
-
-
+                return_itemNoticeText("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
+                Invoke("TurnOffItemText", 2.0f);
             }
-
-            //for (int i = 0; i < playerInfo.mycards.Count; i++)
-            //{
-            //    Debug.Log(playerInfo.mycards[i].ability.ToString());
-            //}
-
-            //mineUI.Show_Start_Cards();
+            else
+                return_itemNoticeText("<color=#FF8181>" + pickedItem.ToString() + " 은 더 이상 없습니다!" + "</color>");
         }
 
+        void return_itemNoticeText(string sentece)
+        {
+            if (ui.itemNotice1.enabled)
+            {
+                if (ui.itemNotice2.enabled)
+                {
+                    ui.itemNotice3.enabled = true;
+                    ui.itemNotice3.text = sentece;
+                    //ui.itemNotice3.GetComponent<Animator>().Play("ItemNoticeText");
+                    Invoke("TurnOffItemText3", 2.0f);
+                }
+                else
+                {
+                    ui.itemNotice2.enabled = true;
+                    ui.itemNotice2.text = sentece;
+                    //ui.itemNotice2.GetComponent<Animator>().Play("ItemNoticeText");
+                    Invoke("TurnOffItemText2", 2.0f);
+                }
+            }
+            else
+            {
+                ui.itemNotice1.enabled = true;
+                ui.itemNotice1.text = sentece;
+                //ui.itemNotice1.GetComponent<Animator>().Play("ItemNoticeText");
+                Invoke("TurnOffItemText1", 2.0f);
+            }
+        }
+
+        void TurnOffItemText1()
+        {
+            ui.itemNotice1.enabled = false;
+        }
+        void TurnOffItemText2()
+        {
+            ui.itemNotice1.enabled = false;
+        }
+        void TurnOffItemText3()
+        {
+            ui.itemNotice3.enabled = false;
+        }
+
+        [PunRPC]
+        public void GiveItemSet(string jsonData)
+        {
+            if (photonView.IsMine)
+            {
+                Dictionary<Item.iType, int> dic = JsonConvert.DeserializeObject<Dictionary<Item.iType, int>>(jsonData);
+
+                GameManager.Instance.entireItemSet = gameObject.AddComponent<ItemSet>();
+                GameManager.Instance.entireItemSet.itemSet = new Dictionary<Item.iType, int>(dic);
+            }
+        }
         #endregion
     }
 

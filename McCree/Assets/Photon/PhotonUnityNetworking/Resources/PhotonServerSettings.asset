@@ -55,6 +55,10 @@ MonoBehaviour:
   - SyncHp
   - GiveCards
   - AnimStart
+  - Draw_Card
+  - GiveCardSet
+  - GiveItems
+  - GiveItemSet
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

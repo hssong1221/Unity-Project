@@ -70,14 +70,14 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         void TurnOnBangBubble()
         {
-            ui.bangGifImg.GetComponent<Image>().enabled = true;
+            ui.bangGifImg.enabled = true;
             ui.bangGifImg.GetComponent<Animator>().Play("BangAnim", -1, 0f);
             Invoke("TurnOffBangBubble", 2.0f);
         }
 
         void TurnOffBangBubble()
         {
-            ui.bangGifImg.GetComponent<Image>().enabled = false;
+            ui.bangGifImg.enabled = false;
         }
     }
 }

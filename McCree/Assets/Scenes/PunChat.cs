@@ -72,13 +72,13 @@ namespace com.ThreeCS.McCree
             PhotonNetwork.NetworkingClient.EventReceived -= NetworkingClient_EventReceived;
         }
 
+
         // -------------- 룸에서 게임씬 이동할때 다른 클라이언트들에게 로딩하라고 알려주는 함수 -----------
-        
+
         public void Function_Loading_GameScene()
         {
             object[] datas = new object[] { };
             SendOptions sendOptions = new SendOptions { Reliability = true };
-
             PhotonNetwork.RaiseEvent(LoadingGameScene, datas, RaiseEventOptions.Default, sendOptions);
         }
 
@@ -91,6 +91,7 @@ namespace com.ThreeCS.McCree
                 LoadingUI.msg_Canvas.SetActive(true);
             }
         }
+
         // ------------------------------------------------------------------------------
 
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -33,9 +34,6 @@ namespace com.ThreeCS.McCree
         private PhotonView photonView;
         private PlayerManager playerManager;
         private PlayerInfo playerInfo;
-
-        // 마스터만 사용하는 (전체) 카드 셋 
-        private CardSet cardSet; // 마스터만 줄꺼임
 
         public enum jType
         {
@@ -98,9 +96,23 @@ namespace com.ThreeCS.McCree
         public Sprite outlaw4;
         public Sprite renegade4;
 
+
+
+
         [Header("맵 기준점")]
         public Transform[] points;
         public GameObject[] maps;
+
+        // 한 게임에서 사용할 전체 아이템 세트
+        public ItemSet entireItemSet; 
+
+        [Header("아이템 개수")]
+        [SerializeField]
+        private int bang_c;
+        [SerializeField]
+        private int heal_c;
+        [SerializeField]
+        private int avoid_c;
 
         #endregion
 
@@ -200,11 +212,15 @@ namespace com.ThreeCS.McCree
 
                 StartCoroutine(AnimPlay());
 
+                StartCoroutine(ItemSet());
+
+
                 // 카드 나눠주는것
                 //StartCoroutine(Cards());
                 
-                // 임시 카드셋
-                cardSet = gameObject.AddComponent<CardSet>();
+                
+                //StartCoroutine(GiveCardSet());
+                
             }
         }
 
@@ -276,53 +292,37 @@ namespace com.ThreeCS.McCree
             abilText.text += AblityText();
             abilText.text += "\n3. 당신의 능력을 잘 활용하십시오";
 
+
+            // Status 창 (인벤토리창 동기화)
+            StatusUI.Instance.job_Name.text = jobText.text;
+            StatusUI.Instance.job_Explain.text = abilText.text;
+
+
             // 사람들이 텍스트를 읽을 시간 부여
             //yield return new WaitForSeconds(12f);
             abilPanel.SetActive(false);
         }
 
-        IEnumerator Cards()
+        IEnumerator ItemSet() // 한 판에 쓸 전체 아이템 세트 만들기 
         {
-            cardSet = gameObject.AddComponent<CardSet>(); // 마스터 클라이언트만 카드 셋 정보 가지고있는다
+            entireItemSet = gameObject.AddComponent<ItemSet>();
 
-            yield return new WaitForEndOfFrame(); // 기다리지않으면 cardSet의 Start가 돌아가지않는다
+            entireItemSet.itemSet = new Dictionary<Item.iType, int>();
+            entireItemSet.itemSet.Add(Item.iType.Bang, 3);
+            entireItemSet.itemSet.Add(Item.iType.Avoid, 1);
+            entireItemSet.itemSet.Add(Item.iType.Heal, 1);
 
-            //for (int i = 0; i < cardSet.cardList.Count; i++) // 전체 카드 보기
-            //    Debug.Log(i+"번째: " + cardSet.cardList[i].ability.ToString());
-
+            var json = JsonConvert.SerializeObject(entireItemSet.itemSet);
 
             for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
             {
-                // 해당 플레이어의 PhotonView
-                PhotonView player = playerList[i].GetComponent<PhotonView>();
-
-                // 해당플레이어의 최대 체력
-                int MHp = player.GetComponent<PlayerInfo>().maxHp;
-
-                // 해당플레이어가 가져갈 카드 이름
-                Card.cType[] startCards = new Card.cType[MHp];
-
-                // 해당 플레이어의 체력 수 만큼 카드 뽑음
-                for (int j = 0; j < MHp; j++)
-                {
-                    startCards[j] = cardSet.cardList[0].ability;
-                    cardSet.cardList.RemoveAt(0);
-                }
-
-                //Debug.Log("뽑은것:");
-                //for (int k = 0; k < startCards.Length; k++)
-                //{
-                //    Debug.Log(startCards[k]);
-                //}
-
-                // photon sibal string int array 기본적인 내용밖에 전송불가능하지만
-                // json으로 직렬화 시키면 다른 타입도 photon으로 전송가능 
-                var json = JsonConvert.SerializeObject(startCards);
-
-                playerList[i].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, json);
+                playerList[i].GetComponent<PhotonView>().RPC("GiveItemSet", RpcTarget.All, json);
             }
 
+            yield return new WaitForEndOfFrame();
         }
+
+
 
 
         #endregion
@@ -443,10 +443,6 @@ namespace com.ThreeCS.McCree
             PhotonNetwork.LoadLevel("Game");
         }*/
 
-        public CardSet Get_CardSet()
-        {
-            return (cardSet);
-        }
 
         // 맵 생성 임시 구현
         public void Map()
@@ -483,6 +479,11 @@ namespace com.ThreeCS.McCree
                 //LoadArena();
             }
         }
+
+        //public override void OnMasterClientSwitched(Player newMasterClient)
+        //{
+        //    Debug.Log("방장");
+        //}
         #endregion
 
     }

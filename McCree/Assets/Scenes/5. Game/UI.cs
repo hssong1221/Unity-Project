@@ -30,8 +30,16 @@ namespace com.ThreeCS.McCree
         public Canvas bangCanvas;         // 뱅 말풍선 캔버스
         public Image bangGifImg;          // 뱅 말풍선 gif 이미지
 
+
+        [Header("아이템 관련 UI")]
+        public Canvas itemCanvas;   // 아이템 알림 캔버스
+        public Text itemNotice1;     // 아이템 알림 텍스트1
+        public Text itemNotice2;     // 아이템 알림 텍스트2
+        public Text itemNotice3;     // 아이템 알림 텍스트3
+
         Vector3 hpOffset;
         Vector3 bangOffset;
+        Vector3 itemOffset;
 
         #endregion
 
@@ -43,6 +51,7 @@ namespace com.ThreeCS.McCree
 
             hpOffset = new Vector3(0, 2.0f, 0);
             bangOffset = new Vector3(0, 3.0f, 0);
+            itemOffset = new Vector3(0.5f, 1.0f, 0f);
 
             if (photonView.IsMine)
             {
@@ -62,22 +71,28 @@ namespace com.ThreeCS.McCree
             // 기본 Indicator Range img 크기
             indicatorRangeCircle.rectTransform.localScale = new Vector3(attackRange, attackRange, 0);
             // 공격범위 UI 꺼주기
-            indicatorRangeCircle.GetComponent<Image>().enabled = false;
+            indicatorRangeCircle.enabled = false;
             // 뱅 말풍선 UI 꺼주기
-            bangGifImg.GetComponent<Image>().enabled = false;
-    }
+            bangGifImg.enabled = false;
+            // 아이템 공지 UI 꺼주기
+            itemNotice1.enabled = false;
+            itemNotice2.enabled = false;
+            itemNotice3.enabled = false;
+        }
 
         void Update()
         {
             // 플레이어 머리 위 UI 각도 고정
             hpCanvas.transform.LookAt(hpCanvas.transform.position + Camera.main.transform.forward);
             bangCanvas.transform.LookAt(bangCanvas.transform.position + Camera.main.transform.forward);
+            itemCanvas.transform.LookAt(itemCanvas.transform.position + Camera.main.transform.forward);
 
             if (photonView.IsMine)
             {
                 // 각자 캐릭터 머리 위 UI 위치 고정
                 hpCanvas.transform.position = character.transform.position + hpOffset;
                 bangCanvas.transform.position = character.transform.position + bangOffset;
+                itemCanvas.transform.position = character.transform.position + itemOffset;
 
                 if (playerInfo.isDeath && playerInfo.hp <= 0)
                     GameManager.Instance.LeaveRoom();
