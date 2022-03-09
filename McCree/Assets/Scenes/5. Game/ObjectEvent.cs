@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 
 using Photon.Pun;
 
-using DG.Tweening;
 
 namespace com.ThreeCS.McCree
 {
@@ -21,8 +20,17 @@ namespace com.ThreeCS.McCree
             {
                 int num = 1; // 아이템 부딪히면 나눠줄 카드 개수
 
-                if (other.GetComponent<PhotonView>().IsMine)
-                    other.GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, num , transform.position);
+                for (int i = 0; i < num; i++)
+                {
+                    Item.iType pickItem = GameManager.Instance.entireItemSet.Pick_Item();
+                    
+                    var json = JsonConvert.SerializeObject(pickItem);
+
+                    if (other.GetComponent<PhotonView>().IsMine)
+                    {
+                        other.GetComponent<PhotonView>().RPC("GiveItems", RpcTarget.All, json);
+                    }
+                }
             }
         }
     }

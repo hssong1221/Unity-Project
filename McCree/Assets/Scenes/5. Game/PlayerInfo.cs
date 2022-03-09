@@ -14,8 +14,8 @@ namespace com.ThreeCS.McCree
         public int maxHp;
         public int damage = 1;
 
-
-        public List<Card> mycards = new List<Card>();
+        public List<ItemList> myItemList;
+        public Transform content;
 
         public bool isDeath;
 
@@ -23,6 +23,15 @@ namespace com.ThreeCS.McCree
         {
             base.Awake();  // Controller Awake 함수 그대로 사용
             isDeath = false;
+
+            MineUI.Instance.statusPanel.gameObject.SetActive(true);
+            content = GameObject.FindGameObjectWithTag("Content").transform;
+            myItemList = new List<ItemList>();
+            for (int i=0; i<content.childCount; i++)
+            {
+                myItemList.Add(content.GetChild(i).GetComponent<ItemList>());
+            }
+            MineUI.Instance.statusPanel.gameObject.SetActive(false);
         }
 
         public void Show_Hp()
@@ -35,14 +44,5 @@ namespace com.ThreeCS.McCree
                     ui.hpImgs[i].SetActive(false);
             }
         }
-
-        //public void Show_Cards()
-        //{
-        //    for (int i = 0; i < mineUI.cards.Length; i++)
-        //    {
-        //        ui.hpImgs[i].SetActive(true);
-        //    }
-        //    // 최대 체력 만큼 카드 가지고있어야하는 코드 구현해야함
-        //}
     }
 }
