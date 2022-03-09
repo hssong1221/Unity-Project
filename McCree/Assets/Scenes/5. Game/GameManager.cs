@@ -342,11 +342,8 @@ namespace com.ThreeCS.McCree
 
             var json = JsonConvert.SerializeObject(entireItemSet.itemSet);
 
-            // 섞기
-            int random1;
-            int random2;
-            Card.cType temp;
-            for (int i = 0; i < startCards.Length; i++)
+
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
             {
                 playerList[i].GetComponent<PhotonView>().RPC("GiveItemSet", RpcTarget.All, json);
             }

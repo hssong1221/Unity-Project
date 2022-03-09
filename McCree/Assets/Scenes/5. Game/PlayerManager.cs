@@ -439,12 +439,18 @@ namespace com.ThreeCS.McCree
                             break;
                         }
                     }
+                    return_itemNoticeText("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
+                    Invoke("TurnOffItemText", 2.0f);
                 }
-                return_itemNoticeText("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
-                Invoke("TurnOffItemText", 2.0f);
+
             }
             else
-                return_itemNoticeText("<color=#FF8181>" + pickedItem.ToString() + " 은 더 이상 없습니다!" + "</color>");
+            {
+                if (photonView.IsMine)
+                {
+                    return_itemNoticeText("<color=#FF8181>" + pickedItem.ToString() + " 은 더 이상 없습니다!" + "</color>");
+                }
+            }
         }
 
         void return_itemNoticeText(string sentece)
