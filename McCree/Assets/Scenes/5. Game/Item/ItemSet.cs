@@ -7,20 +7,41 @@ namespace com.ThreeCS.McCree
 {
     public class ItemSet : MonoBehaviour
     {
-        public Dictionary<Item.iType, int> itemSet;
+        public List<Item.iType> itemSet;
 
         Item.iType picked;
+
+        int itemCount;
+
+        private void Awake()
+        {
+            itemCount = System.Enum.GetValues(typeof(Item.iType)).Length;
+        }
+
+
         public Item.iType Pick_Item()
         {
-            int random = Random.Range(1, 101); // 1 ~ 100
+            int random = Random.Range(1, 11); // 1 ~ 10
 
-            if (1 <= random && random <= 50)
-                picked = Item.iType.Bang;
-            else if (51 <= random && random <= 75)
-                picked = Item.iType.Avoid;
-            else if (76 <= random && random <= 100)
-                picked = Item.iType.Heal;
-
+            switch (random)
+            {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    picked = Item.iType.Bang;
+                    break;
+                case 5:
+                case 6:
+                case 7:
+                    picked = Item.iType.Avoid;
+                    break;
+                case 8:
+                case 9:
+                case 10:
+                    picked = Item.iType.Heal;
+                    break;
+            }
             return picked;
         }
     }

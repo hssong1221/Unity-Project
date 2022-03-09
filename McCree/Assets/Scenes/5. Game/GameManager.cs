@@ -106,13 +106,6 @@ namespace com.ThreeCS.McCree
         // 한 게임에서 사용할 전체 아이템 세트
         public ItemSet entireItemSet; 
 
-        [Header("아이템 개수")]
-        [SerializeField]
-        private int bang_c;
-        [SerializeField]
-        private int heal_c;
-        [SerializeField]
-        private int avoid_c;
 
         #endregion
 
@@ -240,9 +233,6 @@ namespace com.ThreeCS.McCree
 
                 StartCoroutine(AnimPlay());
 
-                StartCoroutine(ItemSet());
-
-
                 // 카드 나눠주는것
                 //StartCoroutine(Cards());
                 
@@ -330,28 +320,6 @@ namespace com.ThreeCS.McCree
             //yield return new WaitForSeconds(12f);
             abilPanel.SetActive(false);
         }
-
-        IEnumerator ItemSet() // 한 판에 쓸 전체 아이템 세트 만들기 
-        {
-            entireItemSet = gameObject.AddComponent<ItemSet>();
-
-            entireItemSet.itemSet = new Dictionary<Item.iType, int>();
-            entireItemSet.itemSet.Add(Item.iType.Bang, 3);
-            entireItemSet.itemSet.Add(Item.iType.Avoid, 1);
-            entireItemSet.itemSet.Add(Item.iType.Heal, 1);
-
-            var json = JsonConvert.SerializeObject(entireItemSet.itemSet);
-
-
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                playerList[i].GetComponent<PhotonView>().RPC("GiveItemSet", RpcTarget.All, json);
-            }
-
-            yield return new WaitForEndOfFrame();
-        }
-
-
 
 
         #endregion
