@@ -55,9 +55,20 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         void Damaged()
         {
-            Image tempImg = ui.hpImgs[playerInfo.hp - 1].GetComponent<Image>();
-            tempImg.sprite = ui.emptyBullet;
+
             playerInfo.hp -= playerInfo.damage;
+
+
+            Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
+            tempImg.sprite = ui.emptyBullet;
+
+            if(photonView.IsMine)
+            {
+                Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
+                tempImg2.sprite = MineUI.Instance.emptyHealth;
+            }
+
+
 
             //if (this.hpUI.hp == 0)
             //{

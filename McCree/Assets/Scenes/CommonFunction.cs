@@ -23,7 +23,6 @@ namespace com.ThreeCS.McCree
     }
 
 
-
     public static class CommonFunction
     {
         // InputField 초기화
@@ -56,5 +55,6 @@ namespace com.ThreeCS.McCree
             }
             return list;
         }
+
     }
 }

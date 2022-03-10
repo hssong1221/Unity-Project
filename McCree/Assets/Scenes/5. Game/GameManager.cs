@@ -319,6 +319,8 @@ namespace com.ThreeCS.McCree
             // 사람들이 텍스트를 읽을 시간 부여
             //yield return new WaitForSeconds(12f);
             abilPanel.SetActive(false);
+            MineUI.Instance.leftTopPanel.SetActive(true);
+            MineUI.Instance.rightBottomPanel.SetActive(true);
         }
 
 

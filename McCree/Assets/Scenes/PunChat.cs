@@ -26,6 +26,12 @@ namespace com.ThreeCS.McCree
         public static ChatClient chatClient;
         public static string behave;
 
+
+        private Scene currentScene;
+        private CanvasGroup chatCanvas;
+        private IEnumerator coroutine;
+
+        // PhotonRaiseEvent 이벤트 코드
         private const byte LoadingGameScene = 0;
 
 
@@ -41,6 +47,11 @@ namespace com.ThreeCS.McCree
             if (Input.GetKeyDown(KeyCode.Return) && sendBtn != null)
             {
                 Send_Chat();
+            }
+
+            if (currentScene.name == "Game" && Input.GetKeyDown(KeyCode.Return))
+            {
+                Send_Chat_NoBtn();
             }
         }
 
@@ -97,6 +108,7 @@ namespace com.ThreeCS.McCree
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            currentScene = scene;
             if (scene.name == "Register" || scene.name == "Login")
             {
                 LoadingUI.msg_Canvas.SetActive(false);
@@ -137,6 +149,28 @@ namespace com.ThreeCS.McCree
             else if (scene.name == "Game")
             {
                 LoadingUI.msg_Canvas.SetActive(false);
+
+                var tempchatCanvas = GameObject.Find("ChatCanvas").GetComponent<CanvasGroup>();
+                if (tempchatCanvas != null)
+                {
+                    chatCanvas = tempchatCanvas;
+                    chatCanvas.alpha = 0f;
+                }
+
+                var tempchatLog = GameObject.Find("ChatLog");
+                if (tempchatLog != null)
+                    chatLog = tempchatLog.GetComponent<UIText>();
+
+                var tempchatInput = GameObject.Find("chatInputField");
+                if (tempchatInput != null)
+                    chatInput = tempchatInput.GetComponent<InputField>();
+                chatInput.gameObject.SetActive(false);
+
+                var tempsrc = GameObject.Find("ChatScroll");
+                if (tempsrc != null)
+                    scr = tempsrc.GetComponent<ScrollRect>();
+
+                chatList = new List<string>();
             }
 
 
@@ -158,6 +192,59 @@ namespace com.ThreeCS.McCree
             chatInput.ActivateInputField();
             CommonFunction.clear(chatInput);
         }
+
+        public void Send_Chat_NoBtn()
+        {
+            if (coroutine != null)
+                StopCoroutine(coroutine); // 실행되고있는 fade out 코루틴이있으면 종료 시키고
+            chatCanvas.alpha = 1f;        // 챗 캔버스 투명도 없애준다.
+
+            if (chatInput.IsActive())
+            {
+                if (chatInput.text.Equals(""))
+                {
+                    chatInput.gameObject.SetActive(false);
+
+                    coroutine = Canvas_FadeOut(1, chatCanvas); // fadeout 진행시간 1초
+                    StartCoroutine(coroutine);
+                    return;
+                }
+                string msgs = string.Format("[{0}]", PhotonNetwork.LocalPlayer.NickName);
+                msgs += " " + chatInput.text;
+
+                if (PhotonNetwork.InRoom)
+                    chatClient.PublishMessage(PhotonNetwork.CurrentRoom.Name, msgs);
+                CommonFunction.clear(chatInput);
+                chatInput.gameObject.SetActive(false);
+
+                coroutine = Canvas_FadeOut(1, chatCanvas);
+                StartCoroutine(coroutine);
+            }
+            else
+            {
+                chatInput.gameObject.SetActive(true);
+                chatInput.ActivateInputField();
+            }
+
+        }
+
+
+        public IEnumerator Canvas_FadeOut(float time, CanvasGroup obj)
+        {
+            //Debug.Log("5초 기다리는 중");
+            yield return new WaitForSeconds(5f);
+            //Debug.Log("Fade In 시작");
+
+            float accumTime = 0f;
+            while (accumTime < time)
+            {
+                obj.alpha = Mathf.Lerp(1f, 0f, accumTime / time);
+                yield return 0;
+                accumTime += Time.deltaTime;
+            }
+            obj.alpha = 0f;
+        }
+
 
         // ChatLog에 추가
         public void AddLine(string lineString)

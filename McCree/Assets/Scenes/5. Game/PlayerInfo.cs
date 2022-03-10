@@ -39,9 +39,19 @@ namespace com.ThreeCS.McCree
             for (int i = 0; i < ui.hpImgs.Length; i++)
             {
                 if (i < maxHp)
+                {
                     ui.hpImgs[i].SetActive(true);
+
+                    if (photonView.IsMine)
+                        MineUI.Instance.mineUIhpImgs[i].SetActive(true);
+                }
                 else
+                {
                     ui.hpImgs[i].SetActive(false);
+
+                    if (photonView.IsMine)
+                        MineUI.Instance.mineUIhpImgs[i].SetActive(false);
+                }
             }
         }
     }

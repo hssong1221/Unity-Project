@@ -17,8 +17,24 @@ namespace com.ThreeCS.McCree
         private PlayerInfo playerInfo;
 
 
+        public Text bangCount;
+        public Text avoidCount;
+
+        public GameObject[] mineUIhpImgs;
+
+        public Sprite fullHealth;
+        public Sprite emptyHealth;
+
         [Header("인벤토리 창 (StatusUI")]
         public GameObject statusPanel;
+
+        [Header("체력, 디버프 창 (leftTop")]
+        public GameObject leftTopPanel;
+
+        [Header("캐릭터 장착무기, 뱅, 회피 개수 창 (RightBottom")]
+        public GameObject rightBottomPanel;
+
+
 
 
         void Awake()

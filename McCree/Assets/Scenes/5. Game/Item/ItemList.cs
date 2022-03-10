@@ -39,6 +39,11 @@ namespace com.ThreeCS.McCree
                 Count = value;
                 CountText.text = Count.ToString();
 
+                if (item.ability == Item.iType.Bang)
+                    MineUI.Instance.bangCount.text = CountText.text;
+                else if (item.ability == Item.iType.Avoid)
+                    MineUI.Instance.avoidCount.text = CountText.text;
+
                 if (Count <= 0)
                     itemListObj.SetActive(false);
                 else

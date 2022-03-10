@@ -423,7 +423,7 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public void GiveItems(string jsonData)
+        public IEnumerator GiveItems(string jsonData)
         {
             Item.iType pickedItem = JsonConvert.DeserializeObject<Item.iType>(jsonData);
 
@@ -439,7 +439,26 @@ namespace com.ThreeCS.McCree
                 }
             }
             return_itemNoticeText("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
+
+            yield return new WaitForEndOfFrame();
         }
+        //public void GiveItems(string jsonData)
+        //{
+        //    Item.iType pickedItem = JsonConvert.DeserializeObject<Item.iType>(jsonData);
+
+        //    if (photonView.IsMine)
+        //    {
+        //        foreach (ItemList itemList in playerInfo.myItemList)
+        //        {
+        //            if (itemList.item.ability == pickedItem)
+        //            {
+        //                itemList.count++;
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    return_itemNoticeText("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
+        //}
 
         // 2초후 안사라지는 버그는 내일 고쳐봄
         void return_itemNoticeText(string sentece)
