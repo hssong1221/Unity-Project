@@ -164,11 +164,11 @@ namespace com.ThreeCS.McCree
                     }
 
                     //Camera.main.transform.position = character.transform.position + offset;
-                    if (Input.GetKeyDown("a")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
+                    if (Input.GetKeyDown("1")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
                         ui.attackRange = 1;
-                    if (Input.GetKeyDown("s"))
+                    if (Input.GetKeyDown("2"))
                         ui.attackRange = 2;
-                    if (Input.GetKeyDown("d"))
+                    if (Input.GetKeyDown("3"))
                         ui.attackRange = 3;
                     ui.indicatorRangeCircle.rectTransform.localScale = new Vector3(ui.attackRange, ui.attackRange, 0);
                     // Range_Indicator 이미지의 크기 변경 
@@ -271,6 +271,8 @@ namespace com.ThreeCS.McCree
         void Move()
         {
             // 키보드로 움직임 임시 구현
+
+            playerAutoMove.targetedEnemy = null; 
 
             h = Input.GetAxis("Horizontal");
             v = Input.GetAxis("Vertical");
@@ -443,7 +445,7 @@ namespace com.ThreeCS.McCree
                 {
                     if (itemList.item.ability == pickedItem)
                     {
-                        itemList.count++;
+                        itemList.itemCount++;
                         break;
                     }
                 }
@@ -453,7 +455,7 @@ namespace com.ThreeCS.McCree
             yield return new WaitForEndOfFrame();
         }
         
-        void return_itemNoticeText(string sentece)
+        public void return_itemNoticeText(string sentece)
         {
             ui.itemNotice.enabled = true;
             ui.itemNotice.text = sentece;

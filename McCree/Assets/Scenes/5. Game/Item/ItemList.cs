@@ -8,7 +8,7 @@ namespace com.ThreeCS.McCree
     public class ItemList : MonoBehaviour
     {
         public Item item; // 아이템
-        public int Count; // 아이템 개수
+        private int Count; // 아이템 개수
 
         [HideInInspector]
         private GameObject itemListObj;
@@ -34,7 +34,7 @@ namespace com.ThreeCS.McCree
             itemListObj.SetActive(false);
         }
 
-        public int count
+        public int itemCount
         {
             get { return Count; }
             set

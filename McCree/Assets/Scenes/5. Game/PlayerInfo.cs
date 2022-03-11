@@ -15,6 +15,9 @@ namespace com.ThreeCS.McCree
         public int damage = 1;
 
         public List<ItemList> myItemList;
+        // 0번째 Bang
+        // 1번째 Avoid
+        // 2번째 Heal
         public Transform content;
 
         public bool isDeath;

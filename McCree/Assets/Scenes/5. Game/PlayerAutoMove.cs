@@ -42,12 +42,22 @@ namespace com.ThreeCS.McCree
                     playerManager.agent.SetDestination(transform.position); // 쏠때 제자리
                     transform.LookAt(targetedEnemy.transform); // 쏠때 적 바라보기
 
-                    // 적 한테 데미지
-                    targetedEnemy.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All);
-                    targetedEnemy = null;
 
-                    // Bang 말풍선 띄우기
-                    photonView.RPC("TurnOnBangBubble", RpcTarget.All);
+                    if (playerInfo.myItemList[0].itemCount > 0) // 뱅 있으면
+                    {
+                        // 적 한테 데미지
+                        targetedEnemy.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All);
+                        targetedEnemy = null;
+
+                        playerInfo.myItemList[0].itemCount -= 1;
+
+                        // Bang 말풍선 띄우기
+                        photonView.RPC("TurnOnBangBubble", RpcTarget.All);
+                    }
+                    else
+                    {
+                        playerManager.return_itemNoticeText("<color=#FF2D2D>" +  "뱅 이 존재하지 않습니다!" + "</color>");
+                    }
                 }
             }
         }
