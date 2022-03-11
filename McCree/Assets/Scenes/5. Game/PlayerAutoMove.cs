@@ -51,6 +51,7 @@ namespace com.ThreeCS.McCree
 
                         playerInfo.myItemList[0].itemCount -= 1;
 
+                        animator.SetTrigger("Bang");
                         // Bang 말풍선 띄우기
                         photonView.RPC("TurnOnBangBubble", RpcTarget.All);
                     }

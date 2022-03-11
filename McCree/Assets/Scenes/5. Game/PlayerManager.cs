@@ -272,7 +272,8 @@ namespace com.ThreeCS.McCree
         {
             // 키보드로 움직임 임시 구현
 
-            playerAutoMove.targetedEnemy = null; 
+            //playerAutoMove.targetedEnemy = null;
+            //playerManager.agent.SetDestination(transform.position);
 
             h = Input.GetAxis("Horizontal");
             v = Input.GetAxis("Vertical");
