@@ -311,6 +311,10 @@ namespace com.ThreeCS.McCree
         // 포탈에 상호작용 했을 때 동작
         public void Move(Transform target)
         {
+            transform.position = target.position;
+            playerAutoMove.targetedEnemy = null;
+
+            /*
             // 이동
             agent.SetDestination(target.position);
             playerAutoMove.targetedEnemy = null;
@@ -318,7 +322,7 @@ namespace com.ThreeCS.McCree
 
 
             float speed = agent.velocity.magnitude / agent.speed;
-            animator.SetFloat("Speed", speed);
+            animator.SetFloat("Speed", speed);*/
         }
 
         void Inventory()

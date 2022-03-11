@@ -33,6 +33,7 @@ namespace com.ThreeCS.McCree
 
         void FixedUpdate()
         {
+            // 처음 진입
             if(player == null)
             {
                 // 플레이어 리스트에서 내 거 찾아서 가상 카메라 붙이기
@@ -45,6 +46,7 @@ namespace com.ThreeCS.McCree
                     }
                 }
 
+                // 카메라 마다 기능 부여
                 if (player != null)
                 {
                     if(Cam.name == "CM vcam1")
