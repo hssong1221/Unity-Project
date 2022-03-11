@@ -10,13 +10,13 @@ namespace com.ThreeCS.McCree
         public Item item; // 아이템
         public int Count; // 아이템 개수
 
-
-        public GameObject itemListObj;
+        [HideInInspector]
+        private GameObject itemListObj;
 
         [SerializeField]
         private Image itemImg; // 사진 이미지
         [SerializeField]
-        private Text nameText; // 개수 텍스트
+        private Text nameText; // 이름 텍스트
         [SerializeField]
         private Text CountText; // 개수 텍스트
 
@@ -24,9 +24,12 @@ namespace com.ThreeCS.McCree
 
         private void Awake()
         {
+            itemListObj = this.gameObject;
             itemImg.sprite = item.itemImg;
-            nameText.text = item.ability.ToString();
+            nameText.text = item.itemName;
             Count = 0;
+
+            itemListObj.GetComponent<Button>().onClick.AddListener(Detail_item);
 
             itemListObj.SetActive(false);
         }
@@ -56,5 +59,10 @@ namespace com.ThreeCS.McCree
             get { return CountText; }
         }
 
+        public void Detail_item()
+        {
+            MineUI.Instance.title_Item.text = item.itemName;
+            MineUI.Instance.explain_Item.text = item.itemExplain;
+        }
     }
 }

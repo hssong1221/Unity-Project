@@ -18,7 +18,6 @@ namespace com.ThreeCS.McCree
         {
             if (other.tag == "Player")
             {
-
                 Item.iType pickItem = GameManager.Instance.entireItemSet.Pick_Item();
 
                 var json = JsonConvert.SerializeObject(pickItem);

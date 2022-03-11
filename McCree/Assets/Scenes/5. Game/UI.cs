@@ -33,9 +33,9 @@ namespace com.ThreeCS.McCree
 
         [Header("아이템 관련 UI")]
         public Canvas itemCanvas;   // 아이템 알림 캔버스
-        public Text itemNotice1;     // 아이템 알림 텍스트1
-        public Text itemNotice2;     // 아이템 알림 텍스트2
-        public Text itemNotice3;     // 아이템 알림 텍스트3
+        public Text itemNotice;     // 아이템 알림 텍스트
+        [Header("아이템 Sprite Renderer")]
+        public 
 
         Vector3 hpOffset;
         Vector3 bangOffset;
@@ -75,9 +75,7 @@ namespace com.ThreeCS.McCree
             // 뱅 말풍선 UI 꺼주기
             bangGifImg.enabled = false;
             // 아이템 공지 UI 꺼주기
-            itemNotice1.enabled = false;
-            itemNotice2.enabled = false;
-            itemNotice3.enabled = false;
+            itemNotice.enabled = false;
         }
 
         void Update()

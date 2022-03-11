@@ -27,12 +27,15 @@ namespace com.ThreeCS.McCree
 
         [Header("인벤토리 창 (StatusUI")]
         public GameObject statusPanel;
+        public Text title_Item;
+        public Text explain_Item;
 
         [Header("체력, 디버프 창 (leftTop")]
         public GameObject leftTopPanel;
 
         [Header("캐릭터 장착무기, 뱅, 회피 개수 창 (RightBottom")]
         public GameObject rightBottomPanel;
+        public Button inventoryBtn;
 
 
 
