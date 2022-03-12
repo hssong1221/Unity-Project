@@ -18,6 +18,7 @@ namespace com.ThreeCS.McCree
         public static GameObject LocalPlayerInstance;
 
         public bool isAiming;
+        public bool isBanging;
         public bool isDeath;
 
         private bool isInventoryOpen;
@@ -146,32 +147,35 @@ namespace com.ThreeCS.McCree
             {                                 // 대화창 활성화하면 캐릭터 제자리 걸음함 
                 if (photonView.IsMine)
                 {
-
-                    // 키네마틱 리지드 바디라서 픽스드 업데이트에 할 필요가 없음 
-                    Move();
-
-                    if (Input.GetButtonDown("LockOn"))
+                    if (!isBanging) // 뱅 쏠때 아무코토 못하게 막아놈
                     {
-                        AttackRange(); // 뱅 준비
-                    }
-                    if (Input.GetKeyDown(KeyCode.Tab))
-                    {
-                        Inventory();
-                    }
-                    if (isAiming && Input.GetButtonDown("Attack"))
-                    {
-                        Bang();
-                    }
 
-                    //Camera.main.transform.position = character.transform.position + offset;
-                    if (Input.GetKeyDown("1")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
-                        ui.attackRange = 1;
-                    if (Input.GetKeyDown("2"))
-                        ui.attackRange = 2;
-                    if (Input.GetKeyDown("3"))
-                        ui.attackRange = 3;
-                    ui.indicatorRangeCircle.rectTransform.localScale = new Vector3(ui.attackRange, ui.attackRange, 0);
-                    // Range_Indicator 이미지의 크기 변경 
+                        // 키네마틱 리지드 바디라서 픽스드 업데이트에 할 필요가 없음 
+                        Move();
+
+                        if (Input.GetButtonDown("LockOn"))
+                        {
+                            AttackRange(); // 뱅 준비
+                        }
+                        if (Input.GetKeyDown(KeyCode.Tab))
+                        {
+                            Inventory();
+                        }
+                        if (isAiming && Input.GetButtonDown("Attack"))
+                        {
+                            Bang();
+                        }
+
+                        //Camera.main.transform.position = character.transform.position + offset;
+                        if (Input.GetKeyDown("1")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
+                            ui.attackRange = 1;
+                        if (Input.GetKeyDown("2"))
+                            ui.attackRange = 2;
+                        if (Input.GetKeyDown("3"))
+                            ui.attackRange = 3;
+                        ui.indicatorRangeCircle.rectTransform.localScale = new Vector3(ui.attackRange, ui.attackRange, 0);
+                        // Range_Indicator 이미지의 크기 변경 
+                    }
                 }
             }
             else
@@ -258,6 +262,7 @@ namespace com.ThreeCS.McCree
                         Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
 
                     playerAutoMove.targetedEnemy = hit.collider.gameObject;
+                    
                 }
                 else
                 {

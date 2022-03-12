@@ -2094,6 +2094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAiming: 0
+  isBanging: 0
   isDeath: 0
   playerType: 0
   abilityType: 0
@@ -2126,6 +2127,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: IsAiming
+  - Type: 9
+    SynchronizeType: 0
+    Name: Bang
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
