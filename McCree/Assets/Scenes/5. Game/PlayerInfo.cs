@@ -15,6 +15,9 @@ namespace com.ThreeCS.McCree
         public int damage = 1;
 
         public List<ItemList> myItemList;
+        // 0번째 Bang
+        // 1번째 Avoid
+        // 2번째 Heal
         public Transform content;
 
         public bool isDeath;
@@ -39,9 +42,19 @@ namespace com.ThreeCS.McCree
             for (int i = 0; i < ui.hpImgs.Length; i++)
             {
                 if (i < maxHp)
+                {
                     ui.hpImgs[i].SetActive(true);
+
+                    if (photonView.IsMine)
+                        MineUI.Instance.mineUIhpImgs[i].SetActive(true);
+                }
                 else
+                {
                     ui.hpImgs[i].SetActive(false);
+
+                    if (photonView.IsMine)
+                        MineUI.Instance.mineUIhpImgs[i].SetActive(false);
+                }
             }
         }
     }

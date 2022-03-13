@@ -19,14 +19,9 @@ namespace com.ThreeCS.McCree
         private string player_NickName;
         private string player_FabID;
 
-        private PunChat punChat;
         //private ChatClient chatClient;
 
         // Start is called before the first frame update
-        void Awake()
-        {
-            punChat = GameObject.Find("LoadingUI").GetComponent<PunChat>();
-        }
 
 
         public string Return_player_ID()
@@ -52,7 +47,7 @@ namespace com.ThreeCS.McCree
             PhotonNetwork.NickName = player_NickName;
             LoadingUI.msg_Text.text = "유저 정보 불러오기 성공!";
 
-            punChat.Connect();
+            PunChat.Instance.Connect();
         }
 
         public void GetAccountFailure(PlayFabError error)

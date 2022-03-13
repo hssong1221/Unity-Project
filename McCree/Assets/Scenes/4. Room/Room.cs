@@ -104,9 +104,9 @@ namespace com.ThreeCS.McCree
             LoadingUI.msg_Text.text = "방 떠나는 중...";
             LoadingUI.msg_Canvas.SetActive(true);
             string msgs = string.Format("​<color=navy>[{0}]님이 퇴장하셨습니다.</color>", PhotonNetwork.LocalPlayer.NickName);
-            PunChat.chatClient.PublishMessage(PhotonNetwork.CurrentRoom.Name, msgs);
-            PunChat.behave = "ExitRoom";
-            PunChat.chatClient.Unsubscribe(new string[] {PhotonNetwork.CurrentRoom.Name});
+            PunChat.Instance.chatClient.PublishMessage(PhotonNetwork.CurrentRoom.Name, msgs);
+            PunChat.Instance.behave = "ExitRoom";
+            PunChat.Instance.chatClient.Unsubscribe(new string[] {PhotonNetwork.CurrentRoom.Name});
         }
 
         // 시작하기 버튼을 눌렀을 때

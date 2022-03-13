@@ -18,6 +18,7 @@ namespace com.ThreeCS.McCree
         public static GameObject LocalPlayerInstance;
 
         public bool isAiming;
+        public bool isBanging;
         public bool isDeath;
 
         private bool isInventoryOpen;
@@ -93,6 +94,8 @@ namespace com.ThreeCS.McCree
             base.Awake();
             agent = gameObject.GetComponent<NavMeshAgent>();
 
+            MineUI.Instance.inventoryBtn.onClick.AddListener(Inventory);
+
             // 포톤뷰에 의한 내 플레이어만
             if (photonView.IsMine)
             {
@@ -128,7 +131,6 @@ namespace com.ThreeCS.McCree
 
         void Update()
         {
-
             // 게임 내에서 밖으로 나오는거 임시 구현
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -140,26 +142,46 @@ namespace com.ThreeCS.McCree
                 return;
             }
 
-            if (photonView.IsMine)
-            {
-                // 키네마틱 리지드 바디라서 픽스드 업데이트에 할 필요가 없음 
-                Move();
 
-                AttackRange(); // 뱅 준비
-                Inventory();
-                if (isAiming)
-                    Bang();
+            if (!PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 모든 입력금지
+            {                                 // 대화창 활성화하면 캐릭터 제자리 걸음함 
+                if (photonView.IsMine)
+                {
+                    if (!isBanging) // 뱅 쏠때 아무코토 못하게 막아놈
+                    {
+
+                        // 키네마틱 리지드 바디라서 픽스드 업데이트에 할 필요가 없음 
+                        Move();
+
+                        if (Input.GetButtonDown("LockOn"))
+                        {
+                            AttackRange(); // 뱅 준비
+                        }
+                        if (Input.GetKeyDown(KeyCode.Tab))
+                        {
+                            Inventory();
+                        }
+                        if (isAiming && Input.GetButtonDown("Attack"))
+                        {
+                            Bang();
+                        }
+
+                        //Camera.main.transform.position = character.transform.position + offset;
+                        if (Input.GetKeyDown("1")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
+                            ui.attackRange = 1;
+                        if (Input.GetKeyDown("2"))
+                            ui.attackRange = 2;
+                        if (Input.GetKeyDown("3"))
+                            ui.attackRange = 3;
+                        ui.indicatorRangeCircle.rectTransform.localScale = new Vector3(ui.attackRange, ui.attackRange, 0);
+                        // Range_Indicator 이미지의 크기 변경 
+                    }
+                }
             }
-
-            //Camera.main.transform.position = character.transform.position + offset;
-            if (Input.GetKeyDown("a")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
-                ui.attackRange = 1;
-            if (Input.GetKeyDown("s"))
-                ui.attackRange = 2;
-            if (Input.GetKeyDown("d"))
-                ui.attackRange = 3;
-            ui.indicatorRangeCircle.rectTransform.localScale = new Vector3(ui.attackRange, ui.attackRange, 0);
-            // Range_Indicator 이미지의 크기 변경 
+            else
+            {
+                animator.SetFloat("Speed", 0f); // 최후의 보루 
+            }
 
         }
 
@@ -188,69 +210,63 @@ namespace com.ThreeCS.McCree
         // 뱅 준비 (공격 사거리 표시)
         void AttackRange()
         {
-            if (Input.GetButtonDown("LockOn"))
+            if (!isAiming)
             {
-                if (!isAiming)
+                if (ui.attackRange == 1)
                 {
-                    if (ui.attackRange == 1)
-                    {
-                        offset = new Vector3(0.0f, 7.0f, -7.0f);
-                        maxAttackDistance = 5;
-                    }
-                    else if (ui.attackRange == 2)
-                    {
-                        offset = new Vector3(0.0f, 14.0f, -14.0f);
-                        maxAttackDistance = 10;
-                    }
-                    else if (ui.attackRange == 3)
-                    {
-                        offset = new Vector3(0.0f, 21.0f, -21.0f);
-                        maxAttackDistance = 15;
-                    }
+                    offset = new Vector3(0.0f, 7.0f, -7.0f);
+                    maxAttackDistance = 5;
+                }
+                else if (ui.attackRange == 2)
+                {
+                    offset = new Vector3(0.0f, 14.0f, -14.0f);
+                    maxAttackDistance = 10;
+                }
+                else if (ui.attackRange == 3)
+                {
+                    offset = new Vector3(0.0f, 21.0f, -21.0f);
+                    maxAttackDistance = 15;
+                }
 
-                    isAiming = true;
-                    animator.SetBool("IsAiming", isAiming);
-                    agent.speed = 2.5f;
-                    ui.indicatorRangeCircle.enabled = true;
-                }
-                else
-                {
-                    isAiming = false;
-                    animator.SetBool("IsAiming", isAiming);
-                    agent.speed = 5.0f;
-                    offset = new Vector3(0.0f, 5.0f, -5.0f);
-                    ui.indicatorRangeCircle.enabled = false;
-                }
+                isAiming = true;
+                animator.SetBool("IsAiming", isAiming);
+                agent.speed = 2.5f;
+                ui.indicatorRangeCircle.enabled = true;
             }
-
+            else
+            {
+                isAiming = false;
+                animator.SetBool("IsAiming", isAiming);
+                agent.speed = 5.0f;
+                offset = new Vector3(0.0f, 5.0f, -5.0f);
+                ui.indicatorRangeCircle.enabled = false;
+            }
         }
 
         // 뱅!
         void Bang()
         {
-            if (Input.GetButtonDown("Attack"))
+            RaycastHit hit;
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
             {
-                RaycastHit hit;
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
-                {
-                    if (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player")
-                    { // 클릭한 오브젝트가 자기 자신이 아닌 다른 플레이어 일때
+                if (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player")
+                { // 클릭한 오브젝트가 자기 자신이 아닌 다른 플레이어 일때
 
-                        // 클릭한 물체의 위치와 내 위치의 거리 
-                        float distance = Vector3.Distance(hit.collider.transform.position, transform.position);
+                    // 클릭한 물체의 위치와 내 위치의 거리 
+                    float distance = Vector3.Distance(hit.collider.transform.position, transform.position);
 
 
-                        if (distance <= maxAttackDistance)
-                            Debug.Log("캐릭터 선택 닿음  " + "거리: " + distance);
-                        else
-                            Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
-
-                        playerAutoMove.targetedEnemy = hit.collider.gameObject;
-                    }
+                    if (distance <= maxAttackDistance)
+                        Debug.Log("캐릭터 선택 닿음  " + "거리: " + distance);
                     else
-                    {
-                        playerAutoMove.targetedEnemy = null;
-                    }
+                        Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
+
+                    playerAutoMove.targetedEnemy = hit.collider.gameObject;
+                    
+                }
+                else
+                {
+                    playerAutoMove.targetedEnemy = null;
                 }
             }
         }
@@ -261,6 +277,9 @@ namespace com.ThreeCS.McCree
         {
             // 키보드로 움직임 임시 구현
 
+            //playerAutoMove.targetedEnemy = null;
+            //playerManager.agent.SetDestination(transform.position);
+
             h = Input.GetAxis("Horizontal");
             v = Input.GetAxis("Vertical");
             moveVec = new Vector3(h, 0, v);
@@ -269,7 +288,7 @@ namespace com.ThreeCS.McCree
 
             lookForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
             lookRight = new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z).normalized;
-            
+
             moveDir = lookForward * moveVec.z + lookRight * moveVec.x;
 
             // 회전 다시 돌아오는것을 막기위해
@@ -327,18 +346,17 @@ namespace com.ThreeCS.McCree
 
         void Inventory()
         {
-            if (Input.GetKeyDown(KeyCode.Tab))
+            if (!isInventoryOpen)
             {
-                if (!isInventoryOpen)
-                {
-                    MineUI.Instance.statusPanel.SetActive(true);
-                    isInventoryOpen = true;
-                }
-                else
-                {
-                    MineUI.Instance.statusPanel.SetActive(false);
-                    isInventoryOpen = false;
-                }
+                //MineUI.Instance.title_Item.text = "";
+                //MineUI.Instance.explain_Item.text = "";
+                MineUI.Instance.statusPanel.SetActive(true);
+                isInventoryOpen = true;
+            }
+            else
+            {
+                MineUI.Instance.statusPanel.SetActive(false);
+                isInventoryOpen = false;
             }
         }
 
@@ -427,7 +445,7 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public void GiveItems(string jsonData)
+        public IEnumerator GiveItems(string jsonData)
         {
             Item.iType pickedItem = JsonConvert.DeserializeObject<Item.iType>(jsonData);
 
@@ -437,55 +455,29 @@ namespace com.ThreeCS.McCree
                 {
                     if (itemList.item.ability == pickedItem)
                     {
-                        itemList.count++;
+                        itemList.itemCount++;
                         break;
                     }
                 }
             }
             return_itemNoticeText("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
+
+            yield return new WaitForEndOfFrame();
+        }
+        
+        public void return_itemNoticeText(string sentece)
+        {
+            ui.itemNotice.enabled = true;
+            ui.itemNotice.text = sentece;
+            //ui.itemNotice1.GetComponent<Animator>().Play("ItemNoticeText");
+            Invoke("TurnOffItemText", 2.0f);
         }
 
-        // 2초후 안사라지는 버그는 내일 고쳐봄
-        void return_itemNoticeText(string sentece)
+        void TurnOffItemText()
         {
-            if (ui.itemNotice1.enabled)
-            {
-                if (ui.itemNotice2.enabled)
-                {
-                    ui.itemNotice3.enabled = true;
-                    ui.itemNotice3.text = sentece;
-                    //ui.itemNotice3.GetComponent<Animator>().Play("ItemNoticeText");
-                    Invoke("TurnOffItemText3", 2.0f);
-                }
-                else
-                {
-                    ui.itemNotice2.enabled = true;
-                    ui.itemNotice2.text = sentece;
-                    //ui.itemNotice2.GetComponent<Animator>().Play("ItemNoticeText");
-                    Invoke("TurnOffItemText2", 2.0f);
-                }
-            }
-            else
-            {
-                ui.itemNotice1.enabled = true;
-                ui.itemNotice1.text = sentece;
-                //ui.itemNotice1.GetComponent<Animator>().Play("ItemNoticeText");
-                Invoke("TurnOffItemText1", 2.0f);
-            }
+            ui.itemNotice.enabled = false;
         }
 
-        void TurnOffItemText1()
-        {
-            ui.itemNotice1.enabled = false;
-        }
-        void TurnOffItemText2()
-        {
-            ui.itemNotice1.enabled = false;
-        }
-        void TurnOffItemText3()
-        {
-            ui.itemNotice3.enabled = false;
-        }
 
         #endregion
     }

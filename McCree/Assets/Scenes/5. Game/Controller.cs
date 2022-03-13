@@ -37,17 +37,30 @@ namespace com.ThreeCS.McCree
 
             animator = GetComponent<Animator>();
         }
-        // Start is called before the first frame update
-        void Start()
-        {
 
+        private void Start()
+        {
+            playerManager.isBanging = false;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
 
+
+        #region 애니메이션 제어 
+        protected void Bang_Speech_Bubble_Anim_Start()
+        {
+            playerManager.isBanging = true;
         }
+
+        protected void Bang_Speech_Bubble_Anim()
+        {
+            photonView.RPC("TurnOnBangBubble", RpcTarget.All);
+        }
+
+        protected void Bang_Speech_Bubble_Anim_End()
+        {
+            playerManager.isBanging = false;
+        }
+        #endregion
     }
 
 }
