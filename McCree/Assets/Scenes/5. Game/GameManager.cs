@@ -96,9 +96,6 @@ namespace com.ThreeCS.McCree
         public Sprite outlaw4;
         public Sprite renegade4;
 
-
-
-
         [Header("맵 기준점")]
         public Transform[] points;
         public List<GameObject> maps;
@@ -316,7 +313,7 @@ namespace com.ThreeCS.McCree
             StatusUI.Instance.job_Explain.text = abilText.text;
 
 
-            // 사람들이 텍스트를 읽을 시간 부여
+            // ---------------------- 사람들이 텍스트를 읽을 시간 부여(나중에 다시 활성화) ----------------------------
             //yield return new WaitForSeconds(12f);
             abilPanel.SetActive(false);
         }
@@ -427,22 +424,6 @@ namespace com.ThreeCS.McCree
         {
             PhotonNetwork.LeaveRoom();
         }
-
-        /*void LoadArena()
-        {
-            if (!PhotonNetwork.IsMasterClient)
-            {
-                Debug.LogError("마스터클라이언트가 아니면 씬, 레벨을 로드할수 없습니다.");
-            }
-
-            Debug.LogFormat("PhotonNetwork : Loading Level : {0}", PhotonNetwork.CurrentRoom.PlayerCount);
-
-            PhotonNetwork.LoadLevel("Game");
-        }*/
-
-
-
-        
 
         #endregion
 

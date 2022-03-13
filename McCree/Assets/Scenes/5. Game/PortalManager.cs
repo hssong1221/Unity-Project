@@ -16,17 +16,19 @@ namespace com.ThreeCS.McCree
     {
         #region Public Fields
 
-        // 포탈 이용 안내 텍스트
-        public GameObject ui;
-        
         // 포탈 사용자 매니저
         private PlayerManager playerManager;
 
-        // 시네머신 카메라
-        public CinemachineClearShot cam;
-
         // 플레이어 네비메쉬에이전트
         protected NavMeshAgent nav;
+
+        // 포탈 이용 안내 텍스트
+        [Header("포탈접촉시 ui(임시구현)")]
+        public GameObject ui;
+
+        // 시네머신 카메라
+        [Header("현재 참조중인 카메라")]
+        public CinemachineClearShot cam;
 
         [Header("포탈 사용시 갈 곳")]
         public GameObject target;
@@ -62,15 +64,13 @@ namespace com.ThreeCS.McCree
                         Debug.Log("일반 포탈");
                         if (Input.GetKey(KeyCode.E))
                         {
+                            // 트랜스폼 순간이동을 위해서 잠깐 네비메쉬를 꺼야함
                             nav.enabled = false;
                             playerManager.Move(target.transform);
                             Invoke("NavOFF", 0.1f);
                         }
                         break;
-
                 }
-
-                
             }
         }
 
@@ -87,7 +87,7 @@ namespace com.ThreeCS.McCree
         #endregion
 
         #region
-        // 트랜스폼 순간이동을 위해서 잠깐 네비메쉬를 꺼야함
+        // 꺼진거 다시 켜줌
         void NavOFF()
         {
             nav.enabled = true;
