@@ -49,36 +49,25 @@ namespace com.ThreeCS.McCree
                 // 카메라 마다 기능 부여
                 if (player != null)
                 {
+                    // 메인 카메라
                     if(Cam.name == "CM vcam1")
                     {
                         target = player.transform;
                         Cam.Follow = target;
                         Cam.LookAt = target;
                     }
-                    else if (Cam.name == "CM vcam2")
-                    {
-                        target = player.transform;
-                        Cam.Follow = target;
-                        Cam.LookAt = target;
-                    }
-                    else if (Cam.name == "CM vcam3")
-                    {
-                        target = player.transform;
-                        Cam.Follow = target;
-                        Cam.LookAt = target;
-                    }
-                    else if(Cam.name == "CM vcam4")
+                    // 주점 CCTV
+                    else if (Cam.name == "CM Saloon")
                     {
                         target = player.transform;
                         Cam.LookAt = target;
                     }
-                    
+
                 }
             }
         }
 
         #endregion
-
     }
 
 }

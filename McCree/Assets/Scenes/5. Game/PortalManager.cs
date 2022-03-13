@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Cinemachine;
+
 using UnityEngine.AI;
 
 using Photon.Pun;
@@ -18,20 +20,19 @@ namespace com.ThreeCS.McCree
         public GameObject ui;
         
         // 포탈 사용자 매니저
-        public PlayerManager playerManager;
+        private PlayerManager playerManager;
 
+        // 시네머신 카메라
+        public CinemachineClearShot cam;
+
+        // 플레이어 네비메쉬에이전트
         protected NavMeshAgent nav;
 
         [Header("포탈 사용시 갈 곳")]
         public GameObject target;
         #endregion
 
-        private bool waitTime;
 
-        void Start()
-        {
-            waitTime = true;
-        }
         #region Trigger Methods
 
         // 포탈에 플레이어가 닿앗을 때
@@ -41,21 +42,35 @@ namespace com.ThreeCS.McCree
             {
                 ui.SetActive(true);
                 playerManager = other.GetComponent<PlayerManager>();
-
                 nav = other.GetComponent<NavMeshAgent>();
-                
 
                 Debug.Log("플레이어 진입!!!");
-                if (Input.GetKey(KeyCode.E) && waitTime)
+
+                switch (gameObject.name)
                 {
-                    waitTime = false;
-
-                    nav.enabled = false;
-
-                    playerManager.Move(target.transform);
-                    Invoke("WaitTime", 2f);
+                    case "SaloonIN":
+                        Debug.Log("주점 내부");
+                        cam.ChildCameras[1].gameObject.SetActive(true);
+                        cam.ChildCameras[0].gameObject.SetActive(false);
+                        break;
+                    case "SaloonOUT":
+                        Debug.Log("주점 외부");
+                        cam.ChildCameras[0].gameObject.SetActive(true);
+                        cam.ChildCameras[1].gameObject.SetActive(false);
+                        break;
+                    default:
+                        Debug.Log("일반 포탈");
+                        if (Input.GetKey(KeyCode.E))
+                        {
+                            nav.enabled = false;
+                            playerManager.Move(target.transform);
+                            Invoke("NavOFF", 0.1f);
+                        }
+                        break;
 
                 }
+
+                
             }
         }
 
@@ -72,9 +87,9 @@ namespace com.ThreeCS.McCree
         #endregion
 
         #region
-        void WaitTime()
+        // 트랜스폼 순간이동을 위해서 잠깐 네비메쉬를 꺼야함
+        void NavOFF()
         {
-            waitTime = true;
             nav.enabled = true;
         }
         #endregion

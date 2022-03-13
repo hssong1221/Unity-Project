@@ -353,7 +353,7 @@ namespace com.ThreeCS.McCree
         {
             Debug.Log(playerManager);
             Debug.Log(playerManager.playerType);
-            Debug.Log(GameManager.jType.Sheriff);
+            //Debug.Log(GameManager.jType.Sheriff);
             switch (num)
             {
                 case 1:
