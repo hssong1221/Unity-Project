@@ -131,12 +131,6 @@ namespace com.ThreeCS.McCree
 
         void Update()
         {
-            // 게임 내에서 밖으로 나오는거 임시 구현
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                GameManager.Instance.LeaveRoom();
-            }
-
             if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
             {
                 return;

@@ -72,6 +72,8 @@ namespace com.ThreeCS.McCree
         public Image abilImage;
         public Text abilText;
 
+        
+
 
         [Header("직업 일러스트")]
         public Sprite sheriff1;  // 보안관 일러스트
@@ -103,6 +105,17 @@ namespace com.ThreeCS.McCree
         // 한 게임에서 사용할 전체 아이템 세트
         public ItemSet entireItemSet; 
 
+        [Header("환경설정 관련 UI")]
+        public GameObject SettingPanel;
+        private bool isSettingOpen = false;
+
+        [SerializeField] private Transform graphicObject;
+
+        private Text graphicTxt;
+        private Button graphicDownBtn;
+        private Button graphicUpBtn;
+
+        private int graphicOpt = 0; // 그래픽 프리셋
 
         #endregion
 
@@ -124,6 +137,9 @@ namespace com.ThreeCS.McCree
                 return;
             }
 
+            //환경설정 UI init
+            InitContent(graphicObject, out graphicTxt ,out graphicDownBtn, out graphicUpBtn);
+            //UpdateGraphicOpt();
         }
 
         void Start()
@@ -146,12 +162,22 @@ namespace com.ThreeCS.McCree
             StartCoroutine(WaitAllPlayers()); // 다른 플레이어 기다리기
         }
 
-        #endregion
+        void Update()
+        {
+            // 환경설정 ui
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Setting();
+            }
+        }
 
-        #region Coroutine
 
-        // 캐릭터 생성 후 맵 스폰 순서대로
-        IEnumerator InstantiateResource()
+    #endregion
+
+    #region Coroutine
+
+    // 캐릭터 생성 후 맵 스폰 순서대로
+    IEnumerator InstantiateResource()
         {
             yield return new WaitForEndOfFrame();
 
@@ -323,7 +349,86 @@ namespace com.ThreeCS.McCree
 
         #endregion
 
-        #region Public Methods
+        #region Methods
+
+        // 환경 설정 UI
+        void Setting()
+        {
+            Debug.Log(QualitySettings.names);
+            Debug.Log(QualitySettings.names[0]);
+            Debug.Log(QualitySettings.names[1]);
+            Debug.Log(QualitySettings.names[2]);
+
+
+            if (isSettingOpen)
+            {
+                SettingPanel.SetActive(false);
+                isSettingOpen = false;
+
+            }
+            else
+            {
+                SettingPanel.SetActive(true);
+                isSettingOpen = true;
+            }
+        }
+
+        public void GraphicOptDown()
+        {
+            --graphicOpt;
+            Debug.Log("현재 그래픽 : " + graphicOpt);
+            UpdateGraphicOpt();
+        }
+        public void GraphicOptUp()
+        {
+            ++graphicOpt;
+            Debug.Log("현재 그래픽 : " + graphicOpt);
+            UpdateGraphicOpt();
+        }
+
+        public void UpdateGraphicOpt()
+        {
+
+            switch (graphicOpt)
+            {
+                case 0:
+                    graphicTxt.text = "Very Low";
+                    break;
+                case 1:
+                    graphicTxt.text = "Low";
+                    break;
+                case 2:
+                    graphicTxt.text = "Medium";
+                    break;
+                case 3:
+                    graphicTxt.text = "High";
+                    break;
+                case 4:
+                    graphicTxt.text = "Very High";
+                    break;
+                case 5:
+                    graphicTxt.text = "Ultra";
+                    break;
+                default:
+                    graphicTxt.text = "Error";
+                    break;
+            }
+
+            graphicDownBtn.interactable = graphicOpt != 0;
+            graphicUpBtn.interactable = graphicOpt != 5;
+        }
+
+        public void SaveSetting()
+        {
+            QualitySettings.SetQualityLevel(graphicOpt);
+        }
+
+        void InitContent(Transform obj, out Text text, out Button downBtn, out Button upBtn)
+        {
+            text = obj.Find("Text").GetComponent<Text>();
+            downBtn = obj.Find("DownBtn").GetComponent<Button>();
+            upBtn = obj.Find("UpBtn").GetComponent<Button>();
+        }
 
         // 직업 관련 텍스트
         public string JobText()
@@ -427,6 +532,7 @@ namespace com.ThreeCS.McCree
             PhotonNetwork.LeaveRoom();
         }
 
+        
         #endregion
 
         #region Photon Callback
