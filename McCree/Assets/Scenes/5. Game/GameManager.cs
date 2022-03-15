@@ -1,14 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-
+using System.Linq.Expressions;
 
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 using Photon.Pun;
 using Photon.Realtime;
+
 using Newtonsoft.Json;
 
 namespace com.ThreeCS.McCree
@@ -115,7 +117,7 @@ namespace com.ThreeCS.McCree
         private Button graphicDownBtn;
         private Button graphicUpBtn;
 
-        private int graphicOpt = 0; // 그래픽 프리셋
+        private int graphicOpt; // 그래픽 프리셋
 
         #endregion
 
@@ -139,6 +141,16 @@ namespace com.ThreeCS.McCree
 
             //환경설정 UI init
             InitContent(graphicObject, out graphicTxt ,out graphicDownBtn, out graphicUpBtn);
+        }
+
+        public override void OnEnable()
+        {
+            base.OnEnable();
+
+            // 본인 환경설정 세팅값 가져오기
+            graphicOpt = Data.GraphicOpt;
+            Debug.Log("현재 저장된 그래픽 프리셋" + graphicOpt);
+
             //UpdateGraphicOpt();
         }
 
@@ -149,6 +161,7 @@ namespace com.ThreeCS.McCree
             if (playerPrefab == null)
             {
                 Debug.Log("플레이어 프리팹이 생성되지 못했습니다. 게임매니저에서 확인하세요.");
+                return;
             }
             else
             {
@@ -157,9 +170,12 @@ namespace com.ThreeCS.McCree
                     StartCoroutine(InstantiateResource()); 
 
                     cameraWork = GetComponent<CameraWork>(); // 본인 카메라 가져오기
+
+                    UpdateGraphicOpt();
                 }
             }
             StartCoroutine(WaitAllPlayers()); // 다른 플레이어 기다리기
+
         }
 
         void Update()
@@ -170,14 +186,13 @@ namespace com.ThreeCS.McCree
                 Setting();
             }
         }
+        
+        #endregion
 
+        #region Coroutine
 
-    #endregion
-
-    #region Coroutine
-
-    // 캐릭터 생성 후 맵 스폰 순서대로
-    IEnumerator InstantiateResource()
+        // 캐릭터 생성 후 맵 스폰 순서대로
+        IEnumerator InstantiateResource()
         {
             yield return new WaitForEndOfFrame();
 
@@ -210,8 +225,8 @@ namespace com.ThreeCS.McCree
         {
             Debug.Log("로컬플레이어를 생성합니다.");
 
-            float ran1 = Random.Range(-2, 2);
-            float ran2 = Random.Range(-2, 2);
+            float ran1 = UnityEngine.Random.Range(-2, 2);
+            float ran2 = UnityEngine.Random.Range(-2, 2);
             // 로컬 플레이어를 스폰합니다. 동기화도 됨
             PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(ran1, 2f, ran2), Quaternion.identity, 0);
 
@@ -354,12 +369,8 @@ namespace com.ThreeCS.McCree
         // 환경 설정 UI
         void Setting()
         {
-            Debug.Log(QualitySettings.names);
-            Debug.Log(QualitySettings.names[0]);
-            Debug.Log(QualitySettings.names[1]);
-            Debug.Log(QualitySettings.names[2]);
-
-
+            graphicOpt = PlayerPrefs.GetInt("graphicOpt", 0);
+            UpdateGraphicOpt();
             if (isSettingOpen)
             {
                 SettingPanel.SetActive(false);
@@ -376,13 +387,11 @@ namespace com.ThreeCS.McCree
         public void GraphicOptDown()
         {
             --graphicOpt;
-            Debug.Log("현재 그래픽 : " + graphicOpt);
             UpdateGraphicOpt();
         }
         public void GraphicOptUp()
         {
             ++graphicOpt;
-            Debug.Log("현재 그래픽 : " + graphicOpt);
             UpdateGraphicOpt();
         }
 
@@ -421,6 +430,8 @@ namespace com.ThreeCS.McCree
         public void SaveSetting()
         {
             QualitySettings.SetQualityLevel(graphicOpt);
+
+            Data.GraphicOpt = graphicOpt;
         }
 
         void InitContent(Transform obj, out Text text, out Button downBtn, out Button upBtn)
@@ -560,5 +571,42 @@ namespace com.ThreeCS.McCree
         }
         #endregion
 
+    }
+
+    public static class Data
+    {
+        #region Variable
+
+        private static int graphicOpt;
+
+        #endregion
+
+        #region get/set
+
+        public static int GraphicOpt
+        {
+            get 
+            {
+                Debug.Log("Playerfreps에서 저장된 값을 줌 : " + graphicOpt);
+                return graphicOpt; 
+            }
+            set
+            {
+                graphicOpt = value;
+                Debug.Log("게임에서 준 값을 저장중 : " + graphicOpt);
+
+                PlayerPrefs.SetInt(GetMemberName(() => graphicOpt), value);
+                
+            }
+        }
+
+        private static string GetMemberName<T>(Expression<Func<T>> memberExpression)    //변수명을 string으로 리턴해주는 함수. 변수명을 그대로 key로 쓰기 위함. 
+        {
+            MemberExpression expressionBody = (MemberExpression)memberExpression.Body;
+            Debug.Log("getmembername값 : " + expressionBody.Member.Name);
+            return expressionBody.Member.Name;
+        }
+
+        #endregion
     }
 }
