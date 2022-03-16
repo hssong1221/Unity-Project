@@ -74,8 +74,6 @@ namespace com.ThreeCS.McCree
         public Image abilImage;
         public Text abilText;
 
-        
-
 
         [Header("직업 일러스트")]
         public Sprite sheriff1;  // 보안관 일러스트
@@ -108,17 +106,22 @@ namespace com.ThreeCS.McCree
         public ItemSet entireItemSet; 
 
         [Header("환경설정 관련 UI")]
-        public GameObject SettingPanel;
+        public GameObject SettingPanel;     // 전체 설정 패널
         private bool isSettingOpen = false;
+
+        public GameObject gPanel;   //그래픽 패널
+        public GameObject sPanel;   //사운드
+        public GameObject mPanel;   //마우스
+        public GameObject kPanel;   //키보드
+
 
         [SerializeField] private Transform graphicObject;
 
+        private int graphicOpt; // 그래픽 프리셋
         private Text graphicTxt;
         private Button graphicDownBtn;
         private Button graphicUpBtn;
-
-        private int graphicOpt; // 그래픽 프리셋
-
+        
         #endregion
 
 
@@ -151,7 +154,6 @@ namespace com.ThreeCS.McCree
             graphicOpt = Data.GraphicOpt;
             Debug.Log("현재 저장된 그래픽 프리셋" + graphicOpt);
 
-            //UpdateGraphicOpt();
         }
 
         void Start()
@@ -170,8 +172,6 @@ namespace com.ThreeCS.McCree
                     StartCoroutine(InstantiateResource()); 
 
                     cameraWork = GetComponent<CameraWork>(); // 본인 카메라 가져오기
-
-                    UpdateGraphicOpt();
                 }
             }
             StartCoroutine(WaitAllPlayers()); // 다른 플레이어 기다리기
@@ -180,7 +180,7 @@ namespace com.ThreeCS.McCree
 
         void Update()
         {
-            // 환경설정 ui
+            // 환경설정 UI on/off
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Setting();
@@ -364,82 +364,7 @@ namespace com.ThreeCS.McCree
 
         #endregion
 
-        #region Methods
-
-        // 환경 설정 UI
-        void Setting()
-        {
-            graphicOpt = PlayerPrefs.GetInt("graphicOpt", 0);
-            UpdateGraphicOpt();
-            if (isSettingOpen)
-            {
-                SettingPanel.SetActive(false);
-                isSettingOpen = false;
-
-            }
-            else
-            {
-                SettingPanel.SetActive(true);
-                isSettingOpen = true;
-            }
-        }
-
-        public void GraphicOptDown()
-        {
-            --graphicOpt;
-            UpdateGraphicOpt();
-        }
-        public void GraphicOptUp()
-        {
-            ++graphicOpt;
-            UpdateGraphicOpt();
-        }
-
-        public void UpdateGraphicOpt()
-        {
-
-            switch (graphicOpt)
-            {
-                case 0:
-                    graphicTxt.text = "Very Low";
-                    break;
-                case 1:
-                    graphicTxt.text = "Low";
-                    break;
-                case 2:
-                    graphicTxt.text = "Medium";
-                    break;
-                case 3:
-                    graphicTxt.text = "High";
-                    break;
-                case 4:
-                    graphicTxt.text = "Very High";
-                    break;
-                case 5:
-                    graphicTxt.text = "Ultra";
-                    break;
-                default:
-                    graphicTxt.text = "Error";
-                    break;
-            }
-
-            graphicDownBtn.interactable = graphicOpt != 0;
-            graphicUpBtn.interactable = graphicOpt != 5;
-        }
-
-        public void SaveSetting()
-        {
-            QualitySettings.SetQualityLevel(graphicOpt);
-
-            Data.GraphicOpt = graphicOpt;
-        }
-
-        void InitContent(Transform obj, out Text text, out Button downBtn, out Button upBtn)
-        {
-            text = obj.Find("Text").GetComponent<Text>();
-            downBtn = obj.Find("DownBtn").GetComponent<Button>();
-            upBtn = obj.Find("UpBtn").GetComponent<Button>();
-        }
+        #region Public Methods
 
         // 직업 관련 텍스트
         public string JobText()
@@ -543,7 +468,124 @@ namespace com.ThreeCS.McCree
             PhotonNetwork.LeaveRoom();
         }
 
+
+        #endregion
+
+        #region 환경설정 UI 관련 method
+
+        // UI 오브젝트 공통 초기화
+        void InitContent(Transform obj, out Text text, out Button downBtn, out Button upBtn)
+        {
+            text = obj.Find("Text").GetComponent<Text>();
+            downBtn = obj.Find("DownBtn").GetComponent<Button>();
+            upBtn = obj.Find("UpBtn").GetComponent<Button>();
+        }
+
+        // 환경 설정 UI on/off
+        void Setting()
+        {
+            // 본인 컴퓨터의 저장된 설정 값 안불러와질 경우를 대비해서 한번 더 부름
+            graphicOpt = PlayerPrefs.GetInt("graphicOpt", 0);
+            UpdateGraphicOpt();
+
+            if (isSettingOpen)
+            {
+                SettingPanel.SetActive(false);
+                isSettingOpen = false;
+
+            }
+            else
+            {
+                SettingPanel.SetActive(true);
+                isSettingOpen = true;
+            }
+        }
+
+        // 설정 종류 버튼 하드코딩인데 이거보다 좋은방법이 있나
+        public void Gpanel()
+        {
+            gPanel.SetActive(true);
+            sPanel.SetActive(false);
+            mPanel.SetActive(false);
+            kPanel.SetActive(false);
+        }
+
+        public void Spanel()
+        {
+            gPanel.SetActive(false);
+            sPanel.SetActive(true);
+            mPanel.SetActive(false);
+            kPanel.SetActive(false);
+        }
+        public void Mpanel()
+        {
+            gPanel.SetActive(false);
+            sPanel.SetActive(false);
+            mPanel.SetActive(true);
+            kPanel.SetActive(false);
+        }
+        public void Kpanel()
+        {
+            gPanel.SetActive(false);
+            sPanel.SetActive(false);
+            mPanel.SetActive(false);
+            kPanel.SetActive(true);
+        }
+
+        // 버튼 동작
+        public void GraphicOptDown()
+        {
+            --graphicOpt;
+            UpdateGraphicOpt();
+        }
+        public void GraphicOptUp()
+        {
+            ++graphicOpt;
+            UpdateGraphicOpt();
+        }
+
+        // 내부 텍스트 값 
+        public void UpdateGraphicOpt()
+        {
+
+            switch (graphicOpt)
+            {
+                case 0:
+                    graphicTxt.text = "Very Low";
+                    break;
+                case 1:
+                    graphicTxt.text = "Low";
+                    break;
+                case 2:
+                    graphicTxt.text = "Medium";
+                    break;
+                case 3:
+                    graphicTxt.text = "High";
+                    break;
+                case 4:
+                    graphicTxt.text = "Very High";
+                    break;
+                case 5:
+                    graphicTxt.text = "Ultra";
+                    break;
+                default:
+                    graphicTxt.text = "Error";
+                    break;
+            }
+
+            graphicDownBtn.interactable = graphicOpt != 0;
+            graphicUpBtn.interactable = graphicOpt != 5;
+        }
+
+        // 환경설정 저장
+        public void SaveSetting()
+        {
+            QualitySettings.SetQualityLevel(graphicOpt);
+
+            Data.GraphicOpt = graphicOpt;
+        }
         
+
         #endregion
 
         #region Photon Callback
@@ -573,6 +615,7 @@ namespace com.ThreeCS.McCree
 
     }
 
+    // Playerprefs에 저장될 값 처리 클래스
     public static class Data
     {
         #region Variable
@@ -583,17 +626,18 @@ namespace com.ThreeCS.McCree
 
         #region get/set
 
+        // 그래픽 프리셋 값
         public static int GraphicOpt
         {
             get 
             {
-                Debug.Log("Playerfreps에서 저장된 값을 줌 : " + graphicOpt);
+                //Debug.Log("Playerfreps에서 저장된 값을 줌 : " + graphicOpt);
                 return graphicOpt; 
             }
             set
             {
                 graphicOpt = value;
-                Debug.Log("게임에서 준 값을 저장중 : " + graphicOpt);
+                //Debug.Log("게임에서 준 값을 저장중 : " + graphicOpt);
 
                 PlayerPrefs.SetInt(GetMemberName(() => graphicOpt), value);
                 
@@ -603,7 +647,6 @@ namespace com.ThreeCS.McCree
         private static string GetMemberName<T>(Expression<Func<T>> memberExpression)    //변수명을 string으로 리턴해주는 함수. 변수명을 그대로 key로 쓰기 위함. 
         {
             MemberExpression expressionBody = (MemberExpression)memberExpression.Body;
-            Debug.Log("getmembername값 : " + expressionBody.Member.Name);
             return expressionBody.Member.Name;
         }
 

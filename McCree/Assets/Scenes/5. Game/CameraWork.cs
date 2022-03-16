@@ -13,7 +13,6 @@ namespace com.ThreeCS.McCree
 
         // 가상 카메라
         private CinemachineVirtualCamera Cam;
-
         #endregion
 
         #region Public Fields
@@ -28,11 +27,14 @@ namespace com.ThreeCS.McCree
         void Start()
         {
             Cam = GetComponent<CinemachineVirtualCamera>();
+
             player = null;
         }
 
+
         void FixedUpdate()
         {
+
             // 처음 진입
             if(player == null)
             {
@@ -62,7 +64,6 @@ namespace com.ThreeCS.McCree
                         target = player.transform;
                         Cam.LookAt = target;
                     }
-
                 }
             }
         }
