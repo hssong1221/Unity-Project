@@ -22,6 +22,7 @@ namespace com.ThreeCS.McCree
         public bool isDeath;
 
         private bool isInventoryOpen;
+        public bool isInteraction;
 
         // 플레이어 정보 타입
         [Header("플레이어 정보")]
@@ -94,7 +95,9 @@ namespace com.ThreeCS.McCree
             base.Awake();
             agent = gameObject.GetComponent<NavMeshAgent>();
 
-            MineUI.Instance.inventoryBtn.onClick.AddListener(Inventory);
+            MineUI.Instance.inventoryBtn.onClick.AddListener(Inventory); // 아이템 이미지
+            MineUI.Instance.mainQuestBtn.onClick.AddListener(Inventory); // 메인 목표 
+
 
             // 포톤뷰에 의한 내 플레이어만
             if (photonView.IsMine)
@@ -143,11 +146,11 @@ namespace com.ThreeCS.McCree
             }
 
 
-            if (!PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 모든 입력금지
-            {                                 // 대화창 활성화하면 캐릭터 제자리 걸음함 
+            //if (!PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 모든 입력금지
+            //{                                 // 대화창 활성화하면 캐릭터 제자리 걸음함 
                 if (photonView.IsMine)
                 {
-                    if (!isBanging) // 뱅 쏠때 아무코토 못하게 막아놈
+                    if (!isBanging && !isInteraction) // 아무코토 못함
                     {
 
                         // 키네마틱 리지드 바디라서 픽스드 업데이트에 할 필요가 없음 
@@ -173,15 +176,24 @@ namespace com.ThreeCS.McCree
                             ui.attackRange = 2;
                         if (Input.GetKeyDown("3"))
                             ui.attackRange = 3;
+
+                        if (Input.GetKeyDown("4"))
+                            animator.SetTrigger("Base");
+                        if (Input.GetKeyDown("5"))
+                            animator.SetTrigger("Pistol");
+                        if (Input.GetKeyDown("6"))
+                            animator.SetTrigger("Rifle");
+
+
                         ui.indicatorRangeCircle.rectTransform.localScale = new Vector3(ui.attackRange, ui.attackRange, 0);
                         // Range_Indicator 이미지의 크기 변경 
                     }
                 }
-            }
-            else
-            {
-                animator.SetFloat("Speed", 0f); // 최후의 보루 
-            }
+            //}
+            //else
+            //{
+            //    animator.SetFloat("Speed", 0f); // 최후의 보루 
+            //}
 
         }
 
@@ -272,6 +284,9 @@ namespace com.ThreeCS.McCree
         }
 
 
+
+
+
         // 플레이어 이동
         void Move()
         {
@@ -280,8 +295,12 @@ namespace com.ThreeCS.McCree
             //playerAutoMove.targetedEnemy = null;
             //playerManager.agent.SetDestination(transform.position);
 
+
+            //InputSystem.DisableDevice(Keyboard.current);
+
             h = Input.GetAxis("Horizontal");
             v = Input.GetAxis("Vertical");
+
             moveVec = new Vector3(h, 0, v);
 
             Old_Position = transform.position;
@@ -295,6 +314,8 @@ namespace com.ThreeCS.McCree
             if (!(h == 0 && v == 0))
             {
                 transform.forward = moveDir;
+                agent.SetDestination(transform.position);
+                playerAutoMove.targetedEnemy = null;
             }
 
             transform.position += 5f * Time.deltaTime * moveDir;
@@ -369,9 +390,6 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         public void JobSelect(int num) // 내 직업 동기화 
         {
-            Debug.Log(playerManager);
-            Debug.Log(playerManager.playerType);
-            //Debug.Log(GameManager.jType.Sheriff);
             switch (num)
             {
                 case 1:
@@ -464,13 +482,20 @@ namespace com.ThreeCS.McCree
 
             yield return new WaitForEndOfFrame();
         }
-        
+
+        [PunRPC]
+        public void GetQuest(string questTitle)
+        {
+            return_itemNoticeText("<color=#000000>" + questTitle + " 퀘스트를 수락하였습니다!" + "</color>");
+        }
+
+
         public void return_itemNoticeText(string sentece)
         {
             ui.itemNotice.enabled = true;
             ui.itemNotice.text = sentece;
             //ui.itemNotice1.GetComponent<Animator>().Play("ItemNoticeText");
-            Invoke("TurnOffItemText", 2.0f);
+            Invoke("TurnOffItemText", 4.0f);
         }
 
         void TurnOffItemText()

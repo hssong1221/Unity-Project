@@ -12,6 +12,7 @@ TagManager:
   - Floor
   - Portal
   - Content
+  - NPC
   layers:
   - Default
   - TransparentFX

@@ -34,12 +34,13 @@ namespace com.ThreeCS.McCree
         [Header("아이템 관련 UI")]
         public Canvas itemCanvas;   // 아이템 알림 캔버스
         public Text itemNotice;     // 아이템 알림 텍스트
-        [Header("아이템 Sprite Renderer")]
-        public 
+
+
 
         Vector3 hpOffset;
         Vector3 bangOffset;
         Vector3 itemOffset;
+
 
         #endregion
 
@@ -52,6 +53,7 @@ namespace com.ThreeCS.McCree
             hpOffset = new Vector3(0, 2.0f, 0);
             bangOffset = new Vector3(0, 3.0f, 0);
             itemOffset = new Vector3(0.5f, 1.0f, 0f);
+            
 
             if (photonView.IsMine)
             {
@@ -76,6 +78,10 @@ namespace com.ThreeCS.McCree
             bangGifImg.enabled = false;
             // 아이템 공지 UI 꺼주기
             itemNotice.enabled = false;
+
+
+            
+
         }
 
         void Update()
@@ -97,20 +103,10 @@ namespace com.ThreeCS.McCree
             }
             else
                 return;
-
-            
-           
-
-            
         }
 
         #endregion
 
-        #region Methods
-        
-        
-
-        #endregion
 
 
     }

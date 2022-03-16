@@ -37,13 +37,47 @@ namespace com.ThreeCS.McCree
         public GameObject rightBottomPanel;
         public Button inventoryBtn;
 
+        [Header("상호작용 창 [F키] (Interaction UI")]
+        public GameObject interactionPanel;
+        [HideInInspector]
+        public RectTransform interactionRect;
+        public Text interactionText;
 
+        [Header("NPC 대화 UI")]
+        public GameObject chatPanel;
+        public Text npcName;
+        public Text npcChat;
+        public Image npcImg;
+        public GameObject npcbtns;
+        public Button acceptBtn;
+        public Button rejectBtn;
+
+        [Header("Mission UI (RightTop)")]
+        public GameObject rightTop;
+        public Button mainQuestBtn;
+        public Text questTitle;
+        public Transform subQuestPanel;
+        public GameObject subQuestObj;
+
+        [Header("Quest Dtail UI 퀘스트 상세보기 창")]
+        public GameObject questDetail;
+        public Image questNpcImg;
+        public Text questNpcName;
+        public Text questTitle2;
+        public Text questContent;
+        public Button questcloseBtn;
+        public bool isquestDetailopen;
 
 
         void Awake()
         {
             // 어디서든 쓸 수 있게 인스턴스화
             Instance = this;
+
+            interactionRect = interactionPanel.GetComponent<RectTransform>();
+            questcloseBtn.onClick.AddListener(Close_Quest_Detail_Panel);
+
+            isquestDetailopen = false;
         }
 
         public void FindMinePv(GameObject player)
@@ -52,5 +86,15 @@ namespace com.ThreeCS.McCree
             playerManager = player.GetComponent<PlayerManager>();
             playerInfo = player.GetComponent<PlayerInfo>();
         }
+
+        public void Close_Quest_Detail_Panel()
+        {
+            if (isquestDetailopen)
+            {
+                questDetail.SetActive(false);
+                isquestDetailopen = false;
+            }
+        }
+
     }
 }

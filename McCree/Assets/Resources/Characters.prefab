@@ -1988,6 +1988,7 @@ GameObject:
   - component: {fileID: 1461397012469081908}
   - component: {fileID: 3042995828838473885}
   - component: {fileID: 1699740346841986243}
+  - component: {fileID: 1161130445872975911}
   m_Layer: 6
   m_Name: Characters
   m_TagString: Player
@@ -2096,6 +2097,7 @@ MonoBehaviour:
   isAiming: 0
   isBanging: 0
   isDeath: 0
+  isInteraction: 0
   playerType: 0
   abilityType: 0
   rotateSpeedMovement: 0.1
@@ -2130,6 +2132,15 @@ MonoBehaviour:
   - Type: 9
     SynchronizeType: 0
     Name: Bang
+  - Type: 9
+    SynchronizeType: 0
+    Name: Rifle
+  - Type: 9
+    SynchronizeType: 0
+    Name: Pistol
+  - Type: 9
+    SynchronizeType: 0
+    Name: Base
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -2198,7 +2209,6 @@ MonoBehaviour:
   bangGifImg: {fileID: 1295255010375865917}
   itemCanvas: {fileID: 7420495182961451760}
   itemNotice: {fileID: 5871034342952130565}
-  hpOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &1461397012469081908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2250,8 +2260,21 @@ MonoBehaviour:
   maxHp: 0
   damage: 1
   myItemList: []
+  myQuestList: []
   content: {fileID: 0}
   isDeath: 0
+--- !u!114 &1161130445872975911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6215404349552837223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e338911d3e3434ab78f817ad3e787c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6215404349552837225
 GameObject:
   m_ObjectHideFlags: 0

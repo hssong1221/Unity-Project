@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e378ea4cb1e33439764cdaa7bd53f9, type: 3}
+  m_Name: Colt Navy Revolver
+  m_EditorClassIdentifier: 
+  weaponImg: {fileID: 0}
+  wepaonName: Colt Navy Revolver
+  weaponExplain: 
+  Range: 1
+  obj: {fileID: 1746743948028706, guid: 067a806298abd274795514e6e79d03f7, type: 3}

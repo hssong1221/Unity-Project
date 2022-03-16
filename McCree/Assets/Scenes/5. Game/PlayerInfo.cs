@@ -18,6 +18,10 @@ namespace com.ThreeCS.McCree
         // 0번째 Bang
         // 1번째 Avoid
         // 2번째 Heal
+
+        public List<Quest> myQuestList;
+
+
         public Transform content;
 
         public bool isDeath;
@@ -29,7 +33,11 @@ namespace com.ThreeCS.McCree
 
             MineUI.Instance.statusPanel.gameObject.SetActive(true);
             content = GameObject.FindGameObjectWithTag("Content").transform;
+
             myItemList = new List<ItemList>();
+
+            myQuestList = new List<Quest>();
+
             for (int i=0; i<content.childCount; i++)
             {
                 myItemList.Add(content.GetChild(i).GetComponent<ItemList>());
