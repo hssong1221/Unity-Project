@@ -212,8 +212,10 @@ namespace com.ThreeCS.McCree
 
             if (chatInput.IsActive())
             {
+                Debug.Log("c: " + chatInput.isFocused);
                 if (chatInput.text.Equals(""))
                 {
+                    chatInput.DeactivateInputField();
                     chatInput.gameObject.SetActive(false);
 
                     coroutine = Canvas_FadeOut(1, chatCanvas); // fadeout 진행시간 1초
@@ -228,6 +230,8 @@ namespace com.ThreeCS.McCree
                 if (PhotonNetwork.InRoom)
                     chatClient.PublishMessage(PhotonNetwork.CurrentRoom.Name, msgs);
                 CommonFunction.clear(chatInput);
+
+                chatInput.DeactivateInputField();
                 chatInput.gameObject.SetActive(false);
 
                 coroutine = Canvas_FadeOut(1, chatCanvas);
@@ -238,8 +242,9 @@ namespace com.ThreeCS.McCree
             else
             {
                 chatInput.gameObject.SetActive(true);
+                Debug.Log("a: "+chatInput.isFocused);
                 chatInput.ActivateInputField();
-                
+                Debug.Log("b: " + chatInput.isFocused);
                 usingInput = true;
             }
         }

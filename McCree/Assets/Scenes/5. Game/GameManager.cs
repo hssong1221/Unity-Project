@@ -359,6 +359,7 @@ namespace com.ThreeCS.McCree
             abilPanel.SetActive(false);
             MineUI.Instance.leftTopPanel.SetActive(true);
             MineUI.Instance.rightBottomPanel.SetActive(true);
+            MineUI.Instance.rightTop.SetActive(true);
         }
 
 
@@ -386,7 +387,7 @@ namespace com.ThreeCS.McCree
 
                     // 능력 이미지랑 텍스트
                     abilImage.sprite = sheriff4;
-                    abilText.text = "1. 부관을 찾고 무법자를 모두 사살하십시오.\n";
+                    abilText.text = "1. 부관을 찾고 무법자를 모두 사살하십시오.";
                     break;
                 case jType.Vice:
                     Debug.Log("당신은 부관입니다.");
@@ -398,7 +399,7 @@ namespace com.ThreeCS.McCree
                     jobImage3.sprite = deputy3;
 
                     abilImage.sprite = deputy4;
-                    abilText.text = "1. 보안관을 도와 무법자를 모두 사살하십시오.\n";
+                    abilText.text = "1. 보안관을 도와 무법자를 모두 사살하십시오.";
                     break;
                 case jType.Outlaw:
                     Debug.Log("당신은 무법자입니다.");
@@ -410,7 +411,7 @@ namespace com.ThreeCS.McCree
                     jobImage3.sprite = outlaw3;
 
                     abilImage.sprite = outlaw4;
-                    abilText.text = "1. 무법자들과 함께 보안관을 사살하십시오.\n";
+                    abilText.text = "1. 무법자들과 함께 보안관을 사살하십시오.";
                     break;
                 case jType.Renegade:
                     Debug.Log("당신은 배신자입니다.");
@@ -422,9 +423,10 @@ namespace com.ThreeCS.McCree
                     jobImage3.sprite = renegade3;
 
                     abilImage.sprite = renegade4;
-                    abilText.text = "1. 보안관에겐 부관처럼 무법자에겐 친구처럼 보이십시오. 하지만 마지막에 남는 사람은 당신 혼자여야 합니다.\n";
+                    abilText.text = "1. 보안관에겐 부관처럼 무법자에겐 친구처럼 보이십시오.";
                     break;
             }
+            MineUI.Instance.questTitle.text = abilText.text.Substring(2);
 
             return temp;
         }
@@ -438,25 +440,25 @@ namespace com.ThreeCS.McCree
             switch (playerManager.abilityType)
             {
                 case aType.BangMissed:
-                    temp = "2. 뱅과 빗나감이 같은 능력이 됩니다.";
+                    temp = "\n2. 뱅과 빗나감이 같은 능력이 됩니다.";
                     break;
                 case aType.DrinkBottle:
-                    temp = "2. 당신옆에 항상 술통이 있습니다.";
+                    temp = "\n2. 당신옆에 항상 술통이 있습니다.";
                     break;
                 case aType.HumanVolcanic:
-                    temp = "2. 뱅을 마구 쏠 수 있습니다.";
+                    temp = "\n2. 뱅을 마구 쏠 수 있습니다.";
                     break;
                 case aType.OnehpOnecard:
-                    temp = "2. 체력이 달았다면 카드를 얻습니다.";
+                    temp = "\n2. 체력이 달았다면 카드를 얻습니다.";
                     break;
                 case aType.ThreeCard:
-                    temp = "2. 카드를 뽑을 때 3장을 보고 2장을 가져옵니다.";
+                    temp = "\n2. 카드를 뽑을 때 3장을 보고 2장을 가져옵니다.";
                     break;
                 case aType.TwocardOnecard:
-                    temp = "2. 카드 펼치기를 할 때 2장을 뽑고 한장을 선택할 수 있습니다.";
+                    temp = "\n2. 카드 펼치기를 할 때 2장을 뽑고 한장을 선택할 수 있습니다.";
                     break;
                 case aType.TwocardOnehp:
-                    temp = "2. 카드 2장을 버리고 체력을 얻습니다.";
+                    temp = "\n2. 카드 2장을 버리고 체력을 얻습니다.";
                     break;
             }
             return temp;
