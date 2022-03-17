@@ -922,6 +922,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e428dc766f9a78f4c93a2746d08d11b3, type: 3}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: gButton
+      value: 
+      objectReference: {fileID: 1945403200}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: healImg
       value: 
       objectReference: {fileID: 21300000, guid: 751bb5b80a2a6fc4c8face3381032aa0, type: 3}
@@ -929,6 +933,14 @@ PrefabInstance:
       propertyPath: jobText
       value: 
       objectReference: {fileID: 1692311706}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: kButton
+      value: 
+      objectReference: {fileID: 79621662}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: mButton
+      value: 
+      objectReference: {fileID: 467369735}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: outlaw1
       value: 
@@ -945,6 +957,10 @@ PrefabInstance:
       propertyPath: outlaw4
       value: 
       objectReference: {fileID: 21300000, guid: f92350949cfd95e4f815800af31d5b45, type: 3}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: sButton
+      value: 
+      objectReference: {fileID: 1153126878}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: sheriff
       value: 
@@ -1034,6 +1050,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: saveButton
+      value: 
+      objectReference: {fileID: 109673060}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: abiliyJobUI
       value: 
       objectReference: {fileID: 511686263}
@@ -1050,6 +1070,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 247892419}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: graphicUpBtn
+      value: 
+      objectReference: {fileID: 1334451157}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: entireItemSet
       value: 
       objectReference: {fileID: 3035227858612469285, guid: 847bcefee497f874faf3427ca3c9771e, type: 3}
@@ -1057,6 +1081,10 @@ PrefabInstance:
       propertyPath: graphicObject
       value: 
       objectReference: {fileID: 604405533}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: graphicDownBtn
+      value: 
+      objectReference: {fileID: 1329551027}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: maps.Array.size
       value: 8

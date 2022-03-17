@@ -119,9 +119,17 @@ namespace com.ThreeCS.McCree
 
         private int graphicOpt; // 그래픽 프리셋
         private Text graphicTxt;
-        private Button graphicDownBtn;
-        private Button graphicUpBtn;
-        
+
+        [SerializeField] private Button gButton;
+        [SerializeField] private Button sButton;
+        [SerializeField] private Button mButton;
+        [SerializeField] private Button kButton;
+
+        [SerializeField] private Button graphicDownBtn;
+        [SerializeField] private Button graphicUpBtn;
+
+        [SerializeField] private Button saveButton;
+
         #endregion
 
 
@@ -144,6 +152,17 @@ namespace com.ThreeCS.McCree
 
             //환경설정 UI init
             InitContent(graphicObject, out graphicTxt ,out graphicDownBtn, out graphicUpBtn);
+
+            //버튼 초기화
+            gButton.onClick.AddListener(Gpanel);
+            sButton.onClick.AddListener(Spanel);
+            mButton.onClick.AddListener(Mpanel);
+            kButton.onClick.AddListener(Kpanel);
+
+            graphicDownBtn.onClick.AddListener(GraphicOptDown);
+            graphicUpBtn.onClick.AddListener(GraphicOptUp);
+
+            saveButton.onClick.AddListener(SaveSetting);
         }
 
         public override void OnEnable()
