@@ -1123,7 +1123,7 @@ GameObject:
   - component: {fileID: 2073894242}
   - component: {fileID: 2073894241}
   m_Layer: 0
-  m_Name: BackgroundMusic
+  m_Name: BGMLobby
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
