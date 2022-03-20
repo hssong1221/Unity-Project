@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 797271923950335453}
   - component: {fileID: 3379908316416397093}
   m_Layer: 0
-  m_Name: NPC
+  m_Name: sheriff_NPC
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,9 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33648fc460ececa4180289a75ba2a386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quest: {fileID: 11400000, guid: eb33d062bbae46943a6189f5b35af889, type: 2}
-  npcName: 
-  npcImg: {fileID: 0}
+  quest: {fileID: 0}
+  isAccept: 0
 --- !u!1001 &1683780373183753762
 PrefabInstance:
   m_ObjectHideFlags: 0

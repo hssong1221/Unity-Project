@@ -15,6 +15,8 @@ namespace com.ThreeCS.McCree
         private PhotonView photonView;
         private PlayerManager playerManager;
         private PlayerInfo playerInfo;
+        private UI ui;
+
 
 
         public Text bangCount;
@@ -69,6 +71,10 @@ namespace com.ThreeCS.McCree
         public bool isquestDetailopen;
 
 
+        public float range_x;
+        public float range_y;
+
+
         void Awake()
         {
             // 어디서든 쓸 수 있게 인스턴스화
@@ -76,7 +82,6 @@ namespace com.ThreeCS.McCree
 
             interactionRect = interactionPanel.GetComponent<RectTransform>();
             questcloseBtn.onClick.AddListener(Close_Quest_Detail_Panel);
-
             isquestDetailopen = false;
         }
 
@@ -85,6 +90,7 @@ namespace com.ThreeCS.McCree
             photonView = player.GetComponent<PhotonView>();
             playerManager = player.GetComponent<PlayerManager>();
             playerInfo = player.GetComponent<PlayerInfo>();
+            ui = player.GetComponent<UI>();
         }
 
         public void Close_Quest_Detail_Panel()

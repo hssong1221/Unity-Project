@@ -20,7 +20,7 @@ namespace com.ThreeCS.McCree
         public Sprite fullBullet;
         public Sprite emptyBullet;
         public Text nickName; // 닉네임
-        
+
         [Header("뱅 준비 사거리 표시 관련 UI")]
         public Canvas attackRangeCanvas;  // 공격 사거리 캔버스
         public Image indicatorRangeCircle;// 공격 사거리 이미지
@@ -36,11 +36,19 @@ namespace com.ThreeCS.McCree
         public Text itemNotice;     // 아이템 알림 텍스트
 
 
+        [Header("ProgressBar 관련 UI")]
+        public Canvas progressCanvas;
+        public Text progressText;
+        public Text progressPercent;
+        public Image progressBar;
+        float currentValue;
+
+        public IEnumerator coroutine;
 
         Vector3 hpOffset;
         Vector3 bangOffset;
         Vector3 itemOffset;
-
+        Vector3 progressOffset;
 
         #endregion
 
@@ -53,7 +61,7 @@ namespace com.ThreeCS.McCree
             hpOffset = new Vector3(0, 2.0f, 0);
             bangOffset = new Vector3(0, 3.0f, 0);
             itemOffset = new Vector3(0.5f, 1.0f, 0f);
-            
+            progressOffset = new Vector3(0, 2.5f, 0f);
 
             if (photonView.IsMine)
             {
@@ -79,8 +87,12 @@ namespace com.ThreeCS.McCree
             // 아이템 공지 UI 꺼주기
             itemNotice.enabled = false;
 
+            // 프로그레스바 UI 꺼주기
+            progressText.enabled = false;
+            progressBar.enabled = false;
+            progressPercent.enabled = false;
 
-            
+
 
         }
 
@@ -90,6 +102,7 @@ namespace com.ThreeCS.McCree
             hpCanvas.transform.LookAt(hpCanvas.transform.position + Camera.main.transform.forward);
             bangCanvas.transform.LookAt(bangCanvas.transform.position + Camera.main.transform.forward);
             itemCanvas.transform.LookAt(itemCanvas.transform.position + Camera.main.transform.forward);
+            progressCanvas.transform.LookAt(progressCanvas.transform.position + Camera.main.transform.forward);
 
             if (photonView.IsMine)
             {
@@ -97,6 +110,7 @@ namespace com.ThreeCS.McCree
                 hpCanvas.transform.position = character.transform.position + hpOffset;
                 bangCanvas.transform.position = character.transform.position + bangOffset;
                 itemCanvas.transform.position = character.transform.position + itemOffset;
+                progressCanvas.transform.position = character.transform.position + progressOffset;
 
                 if (playerInfo.isDeath && playerInfo.hp <= 0)
                     GameManager.Instance.LeaveRoom();
@@ -105,9 +119,78 @@ namespace com.ThreeCS.McCree
                 return;
         }
 
+
+        public void PickInterAction(float time, GameObject interactObj)
+        {
+            if (!playerManager.isPicking) // 이미 줍고있을때 또 누르면 코루틴이 겹쳐서 빨라짐
+            {                             // 또 줍는걸 방지
+                animator.SetBool("IsPicking", true);
+                playerManager.isPicking = true;
+                LoadingProgreeCircle(time, interactObj);
+            }
+        }
+
+        public void LoadingProgreeCircle(float time, GameObject interactObj)
+        {
+            progressText.enabled = true;
+            progressBar.enabled = true;
+            progressPercent.enabled = true;
+
+            currentValue = 0;
+            coroutine = LoadingProgreeCircleCoroutine(time, interactObj);
+            StartCoroutine(coroutine);
+        }
+
+        IEnumerator LoadingProgreeCircleCoroutine(float time, GameObject interactObj)
+        {
+            while (true && playerManager.isPicking)
+            {
+                currentValue += 100 * Time.deltaTime / time; // 아마 초단위 맞을듯?
+                progressPercent.text = ((int)currentValue).ToString() + "%";
+                progressBar.fillAmount = currentValue / 100;
+
+
+                if (progressBar.fillAmount > 0.99)
+                {
+
+                    foreach (Quest quest in playerInfo.myQuestList)
+                    {
+                        Quest_PickUp pickQuest = (Quest_PickUp)quest;
+
+                        if (interactObj.name.Substring(0, interactObj.name.Length - 7) == pickQuest.bringGameObj.name)
+                        {
+                            pickQuest.count++;
+                            MineUI.Instance.interactionPanel.SetActive(false);
+
+                            Debug.Log("성공!");
+                            break;
+                        }
+                    }
+                    Off_ProgressUI();
+                    interactObj.SetActive(false);
+                    // 디스토리하면 콜라이더가 없다고 에러
+                    // 암튼안됨
+                    //Destroy(interactObj);
+                }
+                yield return null;
+            }
+        }
+
+        public void Off_ProgressUI()
+        {
+            playerManager.isPicking = false;
+            animator.SetBool("IsPicking", false);
+            if (coroutine != null) // 상호작용중인 코루틴 스탑
+                StopCoroutine(coroutine);
+            if (interaction.coroutine != null)
+                interaction.Direct_StopCoroutine();
+            progressText.enabled = false;
+            progressBar.enabled = false;
+            progressPercent.enabled = false;
+        }
         #endregion
 
-
+        
 
     }
 

@@ -22,7 +22,6 @@ namespace com.ThreeCS.McCree
         protected UI ui;
         protected MineUI mineUI;
 
-
         protected void Awake()
         {
 

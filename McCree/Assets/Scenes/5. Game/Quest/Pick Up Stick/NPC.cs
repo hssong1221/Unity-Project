@@ -7,17 +7,17 @@ namespace com.ThreeCS.McCree
 {
     public class NPC : MonoBehaviour
     {
+        //[HideInInspector]
         public Quest quest;
         private string npcName;
         private Sprite npcImg;
 
-        [HideInInspector]
-        public bool isAccept;
         private void Awake()
         {
-            isAccept = false;
             npcName = quest.npcName;
             npcImg = quest.npcImg;
+
+            quest.npcChatList = quest.npcChatList_start;
         }
     }
 }
