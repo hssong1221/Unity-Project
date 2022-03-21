@@ -34,7 +34,6 @@ namespace com.ThreeCS.McCree
 
         void FixedUpdate()
         {
-
             // 처음 진입
             if(player == null)
             {
