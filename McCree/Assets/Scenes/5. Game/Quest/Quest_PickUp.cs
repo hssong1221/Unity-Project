@@ -7,8 +7,6 @@ namespace com.ThreeCS.McCree
     [CreateAssetMenu(fileName = "Quest_PickUp", menuName = "Quests/Quest_PickUp")]
     public class Quest_PickUp : Quest
     {
-        public bool isBring;
-
         public GameObject bringGameObj; // 스폰되는 아이템
 
         [SerializeField]
@@ -28,13 +26,13 @@ namespace com.ThreeCS.McCree
             {
                 curCount = value;
 
-                questProgress = "\n(" + curCount + " / " + endCount + ")";
+                questProgress = "(" + curCount + " / " + endCount + ")";
 
-                questContent = questContent_Copy + questProgress;
+                questTitle = questProgress + " " + questTitle_Copy;
+                questContent = questContent_Copy + "\n" + questProgress;
 
                 if (curCount == endCount)
                 {
-                    isBring = true;
                     qState = qType.Complete;
                 }
             }
@@ -69,10 +67,6 @@ namespace com.ThreeCS.McCree
         protected void OnEnable() // 부모꺼 물려받으면서 값 초기화
         {
             base.OnEnable();
-
-            isBring = false;
-            curCount = 0;
-            questProgress = "\n(" + curCount + " / " + endCount + ")";
         }
 
     }

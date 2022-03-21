@@ -153,14 +153,16 @@ namespace com.ThreeCS.McCree
                 if (progressBar.fillAmount > 0.99)
                 {
 
-                    foreach (Quest quest in playerInfo.myQuestList)
+                    foreach (SubQuestList quest in playerInfo.myQuestList)
                     {
-                        Quest_PickUp pickQuest = (Quest_PickUp)quest;
+                        Quest_PickUp pickQuest = (Quest_PickUp)quest.quest;
 
                         if (interactObj.name.Substring(0, interactObj.name.Length - 7) == pickQuest.bringGameObj.name)
                         {
                             pickQuest.count++;
                             MineUI.Instance.interactionPanel.SetActive(false);
+
+                            quest.questTitle.text = pickQuest.questTitle;
 
                             Debug.Log("성공!");
                             break;

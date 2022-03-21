@@ -12,11 +12,24 @@ namespace com.ThreeCS.McCree
         private string npcName;
         private Sprite npcImg;
 
+
+        private bool Complete;
+
+        public bool isComplete
+        {
+            get { return Complete; }
+            set
+            {
+                Complete = value;
+            }
+        }
+
         private void Awake()
         {
             npcName = quest.npcName;
             npcImg = quest.npcImg;
 
+            isComplete = false;
             quest.npcChatList = quest.npcChatList_start;
         }
     }

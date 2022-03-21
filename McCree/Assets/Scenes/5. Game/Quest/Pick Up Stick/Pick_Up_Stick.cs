@@ -14,9 +14,19 @@ namespace com.ThreeCS.McCree
         {
             base.OnEnable();
 
+            curCount = 0;
+            endCount = 3;
+
+            questTitle = "나뭇가지들 치우기";
             questContent = "바쁜 보안관 대신 마을 주변에있는 나뭇가지들을 치우자";
+
+            questProgress = "(" + curCount + " / " + endCount + ")";
+
+            questTitle_Copy = questTitle;
             questContent_Copy = questContent;
-            questContent = questContent_Copy + questProgress;
+
+            questTitle = questProgress + " " + questTitle_Copy;
+            questContent = questContent_Copy + "\n" + questProgress;
         }
     }
 }

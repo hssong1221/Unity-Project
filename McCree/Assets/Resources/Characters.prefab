@@ -2309,20 +2309,20 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: IsAiming
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Bang
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Rifle
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Pistol
   - Type: 9
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: Base
-  - Type: 9
-    SynchronizeType: 0
-    Name: Pick
+  - Type: 4
+    SynchronizeType: 1
+    Name: IsPicking
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

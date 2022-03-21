@@ -16,7 +16,14 @@ namespace com.ThreeCS.McCree
 
         public string itemName;
         public string itemExplain;
-        public iType ability;
+
+        [SerializeField]
+        private iType Ability;
+
+        public iType ability
+        {
+            get { return Ability; }
+        }
 
 
         public enum iType

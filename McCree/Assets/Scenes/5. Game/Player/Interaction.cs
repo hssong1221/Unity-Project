@@ -41,9 +41,9 @@ namespace com.ThreeCS.McCree
 
                 else if (other.tag == "QuestItem") // 줍는 퀘스트
                 {
-                    foreach (Quest quest in playerInfo.myQuestList)
+                    foreach (SubQuestList quest in playerInfo.myQuestList)
                     {
-                        Quest_PickUp pickQuest = (Quest_PickUp)quest;
+                        Quest_PickUp pickQuest = (Quest_PickUp)quest.quest;
 
                         // 이름으로 비교하긴했는데 게임 오브젝트 클론된거라 비교가안됨
                         if (other.name.Substring(0, other.name.Length - 7) == pickQuest.bringGameObj.name)
@@ -131,8 +131,9 @@ namespace com.ThreeCS.McCree
                                         Accept_NPC_Chat(other.GetComponent<NPC>());
                                     });
                             }
-                            else if (other.GetComponent<NPC>().quest.qState == Quest.qType.Complete)
+                            else if (other.GetComponent<NPC>().quest.qState == Quest.qType.Complete && !other.GetComponent<NPC>().isComplete)
                             {
+                                // 보상
                                 foreach (ItemList itemList in playerInfo.myItemList)
                                 {
                                     if (itemList.item.ability == other.GetComponent<NPC>().quest.reward)
@@ -142,7 +143,21 @@ namespace com.ThreeCS.McCree
                                     }
                                 }
 
+                                // 완료한 퀘스트 목록에서 삭제
+                                foreach (SubQuestList subQuest in playerInfo.myQuestList)
+                                {
+                                    if (subQuest.quest == other.GetComponent<NPC>().quest)
+                                    {
+                                        Destroy(subQuest.gameObject);
+                                        break;
+                                    }
+                                }
+
+                                other.GetComponent<NPC>().isComplete = true;
+
                                 Close_NPC_Chat();
+
+                                photonView.RPC("QuestComplete", RpcTarget.All, other.GetComponent<NPC>().quest.questTitle_Copy);
                             }
 
                             else
@@ -172,14 +187,12 @@ namespace com.ThreeCS.McCree
                 GameObject subquestObj = Instantiate(MineUI.Instance.subQuestObj, MineUI.Instance.subQuestPanel);
                 subquestObj.GetComponent<SubQuestList>().quest = npc.quest;
 
-                playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>().quest);
-
-
+                playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>());
 
                 Close_NPC_Chat();
             }
 
-            photonView.RPC("GetQuest", RpcTarget.All, npc.quest.questTitle);
+            photonView.RPC("GetQuest", RpcTarget.All, npc.quest.questTitle_Copy);
         }
 
         void Close_NPC_Chat()

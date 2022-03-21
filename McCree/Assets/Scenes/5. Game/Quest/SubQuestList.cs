@@ -41,7 +41,7 @@ namespace com.ThreeCS.McCree
         {
             MineUI.Instance.questNpcName.text = quest.npcName;
             MineUI.Instance.questNpcImg.sprite = quest.npcImg;
-            MineUI.Instance.questTitle2.text = quest.questTitle;
+            MineUI.Instance.questTitle2.text = quest.questTitle_Copy;
             MineUI.Instance.questContent.text = quest.questContent;
 
             MineUI.Instance.questDetail.SetActive(true);

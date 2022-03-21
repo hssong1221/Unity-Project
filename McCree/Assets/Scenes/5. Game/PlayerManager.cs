@@ -484,6 +484,12 @@ namespace com.ThreeCS.McCree
             return_itemNoticeText("<color=#000000>" + questTitle + " 퀘스트를 수락하였습니다!" + "</color>");
         }
 
+        [PunRPC]
+        public void QuestComplete(string questTitle)
+        {
+            return_itemNoticeText("<color=#FF3E6E>" + questTitle + " 퀘스트를 완료하였습니다!" + "</color>");
+        }
+
 
         public void return_itemNoticeText(string sentece)
         {

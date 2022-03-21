@@ -56,6 +56,7 @@ namespace com.ThreeCS.McCree
 
         [Header("퀘스트 내용")]
         public string questTitle;
+        public string questTitle_Copy;
         public string questContent;
         public string questContent_Copy;
 
