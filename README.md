@@ -8,6 +8,12 @@
 
 + 게임 설명
 + 백엔드 구성  
+  * [사용한 SDK](#사용한-SDK)  
+  * [Scene 흐름](#Scene-흐름)  
+  * [백엔드 흐름](#백엔드-흐름)  
++ 인게임 구성
+  * [Npc 상호작용](#Npc-상호작용)  
+  * [QuestItem 상호작용](#QuestItem-상호작용)  
 
 ---
 ## 게임 설명  
@@ -29,7 +35,7 @@
 엑시트 게임즈에서 개발한 네트워크 솔루션 Photon Unity Network 사용  
 소프트웨어 및 관련 데이터는 중앙에 호스팅되고 사용자는 웹 브라우저 등의 클라이언트를 통해 접속하는 형태인 Saas(Software as a service) Photon Cloud를 사용  
 
-### 사용
+### 사용한 SDK
 + Photon PUN - (클라이언트/서버)
 + Photon Chat - (채팅 시스템)
 + playFab - (데이터베이스)
@@ -43,4 +49,11 @@
 ![PhotonConnect1](https://drive.google.com/uc?export=view&id=1oL-mmjmCgdyl8P8My4MaNHJFgq5-JQHz)
 ![PhotonConnect2](https://drive.google.com/uc?export=view&id=1anRfcLVgx86pvEYS3RUqlCLzppGlJGea)
 
+---
+## 인게임 구성  
 
+### Npc 상호작용
+![PhotonConnect1](https://drive.google.com/uc?export=view&id=17GbIGYF6dSyMX4dLjkRGlCRa1SSav7IG)  
+
+### QuestItem 상호작용  
+![PhotonConnect1](https://drive.google.com/uc?export=view&id=17GN8L-5i3yGx9ESL-ip2Xo6xCQx1cwYA)  
