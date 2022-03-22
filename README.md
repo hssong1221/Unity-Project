@@ -20,8 +20,12 @@
 + Photon Chat - (채팅 시스템)
 + playFab - (데이터베이스)
 
+### Scene 흐름
 
+![Scene](https://drive.google.com/uc?export=view&id=1rxi3rNfg41JVnqnuS7guwVQw0nhaKJJo)
+백엔드에 사용되는 PunCallbacks PunChat PlayFab 파일들은 Singleton으로 선언
 
+### 백엔드 흐름
 ![PhotonConnect1](https://drive.google.com/uc?export=view&id=1oL-mmjmCgdyl8P8My4MaNHJFgq5-JQHz)
 ![PhotonConnect2](https://drive.google.com/uc?export=view&id=1anRfcLVgx86pvEYS3RUqlCLzppGlJGea)
 
