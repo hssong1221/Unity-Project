@@ -12,8 +12,9 @@
   * [Scene 흐름](#Scene-흐름)  
   * [백엔드 흐름](#백엔드-흐름)  
 + 인게임 구성
-  * [Npc 상호작용](#Npc-상호작용)  
-  * [QuestItem 상호작용](#QuestItem-상호작용)  
+  * 상호작용
+    - [Npc 상호작용](#Npc-상호작용)  
+    - [QuestItem 상호작용](#QuestItem-상호작용)  
 
 ---
 ## 게임 설명  
@@ -52,8 +53,11 @@
 ---
 ## 인게임 구성  
 
-### Npc 상호작용
-![PhotonConnect1](https://drive.google.com/uc?export=view&id=17GbIGYF6dSyMX4dLjkRGlCRa1SSav7IG)  
+### 상호작용
+상호작용 F Input입력을 받기위하여 OnTriggerStay(FixedUpdate)대신 코루틴을 이용
 
-### QuestItem 상호작용  
-![PhotonConnect1](https://drive.google.com/uc?export=view&id=17GN8L-5i3yGx9ESL-ip2Xo6xCQx1cwYA)  
+#### Npc 상호작용
+![Npc 상호작용](https://drive.google.com/uc?export=view&id=17GbIGYF6dSyMX4dLjkRGlCRa1SSav7IG)  
+
+#### QuestItem 상호작용  
+![QuestItem 상호작용](https://drive.google.com/uc?export=view&id=17GN8L-5i3yGx9ESL-ip2Xo6xCQx1cwYA)  
