@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using UnityEngine.Audio;
 
 using Photon.Pun;
 using Photon.Realtime;
@@ -41,6 +42,12 @@ namespace com.ThreeCS.McCree
         private PhotonView photonView;
         private PlayerManager playerManager;
         private PlayerInfo playerInfo;
+
+        // 게임 배경 음악
+        private GameObject BGMLobby;
+        private AudioSource bgm;
+
+        
 
         public enum jType
         {
@@ -119,20 +126,33 @@ namespace com.ThreeCS.McCree
         public GameObject mPanel;   //마우스
         public GameObject kPanel;   //키보드
 
-
-        [SerializeField] private Transform graphicObject;
-
-        private int graphicOpt; // 그래픽 프리셋
-        private Text graphicTxt;
-
         [SerializeField] private Button gButton;
         [SerializeField] private Button sButton;
         [SerializeField] private Button mButton;
         [SerializeField] private Button kButton;
 
-        [SerializeField] private Button graphicDownBtn;
-        [SerializeField] private Button graphicUpBtn;
+        [Header("그래픽설정 관련 UI")]
+        [SerializeField] private Transform graphicObject;
 
+        private int graphicOpt; // 그래픽 프리셋
+        private Text graphicTxt;
+
+        private Button graphicDownBtn;
+        private Button graphicUpBtn;
+
+        [Header("사운드설정 관련 UI")]
+        public AudioMixer audioMixer;
+
+        [SerializeField] private Transform soundObject;
+
+        private int soundOpt;
+        private Text soundTxt;
+
+        private Button soundDownBtn;
+        private Button soundUpBtn;
+        private Slider soundSld;
+
+        // 저장버튼
         [SerializeField] private Button saveButton;
 
         #endregion
@@ -148,6 +168,13 @@ namespace com.ThreeCS.McCree
             jobUIAnimator = jobPanel.GetComponent<Animator>();
             abilUIAnimator = abilPanel.GetComponent<Animator>();
 
+            // 로비브금 끄기 
+            BGMLobby = GameObject.Find("BGMLobby");
+            Destroy(BGMLobby);
+            // 게임브금 켜기
+            bgm = gameObject.GetComponent<AudioSource>();
+            bgm.Play();
+
             // 접속 못하면 초기화면으로 쫓아냄
             if (!PhotonNetwork.IsConnected)
             {
@@ -156,17 +183,17 @@ namespace com.ThreeCS.McCree
             }
 
             //환경설정 UI init
-            InitContent(graphicObject, out graphicTxt ,out graphicDownBtn, out graphicUpBtn);
+            InitContent(graphicObject, out graphicTxt ,out graphicDownBtn, out graphicUpBtn, GraphicOptDown, GraphicOptUp);
 
-            //버튼 초기화
+            InitContent(soundObject, out soundTxt, out soundDownBtn, out soundUpBtn, out soundSld, SoundOptDown, SoundOptUp, SliderValueChangeSound);
+
+            // 설정 메뉴 버튼 
             gButton.onClick.AddListener(Gpanel);
             sButton.onClick.AddListener(Spanel);
             mButton.onClick.AddListener(Mpanel);
             kButton.onClick.AddListener(Kpanel);
 
-            graphicDownBtn.onClick.AddListener(GraphicOptDown);
-            graphicUpBtn.onClick.AddListener(GraphicOptUp);
-
+            // 저장버튼 버튼 
             saveButton.onClick.AddListener(SaveSetting);
         }
 
@@ -176,8 +203,7 @@ namespace com.ThreeCS.McCree
 
             // 본인 환경설정 세팅값 가져오기
             graphicOpt = Data.GraphicOpt;
-            Debug.Log("현재 저장된 그래픽 프리셋" + graphicOpt);
-
+            soundOpt = Data.SoundOpt;
         }
 
         void Start()
@@ -500,11 +526,28 @@ namespace com.ThreeCS.McCree
         #region 환경설정 UI 관련 method
 
         // UI 오브젝트 공통 초기화
-        void InitContent(Transform obj, out Text text, out Button downBtn, out Button upBtn)
+        // 그래픽설정
+        void InitContent(Transform obj, out Text text, out Button downBtn, out Button upBtn, UnityAction btnDown, UnityAction btnUp)
         {
             text = obj.Find("Text").GetComponent<Text>();
             downBtn = obj.Find("DownBtn").GetComponent<Button>();
             upBtn = obj.Find("UpBtn").GetComponent<Button>();
+
+            downBtn.onClick.AddListener(btnDown);
+            upBtn.onClick.AddListener(btnUp);
+        }
+        // 이거에 오바로오딩인거시다
+        // 사운드 설정
+        void InitContent(Transform obj, out Text text, out Button downBtn, out Button upBtn, out Slider slider, UnityAction btnDown, UnityAction btnUp, UnityAction<float> sliderChange)
+        {
+            text = obj.Find("Text").GetComponent<Text>();
+            downBtn = obj.Find("DownBtn").GetComponent<Button>();
+            upBtn = obj.Find("UpBtn").GetComponent<Button>();
+            slider = obj.Find("Slider").GetComponent<Slider>();
+
+            downBtn.onClick.AddListener(btnDown);
+            upBtn.onClick.AddListener(btnUp);
+            slider.onValueChanged.AddListener(sliderChange);
         }
 
         // 환경 설정 UI on/off
@@ -512,7 +555,10 @@ namespace com.ThreeCS.McCree
         {
             // 본인 컴퓨터의 저장된 설정 값 안불러와질 경우를 대비해서 한번 더 부름
             graphicOpt = PlayerPrefs.GetInt("graphicOpt", 0);
+            soundOpt = PlayerPrefs.GetInt("soundOpt", 0);
+
             UpdateGraphicOpt();
+            UpdateSoundOpt();
 
             if (isSettingOpen)
             {
@@ -559,20 +605,45 @@ namespace com.ThreeCS.McCree
         }
 
         // 버튼 동작
-        public void GraphicOptDown()
+        void GraphicOptDown()
         {
             --graphicOpt;
             UpdateGraphicOpt();
         }
-        public void GraphicOptUp()
+        void GraphicOptUp()
         {
             ++graphicOpt;
             UpdateGraphicOpt();
         }
 
-        // 내부 텍스트 값 
-        public void UpdateGraphicOpt()
+        void SoundOptDown()
         {
+            if (--soundOpt < -80) soundOpt = -80;
+            Data.SoundOpt = soundOpt;
+
+            UpdateSoundOpt();
+
+        }
+        void SoundOptUp()
+        {
+            if (20 < ++soundOpt) soundOpt = 20;
+            Data.SoundOpt = soundOpt;
+
+            UpdateSoundOpt();
+        }
+        // 슬라이더 동작
+
+        void SliderValueChangeSound(float volume)
+        {
+            Data.SoundOpt = soundOpt = Mathf.RoundToInt(volume);
+            UpdateSoundOpt();
+        }
+
+        // 내부 텍스트 값( 또는 슬라이더 값도 포함) 
+        void UpdateGraphicOpt()
+        {
+            graphicDownBtn.interactable = graphicOpt != 0;
+            graphicUpBtn.interactable = graphicOpt != 5;
 
             switch (graphicOpt)
             {
@@ -598,17 +669,28 @@ namespace com.ThreeCS.McCree
                     graphicTxt.text = "Error";
                     break;
             }
+            
+        }
 
-            graphicDownBtn.interactable = graphicOpt != 0;
-            graphicUpBtn.interactable = graphicOpt != 5;
+        void UpdateSoundOpt()
+        {
+            // 저장 값 변경
+            soundSld.value = soundOpt;
+            soundTxt.text = (soundOpt + 80).ToString();
+
+            // 실제 소리 적용
+
+            audioMixer.SetFloat("Master", soundOpt);
+
         }
 
         // 환경설정 저장
-        public void SaveSetting()
+        void SaveSetting()
         {
             QualitySettings.SetQualityLevel(graphicOpt);
 
             Data.GraphicOpt = graphicOpt;
+            Data.SoundOpt = soundOpt;
         }
         
 
@@ -647,6 +729,7 @@ namespace com.ThreeCS.McCree
         #region Variable
 
         private static int graphicOpt;
+        private static int soundOpt;
 
         #endregion
 
@@ -667,6 +750,19 @@ namespace com.ThreeCS.McCree
 
                 PlayerPrefs.SetInt(GetMemberName(() => graphicOpt), value);
                 
+            }
+        }
+
+        public static int SoundOpt
+        {
+            get
+            {
+                return soundOpt;
+            }
+            set
+            {
+                soundOpt = value;
+                PlayerPrefs.SetInt(GetMemberName(() => soundOpt), value);
             }
         }
 

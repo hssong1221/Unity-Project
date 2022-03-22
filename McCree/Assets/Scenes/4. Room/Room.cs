@@ -41,7 +41,7 @@ namespace com.ThreeCS.McCree
         protected Button exitBtn;  // 나가기 버튼
 
         private PunChat punChat;
-
+        
         #endregion
 
         #region 생성자, AddListner, MonoBehavior
@@ -61,7 +61,6 @@ namespace com.ThreeCS.McCree
         private void Start()
         {
             punChat = GameObject.Find("LoadingUI").GetComponent<PunChat>();
-
 
             GetCurrentRoomName();      // 현재 방에 이름 가져오기
             GetCurrentRoomPlayers();   // 현재 방에있는 플레이어들
