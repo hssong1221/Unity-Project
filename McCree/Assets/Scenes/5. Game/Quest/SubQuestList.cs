@@ -8,7 +8,7 @@ namespace com.ThreeCS.McCree
 {
     public class SubQuestList : MonoBehaviour
     {
-        private Quest _quest;
+        private Quest_Obj _questObj;
 
         [HideInInspector]
         public GameObject obj;
@@ -17,15 +17,15 @@ namespace com.ThreeCS.McCree
         public Text questTitle;
 
 
-        public Quest quest
+        public Quest_Obj questObj
         {
-            get { return _quest; }
+            get { return _questObj; }
 
             set
             {
-                _quest = value;
+                _questObj = value;
 
-                questTitle.text = _quest.questTitle;
+                questTitle.text = _questObj.quest.questTitle;
             }
         }
 
@@ -39,10 +39,11 @@ namespace com.ThreeCS.McCree
 
         void Quest_Detail()
         {
-            MineUI.Instance.questNpcName.text = quest.npcName;
-            MineUI.Instance.questNpcImg.sprite = quest.npcImg;
-            MineUI.Instance.questTitle2.text = quest.questTitle_Copy;
-            MineUI.Instance.questContent.text = quest.questContent;
+            MineUI.Instance.questNpcName.text = questObj.quest.npcName;
+            MineUI.Instance.questNpcImg.sprite = questObj.quest.npcImg;
+            MineUI.Instance.questTitle2.text = questObj.quest.questTitle;
+            MineUI.Instance.questContent.text = questObj.questContent_progress;
+
 
             MineUI.Instance.questDetail.SetActive(true);
             MineUI.Instance.isquestDetailopen = true;

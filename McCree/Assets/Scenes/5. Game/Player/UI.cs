@@ -153,26 +153,25 @@ namespace com.ThreeCS.McCree
                 if (progressBar.fillAmount > 0.99)
                 {
 
-                    foreach (SubQuestList quest in playerInfo.myQuestList)
+                    foreach (SubQuestList subQuestObj in playerInfo.myQuestList)
                     {
-                        Quest_PickUp pickQuest = (Quest_PickUp)quest.quest;
+                        Quest_PickUp_Obj pickQuest = (Quest_PickUp_Obj)subQuestObj.questObj;
 
-                        if (interactObj.name.Substring(0, interactObj.name.Length - 7) == pickQuest.bringGameObj.name)
+                        if (interactObj.name == pickQuest.quest.bringGameObj.name)
                         {
                             pickQuest.count++;
                             MineUI.Instance.interactionPanel.SetActive(false);
 
-                            quest.questTitle.text = pickQuest.questTitle;
+                            subQuestObj.questTitle.text = pickQuest.questTitle_progress;
 
                             Debug.Log("성공!");
                             break;
                         }
                     }
                     Off_ProgressUI();
-                    interactObj.SetActive(false);
-                    // 디스토리하면 콜라이더가 없다고 에러
-                    // 암튼안됨
-                    //Destroy(interactObj);
+                    //interactObj.SetActive(false);
+
+                    Destroy(interactObj);
                 }
                 yield return null;
             }
@@ -192,7 +191,7 @@ namespace com.ThreeCS.McCree
         }
         #endregion
 
-        
+
 
     }
 
