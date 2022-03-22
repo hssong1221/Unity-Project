@@ -7,12 +7,12 @@ TagManager:
   - Bullet
   - PhotonView
   - MineUI
-  - CardsPos
   - Wall
   - Floor
   - Portal
   - Content
   - NPC
+  - QuestItem
   layers:
   - Default
   - TransparentFX
@@ -21,7 +21,7 @@ TagManager:
   - Water
   - UI
   - Player
-  - 
+  - QuestItem
   - 
   - 
   - Floor

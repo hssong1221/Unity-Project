@@ -19,7 +19,7 @@ namespace com.ThreeCS.McCree
         // 1번째 Avoid
         // 2번째 Heal
 
-        public List<Quest> myQuestList;
+        public List<SubQuestList> myQuestList;
 
 
         public Transform content;
@@ -36,7 +36,7 @@ namespace com.ThreeCS.McCree
 
             myItemList = new List<ItemList>();
 
-            myQuestList = new List<Quest>();
+            myQuestList = new List<SubQuestList>();
 
             for (int i=0; i<content.childCount; i++)
             {

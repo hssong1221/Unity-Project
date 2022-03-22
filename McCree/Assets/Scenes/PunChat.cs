@@ -15,7 +15,12 @@ namespace com.ThreeCS.McCree
     // 로비, 룸 채팅은 Photon Chat을 이용하여 사용
     public class PunChat : MonoBehaviour, IChatClientListener
     {
-        static public PunChat Instance;
+        private static PunChat pInstance;
+
+        public static PunChat Instance
+        {
+            get { return pInstance; }
+        }
 
         private List<string> chatList = new List<string>();
         private Button sendBtn;
@@ -43,7 +48,7 @@ namespace com.ThreeCS.McCree
 
         void Awake()
         {
-            Instance = this;
+            pInstance = this;
 
             chatClient = new ChatClient(this);
         }
@@ -69,7 +74,7 @@ namespace com.ThreeCS.McCree
             chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat,
                 "1.0", new Photon.Chat.AuthenticationValues(PhotonNetwork.LocalPlayer.NickName));
             PhotonNetwork.IsMessageQueueRunning = true;
-            LoadingUI.msg_Text.text = "채팅 서버에 접속 중...";
+            LoadingUI.Instance.msg_Text.text = "채팅 서버에 접속 중...";
             enabled = true;
             behave = "InitialConnecting";
         }
@@ -106,8 +111,8 @@ namespace com.ThreeCS.McCree
             if (obj.Code == LoadingGameScene)
             {
                 Debug.Log("마스터 클라이언트가 게임을 시작");
-                LoadingUI.msg_Text.text = "게임에 참여하는 중...";
-                LoadingUI.msg_Canvas.SetActive(true);
+                LoadingUI.Instance.msg_Text.text = "게임에 참여하는 중...";
+                LoadingUI.Instance.msg_Canvas.SetActive(true);
             }
         }
 
@@ -119,13 +124,13 @@ namespace com.ThreeCS.McCree
             currentScene = scene;
             if (scene.name == "Register" || scene.name == "Login")
             {
-                LoadingUI.msg_Canvas.SetActive(false);
-                LoadingUI.close_Btn.gameObject.SetActive(true);
+                LoadingUI.Instance.msg_Canvas.SetActive(false);
+                LoadingUI.Instance.close_Btn.gameObject.SetActive(true);
             }
             else if (scene.name == "Lobby" || scene.name == "Room")
             {
-                LoadingUI.msg_Canvas.SetActive(false);
-                LoadingUI.close_Btn.gameObject.SetActive(false);
+                LoadingUI.Instance.msg_Canvas.SetActive(false);
+                LoadingUI.Instance.close_Btn.gameObject.SetActive(false);
 
                 Debug.Log("씬 교체됨, 현재 씬: " + scene.name);
                 // 씬 교체될때 채팅 창에 관련된 오브젝트 다시 지정
@@ -156,7 +161,7 @@ namespace com.ThreeCS.McCree
             }
             else if (scene.name == "Game")
             {
-                LoadingUI.msg_Canvas.SetActive(false);
+                LoadingUI.Instance.msg_Canvas.SetActive(false);
 
 
                 var tempchatCanvas = GameObject.Find("ChatCanvas").GetComponent<CanvasGroup>();
@@ -317,7 +322,7 @@ namespace com.ThreeCS.McCree
 
         public void OnConnected()
         {
-            LoadingUI.msg_Text.text = "채팅 서버 연결 성공!";
+            LoadingUI.Instance.msg_Text.text = "채팅 서버 연결 성공!";
             //Debug.Log("포톤 채팅 연결 완료");
             chatClient.Subscribe(new string[] { lobbyName }, 10);
         }
@@ -369,7 +374,7 @@ namespace com.ThreeCS.McCree
 
             if (behave == "EnterRoom") // 방에 입장하였을때
             {
-                LoadingUI.msg_Canvas.SetActive(false);
+                LoadingUI.Instance.msg_Canvas.SetActive(false);
                 SceneManager.LoadScene("Room");
                 string msgs = string.Format("​<color=navy>[{0}]님이 입장하셨습니다.</color>", PhotonNetwork.LocalPlayer.NickName);
                 chatClient.PublishMessage(PhotonNetwork.CurrentRoom.Name, msgs);
@@ -377,7 +382,7 @@ namespace com.ThreeCS.McCree
 
             else if (behave == "InitialConnecting") // 최초 연결할때
             {
-                LoadingUI.msg_Text.text = "로비 채팅에 접속 중...";
+                LoadingUI.Instance.msg_Text.text = "로비 채팅에 접속 중...";
                 PhotonNetwork.ConnectUsingSettings();
             }
             //throw new System.NotImplementedException();

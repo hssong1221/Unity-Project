@@ -8,7 +8,12 @@ namespace com.ThreeCS.McCree
 {
     public class StatusUI : MonoBehaviour
     {
-        static public StatusUI Instance;
+        private static StatusUI pInstance;
+
+        public static StatusUI Instance
+        {
+            get { return pInstance; }
+        }
 
         [Header("아이템")]
         public Text item_Explain;
@@ -32,7 +37,7 @@ namespace com.ThreeCS.McCree
         void Awake()
         {
             // 어디서든 쓸 수 있게 인스턴스화
-            Instance = this;
+            pInstance = this;
         }
     }
 }

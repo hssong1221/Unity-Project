@@ -106,16 +106,16 @@ namespace com.ThreeCS.McCree
             };
             PlayFabClientAPI.LoginWithPlayFab(request, playFabModule.OnLoginSuccess, playFabModule.OnLoginFailure);
 
-            LoadingUI.msg_Text.text = "로그인 시도 중...";
-            LoadingUI.close_Btn.gameObject.SetActive(false);
-            LoadingUI.msg_Canvas.SetActive(true);
+            LoadingUI.Instance.msg_Text.text = "로그인 시도 중...";
+            LoadingUI.Instance.close_Btn.gameObject.SetActive(false);
+            LoadingUI.Instance.msg_Canvas.SetActive(true);
         }
 
         private void Register_Btn()
         {
-            LoadingUI.msg_Text.text = "등록화면으로 이동 중...";
-            LoadingUI.msg_Canvas.SetActive(true);
-            LoadingUI.close_Btn.gameObject.SetActive(false);
+            LoadingUI.Instance.msg_Text.text = "등록화면으로 이동 중...";
+            LoadingUI.Instance.msg_Canvas.SetActive(true);
+            LoadingUI.Instance.close_Btn.gameObject.SetActive(false);
 
             SceneManager.LoadScene("Register");
         }

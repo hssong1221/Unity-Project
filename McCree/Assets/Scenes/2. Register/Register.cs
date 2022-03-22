@@ -77,9 +77,9 @@ namespace com.ThreeCS.McCree
 
         private void Back_Btn()
         {
-            LoadingUI.msg_Text.text = "로그인 화면으로 이동 중...";
-            LoadingUI.msg_Canvas.SetActive(true);
-            LoadingUI.close_Btn.gameObject.SetActive(false);
+            LoadingUI.Instance.msg_Text.text = "로그인 화면으로 이동 중...";
+            LoadingUI.Instance.msg_Canvas.SetActive(true);
+            LoadingUI.Instance.close_Btn.gameObject.SetActive(false);
             SceneManager.LoadScene("Login");
         }
 
@@ -103,37 +103,37 @@ namespace com.ThreeCS.McCree
                 || confirm_password.Trim() == ""
                 || email.Trim() == "")
             {
-                LoadingUI.msg_Text.text = "빈칸없이 입력해 주세요.";
-                LoadingUI.msg_Canvas.SetActive(true);
+                LoadingUI.Instance.msg_Text.text = "빈칸없이 입력해 주세요.";
+                LoadingUI.Instance.msg_Canvas.SetActive(true);
                 return;
             }
 
 
             if (idChecker)
             {
-                LoadingUI.msg_Text.text = "아이디에 한글, 특수문자, 공백은 허용되지 않습니다.";
-                LoadingUI.msg_Canvas.SetActive(true);
+                LoadingUI.Instance.msg_Text.text = "아이디에 한글, 특수문자, 공백은 허용되지 않습니다.";
+                LoadingUI.Instance.msg_Canvas.SetActive(true);
                 return;
             }
 
             if (username.Length < 3 || 20 < username.Length)
             {
-                LoadingUI.msg_Text.text = "아이디는 3 ~ 20사이의 문자로 입력해주세요.";
-                LoadingUI.msg_Canvas.SetActive(true);
+                LoadingUI.Instance.msg_Text.text = "아이디는 3 ~ 20사이의 문자로 입력해주세요.";
+                LoadingUI.Instance.msg_Canvas.SetActive(true);
                 return;
             }
 
             if (nickChecker)
             {
-                LoadingUI.msg_Text.text = "닉네임에 특수문자, 공백은 허용되지 않습니다.";
-                LoadingUI.msg_Canvas.SetActive(true);
+                LoadingUI.Instance.msg_Text.text = "닉네임에 특수문자, 공백은 허용되지 않습니다.";
+                LoadingUI.Instance.msg_Canvas.SetActive(true);
                 return;
             }
 
             if (nickName.Length < 3 || 20 < nickName.Length)
             {
-                LoadingUI.msg_Text.text = "닉네임은 3 ~ 20사이의 문자로 입력해주세요.";
-                LoadingUI.msg_Canvas.SetActive(true);
+                LoadingUI.Instance.msg_Text.text = "닉네임은 3 ~ 20사이의 문자로 입력해주세요.";
+                LoadingUI.Instance.msg_Canvas.SetActive(true);
                 return;
             }
 
@@ -144,8 +144,8 @@ namespace com.ThreeCS.McCree
             {
                 if (password.Length < 6 || 20 < password.Length)
                 {
-                    LoadingUI.msg_Text.text = "비밀번호는 6 ~ 20사이의 문자로 입력해주세요.";
-                    LoadingUI.msg_Canvas.SetActive(true);
+                    LoadingUI.Instance.msg_Text.text = "비밀번호는 6 ~ 20사이의 문자로 입력해주세요.";
+                    LoadingUI.Instance.msg_Canvas.SetActive(true);
                     return;
                 }
 
@@ -158,16 +158,16 @@ namespace com.ThreeCS.McCree
                 };
                 PlayFabClientAPI.RegisterPlayFabUser(request, playFabModule.RegisterSuccess, playFabModule.RegisterFailure);
 
-                LoadingUI.msg_Text.text = "회원 등록 중...";
-                LoadingUI.close_Btn.gameObject.SetActive(false);
-                LoadingUI.msg_Canvas.SetActive(true);
+                LoadingUI.Instance.msg_Text.text = "회원 등록 중...";
+                LoadingUI.Instance.close_Btn.gameObject.SetActive(false);
+                LoadingUI.Instance.msg_Canvas.SetActive(true);
 
                 return;
             }
             else
             {
-                LoadingUI.msg_Text.text = "비밀번호를 확인해 주세요";
-                LoadingUI.msg_Canvas.SetActive(true);
+                LoadingUI.Instance.msg_Text.text = "비밀번호를 확인해 주세요";
+                LoadingUI.Instance.msg_Canvas.SetActive(true);
                 return;
             }
         }

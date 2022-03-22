@@ -15,6 +15,20 @@ namespace com.ThreeCS.McCree
 {
     public class PlayFabModule : MonoBehaviourPunCallbacks
     {
+
+        private static PlayFabModule pInstance;
+
+        public static PlayFabModule Instance
+        {
+            get { return pInstance; }
+        }
+
+        void Awake()
+        {
+            pInstance = this;
+        }
+
+
         private string player_ID;
         private string player_NickName;
         private string player_FabID;
@@ -45,7 +59,7 @@ namespace com.ThreeCS.McCree
             player_FabID = result.AccountInfo.PlayFabId;
 
             PhotonNetwork.NickName = player_NickName;
-            LoadingUI.msg_Text.text = "유저 정보 불러오기 성공!";
+            LoadingUI.Instance.msg_Text.text = "유저 정보 불러오기 성공!";
 
             PunChat.Instance.Connect();
         }
@@ -58,7 +72,7 @@ namespace com.ThreeCS.McCree
 
         public void OnLoginSuccess(LoginResult result)
         {
-            LoadingUI.msg_Text.text = "로그인 성공!";
+            LoadingUI.Instance.msg_Text.text = "로그인 성공!";
             Debug.Log("로그인 성공");
             Debug.Log(result.PlayFabId);
 
@@ -66,7 +80,7 @@ namespace com.ThreeCS.McCree
                 PlayFabId = result.PlayFabId
             };
 
-            LoadingUI.msg_Text.text = "해당 유저 정보 불러오는 중...";
+            LoadingUI.Instance.msg_Text.text = "해당 유저 정보 불러오는 중...";
             PlayFabClientAPI.GetAccountInfo(request, GetAccountSuccess, GetAccountFailure);
         }
 
@@ -78,30 +92,30 @@ namespace com.ThreeCS.McCree
 
             if (error.Error == PlayFabErrorCode.AccountNotFound)
             {
-                LoadingUI.msg_Text.text = "해당 정보와 일치하는 계정이 없습니다.";
+                LoadingUI.Instance.msg_Text.text = "해당 정보와 일치하는 계정이 없습니다.";
             }
 
             else if (error.Error == PlayFabErrorCode.AccountNotFound)
             {
-                LoadingUI.msg_Text.text = "아이디 혹은 비밀번호가 일치하지 않습니다.";
+                LoadingUI.Instance.msg_Text.text = "아이디 혹은 비밀번호가 일치하지 않습니다.";
             }
 
             else 
             {
-                LoadingUI.msg_Text.text = "해당 정보와 일치하는 계정이 없습니다.";
+                LoadingUI.Instance.msg_Text.text = "해당 정보와 일치하는 계정이 없습니다.";
             }
-            LoadingUI.msg_Canvas.SetActive(true);
-            LoadingUI.close_Btn.gameObject.SetActive(true);
+            LoadingUI.Instance.msg_Canvas.SetActive(true);
+            LoadingUI.Instance.close_Btn.gameObject.SetActive(true);
         }
 
 
         public void RegisterSuccess(RegisterPlayFabUserResult result)
         {
             Debug.Log("가입 성공");
-            LoadingUI.msg_Text.text = "가입이 완료되었습니다."; 
-            LoadingUI.close_Btn.gameObject.SetActive(true);
-            LoadingUI.msg_Canvas.SetActive(true);
-            LoadingUI.close_Btn.onClick.AddListener(() =>
+            LoadingUI.Instance.msg_Text.text = "가입이 완료되었습니다."; 
+            LoadingUI.Instance.close_Btn.gameObject.SetActive(true);
+            LoadingUI.Instance.msg_Canvas.SetActive(true);
+            LoadingUI.Instance.close_Btn.onClick.AddListener(() =>
             {
                 SceneManager.LoadScene("Login");
             }); // 아니 이게 addlistner 되었는데 누른다음 기능이 없어짐 
@@ -117,22 +131,22 @@ namespace com.ThreeCS.McCree
 
             if (error.Error == PlayFabErrorCode.UsernameNotAvailable)
             {
-                LoadingUI.msg_Text.text = "중복된 아이디 입니다.";
+                LoadingUI.Instance.msg_Text.text = "중복된 아이디 입니다.";
             }
             else if (error.Error == PlayFabErrorCode.NameNotAvailable)
             {
-                LoadingUI.msg_Text.text = "중복된 닉네임 입니다.";
+                LoadingUI.Instance.msg_Text.text = "중복된 닉네임 입니다.";
             }
             else if (error.Error == PlayFabErrorCode.EmailAddressNotAvailable)
             {
-                LoadingUI.msg_Text.text = "중복된 이메일 입니다.";
+                LoadingUI.Instance.msg_Text.text = "중복된 이메일 입니다.";
             }
             else if (error.Error == PlayFabErrorCode.InvalidParams)
             {   // 아이디 닉네임 패스워드를 직접 예외처리해서 이메일 형식 invalidparams밖에 안뜰거임 아마
-                LoadingUI.msg_Text.text = "유효하지않은 이메일 형식 입니다.";
+                LoadingUI.Instance.msg_Text.text = "유효하지않은 이메일 형식 입니다.";
             }
-            LoadingUI.close_Btn.gameObject.SetActive(true);
-            LoadingUI.msg_Canvas.SetActive(true);
+            LoadingUI.Instance.close_Btn.gameObject.SetActive(true);
+            LoadingUI.Instance.msg_Canvas.SetActive(true);
         }
 
         

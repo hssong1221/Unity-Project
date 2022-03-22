@@ -10,12 +10,7 @@ namespace com.ThreeCS.McCree
     public class Interaction : Controller
     {
 
-        float range_x;
-        float range_y;
-
-        private IEnumerator coroutine;
-
-
+        public IEnumerator coroutine;
 
         void Awake()
         {
@@ -28,39 +23,77 @@ namespace com.ThreeCS.McCree
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "NPC" && photonView.IsMine)
+            if (photonView.IsMine)
             {
-                range_x = Random.Range(-200, 200);
-                range_y = Random.Range(-150, 150);
-                MineUI.Instance.interactionRect.anchoredPosition = new Vector2(range_x, range_y);
-                MineUI.Instance.interactionPanel.SetActive(true);
-                MineUI.Instance.interactionText.text = "대화 하기";
-                // F 상호작용 랜덤 위치
+                if (other.tag == "NPC")
+                {
+                    MineUI.Instance.range_x = Random.Range(-200, 200);
+                    MineUI.Instance.range_y = Random.Range(-150, 150);
+                    MineUI.Instance.interactionRect.anchoredPosition = new Vector2(MineUI.Instance.range_x, MineUI.Instance.range_y);
+                    MineUI.Instance.interactionPanel.SetActive(true);
+                    MineUI.Instance.interactionText.text = "대화 하기";
+                    // F 상호작용 랜덤 위치
 
-                coroutine = returnchatList(0, other);
-                StartCoroutine(coroutine);
-                // 트리거된 상태에서 F누르면 대화창 뜰수있도록 코루틴함수 실행
+                    coroutine = returnchatList(0, other);
+                    StartCoroutine(coroutine);
+                    // 트리거된 상태에서 F누르면 대화창 뜰수있도록 코루틴함수 실행
+                }
+
+                else if (other.tag == "QuestItem") // 줍는 퀘스트
+                {
+                    foreach (SubQuestList quest in playerInfo.myQuestList)
+                    {
+                        Quest_PickUp pickQuest = (Quest_PickUp)quest.quest;
+
+                        // 이름으로 비교하긴했는데 게임 오브젝트 클론된거라 비교가안됨
+                        if (other.name.Substring(0, other.name.Length - 7) == pickQuest.bringGameObj.name)
+                        //if (System.Object.ReferenceEquals(tquest.bringGameObj.gameObject, gameObject))
+                        {
+                            MineUI.Instance.range_x = Random.Range(-100, 100);
+                            MineUI.Instance.range_y = Random.Range(-75, 75);
+                            MineUI.Instance.interactionRect.anchoredPosition = new Vector2(MineUI.Instance.range_x, MineUI.Instance.range_y);
+                            MineUI.Instance.interactionPanel.SetActive(true);
+                            MineUI.Instance.interactionText.text = "줍기";
+                            // F 상호작용 랜덤 위치
+
+                            coroutine = QuestItemInteraction(other);
+                            StartCoroutine(coroutine);
+                            break;
+                        }
+                    }
+                }
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.tag == "NPC" && photonView.IsMine)
+            if (photonView.IsMine)
             {
-                if (coroutine != null)
-                    StopCoroutine(coroutine);
+                if (other.tag == "NPC")
+                {
+                    MineUI.Instance.interactionPanel.SetActive(false);
+                    MineUI.Instance.chatPanel.SetActive(false);
+                    playerManager.isInteraction = false;
+                }
+                else if (other.tag == "QuestItem")
+                {
+                    MineUI.Instance.interactionPanel.SetActive(false);
+                }
 
-                MineUI.Instance.interactionPanel.SetActive(false);
-                MineUI.Instance.chatPanel.SetActive(false);
-                playerManager.isInteraction = false;
+                if (coroutine != null)
+                {
+                    StopCoroutine(coroutine);
+                }
             }
         }
 
+
+        #region npc대화 관련
         IEnumerator returnchatList(int num, Collider other)
         {
             while (true)
             {
-                if (Input.GetButtonDown("Interaction") && !other.GetComponent<NPC>().isAccept)
+                if (Input.GetButtonDown("Interaction"))
                 {
                     if (!MineUI.Instance.chatPanel.activeSelf)
                     {   // chatPanel창 안켜져있으면 변수 저장
@@ -84,41 +117,82 @@ namespace com.ThreeCS.McCree
                         }
                         else // 끝이면 비활성화
                         {
-                            MineUI.Instance.npcbtns.SetActive(true);
+                            Debug.Log(other.GetComponent<NPC>().quest.qState);
 
-                            MineUI.Instance.acceptBtn.onClick.RemoveAllListeners();
+                            if (other.GetComponent<NPC>().quest.qState == Quest.qType.Start)
+                            {  // 퀘스트 받을때만 수락/거절 버튼
+                                MineUI.Instance.npcbtns.SetActive(true);
 
-                            MineUI.Instance.acceptBtn.onClick.AddListener(
-                                delegate (){
-                                    Accept_NPC_Chat(other.GetComponent<NPC>());
-                                });
+                                MineUI.Instance.acceptBtn.onClick.RemoveAllListeners();
+
+                                MineUI.Instance.acceptBtn.onClick.AddListener(
+                                    delegate ()
+                                    {
+                                        Accept_NPC_Chat(other.GetComponent<NPC>());
+                                    });
+                            }
+                            else if (other.GetComponent<NPC>().quest.qState == Quest.qType.Complete && !other.GetComponent<NPC>().isComplete)
+                            {
+                                // 보상
+                                foreach (ItemList itemList in playerInfo.myItemList)
+                                {
+                                    if (itemList.item.ability == other.GetComponent<NPC>().quest.reward)
+                                    {
+                                        itemList.itemCount++;
+                                        break;
+                                    }
+                                }
+
+                                // 완료한 퀘스트 목록에서 삭제
+                                foreach (SubQuestList subQuest in playerInfo.myQuestList)
+                                {
+                                    if (subQuest.quest == other.GetComponent<NPC>().quest)
+                                    {
+                                        Destroy(subQuest.gameObject);
+                                        break;
+                                    }
+                                }
+
+                                other.GetComponent<NPC>().isComplete = true;
+
+                                Close_NPC_Chat();
+
+                                photonView.RPC("QuestComplete", RpcTarget.All, other.GetComponent<NPC>().quest.questTitle_Copy);
+                            }
+
+                            else
+                            {   // 나머지 대화 끝나면 닫아줌
+                                Close_NPC_Chat();
+                            }
                         }
                     }
-                }
-                else if (Input.GetButtonDown("Interaction") && other.GetComponent<NPC>().isAccept)
-                {
-                    playerManager.return_itemNoticeText("<color=#FF3939>" + "이미 수락한 퀘스트 입니다!" + "</color>");
                 }
 
                 yield return null;
             }
         }
 
+
         void Accept_NPC_Chat(NPC npc)
         {
             if (photonView.IsMine)
             {
+                npc.quest.qState = Quest.qType.Progress;
+                npc.quest.npcChatList = npc.quest.npcChatList_progress;
+
+                Debug.Log(npc.quest + "  " + npc.quest.qState + " ");
+
+
+                // 퀘스트 진행중으로 상태 바꿈
                 GameObject subquestObj = Instantiate(MineUI.Instance.subQuestObj, MineUI.Instance.subQuestPanel);
                 subquestObj.GetComponent<SubQuestList>().quest = npc.quest;
 
-                playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>().quest);
-
-                npc.isAccept = true;
+                playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>());
 
                 Close_NPC_Chat();
             }
 
-            photonView.RPC("GetQuest", RpcTarget.All, npc.quest.questTitle);
+            photonView.RPC("GetQuest", RpcTarget.All, npc.quest.questTitle_Copy);
         }
 
         void Close_NPC_Chat()
@@ -132,5 +206,31 @@ namespace com.ThreeCS.McCree
                 playerManager.isInteraction = false;
             }
         }
+        #endregion
+
+        #region 퀘스트 아이템 관련
+        IEnumerator QuestItemInteraction(Collider other)
+        {
+            while (true)
+            {
+                if (Input.GetButtonDown("Interaction"))
+                {
+                    ui.progressText.text = "나무 치우는 중...";
+                    ui.PickInterAction(5, other.gameObject);
+                    MineUI.Instance.interactionPanel.SetActive(false);
+                }
+
+                yield return null;
+            }
+        }
+
+        public void Direct_StopCoroutine()
+        {
+            if (coroutine != null)
+            {
+                StopCoroutine(coroutine);
+            }
+        }
+        #endregion
     }
 }

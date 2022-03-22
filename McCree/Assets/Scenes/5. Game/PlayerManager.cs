@@ -20,6 +20,7 @@ namespace com.ThreeCS.McCree
         public bool isAiming;
         public bool isBanging;
         public bool isDeath;
+        public bool isPicking;
 
         private bool isInventoryOpen;
         public bool isInteraction;
@@ -278,7 +279,7 @@ namespace com.ThreeCS.McCree
         }
 
 
-
+        
 
 
         // 플레이어 이동
@@ -286,11 +287,11 @@ namespace com.ThreeCS.McCree
         {
             // 키보드로 움직임 임시 구현
 
-            //playerAutoMove.targetedEnemy = null;
-            //playerManager.agent.SetDestination(transform.position);
 
-
-            //InputSystem.DisableDevice(Keyboard.current);
+            if (isPicking == true && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
+            {   // 상호작용중에 움직이면 
+                ui.Off_ProgressUI();
+            }
 
             h = Input.GetAxis("Horizontal");
             v = Input.GetAxis("Vertical");
@@ -481,6 +482,12 @@ namespace com.ThreeCS.McCree
         public void GetQuest(string questTitle)
         {
             return_itemNoticeText("<color=#000000>" + questTitle + " 퀘스트를 수락하였습니다!" + "</color>");
+        }
+
+        [PunRPC]
+        public void QuestComplete(string questTitle)
+        {
+            return_itemNoticeText("<color=#FF3E6E>" + questTitle + " 퀘스트를 완료하였습니다!" + "</color>");
         }
 
 

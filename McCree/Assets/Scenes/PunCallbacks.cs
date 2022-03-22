@@ -11,8 +11,17 @@ namespace com.ThreeCS.McCree
 {
     public class PunCallbacks : MonoBehaviourPunCallbacks
     {
-        public static GameObject statusUI;  // 네트워크 상태 UI
-        public static Text statusText;      // 네트워크 상태 텍스트
+
+        private static PunCallbacks pInstance;
+
+        public static PunCallbacks Instance
+        {
+            get { return pInstance; }
+        }
+
+
+        public GameObject statusUI;  // 네트워크 상태 UI
+        public Text statusText;      // 네트워크 상태 텍스트
         // stataic 변수는 처음에 지정을 못해주는듯
         // Awake함수에서 하위요소를 불러와서 각각 저장
 
@@ -20,6 +29,8 @@ namespace com.ThreeCS.McCree
 
         private void Awake()
         {
+            pInstance = this;
+
             canvasChildrens = transform.GetComponentsInChildren<Transform>();
             foreach (Transform child in canvasChildrens)
             {
@@ -38,8 +49,8 @@ namespace com.ThreeCS.McCree
         public override void OnConnectedToMaster()
         {
             Debug.Log("서버 연결 성공");
-            LoadingUI.msg_Text.text = "서버와 연결 성공!";
-            LoadingUI.msg_Text.text = "로비에 접속 중...";
+            LoadingUI.Instance.msg_Text.text = "서버와 연결 성공!";
+            LoadingUI.Instance.msg_Text.text = "로비에 접속 중...";
             PhotonNetwork.JoinLobby();
         }
 
@@ -47,8 +58,8 @@ namespace com.ThreeCS.McCree
         public override void OnDisconnected(DisconnectCause cause)
         {
             Debug.Log("Connecting failed!! Trying re-connect..");
-            LoadingUI.msg_Text.text = "서버와 연결 실패, 접속 재시도 중...";
-            LoadingUI.msg_Canvas.SetActive(true);
+            LoadingUI.Instance.msg_Text.text = "서버와 연결 실패, 접속 재시도 중...";
+            LoadingUI.Instance.msg_Canvas.SetActive(true);
             // 설정한 정보로 마스터 서버 접속 시도
             PhotonNetwork.ConnectUsingSettings();
         }
@@ -58,7 +69,7 @@ namespace com.ThreeCS.McCree
         {
             //base.OnJoinedLobby();
             Debug.Log("로비 참가 성공");
-            LoadingUI.msg_Text.text = "로비와 연결 성공!";
+            LoadingUI.Instance.msg_Text.text = "로비와 연결 성공!";
             SceneManager.LoadScene("Lobby");
         }
 
@@ -67,8 +78,8 @@ namespace com.ThreeCS.McCree
         {
             base.OnLeftLobby();
             Debug.Log("로비 떠나기 성공");
-            LoadingUI.msg_Text.text = "로비 떠나기 성공";
-            LoadingUI.msg_Canvas.SetActive(false);
+            LoadingUI.Instance.msg_Text.text = "로비 떠나기 성공";
+            LoadingUI.Instance.msg_Canvas.SetActive(false);
         }
 
         // 방에 접속 한 후에 실행
@@ -76,8 +87,8 @@ namespace com.ThreeCS.McCree
         {
             base.OnJoinedRoom();
             Debug.Log("방 참가 성공");
-            LoadingUI.msg_Text.text = "방 참가 성공";
-            LoadingUI.msg_Canvas.SetActive(false);
+            LoadingUI.Instance.msg_Text.text = "방 참가 성공";
+            LoadingUI.Instance.msg_Canvas.SetActive(false);
 
             PunChat.Instance.behave = "EnterRoom";
             PunChat.Instance.chatClient.Subscribe(new string[] { PhotonNetwork.CurrentRoom.Name }, 10);
@@ -89,8 +100,8 @@ namespace com.ThreeCS.McCree
         {
             base.OnLeftRoom();
             Debug.Log("방 나가기 성공");
-            LoadingUI.msg_Text.text = "방 나가기 성공";
-            LoadingUI.msg_Canvas.SetActive(false);
+            LoadingUI.Instance.msg_Text.text = "방 나가기 성공";
+            LoadingUI.Instance.msg_Canvas.SetActive(false);
             // 저절로 OnConnectedToMaster 실행한다.
         }
 
@@ -99,8 +110,8 @@ namespace com.ThreeCS.McCree
         {
             base.OnCreatedRoom();
             Debug.Log("방 만들기 성공");
-            LoadingUI.msg_Text.text = "방 생성 성공";
-            LoadingUI.msg_Canvas.SetActive(false);
+            LoadingUI.Instance.msg_Text.text = "방 생성 성공";
+            LoadingUI.Instance.msg_Canvas.SetActive(false);
             //SceneManager.LoadScene("Room");
         }
 

@@ -8,16 +8,26 @@ namespace com.ThreeCS.McCree
 {
     public class LoadingUI : MonoBehaviour
     {
+        private static LoadingUI pInstance;
+
+        public static LoadingUI Instance
+        {
+            get { return pInstance; }
+        }
+
+
         [Header("메세지 팝업 패널")]
-        public static GameObject msg_Canvas;
-        public static Text msg_Text;
-        public static Button close_Btn;
+        public GameObject msg_Canvas;
+        public Text msg_Text;
+        public Button close_Btn;
 
 
         private Transform[] canvasChildrens;
 
         void Awake()
         {
+            pInstance = this;
+
             canvasChildrens = transform.GetComponentsInChildren<Transform>();
             foreach (Transform child in canvasChildrens)
             {

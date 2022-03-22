@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21598a5eb27d4e849800a5473b4edf11, type: 3}
+  m_Name: Pick Up Stick
+  m_EditorClassIdentifier: 
+  Reward: 0
+  QuestState: 2
+  npcChatList:
+  - "\uACE0\uB9D9\uB124 \uB355\uBD84\uC5D0 \uB9C8\uC744\uC774 \uAE68\uB057\uD574\uC84C\uC5B4
+    \uC5EC\uAE30 \uBCF4\uC0C1\uC774\uB77C\uB124"
+  npcChatList_start:
+  - "\uBC18\uAC11\uB124 \uB098\uB294 \uBCF4\uC548\uAD00\uC774\uB124"
+  - "\uC2DC\uAC04\uC774\uC5C6\uC5B4\uC11C \uB9C8\uC744\uC744 \uBE44\uC6B8\uC218\uAC00\uC5C6\uAD6C\uB9CC"
+  - "\uC790\uB124\uAC00 \uB300\uC2E0 \uB9C8\uC744 \uC8FC\uBCC0\uC5D0\uC788\uB294
+    \uB098\uBB47\uAC00\uC9C0\uB4E4\uC744 \uCE58\uC6CC\uC904\uC218 \uC788\uACA0\uB294\uAC00?"
+  npcChatList_progress:
+  - "\uB9C8\uC744 \uC8FC\uBCC0\uC5D0\uC788\uB294 \uB098\uBB34\uAC00\uC9C0\uB97C \uCE58\uC6CC\uC8FC\uBA74\uB418\uB124"
+  npcChatList_complete:
+  - "\uACE0\uB9D9\uB124 \uB355\uBD84\uC5D0 \uB9C8\uC744\uC774 \uAE68\uB057\uD574\uC84C\uC5B4
+    \uC5EC\uAE30 \uBCF4\uC0C1\uC774\uB77C\uB124"
+  npcImg: {fileID: 21300000, guid: 512567abd27d62949a8f3bda1343ae8c, type: 3}
+  npcName: "\uBCF4\uC548\uAD00"
+  questTitle: "(3 / 3) \uB098\uBB47\uAC00\uC9C0\uB4E4 \uCE58\uC6B0\uAE30"
+  questTitle_Copy: "\uB098\uBB47\uAC00\uC9C0\uB4E4 \uCE58\uC6B0\uAE30"
+  questContent: "\uBC14\uC05C \uBCF4\uC548\uAD00 \uB300\uC2E0 \uB9C8\uC744 \uC8FC\uBCC0\uC5D0\uC788\uB294
+    \uB098\uBB47\uAC00\uC9C0\uB4E4\uC744 \uCE58\uC6B0\uC790\n(3 / 3)"
+  questContent_Copy: "\uBC14\uC05C \uBCF4\uC548\uAD00 \uB300\uC2E0 \uB9C8\uC744 \uC8FC\uBCC0\uC5D0\uC788\uB294
+    \uB098\uBB47\uAC00\uC9C0\uB4E4\uC744 \uCE58\uC6B0\uC790"
+  bringGameObj: {fileID: 6589720227027192476, guid: 5908b9e35c43017409926f92018fa9de, type: 3}
+  instantePos:
+  - {fileID: 6667511812209083547, guid: e9f74a0d14c074f4d9fc46cf5ecf7ee2, type: 3}
+  - {fileID: 5339493936872216883, guid: 1f56f53548c915349af29d258b77883b, type: 3}
+  - {fileID: 2529782549636785064, guid: 3c7564dd35ceb804ab8b39f54cac1811, type: 3}
+  questProgress: (3 / 3)
