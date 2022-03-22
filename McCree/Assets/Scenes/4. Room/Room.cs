@@ -101,8 +101,8 @@ namespace com.ThreeCS.McCree
         // 방 나가기 버튼 눌렀을 때
         public void Exit_Room()
         {
-            LoadingUI.msg_Text.text = "방 떠나는 중...";
-            LoadingUI.msg_Canvas.SetActive(true);
+            LoadingUI.Instance.msg_Text.text = "방 떠나는 중...";
+            LoadingUI.Instance.msg_Canvas.SetActive(true);
             string msgs = string.Format("​<color=navy>[{0}]님이 퇴장하셨습니다.</color>", PhotonNetwork.LocalPlayer.NickName);
             PunChat.Instance.chatClient.PublishMessage(PhotonNetwork.CurrentRoom.Name, msgs);
             PunChat.Instance.behave = "ExitRoom";
@@ -128,8 +128,8 @@ namespace com.ThreeCS.McCree
 
         private void GameLoading()
         {
-            LoadingUI.msg_Text.text = "게임에 참여하는 중...";
-            LoadingUI.msg_Canvas.SetActive(true);
+            LoadingUI.Instance.msg_Text.text = "게임에 참여하는 중...";
+            LoadingUI.Instance.msg_Canvas.SetActive(true);
         }
 
         public void AddPlayerListing(Player playerList)

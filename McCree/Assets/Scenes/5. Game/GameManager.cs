@@ -20,7 +20,12 @@ namespace com.ThreeCS.McCree
         #region Variable Fields
 
         // 게임 매니저 어디서든 사용가능
-        static public GameManager Instance;
+        private static GameManager pInstance;
+
+        public static GameManager Instance
+        {
+            get { return pInstance; }
+        }
 
         // 내 카메라
         private CameraWork cameraWork;
@@ -138,7 +143,7 @@ namespace com.ThreeCS.McCree
         void Awake()
         {
             // 어디서든 쓸 수 있게 인스턴스화
-            Instance = this;
+            pInstance = this;
 
             jobUIAnimator = jobPanel.GetComponent<Animator>();
             abilUIAnimator = abilPanel.GetComponent<Animator>();

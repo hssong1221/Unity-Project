@@ -163,8 +163,8 @@ namespace com.ThreeCS.McCree
 
             // 방 이름으로 방 생성
             PhotonNetwork.JoinOrCreateRoom(RoomName, roomOptions, TypedLobby.Default);
-            LoadingUI.msg_Text.text = "방 생성 중...";
-            LoadingUI.msg_Canvas.SetActive(true);
+            LoadingUI.Instance.msg_Text.text = "방 생성 중...";
+            LoadingUI.Instance.msg_Canvas.SetActive(true);
         }
 
         // 방 최대인원수 선택

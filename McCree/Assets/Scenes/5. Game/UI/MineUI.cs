@@ -10,7 +10,12 @@ namespace com.ThreeCS.McCree
     public class MineUI : MonoBehaviour
     {
         // 로컬 플레이어의 UI 어디서든 사용가능 (로컬 한정)  
-        static public MineUI Instance;
+        private static MineUI pInstance;
+
+        public static MineUI Instance
+        {
+            get { return pInstance; }
+        }
 
         private PhotonView photonView;
         private PlayerManager playerManager;
@@ -78,7 +83,7 @@ namespace com.ThreeCS.McCree
         void Awake()
         {
             // 어디서든 쓸 수 있게 인스턴스화
-            Instance = this;
+            pInstance = this;
 
             interactionRect = interactionPanel.GetComponent<RectTransform>();
             questcloseBtn.onClick.AddListener(Close_Quest_Detail_Panel);
