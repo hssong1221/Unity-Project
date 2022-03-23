@@ -3,6 +3,7 @@ using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
 using NavMeshBuilder = UnityEngine.AI.NavMeshBuilder;
+using System;
 
 using com.ThreeCS.McCree;
 using Photon.Pun;
@@ -48,19 +49,32 @@ namespace com.ThreeCS.McCree
         {
             while (m_Tracked == null)
             {
-                //m_Tracked = transform;
-                // 플레이어 리스트에서 내 거 찾아서 네비에이전트 붙이기
-                foreach (GameObject player in GameManager.Instance.playerList)
+                Debug.Log("플레이어 찾는 중 + NAV MESH");
+                Debug.Log(m_Tracked);
+
+                try
                 {
-                    if (player.GetComponent<PhotonView>().IsMine)
+                    Debug.Log("네비메쉬할당 진입!");
+                    foreach (GameObject player in GameManager.Instance.playerList)
                     {
-                        this.m_Tracked = player.transform;
-                        break;
+                        if (player.GetComponent<PhotonView>().IsMine)
+                        {
+                            Debug.Log("네비메쉬가 플레이어 찾음");
+                            m_Tracked = player.transform;
+                            break;
+                        }
                     }
                 }
+                catch(NullReferenceException)
+                {
+                    Debug.Log("플레이어 리스트가 아직 생성되지 않았음");
+                }
+                //m_Tracked = transform;
+                // 플레이어 리스트에서 내 거 찾아서 네비에이전트 붙이기
+                
                 yield return null;
             }
-            yield return null;
+            Debug.Log("플레이어 찾고 나감 + NAV MESH");
         }
 
         void OnDisable()
