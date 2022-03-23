@@ -41,14 +41,14 @@
 + Photon Chat - (채팅 시스템)
 + playFab - (데이터베이스)
 
-### Scene 흐름
 
-![Scene](https://drive.google.com/uc?export=view&id=1rxi3rNfg41JVnqnuS7guwVQw0nhaKJJo)
+### Scene 흐름
+![Scene](https://user-images.githubusercontent.com/22339727/159645968-c2dbe87d-9702-40c5-9f3b-4857777bc3c9.jpeg)
 백엔드에 사용되는 PunCallbacks PunChat PlayFab 파일들은 Singleton으로 선언
 
 ### 백엔드 흐름
-![PhotonConnect1](https://drive.google.com/uc?export=view&id=1oL-mmjmCgdyl8P8My4MaNHJFgq5-JQHz)
-![PhotonConnect2](https://drive.google.com/uc?export=view&id=1anRfcLVgx86pvEYS3RUqlCLzppGlJGea)
+![PhotonConnect1](https://user-images.githubusercontent.com/22339727/159645959-60d4f109-49c6-41b9-b9de-d7fc9399d3e4.jpg)
+![PhotonConnect2](https://user-images.githubusercontent.com/22339727/159645964-9905a2bf-f7de-45e0-b44e-4373e2dbaba5.jpg)
 
 ---
 ## 인게임 구성  
@@ -57,7 +57,9 @@
 상호작용 F Input입력을 받기위하여 OnTriggerStay(FixedUpdate)대신 코루틴을 이용
 
 #### Npc 상호작용
-![Npc 상호작용](https://drive.google.com/uc?export=view&id=17GbIGYF6dSyMX4dLjkRGlCRa1SSav7IG)  
+![Npc 상호작용 흐름](https://user-images.githubusercontent.com/22339727/159644683-921775a5-1421-4037-8174-f4b635412f2b.png)  
+![Npc 대화](https://user-images.githubusercontent.com/22339727/159643990-4427f59b-004d-42bd-838d-43b42b321c96.gif)  
 
 #### QuestItem 상호작용  
-![QuestItem 상호작용](https://drive.google.com/uc?export=view&id=17GN8L-5i3yGx9ESL-ip2Xo6xCQx1cwYA)  
+![QuestItem 상호작용 흐름](https://user-images.githubusercontent.com/22339727/159644700-65a9d7f6-0776-4582-aaef-daa4a6992590.png) 
+![QuestItem Pick상호작용](https://user-images.githubusercontent.com/22339727/159646259-781ebe61-6de4-4171-9daf-00fc62f9afc3.gif)  
