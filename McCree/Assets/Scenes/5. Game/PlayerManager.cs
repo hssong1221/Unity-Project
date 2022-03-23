@@ -290,7 +290,7 @@ namespace com.ThreeCS.McCree
 
             if (isPicking == true && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
             {   // 상호작용중에 움직이면 
-                ui.Off_ProgressUI();
+                ui.CanCel_Animation();
             }
 
             h = Input.GetAxis("Horizontal");

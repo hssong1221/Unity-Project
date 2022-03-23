@@ -159,9 +159,10 @@ namespace com.ThreeCS.McCree
 
                         if (interactObj.name == pickQuest.quest.bringGameObj.name)
                         {
-                            pickQuest.count++;
+                            pickQuest.count++; // 퀘스트 아이템 개수 증가
                             MineUI.Instance.interactionPanel.SetActive(false);
 
+                            // 증가한 아이템 개수로 텍스트 바꿔줌
                             subQuestObj.questTitle.text = pickQuest.questTitle_progress;
 
                             Debug.Log("성공!");
@@ -171,20 +172,33 @@ namespace com.ThreeCS.McCree
                     Off_ProgressUI();
                     //interactObj.SetActive(false);
 
-                    Destroy(interactObj);
+                    Destroy(interactObj); // 애니메이션 끝나면 오브젝트 파괴
                 }
                 yield return null;
             }
         }
 
-        public void Off_ProgressUI()
+        public void Off_ProgressUI() // 원 진행도, interaction 코루틴 스탑
         {
             playerManager.isPicking = false;
             animator.SetBool("IsPicking", false);
-            if (coroutine != null) // 상호작용중인 코루틴 스탑
+            if (coroutine != null) 
                 StopCoroutine(coroutine);
             if (interaction.coroutine != null)
                 interaction.Direct_StopCoroutine();
+            progressText.enabled = false;
+            progressBar.enabled = false;
+            progressPercent.enabled = false;
+        }
+
+        public void CanCel_Animation()
+        {
+            MineUI.Instance.interactionPanel.SetActive(true);
+
+            playerManager.isPicking = false;
+            animator.SetBool("IsPicking", false);
+            if (coroutine != null) // 원 진행도 코루틴만 스탑, 다시 주울수있도록 interaction코루틴은 끄지않음
+                StopCoroutine(coroutine);
             progressText.enabled = false;
             progressBar.enabled = false;
             progressPercent.enabled = false;

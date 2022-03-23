@@ -26,8 +26,8 @@ namespace com.ThreeCS.McCree
             {
                 if (other.tag == "NPC")
                 {
-                    MineUI.Instance.range_x = Random.Range(-200, 200);
-                    MineUI.Instance.range_y = Random.Range(-150, 150);
+                    MineUI.Instance.range_x = Random.Range(-150, 150);
+                    MineUI.Instance.range_y = Random.Range(-100, 100);
                     MineUI.Instance.interactionRect.anchoredPosition = new Vector2(MineUI.Instance.range_x, MineUI.Instance.range_y);
                     MineUI.Instance.interactionPanel.SetActive(true);
                     MineUI.Instance.interactionText.text = "대화 하기";
@@ -44,6 +44,7 @@ namespace com.ThreeCS.McCree
                     {
                         Quest_PickUp_Obj pickQuest = (Quest_PickUp_Obj)subQuestObj.questObj;
 
+                        // 내가 가지고있는 퀘스트 중 줍기퀘스트 아이템이있을때 
                         if (other.name == pickQuest.quest.bringGameObj.name)
                         {
                             MineUI.Instance.range_x = Random.Range(-100, 100);
@@ -55,6 +56,7 @@ namespace com.ThreeCS.McCree
 
                             coroutine = QuestItemInteraction(other);
                             StartCoroutine(coroutine);
+                            // 트리거된 상태에서 F누르면 줍는 애니메이션 실행될수있도록
                             break;
                         }
                     }
@@ -88,11 +90,12 @@ namespace com.ThreeCS.McCree
         #region npc대화 관련
         IEnumerator returnchatList(int num, Collider other)
         {
-            Debug.Log(other.GetComponent<NPC>().questObj.quest.npcName);
             while (true)
             {
                 if (Input.GetButtonDown("Interaction"))
                 {
+                    MineUI.Instance.interactionPanel.SetActive(false);
+
                     NPC npc = other.GetComponent<NPC>();
                     if (!MineUI.Instance.chatPanel.activeSelf)
                     {   // chatPanel창 안켜져있으면 변수 저장
@@ -162,6 +165,7 @@ namespace com.ThreeCS.McCree
                             {   // 나머지 대화 끝나면 닫아줌
                                 Close_NPC_Chat();
                             }
+                            
                         }
                     }
                 }
@@ -175,17 +179,19 @@ namespace com.ThreeCS.McCree
         {
             if (photonView.IsMine)
             {
+                // 퀘스트 진행중으로 상태 바꿈
                 npc.questObj.qState = Quest_Obj.qType.Progress;
                 npc.questObj.npcChatList = npc.questObj.quest.npcChatList_progress;
 
-
-                // 퀘스트 진행중으로 상태 바꿈
+                // 퀘스트 생성해서 오른쪽 상단 목표에 붙여줌
                 GameObject subquestObj = Instantiate(MineUI.Instance.subQuestObj, MineUI.Instance.subQuestPanel);
                 subquestObj.GetComponent<SubQuestList>().questObj = npc.questObj;
                 subquestObj.GetComponent<SubQuestList>().questTitle.text = npc.questObj.questTitle_progress;
 
+                // 내 퀘스트리스트에 붙임
                 playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>());
 
+                // npc대화 끔
                 Close_NPC_Chat();
             }
 
@@ -222,7 +228,7 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        public void Direct_StopCoroutine()
+        public void Direct_StopCoroutine() // 코루틴은 해당 파일에서 꺼야함
         {
             if (coroutine != null)
             {
