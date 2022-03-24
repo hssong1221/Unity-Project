@@ -264,7 +264,7 @@ namespace com.ThreeCS.McCree
                 for (int i = 0; i < 8; i++)
                 {
                     // 맵 모듈을 스폰해서 동기화
-                    PhotonNetwork.Instantiate("World/" + maps[i].name, points[i].position, Quaternion.identity, 0);
+                    PhotonNetwork.Instantiate("World/" + maps[i].name, points[i].position - new Vector3(0, 0, 200), Quaternion.identity, 0);
                 }
                 yield return new WaitForEndOfFrame();
             }
