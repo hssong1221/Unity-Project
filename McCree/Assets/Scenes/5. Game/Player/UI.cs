@@ -63,14 +63,7 @@ namespace com.ThreeCS.McCree
             itemOffset = new Vector3(0.5f, 1.0f, 0f);
             progressOffset = new Vector3(0, 2.5f, 0f);
 
-            if (photonView.IsMine)
-            {
-                nickName.text = PhotonNetwork.LocalPlayer.NickName;
-            }
-            else
-            {
-                nickName.text = GetComponent<PhotonView>().Owner.NickName;
-            }
+            
         }
 
 
@@ -92,7 +85,14 @@ namespace com.ThreeCS.McCree
             progressBar.enabled = false;
             progressPercent.enabled = false;
 
-
+            if (photonView.IsMine)
+            {
+                nickName.text = PhotonNetwork.LocalPlayer.NickName;
+            }
+            else
+            {
+                nickName.text = GetComponent<PhotonView>().Owner.NickName;
+            }
 
         }
 

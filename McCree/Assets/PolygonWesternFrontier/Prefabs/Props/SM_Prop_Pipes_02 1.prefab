@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 95930145644812662}
   - component: {fileID: 64987741800588190}
   m_Layer: 0
-  m_Name: SM_Prop_Pipes_02
+  m_Name: SM_Prop_Pipes_02 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a61fcec7964bae498df8740e18a33e4, type: 3}
+  m_Name: TransPort_Pipe
+  m_EditorClassIdentifier: 
+  Reward: 1
+  npcChatList_start:
+  - "\uC800\uAE30\uC694 \uC9C0\uB098\uAC00\uC2DC\uB294 \uC2E0\uC0AC\uBD84"
+  - "\uC800 \uD63C\uC790 \uC62E\uAE30\uAE30\uB294 \uD798\uB4E0\uB370 \uC800\uAE30\uC788\uB294
+    \uD30C\uC774\uD504\uB4E4\uC744 \uC62E\uACA8\uC8FC\uC2E4\uC218 \uC788\uC73C\uC2DC\uB098\uC694?"
+  npcChatList_progress:
+  - "\uD30C\uC774\uD504\uB4E4\uC744 \uC62E\uACA8\uC8FC\uC138\uC694!"
+  npcChatList_complete:
+  - "\uACE0\uB9D9\uC2B5\uB2C8\uB2E4 \uC5EC\uAE30 \uBCF4\uC0C1\uC785\uB2C8\uB2E4"
+  npcImg: {fileID: 21300000, guid: af7da4d173f414b4ca7684383381b7f7, type: 3}
+  npcName: "\uBC30\uC2E0\uC790"
+  questTitle: "\uD30C\uC774\uD504 \uC62E\uACA8\uC8FC\uAE30"
+  questContent: "\uD798\uC774\uC57D\uD55C \uC601\uBD80\uC778 \uB300\uC2E0 \uD30C\uC774\uD504\uB97C
+    \uC62E\uACA8\uC8FC\uC790"
+  bringGameObj: {fileID: 1639391855390086, guid: 6f1d24a1ba5e2bc439741e9d57374425, type: 3}
+  start_InstantePos:
+  - {fileID: 1597526183084106672, guid: 1b75fbbe9f82a7e4e8b9e58c0827e9a4, type: 3}
+  dest_InstantePos:
+  - {fileID: 4651206294897137878, guid: ce9cda5aa2cff9042877e40eaef23546, type: 3}
+  endCount: 1

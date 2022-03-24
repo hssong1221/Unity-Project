@@ -15,7 +15,6 @@ namespace com.ThreeCS.McCree
         void Awake()
         {
             base.Awake();
-
             MineUI.Instance.rejectBtn.onClick.AddListener(Close_NPC_Chat);
         }
 
@@ -26,16 +25,19 @@ namespace com.ThreeCS.McCree
             {
                 if (other.tag == "NPC")
                 {
-                    MineUI.Instance.range_x = Random.Range(-150, 150);
-                    MineUI.Instance.range_y = Random.Range(-100, 100);
-                    MineUI.Instance.interactionRect.anchoredPosition = new Vector2(MineUI.Instance.range_x, MineUI.Instance.range_y);
-                    MineUI.Instance.interactionPanel.SetActive(true);
-                    MineUI.Instance.interactionText.text = "대화 하기";
-                    // F 상호작용 랜덤 위치
+                    if (!other.GetComponent<NPC>().isComplete)
+                    {
+                        MineUI.Instance.range_x = Random.Range(-150, 150);
+                        MineUI.Instance.range_y = Random.Range(-100, 100);
+                        MineUI.Instance.interactionRect.anchoredPosition = new Vector2(MineUI.Instance.range_x, MineUI.Instance.range_y);
+                        MineUI.Instance.interactionPanel.SetActive(true);
+                        MineUI.Instance.interactionText.text = "대화 하기";
+                        // F 상호작용 랜덤 위치
 
-                    coroutine = returnchatList(0, other);
-                    StartCoroutine(coroutine);
-                    // 트리거된 상태에서 F누르면 대화창 뜰수있도록 코루틴함수 실행
+                        coroutine = returnchatList(0, other);
+                        StartCoroutine(coroutine);
+                        // 트리거된 상태에서 F누르면 대화창 뜰수있도록 코루틴함수 실행
+                    }
                 }
 
                 else if (other.tag == "QuestItem") // 줍는 퀘스트
@@ -132,7 +134,7 @@ namespace com.ThreeCS.McCree
                                         Accept_NPC_Chat(npc);
                                     });
                             }
-                            else if (npc.questObj.qState == Quest_Obj.qType.Complete && !npc.isComplete)
+                            else if (npc.questObj.qState == Quest_Obj.qType.Complete)
                             {
                                 // 보상
                                 foreach (ItemList itemList in playerInfo.myItemList)
