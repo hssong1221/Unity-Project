@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace com.ThreeCS.McCree
 {
-    public class Quest_PickUp_Obj : Quest_Obj
+    public class Quest_PickUp_Obj : Quest_Interface_PT_Obj
     {
-
         public new Quest_PickUp quest
         {
             get { return (Quest_PickUp)_quest; }

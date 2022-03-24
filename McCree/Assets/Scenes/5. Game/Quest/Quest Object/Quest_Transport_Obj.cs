@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace com.ThreeCS.McCree
 {
-    public class Quest_Transport_Obj : Quest_Obj
+    public class Quest_Transport_Obj : Quest_Interface_PT_Obj
     {
         public new Quest_Transport quest
         {

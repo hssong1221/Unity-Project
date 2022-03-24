@@ -275,6 +275,36 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &3316253239650068193
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4608065460106329307}
+  m_Layer: 6
+  m_Name: ObjectPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4608065460106329307
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3316253239650068193}
+  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0.1, y: -0.4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6215404349552877085}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
 --- !u!1 &4289990550424813618
 GameObject:
   m_ObjectHideFlags: 0
@@ -2017,6 +2047,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6215404349552877157}
+  - {fileID: 4608065460106329307}
   m_Father: {fileID: 6215404349552877057}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2158,7 +2189,6 @@ GameObject:
   - component: {fileID: 6215404349552739522}
   - component: {fileID: 6215404349552739544}
   - component: {fileID: 6215404349552739549}
-  - component: {fileID: -2045193161198254624}
   - component: {fileID: 6215404349552739550}
   - component: {fileID: 6215404349552739551}
   - component: {fileID: 6215404349552739545}
@@ -2265,7 +2295,6 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 6215404349552739549}
-  - {fileID: -2045193161198254624}
   - {fileID: 6215404349552739550}
   sceneViewId: 0
   InstantiationId: 0
@@ -2286,39 +2315,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 0
---- !u!114 &-2045193161198254624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6215404349552837223}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PositionModel:
-    SynchronizeEnabled: 1
-    TeleportEnabled: 1
-    TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 3
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 1
-    ExtrapolateOption: 1
-    ExtrapolateSpeed: 1
-    ExtrapolateIncludingRoundTripTime: 1
-    ExtrapolateNumberOfStoredPositions: 1
-  m_RotationModel:
-    SynchronizeEnabled: 1
-    InterpolateOption: 1
-    InterpolateRotateTowardsSpeed: 180
-    InterpolateLerpSpeed: 5
-  m_ScaleModel:
-    SynchronizeEnabled: 0
-    InterpolateOption: 0
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 0
 --- !u!114 &6215404349552739550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2358,6 +2354,15 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: IsPicking
+  - Type: 9
+    SynchronizeType: 0
+    Name: Pick
+  - Type: 9
+    SynchronizeType: 0
+    Name: Lift
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsLifting
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -2382,7 +2387,7 @@ MonoBehaviour:
   abilityType: 0
   rotateSpeedMovement: 0.1
   rotateVelocity: 0
-  itemObject: {fileID: -6749596670451590621, guid: 448926c6f7dd8f346a849657dc0b4e97, type: 3}
+  _objectTransPos: {fileID: 4608065460106329307}
   maxAttackDistance: 5
   agent: {fileID: 0}
 --- !u!114 &6215404349552739545

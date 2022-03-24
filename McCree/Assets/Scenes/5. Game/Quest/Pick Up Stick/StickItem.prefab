@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4160467129137832}
   m_Layer: 7
   m_Name: StickItem
-  m_TagString: QuestItem
+  m_TagString: QItem_PickUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

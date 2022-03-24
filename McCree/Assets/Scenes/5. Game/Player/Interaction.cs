@@ -39,12 +39,12 @@ namespace com.ThreeCS.McCree
                         // 트리거된 상태에서 F누르면 대화창 뜰수있도록 코루틴함수 실행
                     }
                 }
-
-                else if (other.tag == "QuestItem") // 줍는 퀘스트
+                else if (other.gameObject.layer == LayerMask.NameToLayer("QuestItem"))
                 {
                     foreach (SubQuestList subQuestObj in playerInfo.myQuestList)
                     {
-                        Quest_PickUp_Obj pickQuest = (Quest_PickUp_Obj)subQuestObj.questObj;
+                        Quest_Interface_PT_Obj pickQuest = (Quest_Interface_PT_Obj) subQuestObj.questObj;
+                        // 줍거나 운반가능한 아이템일때 Quest_Interface_PT
 
                         // 내가 가지고있는 퀘스트 중 줍기퀘스트 아이템이있을때 
                         if (other.name == pickQuest.quest.bringGameObj.name)
@@ -76,7 +76,7 @@ namespace com.ThreeCS.McCree
                     MineUI.Instance.chatPanel.SetActive(false);
                     playerManager.isInteraction = false;
                 }
-                else if (other.tag == "QuestItem")
+                else if (other.gameObject.layer == LayerMask.NameToLayer("QuestItem"))
                 {
                     MineUI.Instance.interactionPanel.SetActive(false);
                 }
@@ -221,8 +221,7 @@ namespace com.ThreeCS.McCree
                 Debug.Log("화제의 코루틴");
                 if (Input.GetButtonDown("Interaction"))
                 {
-                    ui.progressText.text = "나무 치우는 중...";
-                    ui.PickInterAction(5, other.gameObject);
+                    ui.InterAction(5, other.gameObject);
                     MineUI.Instance.interactionPanel.SetActive(false);
                 }
 

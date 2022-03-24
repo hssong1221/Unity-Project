@@ -5,10 +5,8 @@ using UnityEngine;
 namespace com.ThreeCS.McCree
 {
     [CreateAssetMenu(fileName = "Quest_Transport", menuName = "Quests/Quest_Transport")]
-    public class Quest_Transport : Quest
+    public class Quest_Transport : Quest_Interface_PT
     {
-        public GameObject bringGameObj; // 스폰되는 아이템
-
         public List<Transform> start_InstantePos; // 시작 위치
         public List<Transform> dest_InstantePos; // 목적 위치
 

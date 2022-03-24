@@ -4877,7 +4877,7 @@ GameObject:
   - component: {fileID: 266009226}
   m_Layer: 0
   m_Name: GetCard (2)
-  m_TagString: CardsPos
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10790,7 +10790,7 @@ GameObject:
   - component: {fileID: 730401959}
   m_Layer: 0
   m_Name: GetCard
-  m_TagString: CardsPos
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22845,7 +22845,7 @@ GameObject:
   - component: {fileID: 1239367655}
   m_Layer: 0
   m_Name: GetCard (1)
-  m_TagString: CardsPos
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23692,7 +23692,7 @@ GameObject:
   - component: {fileID: 1325011227}
   m_Layer: 0
   m_Name: GetCard (3)
-  m_TagString: CardsPos
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

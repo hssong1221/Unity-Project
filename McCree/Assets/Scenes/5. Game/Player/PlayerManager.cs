@@ -39,11 +39,18 @@ namespace com.ThreeCS.McCree
         [Header("카메라 오프셋")]
         protected Vector3 offset;
 
-        [Header("아이템 Prefab")]
-        public Item itemObject;
+        [SerializeField]
+        protected Transform _objectTransPos;
+
+        public Transform objectTransPos
+        {
+            get { return _objectTransPos;  }
+        }
+
 
         protected bool isCharacterPlayer;
         public float maxAttackDistance;
+
         // 기본상태                                        offset Vector3(0.0f, 5.0f, -5.0f)
 
         // attackRange가 1일때는  maxAttackDistance  5     offset Vector3(0.0f, 7.0f, -7.0f)

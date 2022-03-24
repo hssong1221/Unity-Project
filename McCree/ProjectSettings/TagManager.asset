@@ -12,7 +12,8 @@ TagManager:
   - Portal
   - Content
   - NPC
-  - QuestItem
+  - QItem_PickUp
+  - QItem_TransPort
   layers:
   - Default
   - TransparentFX

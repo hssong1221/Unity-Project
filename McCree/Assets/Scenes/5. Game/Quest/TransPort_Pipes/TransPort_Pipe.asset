@@ -26,7 +26,7 @@ MonoBehaviour:
   questTitle: "\uD30C\uC774\uD504 \uC62E\uACA8\uC8FC\uAE30"
   questContent: "\uD798\uC774\uC57D\uD55C \uC601\uBD80\uC778 \uB300\uC2E0 \uD30C\uC774\uD504\uB97C
     \uC62E\uACA8\uC8FC\uC790"
-  bringGameObj: {fileID: 1639391855390086, guid: 6f1d24a1ba5e2bc439741e9d57374425, type: 3}
+  bringGameObj: {fileID: 3070756790439557440, guid: 88d492e670b82924fad6697109d7d5ef, type: 3}
   start_InstantePos:
   - {fileID: 1597526183084106672, guid: 1b75fbbe9f82a7e4e8b9e58c0827e9a4, type: 3}
   dest_InstantePos:
