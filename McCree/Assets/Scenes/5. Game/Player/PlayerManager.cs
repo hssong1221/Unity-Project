@@ -157,7 +157,7 @@ namespace com.ThreeCS.McCree
                     {
 
                         // 키네마틱 리지드 바디라서 픽스드 업데이트에 할 필요가 없음 
-                        Move();
+                        //Move();
 
                         if (Input.GetButtonDown("LockOn"))
                         {
@@ -206,29 +206,42 @@ namespace com.ThreeCS.McCree
 
         }
 
-        /*void FixedUpdate()
+        void FixedUpdate()
         {
-            //if (isDeath == true)
-            //    enabled = false;
-
             if (photonView.IsMine)
             {
-                Move();        // 이동
+                if (!isBanging && !isBangeding && !isInteraction) // 아무코토 못함
+                {
 
-                //물리적 가속도를 0으로 만들면 충돌했을때에 떨림이나
-                //오브젝트가 밀리는 현상이 발생하지 않게된다고함
-                //rb.velocity = Vector3.zero;
-                //rb.angularVelocity = Vector3.zero;
+                    // 키네마틱 리지드 바디라서 픽스드 업데이트에 할 필요가 없음 
+                    Move();
+                }
             }
+        }
 
-        }*/
+                /*void FixedUpdate()
+                {
+                    //if (isDeath == true)
+                    //    enabled = false;
 
-        #endregion
+                    if (photonView.IsMine)
+                    {
+                        Move();        // 이동
+
+                        //물리적 가속도를 0으로 만들면 충돌했을때에 떨림이나
+                        //오브젝트가 밀리는 현상이 발생하지 않게된다고함
+                        //rb.velocity = Vector3.zero;
+                        //rb.angularVelocity = Vector3.zero;
+                    }
+
+                }*/
+
+                #endregion
 
 
-        #region private Methods
+                #region private Methods
 
-        // 뱅 준비 (공격 사거리 표시)
+                // 뱅 준비 (공격 사거리 표시)
         void AttackRange()
         {
             if (!isAiming)
