@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6559106700118211130}
   - component: {fileID: 342263121116531153}
   - component: {fileID: 3715993003985175830}
+  - component: {fileID: -6498456960084704517}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -183,3 +184,16 @@ MonoBehaviour:
   audioMixer: {fileID: 0}
   soundObject: {fileID: 0}
   saveButton: {fileID: 0}
+--- !u!114 &-6498456960084704517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6559106700118211124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40763af7c6b47d440b5ae0f6937917df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 6215404349552837223, guid: db43c7ab86ae6804bbf84a4e146e3bd7, type: 3}

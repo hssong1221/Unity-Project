@@ -40,7 +40,6 @@ namespace com.ThreeCS.McCree
         [SerializeField]
         protected Button exitBtn;  // 나가기 버튼
 
-        private PunChat punChat;
         
         #endregion
 
@@ -60,8 +59,6 @@ namespace com.ThreeCS.McCree
 
         private void Start()
         {
-            punChat = GameObject.Find("LoadingUI").GetComponent<PunChat>();
-
             GetCurrentRoomName();      // 현재 방에 이름 가져오기
             GetCurrentRoomPlayers();   // 현재 방에있는 플레이어들
             GetCurrentPlayersCount();  // 현재 방에있는 플레이어 수
@@ -118,7 +115,7 @@ namespace com.ThreeCS.McCree
                 PhotonNetwork.CurrentRoom.IsVisible = false;
 
                 GameLoading(); // 자기화면 로딩
-                punChat.Function_Loading_GameScene(); // PunChat에서 남의화면 로딩하라고 일러줌
+                PunChat.Instance.Function_Loading_GameScene(); // PunChat에서 남의화면 로딩하라고 일러줌
 
                 PhotonNetwork.IsMessageQueueRunning = false;
                 PhotonNetwork.LoadLevel("Game");

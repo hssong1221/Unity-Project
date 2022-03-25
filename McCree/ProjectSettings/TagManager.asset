@@ -12,7 +12,9 @@ TagManager:
   - Portal
   - Content
   - NPC
-  - QuestItem
+  - QItem_PickUp
+  - QItem_TransPort
+  - Bullet_Pos
   layers:
   - Default
   - TransparentFX

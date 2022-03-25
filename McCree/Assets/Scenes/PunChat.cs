@@ -118,7 +118,6 @@ namespace com.ThreeCS.McCree
 
         // ------------------------------------------------------------------------------
 
-
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             currentScene = scene;

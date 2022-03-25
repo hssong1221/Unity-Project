@@ -22,7 +22,48 @@ namespace com.ThreeCS.McCree
         public List<SubQuestList> myQuestList;
 
 
-        public Transform content;
+        protected Transform content;
+
+
+
+        public Transform pistolPos;
+        //public Transform shotgunPos;
+        public Transform riflePos;
+
+        [SerializeField]
+        protected Weapon_Obj _equipedWeapon;
+        public Weapon_Obj equipedWeapon
+        { 
+            get { return _equipedWeapon; }
+            set
+            {
+
+                _equipedWeapon = value;
+
+                if(_equipedWeapon.wepaon.kind == Weapon.iType.Pistol)
+                {
+                    animator.SetTrigger("Pistol");
+
+                    _equipedWeapon.gameObject.transform.SetParent(pistolPos);
+                    _equipedWeapon.transform.localPosition = new Vector3(0f, 0f, 0f);
+                    _equipedWeapon.transform.localRotation = Quaternion.identity;
+
+                    riflePos.gameObject.SetActive(false);
+                    pistolPos.gameObject.SetActive(true);
+                }
+                else if (_equipedWeapon.wepaon.kind == Weapon.iType.Rifle)
+                {
+                    animator.SetTrigger("Rifle");
+
+                    _equipedWeapon.gameObject.transform.SetParent(riflePos);
+                    _equipedWeapon.transform.localPosition = new Vector3(0f, 0f, 0f);
+                    _equipedWeapon.transform.localRotation = Quaternion.identity;
+
+                    pistolPos.gameObject.SetActive(false);
+                    riflePos.gameObject.SetActive(true);
+                }
+            }
+        }
 
         public bool isDeath;
 

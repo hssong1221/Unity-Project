@@ -63,14 +63,7 @@ namespace com.ThreeCS.McCree
             itemOffset = new Vector3(0.5f, 1.0f, 0f);
             progressOffset = new Vector3(0, 2.5f, 0f);
 
-            if (photonView.IsMine)
-            {
-                nickName.text = PhotonNetwork.LocalPlayer.NickName;
-            }
-            else
-            {
-                nickName.text = GetComponent<PhotonView>().Owner.NickName;
-            }
+            
         }
 
 
@@ -92,7 +85,14 @@ namespace com.ThreeCS.McCree
             progressBar.enabled = false;
             progressPercent.enabled = false;
 
-
+            if (photonView.IsMine)
+            {
+                nickName.text = PhotonNetwork.LocalPlayer.NickName;
+            }
+            else
+            {
+                nickName.text = GetComponent<PhotonView>().Owner.NickName;
+            }
 
         }
 
@@ -120,10 +120,22 @@ namespace com.ThreeCS.McCree
         }
 
 
-        public void PickInterAction(float time, GameObject interactObj)
+        public void InterAction(float time, GameObject interactObj)
         {
             if (!playerManager.isPicking) // 이미 줍고있을때 또 누르면 코루틴이 겹쳐서 빨라짐
             {                             // 또 줍는걸 방지
+                if (interactObj.tag == "QItem_PickUp")
+                {
+                    progressText.text = interactObj.name+" 치우는 중...";
+                    animator.SetTrigger("Pick");
+                }
+
+                else if (interactObj.tag == "QItem_TransPort")
+                {
+                    progressText.text = interactObj.name + " 들어 올리는 중...";
+                    animator.SetTrigger("Lift");
+                }
+                
                 animator.SetBool("IsPicking", true);
                 playerManager.isPicking = true;
                 LoadingProgreeCircle(time, interactObj);
@@ -152,27 +164,49 @@ namespace com.ThreeCS.McCree
 
                 if (progressBar.fillAmount > 0.99)
                 {
-
                     foreach (SubQuestList subQuestObj in playerInfo.myQuestList)
                     {
-                        Quest_PickUp_Obj pickQuest = (Quest_PickUp_Obj)subQuestObj.questObj;
+                        Quest_Interface_PT_Obj ptQuest = (Quest_Interface_PT_Obj)subQuestObj.questObj;
 
-                        if (interactObj.name == pickQuest.quest.bringGameObj.name)
+                        if (interactObj.name == ptQuest.quest.bringGameObj.name)
                         {
-                            pickQuest.count++; // 퀘스트 아이템 개수 증가
-                            MineUI.Instance.interactionPanel.SetActive(false);
+                            if (interactObj.tag == "QItem_PickUp")
+                            {
+                                Quest_PickUp_Obj pickQuest = (Quest_PickUp_Obj)ptQuest;
 
-                            // 증가한 아이템 개수로 텍스트 바꿔줌
-                            subQuestObj.questTitle.text = pickQuest.questTitle_progress;
+                                pickQuest.count++; // 퀘스트 아이템 개수 증가
+                                MineUI.Instance.interactionPanel.SetActive(false);
 
-                            Debug.Log("성공!");
+                                // 증가한 아이템 개수로 텍스트 바꿔줌
+                                subQuestObj.questTitle.text = pickQuest.questTitle_progress;
+
+                                Debug.Log("줍기 성공!");
+                                Destroy(interactObj); // 애니메이션 끝나면 오브젝트 파괴
+                            }
+                            else if (interactObj.tag == "QItem_TransPort")
+                            {
+                                Quest_Transport_Obj pickQuest = (Quest_Transport_Obj)ptQuest;
+
+                                Debug.Log(interactObj.name);
+                                interactObj.transform.SetParent(playerManager.objectTransPos);
+                                interactObj.GetComponent<ParticleSystem>().Stop();
+                                interactObj.GetComponent<ParticleSystem>().Clear();
+                                // position 오브젝트의 위치를 항상 월드의 원점을 기준으로 월드 공간상에 선언한다.
+                                // localPosition 부모의 위치 기준으로 설정한다
+                                interactObj.transform.localPosition = new Vector3(0f, 0f, 0f);
+                                interactObj.transform.localRotation = Quaternion.identity;
+                                interactObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+
+                                Debug.Log("들어올리기 성공!");
+                                animator.SetBool("IsLifting", true);
+                            }
                             break;
                         }
                     }
                     Off_ProgressUI();
                     //interactObj.SetActive(false);
 
-                    Destroy(interactObj); // 애니메이션 끝나면 오브젝트 파괴
+                    
                 }
                 yield return null;
             }

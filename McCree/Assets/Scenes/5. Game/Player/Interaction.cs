@@ -15,34 +15,40 @@ namespace com.ThreeCS.McCree
         void Awake()
         {
             base.Awake();
-
             MineUI.Instance.rejectBtn.onClick.AddListener(Close_NPC_Chat);
         }
 
 
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log(photonView.IsMine);
+
             if (photonView.IsMine)
             {
                 if (other.tag == "NPC")
                 {
-                    MineUI.Instance.range_x = Random.Range(-150, 150);
-                    MineUI.Instance.range_y = Random.Range(-100, 100);
-                    MineUI.Instance.interactionRect.anchoredPosition = new Vector2(MineUI.Instance.range_x, MineUI.Instance.range_y);
-                    MineUI.Instance.interactionPanel.SetActive(true);
-                    MineUI.Instance.interactionText.text = "대화 하기";
-                    // F 상호작용 랜덤 위치
+                    if (!other.GetComponent<NPC>().isComplete)
+                    {
+                        MineUI.Instance.range_x = Random.Range(-150, 150);
+                        MineUI.Instance.range_y = Random.Range(-100, 100);
+                        MineUI.Instance.interactionRect.anchoredPosition = new Vector2(MineUI.Instance.range_x, MineUI.Instance.range_y);
+                        MineUI.Instance.interactionPanel.SetActive(true);
+                        MineUI.Instance.interactionText.text = "대화 하기";
+                        // F 상호작용 랜덤 위치
 
-                    coroutine = returnchatList(0, other);
-                    StartCoroutine(coroutine);
-                    // 트리거된 상태에서 F누르면 대화창 뜰수있도록 코루틴함수 실행
+                        coroutine = returnchatList(0, other);
+                        StartCoroutine(coroutine);
+                        // 트리거된 상태에서 F누르면 대화창 뜰수있도록 코루틴함수 실행
+                    }
                 }
-
-                else if (other.tag == "QuestItem") // 줍는 퀘스트
+                else if (other.gameObject.layer == LayerMask.NameToLayer("QuestItem"))
                 {
+                    Debug.Log(photonView.IsMine);
+
                     foreach (SubQuestList subQuestObj in playerInfo.myQuestList)
                     {
-                        Quest_PickUp_Obj pickQuest = (Quest_PickUp_Obj)subQuestObj.questObj;
+                        Quest_Interface_PT_Obj pickQuest = (Quest_Interface_PT_Obj) subQuestObj.questObj;
+                        // 줍거나 운반가능한 아이템일때 Quest_Interface_PT
 
                         // 내가 가지고있는 퀘스트 중 줍기퀘스트 아이템이있을때 
                         if (other.name == pickQuest.quest.bringGameObj.name)
@@ -66,6 +72,7 @@ namespace com.ThreeCS.McCree
 
         private void OnTriggerExit(Collider other)
         {
+
             if (photonView.IsMine)
             {
                 if (other.tag == "NPC")
@@ -74,7 +81,7 @@ namespace com.ThreeCS.McCree
                     MineUI.Instance.chatPanel.SetActive(false);
                     playerManager.isInteraction = false;
                 }
-                else if (other.tag == "QuestItem")
+                else if (other.gameObject.layer == LayerMask.NameToLayer("QuestItem"))
                 {
                     MineUI.Instance.interactionPanel.SetActive(false);
                 }
@@ -132,7 +139,7 @@ namespace com.ThreeCS.McCree
                                         Accept_NPC_Chat(npc);
                                     });
                             }
-                            else if (npc.questObj.qState == Quest_Obj.qType.Complete && !npc.isComplete)
+                            else if (npc.questObj.qState == Quest_Obj.qType.Complete)
                             {
                                 // 보상
                                 foreach (ItemList itemList in playerInfo.myItemList)
@@ -219,8 +226,7 @@ namespace com.ThreeCS.McCree
                 Debug.Log("화제의 코루틴");
                 if (Input.GetButtonDown("Interaction"))
                 {
-                    ui.progressText.text = "나무 치우는 중...";
-                    ui.PickInterAction(5, other.gameObject);
+                    ui.InterAction(5, other.gameObject);
                     MineUI.Instance.interactionPanel.SetActive(false);
                 }
 

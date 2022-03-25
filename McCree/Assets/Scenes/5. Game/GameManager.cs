@@ -34,10 +34,6 @@ namespace com.ThreeCS.McCree
         // 플레이어 리스트
         public GameObject[] playerList;
 
-        // 플레이어 프리팹
-        [SerializeField]
-        private GameObject playerPrefab;
-
         // 자기 자신(자기 포톤 뷰) 찾아서 Player관련 저장
         private PhotonView photonView;
         private PlayerManager playerManager;
@@ -210,19 +206,11 @@ namespace com.ThreeCS.McCree
         {
             PhotonNetwork.IsMessageQueueRunning = true;
 
-            if (playerPrefab == null)
+            if (PlayerManager.LocalPlayerInstance == null)
             {
-                Debug.Log("플레이어 프리팹이 생성되지 못했습니다. 게임매니저에서 확인하세요.");
-                return;
-            }
-            else
-            {
-                if (PlayerManager.LocalPlayerInstance == null)
-                {
-                    StartCoroutine(InstantiateResource()); 
+                StartCoroutine(InstantiateResource()); 
 
-                    cameraWork = GetComponent<CameraWork>(); // 본인 카메라 가져오기
-                }
+                cameraWork = GetComponent<CameraWork>(); // 본인 카메라 가져오기
             }
             StartCoroutine(WaitAllPlayers()); // 다른 플레이어 기다리기
 
@@ -273,13 +261,7 @@ namespace com.ThreeCS.McCree
 
         IEnumerator SpawnPlayer()
         {
-            Debug.Log("로컬플레이어를 생성합니다.");
-
-            float ran1 = UnityEngine.Random.Range(-2, 2);
-            float ran2 = UnityEngine.Random.Range(-2, 2);
-            // 로컬 플레이어를 스폰합니다. 동기화도 됨
-            PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(ran1, 2f, ran2), Quaternion.identity, 0);
-
+            RaiseEventManager.Instance.Spwan_Player();
             yield return new WaitForEndOfFrame();
         }
 

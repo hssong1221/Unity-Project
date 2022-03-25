@@ -13,9 +13,6 @@ namespace com.ThreeCS.McCree
         public string weaponExplain;
         [Header("무기 사정 거리")]
         public int Range; 
-        [Header("무기 프리팹")]
-        public GameObject obj;
-
 
         public enum iType
         {
@@ -23,6 +20,8 @@ namespace com.ThreeCS.McCree
             Rifle,
             ShotGun
         }
+
+        public iType kind;
     }
 
 
