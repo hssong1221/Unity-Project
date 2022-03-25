@@ -405,6 +405,66 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &4708818393592766927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7578049222411756460}
+  m_Layer: 6
+  m_Name: Rifle_Weapon_Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7578049222411756460
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4708818393592766927}
+  m_LocalRotation: {x: -0.29413462, y: 0.19828892, z: 0.932876, w: 0.062520236}
+  m_LocalPosition: {x: 0.08, y: -0.2, z: -0.28}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6215404349552877177}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: -24, y: -35, z: 180}
+--- !u!1 &4958238468905950225
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7054863257368476639}
+  m_Layer: 6
+  m_Name: Pistol_Weapon_Pos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7054863257368476639
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4958238468905950225}
+  m_LocalRotation: {x: 0.56098557, y: -0.43045935, z: -0.43045935, w: 0.56098557}
+  m_LocalPosition: {x: -0.1, y: -0.02, z: 0.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6215404349552877177}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 15, y: -90, z: -90}
 --- !u!1 &5131796954848677307
 GameObject:
   m_ObjectHideFlags: 0
@@ -1491,6 +1551,8 @@ Transform:
   - {fileID: 6215404349552877129}
   - {fileID: 6215404349552877153}
   - {fileID: 6215404349552877071}
+  - {fileID: 7054863257368476639}
+  - {fileID: 7578049222411756460}
   m_Father: {fileID: 6215404349552877121}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2363,6 +2425,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: IsLifting
+  - Type: 9
+    SynchronizeType: 0
+    Name: Banged
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -2382,6 +2447,7 @@ MonoBehaviour:
   isBanging: 0
   isDeath: 0
   isPicking: 0
+  isBangeding: 0
   isInteraction: 0
   playerType: 0
   abilityType: 0
@@ -2487,7 +2553,9 @@ MonoBehaviour:
   damage: 1
   myItemList: []
   myQuestList: []
-  content: {fileID: 0}
+  pistolPos: {fileID: 7054863257368476639}
+  riflePos: {fileID: 7578049222411756460}
+  _equipedWeapon: {fileID: 0}
   isDeath: 0
 --- !u!114 &1161130445872975911
 MonoBehaviour:

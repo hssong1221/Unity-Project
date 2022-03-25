@@ -19,12 +19,12 @@ namespace com.ThreeCS.McCree
 
 
         [SerializeField]
-        private GameObject playerList; // 플레이어 리스트
-        Queue<GameObject> playerListQueue = new Queue<GameObject>();
+        private GameObject bulletObject; // 플레이어 리스트
+        Queue<GameObject> bulletListQueue = new Queue<GameObject>();
 
-        [SerializeField]
-        private GameObject roomList; // 플레이어 리스트
-        Queue<GameObject> roomListQueue = new Queue<GameObject>();
+        //[SerializeField]
+        //private GameObject roomList; // 플레이어 리스트
+        //Queue<GameObject> roomListQueue = new Queue<GameObject>();
 
         private void Awake()
         {
@@ -34,18 +34,18 @@ namespace com.ThreeCS.McCree
 
         private void Initialize()
         {
-            for (int i = 0; i < 7; i++) // 플레이어 리스트 7
+            for (int i = 0; i < 10; i++) // 총알개수 10
             {
-                playerListQueue.Enqueue(CreateNewObject(1));
+                bulletListQueue.Enqueue(CreateNewObject(1));
             }
         }
 
         private GameObject CreateNewObject(int num)
         {
             if (num == 1)
-                poolingObject = playerList;
-            if (num == 2)
-                poolingObject = roomList;
+                poolingObject = bulletObject;
+            //if (num == 2)
+            //    poolingObject = roomList;
 
             GameObject newObj = Instantiate(poolingObject);
             newObj.SetActive(false);
@@ -56,9 +56,9 @@ namespace com.ThreeCS.McCree
         public GameObject GetObject(int num)
         {
             if (num == 1)
-                poolingObjectQueue = playerListQueue; // 아마 얕은복사될듯 (주소만)
-            else if (num == 2)
-                poolingObjectQueue = roomListQueue;
+                poolingObjectQueue = bulletListQueue; // 아마 얕은복사될듯 (주소만)
+            //else if (num == 2)
+            //    poolingObjectQueue = roomListQueue;
 
 
             if (Instance.poolingObjectQueue.Count > 0)
@@ -83,9 +83,9 @@ namespace com.ThreeCS.McCree
         public void ReturnObject(GameObject obj, int num)
         {
             if (num == 1)
-                poolingObjectQueue = playerListQueue;
-            else if (num == 2)
-                poolingObjectQueue = roomListQueue;
+                poolingObjectQueue = bulletListQueue;
+            //else if (num == 2)
+            //    poolingObjectQueue = roomListQueue;
 
 
             obj.SetActive(false);

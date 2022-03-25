@@ -13,6 +13,7 @@ namespace com.ThreeCS.McCree
         protected GameObject character; // Character객체 (상속가능) 
         //protected Transform rootPos;
         protected Animator animator;
+        protected Rigidbody rb;
 
         protected Controller controller;
         protected PlayerManager playerManager;
@@ -37,6 +38,7 @@ namespace com.ThreeCS.McCree
             ui = GetComponent<UI>();
 
             animator = GetComponent<Animator>();
+            rb = GetComponent<Rigidbody>();
         }
 
         private void Start()
@@ -44,9 +46,15 @@ namespace com.ThreeCS.McCree
             playerManager.isBanging = false;
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+                animator.SetTrigger("Banged");
+        }
 
 
-        #region 애니메이션 제어 
+
+        #region 뱅 쏠때 (Shooting Gun)
         protected void Bang_Speech_Bubble_Anim_Start()
         {
             playerManager.isBanging = true;
@@ -61,6 +69,20 @@ namespace com.ThreeCS.McCree
         {
             playerManager.isBanging = false;
         }
+
+        #endregion
+
+        #region 뱅 맞을때 (Flying Death, Stand Up)
+        protected void IsAttacked_True()
+        {
+            playerManager.isBangeding = true;
+        }
+
+        protected void IsAttacked_False()
+        {
+            playerManager.isBangeding = false;
+        }
+
         #endregion
     }
 

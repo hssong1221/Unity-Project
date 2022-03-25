@@ -21,6 +21,8 @@ namespace com.ThreeCS.McCree
 
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log(photonView.IsMine);
+
             if (photonView.IsMine)
             {
                 if (other.tag == "NPC")
@@ -41,6 +43,8 @@ namespace com.ThreeCS.McCree
                 }
                 else if (other.gameObject.layer == LayerMask.NameToLayer("QuestItem"))
                 {
+                    Debug.Log(photonView.IsMine);
+
                     foreach (SubQuestList subQuestObj in playerInfo.myQuestList)
                     {
                         Quest_Interface_PT_Obj pickQuest = (Quest_Interface_PT_Obj) subQuestObj.questObj;
@@ -68,6 +72,7 @@ namespace com.ThreeCS.McCree
 
         private void OnTriggerExit(Collider other)
         {
+
             if (photonView.IsMine)
             {
                 if (other.tag == "NPC")

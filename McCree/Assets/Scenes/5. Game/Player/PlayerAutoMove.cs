@@ -45,6 +45,11 @@ namespace com.ThreeCS.McCree
 
                     if (playerInfo.myItemList[0].itemCount > 0) // 뱅 있으면
                     {
+
+                        //GameObject bullet = ObjectPool.Instance.GetObject(1);
+                        //bullet.transform.position = 
+
+
                         // 적 한테 데미지
                         targetedEnemy.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All);
                         targetedEnemy = null;
@@ -53,6 +58,7 @@ namespace com.ThreeCS.McCree
 
                         // Bang 말풍선 띄우기 애니메이션 실행
                         animator.SetTrigger("Bang");  // => Bang_Speech_Bubble_Anim();
+
                     }
                     else
                     {
@@ -62,31 +68,7 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        [PunRPC]
-        void Damaged()
-        {
 
-            playerInfo.hp -= playerInfo.damage;
-
-
-            Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
-            tempImg.sprite = ui.emptyBullet;
-
-            if(photonView.IsMine)
-            {
-                Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
-                tempImg2.sprite = MineUI.Instance.emptyHealth;
-            }
-
-
-
-            //if (this.hpUI.hp == 0)
-            //{
-            //    playerManager.isDeath = true;
-            //    animator.SetBool("isDeath", playerManager.isDeath);
-            //}
-
-        }
 
         [PunRPC]
         void TurnOnBangBubble()

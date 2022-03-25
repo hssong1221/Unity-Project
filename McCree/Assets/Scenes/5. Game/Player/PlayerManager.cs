@@ -21,9 +21,10 @@ namespace com.ThreeCS.McCree
         public bool isBanging;
         public bool isDeath;
         public bool isPicking;
+        public bool isBangeding;
+        public bool isInteraction;
 
         private bool isInventoryOpen;
-        public bool isInteraction;
 
         // 플레이어 정보 타입
         [Header("플레이어 정보")]
@@ -152,7 +153,7 @@ namespace com.ThreeCS.McCree
             //{                                 // 대화창 활성화하면 캐릭터 제자리 걸음함 
                 if (photonView.IsMine)
                 {
-                    if (!isBanging && !isInteraction) // 아무코토 못함
+                    if (!isBanging && !isBangeding && !isInteraction) // 아무코토 못함
                     {
 
                         // 키네마틱 리지드 바디라서 픽스드 업데이트에 할 필요가 없음 
@@ -182,9 +183,15 @@ namespace com.ThreeCS.McCree
                         if (Input.GetKeyDown("4"))
                             animator.SetTrigger("Base");
                         if (Input.GetKeyDown("5"))
-                            animator.SetTrigger("Pistol");
+                        {
+                            GameObject testPistol = Instantiate(Resources.Load("TestGun/Colt Navy Revolver")) as GameObject;
+                            playerInfo.equipedWeapon = testPistol.GetComponent<Weapon_Obj>();
+                        }
                         if (Input.GetKeyDown("6"))
-                            animator.SetTrigger("Rifle");
+                        {
+                            GameObject testPistol = Instantiate(Resources.Load("TestGun/SM_Wep_Rifle")) as GameObject;
+                            playerInfo.equipedWeapon = testPistol.GetComponent<Weapon_Obj>();
+                        }
 
 
                         ui.indicatorRangeCircle.rectTransform.localScale = new Vector3(ui.attackRange, ui.attackRange, 0);
@@ -509,6 +516,27 @@ namespace com.ThreeCS.McCree
         void TurnOffItemText()
         {
             ui.itemNotice.enabled = false;
+        }
+
+
+        [PunRPC]
+        void Damaged()
+        {
+            animator.SetTrigger("Banged");
+
+            rb.AddForce(new Vector3(10.0f, 10.0f, 10.0f), ForceMode.Impulse);
+
+            playerInfo.hp -= playerInfo.damage;
+
+            Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
+            tempImg.sprite = ui.emptyBullet;
+
+            if (photonView.IsMine)
+            {
+                Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
+                tempImg2.sprite = MineUI.Instance.emptyHealth;
+
+            }
         }
 
 
