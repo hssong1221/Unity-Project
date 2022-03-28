@@ -42,12 +42,12 @@ namespace com.ThreeCS.McCree
                     playerManager.agent.SetDestination(transform.position); // 쏠때 제자리
                     transform.LookAt(targetedEnemy.transform); // 쏠때 적 바라보기
 
-
                     if (playerInfo.myItemList[0].itemCount > 0) // 뱅 있으면
                     {
 
                         //GameObject bullet = ObjectPool.Instance.GetObject(1);
                         //bullet.transform.position = 
+
 
 
                         // 적 한테 데미지
@@ -56,7 +56,7 @@ namespace com.ThreeCS.McCree
 
                         playerInfo.myItemList[0].itemCount -= 1;
 
-                        // Bang 말풍선 띄우기 애니메이션 실행
+                        // Bang 애니메이션 실행
                         animator.SetTrigger("Bang");  // => Bang_Speech_Bubble_Anim();
 
                     }

@@ -17,7 +17,29 @@ namespace com.ThreeCS.McCree
         // 화면 상에 보이는 로컬 플레이어
         public static GameObject LocalPlayerInstance;
 
-        public bool isAiming;
+        private bool _isAiming;
+        public bool isAiming
+        { 
+            get { return _isAiming; }
+            set
+            {
+                _isAiming = value;
+
+                if (_isAiming == true)
+                {
+                    animator.SetBool("IsAiming", isAiming);
+                    moveSpeed = 2.5f;
+                    ui.indicatorRangeCircle.enabled = true;
+                }
+                else
+                {
+                    animator.SetBool("IsAiming", isAiming);
+                    moveSpeed = 5.0f;
+                    ui.indicatorRangeCircle.enabled = false;
+                }
+            }
+        }
+
         public bool isBanging;
         public bool isDeath;
         public bool isPicking;
@@ -73,8 +95,13 @@ namespace com.ThreeCS.McCree
         // 에이전트는 내비메시를 이용하여 게임 월드에 대해 추론하고
         // 서로 또는 기타 움직이는 장애물을 피할 방법을 이해하고 있습니다
         // 대충 길찾기 Ai
-        [HideInInspector]
-        public NavMeshAgent agent;
+        private NavMeshAgent _agent;
+
+        public NavMeshAgent agent
+        {
+            get { return _agent; }
+        }
+
         // float  agent.speed 최대 이동 속도
         // float  agent.angularSpeed 최대 회전 속도
         // int    agent.acceleration 최대 가속
@@ -85,15 +112,13 @@ namespace com.ThreeCS.McCree
         // 캐릭터 키보드 움직임 구현
         float h;
         float v;
-        Vector3 Old_Position;
-        Vector3 Cur_Position;
 
         Vector3 moveVec;
         Vector3 moveDir;
         Vector3 lookForward;
         Vector3 lookRight;
 
-
+        float moveSpeed = 5f; // 캐릭터 이동 속도
 
         #endregion
 
@@ -102,7 +127,7 @@ namespace com.ThreeCS.McCree
         void Awake()
         {
             base.Awake();
-            agent = gameObject.GetComponent<NavMeshAgent>();
+            _agent = gameObject.GetComponent<NavMeshAgent>();
 
             MineUI.Instance.inventoryBtn.onClick.AddListener(Inventory); // 아이템 이미지
             MineUI.Instance.mainQuestBtn.onClick.AddListener(Inventory); // 메인 목표 
@@ -156,8 +181,8 @@ namespace com.ThreeCS.McCree
                     if (!isBanging && !isBangeding && !isInteraction) // 아무코토 못함
                     {
 
-                        // 키네마틱 리지드 바디라서 픽스드 업데이트에 할 필요가 없음 
                         //Move();
+
 
                         if (Input.GetButtonDown("LockOn"))
                         {
@@ -206,74 +231,74 @@ namespace com.ThreeCS.McCree
 
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             if (photonView.IsMine)
             {
                 if (!isBanging && !isBangeding && !isInteraction) // 아무코토 못함
                 {
+                    if (isPicking == true && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
+                    {   // 상호작용중에 움직이면 
+                        ui.CanCel_Animation();
+                    }
 
-                    // 키네마틱 리지드 바디라서 픽스드 업데이트에 할 필요가 없음 
-                    Move();
+                    h = Input.GetAxis("Horizontal");
+                    v = Input.GetAxis("Vertical");
+
+                    moveVec = new Vector3(h, 0, v);
+
+                    lookForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
+                    lookRight = new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z).normalized;
+
+                    moveDir = lookForward * moveVec.z + lookRight * moveVec.x;
+
+                    // 부드러운 회전을 위한 보간
+                    //currentDirection = Vector3.Slerp(currentDirection, direction, Time.deltaTime * moveSpeed);
+
+                    if (moveDir.magnitude >= 0.01)
+                    {
+                        agent.SetDestination(transform.position);
+                        playerAutoMove.targetedEnemy = null;
+
+                        transform.rotation = Quaternion.LookRotation(moveDir);
+                        // Rigidbody의 MovePosition 메소드로 캐릭터 이동
+                        // transfrom.position을 사용해도 되지만 얇은 벽등을 통과할 문제등이 생길 수 있다.
+                        // 객체의 충돌을 유지하면서 이동하기 위해 MovePosition을 사용 했다.
+                        rb.MovePosition(rb.position + moveDir * Time.deltaTime * moveSpeed);
+
+                        animator.SetFloat("Speed", moveDir.magnitude);
+                    }
                 }
             }
         }
-
-                /*void FixedUpdate()
-                {
-                    //if (isDeath == true)
-                    //    enabled = false;
-
-                    if (photonView.IsMine)
-                    {
-                        Move();        // 이동
-
-                        //물리적 가속도를 0으로 만들면 충돌했을때에 떨림이나
-                        //오브젝트가 밀리는 현상이 발생하지 않게된다고함
-                        //rb.velocity = Vector3.zero;
-                        //rb.angularVelocity = Vector3.zero;
-                    }
-
-                }*/
-
-                #endregion
+        #endregion
 
 
-                #region private Methods
+        #region private Methods
 
-                // 뱅 준비 (공격 사거리 표시)
+        // 뱅 준비 (공격 사거리 표시)
         void AttackRange()
         {
             if (!isAiming)
             {
                 if (ui.attackRange == 1)
                 {
-                    offset = new Vector3(0.0f, 7.0f, -7.0f);
                     maxAttackDistance = 5;
                 }
                 else if (ui.attackRange == 2)
                 {
-                    offset = new Vector3(0.0f, 14.0f, -14.0f);
                     maxAttackDistance = 10;
                 }
                 else if (ui.attackRange == 3)
                 {
-                    offset = new Vector3(0.0f, 21.0f, -21.0f);
                     maxAttackDistance = 15;
                 }
 
                 isAiming = true;
-                animator.SetBool("IsAiming", isAiming);
-                agent.speed = 2.5f;
-                ui.indicatorRangeCircle.enabled = true;
             }
             else
             {
                 isAiming = false;
-                animator.SetBool("IsAiming", isAiming);
-                agent.speed = 5.0f;
-                offset = new Vector3(0.0f, 5.0f, -5.0f);
-                ui.indicatorRangeCircle.enabled = false;
             }
         }
 
@@ -315,35 +340,40 @@ namespace com.ThreeCS.McCree
             // 키보드로 움직임 임시 구현
 
 
-            if (isPicking == true && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
-            {   // 상호작용중에 움직이면 
-                ui.CanCel_Animation();
-            }
+            //if (isPicking == true && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
+            //{   // 상호작용중에 움직이면 
+            //    ui.CanCel_Animation();
+            //}
 
-            h = Input.GetAxis("Horizontal");
-            v = Input.GetAxis("Vertical");
+            //h = Input.GetAxis("Horizontal");
+            //v = Input.GetAxis("Vertical");
 
-            moveVec = new Vector3(h, 0, v);
 
-            Old_Position = transform.position;
+            //moveVec = new Vector3(h, 0, v);
 
-            lookForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
-            lookRight = new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z).normalized;
+            //Old_Position = transform.position;
 
-            moveDir = lookForward * moveVec.z + lookRight * moveVec.x;
+            //lookForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
+            //lookRight = new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z).normalized;
 
-            // 회전 다시 돌아오는것을 막기위해
-            if (!(h == 0 && v == 0))
-            {
-                transform.forward = moveDir;
-                agent.SetDestination(transform.position);
-                playerAutoMove.targetedEnemy = null;
-            }
+            //moveDir = lookForward * moveVec.z + lookRight * moveVec.x;
 
-            transform.position += 5f * Time.deltaTime * moveDir;
+            //// 회전 다시 돌아오는것을 막기위해
+            //if (!(h == 0 && v == 0))
+            //{
+            //    transform.forward = moveDir;
+            //    agent.SetDestination(transform.position);
+            //    playerAutoMove.targetedEnemy = null;
+            //}
 
-            Cur_Position = transform.position;
-            animator.SetFloat("Speed", Vector3.Distance(Old_Position, Cur_Position) * 100f);
+            //transform.position += 5f * Time.deltaTime * moveDir;
+
+            //Cur_Position = transform.position;
+            //animator.SetFloat("Speed", Vector3.Distance(Old_Position, Cur_Position) * 100f);
+
+
+
+            //----------------------------------------------------------
 
             /*if (Input.GetButton("Move"))
             {
@@ -537,7 +567,7 @@ namespace com.ThreeCS.McCree
         {
             animator.SetTrigger("Banged");
 
-            rb.AddForce(new Vector3(10.0f, 10.0f, 10.0f), ForceMode.Impulse);
+            rb.AddForce(new Vector3(50.0f, 10.0f, 50.0f), ForceMode.Impulse);
 
             playerInfo.hp -= playerInfo.damage;
 

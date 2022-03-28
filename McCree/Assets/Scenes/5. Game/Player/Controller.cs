@@ -58,6 +58,7 @@ namespace com.ThreeCS.McCree
         protected void Bang_Speech_Bubble_Anim_Start()
         {
             playerManager.isBanging = true;
+            playerManager.isAiming = false;
         }
 
         protected void Bang_Speech_Bubble_Anim()
@@ -68,6 +69,7 @@ namespace com.ThreeCS.McCree
         protected void Bang_Speech_Bubble_Anim_End()
         {
             playerManager.isBanging = false;
+            
         }
 
         #endregion
