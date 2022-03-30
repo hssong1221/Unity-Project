@@ -42,12 +42,29 @@ namespace com.ThreeCS.McCree
 
         public bool isBanging;
         public bool isDeath;
-        public bool isPicking;
         public bool isBangeding;
         public bool isInteraction;
 
-        private bool _isLifting;
+        private bool _isPicking;
+        public bool isPicking
+        {
+            get { return _isPicking; }
+            set
+            {
+                _isPicking = value;
 
+                if (_isPicking == true)
+                {
+                    animator.SetBool("IsPicking", _isPicking);
+                }
+                else
+                {
+                    animator.SetBool("IsPicking", _isPicking);
+                }
+            }
+        }
+
+        private bool _isLifting;
         public bool isLifting // 들고있는 중 , 들고있지않은 중
         {
             get { return _isLifting; }
@@ -290,6 +307,27 @@ namespace com.ThreeCS.McCree
         }
         #endregion
 
+        //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //{
+        //    if (stream.isWriting)
+        //    {
+        //        stream.SendNext(transform.position);
+        //        stream.SendNext(transform.rotation);
+        //        stream.SendNext(animator.Get);
+        //    }
+        //    else
+        //    {
+        //        realPos = (Vector3)stream.ReceiveNext();
+        //        realRot = (Quaternion)stream.ReceiveNext();
+        //        anim.SetFloat("Speed", (float)stream.ReceiveNext());
+        //        anim.SetFloat("Strafe", (float)stream.ReceiveNext());
+
+        //        animator.SetTrigger("Pick");
+
+                
+        //    }
+        //}
+
 
         #region private Methods
 
@@ -520,10 +558,11 @@ namespace com.ThreeCS.McCree
             Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
             tempImg.sprite = ui.emptyBullet;
 
+            animator.SetTrigger("Banged");
+
+
             if (photonView.IsMine)
             {
-                animator.SetTrigger("Banged");
-
                 Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
                 tempImg2.sprite = MineUI.Instance.emptyHealth;
             }
@@ -547,6 +586,24 @@ namespace com.ThreeCS.McCree
             {
                 playerManager.isLifting = true;
             }
+        }
+
+        [PunRPC]
+        public void Bang_Trigger()
+        {
+            animator.SetTrigger("Bang");
+        }
+
+        [PunRPC]
+        public void Pick_Trigger()
+        {
+            animator.SetTrigger("Pick");
+        }
+
+        [PunRPC]
+        public void Lift_Trigger()
+        {
+            animator.SetTrigger("Lift");
         }
 
         #endregion

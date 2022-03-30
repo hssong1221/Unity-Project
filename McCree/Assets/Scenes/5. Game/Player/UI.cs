@@ -127,16 +127,15 @@ namespace com.ThreeCS.McCree
                 if (interactObj.tag == "QItem_PickUp")
                 {
                     progressText.text = interactObj.name+" 치우는 중...";
-                    animator.SetTrigger("Pick");
+                    photonView.RPC("Pick_Trigger", RpcTarget.All);
                 }
 
                 else if (interactObj.tag == "QItem_TransPort")
                 {
                     progressText.text = interactObj.name + " 들어 올리는 중...";
-                    animator.SetTrigger("Lift");
+                    photonView.RPC("Lift_Trigger", RpcTarget.All);
                 }
                 
-                animator.SetBool("IsPicking", true);
                 playerManager.isPicking = true;
                 LoadingProgreeCircle(time, interactObj);
             }
@@ -155,7 +154,7 @@ namespace com.ThreeCS.McCree
 
         IEnumerator LoadingProgreeCircleCoroutine(float time, GameObject interactObj)
         {
-            while (true && playerManager.isPicking)
+            while (playerManager.isPicking)
             {
                 currentValue += 100 * Time.deltaTime / time; // 아마 초단위 맞을듯?
                 progressPercent.text = ((int)currentValue).ToString() + "%";
@@ -222,7 +221,6 @@ namespace com.ThreeCS.McCree
         public void Off_ProgressUI() // 원 진행도, interaction 코루틴 스탑
         {
             playerManager.isPicking = false;
-            animator.SetBool("IsPicking", false);
             if (coroutine != null) 
                 StopCoroutine(coroutine);
             if (interaction.coroutine != null)
@@ -237,7 +235,6 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.interactionPanel.SetActive(true);
 
             playerManager.isPicking = false;
-            animator.SetBool("IsPicking", false);
             if (coroutine != null) // 원 진행도 코루틴만 스탑, 다시 주울수있도록 interaction코루틴은 끄지않음
                 StopCoroutine(coroutine);
             progressText.enabled = false;

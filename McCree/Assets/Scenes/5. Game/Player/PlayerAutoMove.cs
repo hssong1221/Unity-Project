@@ -57,7 +57,8 @@ namespace com.ThreeCS.McCree
                         playerInfo.myItemList[0].itemCount -= 1;
 
                         // Bang 애니메이션 실행
-                        animator.SetTrigger("Bang");  // => Bang_Speech_Bubble_Anim();
+                        photonView.RPC("Bang_Trigger", RpcTarget.All);
+                        animator.SetTrigger("Bang");
 
                     }
                     else
