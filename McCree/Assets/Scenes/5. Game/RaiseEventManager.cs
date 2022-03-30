@@ -17,19 +17,37 @@ namespace com.ThreeCS.McCree
             get { return pInstance; }
         }
 
+        private PhotonView photonView;
+        private PlayerManager playerManager;
+        private PlayerInfo playerInfo;
+        private UI ui;
+
+
         [SerializeField]
-        private GameObject playerPrefab;
+        private GameObject playerPrefab; // 1
         [SerializeField]
-        private GameObject pipePrefab;
+        private GameObject pipePrefab; // 2
+        [SerializeField]
+        private List<Quest_Obj> questObjList; // 3 , 퀘스트 리스트
 
         private const byte CharacterInstantiate = 1;
         private const byte PipesInstantiate = 2;
+        private const byte AddWorldQuest = 3;
 
 
         void Awake()
         {
             pInstance = this;
         }
+
+        public void FindMinePv(GameObject player)
+        {
+            photonView = player.GetComponent<PhotonView>();
+            playerManager = player.GetComponent<PlayerManager>();
+            playerInfo = player.GetComponent<PlayerInfo>();
+            ui = player.GetComponent<UI>();
+        }
+
 
         void OnEnable()
         {
@@ -61,6 +79,26 @@ namespace com.ThreeCS.McCree
 
                 GameObject pipe = (GameObject)Instantiate(pipePrefab, (Vector3)data[0], (Quaternion)data[1]);
                 pipe.name = pipePrefab.name;
+
+                PhotonView photonView = pipe.GetComponent<PhotonView>();
+                photonView.ViewID = (int)data[2];
+
+            }
+            else if (obj.Code == AddWorldQuest)
+            {
+                object[] data = (object[])obj.CustomData;
+
+                int questIndex = (int)data[0];
+
+                // 퀘스트 생성해서 오른쪽 상단 목표에 붙여줌
+                GameObject subquestObj = Instantiate(MineUI.Instance.subQuestObj, MineUI.Instance.subQuestPanel);
+
+                Quest_Obj questObj = Instantiate(questObjList[questIndex]);
+                subquestObj.GetComponent<SubQuestList>().questObj = questObj;
+                subquestObj.GetComponent<SubQuestList>().questTitle.text = questObj.questTitle_progress;
+
+                // 내 퀘스트리스트에 붙임
+                playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>());
             }
         }
 
@@ -79,7 +117,17 @@ namespace com.ThreeCS.McCree
                 {
                     new Vector3(ran1, 2f, ran2), Quaternion.identity, photonView.ViewID
                 };
-                Character_Instantiate(data);
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions
+                {
+                    Receivers = ReceiverGroup.Others,
+                    CachingOption = EventCaching.AddToRoomCache
+                };
+
+                SendOptions sendOptions = new SendOptions
+                {
+                    Reliability = true
+                };
+                PhotonNetwork.RaiseEvent(CharacterInstantiate, data, raiseEventOptions, sendOptions);
             }
             else
             {
@@ -88,25 +136,45 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        public void Character_Instantiate(object[] data)
-        {
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions
-            {
-                Receivers = ReceiverGroup.Others,
-                CachingOption = EventCaching.AddToRoomCache
-            };
-
-            SendOptions sendOptions = new SendOptions
-            {
-                Reliability = true
-            };
-            PhotonNetwork.RaiseEvent(CharacterInstantiate, data, raiseEventOptions, sendOptions);
-        }
         // -----------------------------------------------------------------------------
 
         // 파이프
         public void Pipe_Instantiate(object[] data)
         {
+            GameObject pipe = Instantiate(pipePrefab, (Vector3)data[0], (Quaternion)data[1]);
+            pipe.name = pipePrefab.name;
+            PhotonView photonView = pipe.GetComponent<PhotonView>();
+
+
+            if (PhotonNetwork.AllocateViewID(photonView))
+            {
+                object[] data2 = new object[]
+                {
+                    (Vector3)data[0], (Quaternion)data[1], photonView.ViewID
+                };
+
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions
+                {
+                    Receivers = ReceiverGroup.Others,
+                    CachingOption = EventCaching.AddToRoomCache
+                };
+
+                SendOptions sendOptions = new SendOptions
+                {
+                    Reliability = true
+                };
+                PhotonNetwork.RaiseEvent(PipesInstantiate, data2, raiseEventOptions, sendOptions);
+            }
+            else
+            {
+                Debug.LogError("Failed to allocate a ViewId.");
+                Destroy(pipe);
+            }
+        }
+
+
+        public void Add_World_Quest(NPC npc)
+        {
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions
             {
                 Receivers = ReceiverGroup.Others,
@@ -117,7 +185,18 @@ namespace com.ThreeCS.McCree
             {
                 Reliability = true
             };
-            PhotonNetwork.RaiseEvent(PipesInstantiate, data, raiseEventOptions, sendOptions);
+
+            for (int i = 0; i < questObjList.Count; i++)
+            {
+                Debug.Log(questObjList[i].qrange);
+                if (npc.questObj.name == questObjList[i].name)
+                {
+                    Debug.Log("aaaaaaaaaaaa");
+                    object[] data = new object[]{ i };
+                    PhotonNetwork.RaiseEvent(AddWorldQuest, data, raiseEventOptions, sendOptions);
+                    break;
+                }
+            }
         }
     }
 }

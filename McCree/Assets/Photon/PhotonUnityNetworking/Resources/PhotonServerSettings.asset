@@ -61,6 +61,7 @@ MonoBehaviour:
   - GiveItemSet
   - GetQuest
   - QuestComplete
+  - PickUp_Transform_Item
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

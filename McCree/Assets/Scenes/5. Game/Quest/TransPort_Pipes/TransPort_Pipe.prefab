@@ -44,5 +44,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _quest: {fileID: 11400000, guid: 285de5de5c3b39240bfaf326fad824d9, type: 2}
+  _qrange: 1
   questTitle_progress: 
   questContent_progress: 

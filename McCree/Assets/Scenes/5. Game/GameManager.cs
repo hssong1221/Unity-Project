@@ -276,6 +276,7 @@ namespace com.ThreeCS.McCree
                     playerInfo = player.GetComponent<PlayerInfo>();
 
                     MineUI.Instance.FindMinePv(player);
+                    RaiseEventManager.Instance.FindMinePv(player);
                     break;
                 }
             }

@@ -750,6 +750,18 @@ PrefabInstance:
       propertyPath: pipePrefab
       value: 
       objectReference: {fileID: 3070756790439557440, guid: 88d492e670b82924fad6697109d7d5ef, type: 3}
+    - target: {fileID: -6498456960084704517, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: questObjList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6498456960084704517, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: questObjList.Array.data[0]
+      value: 
+      objectReference: {fileID: 8448296369268882727, guid: 99a664852ee2f214babf99e77c2b4610, type: 3}
+    - target: {fileID: -6498456960084704517, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: questObjList.Array.data[1]
+      value: 
+      objectReference: {fileID: -7303346427525245814, guid: 2efed3d3497ff624db1da964e891185e, type: 3}
     - target: {fileID: 342263121116531153, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: Loop
       value: 1
