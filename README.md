@@ -62,4 +62,6 @@
 
 #### QuestItem 상호작용  
 ![QuestItem 상호작용 흐름](https://user-images.githubusercontent.com/22339727/159644700-65a9d7f6-0776-4582-aaef-daa4a6992590.png) 
-![QuestItem Pick상호작용](https://user-images.githubusercontent.com/22339727/159646259-781ebe61-6de4-4171-9daf-00fc62f9afc3.gif)  
+|||
+|:-:|:-:|
+|![QuestItem Pick상호작용](https://user-images.githubusercontent.com/22339727/159646259-781ebe61-6de4-4171-9daf-00fc62f9afc3.gif)|![QuestItem Pick상호작용취소](https://user-images.githubusercontent.com/22339727/160849044-50218f5c-3d11-4e80-b363-6ecf8a487e92.gif)|
