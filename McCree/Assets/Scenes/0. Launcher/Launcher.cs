@@ -13,11 +13,12 @@ public class Launcher : MonoBehaviour
         bgm = BackgroundMusic.GetComponent<AudioSource>();
 
         bgm.Play();
-        DontDestroyOnLoad(BackgroundMusic);
     }
     void Start()
     {
         SceneManager.LoadScene("Login");
+
+        DontDestroyOnLoad(BackgroundMusic);
     }
 
 }

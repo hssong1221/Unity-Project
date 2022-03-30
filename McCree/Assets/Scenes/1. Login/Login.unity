@@ -445,8 +445,8 @@ MonoBehaviour:
   Pwd_Input: {fileID: 689860937}
   loginBtn: {fileID: 1419114435}
   registerBtn: {fileID: 530098454}
-  item: {fileID: -9044579903661099093, guid: 46841c624ef39314d9461bf646a73e72, type: 3}
-  content: {fileID: 0}
+  setBtn: {fileID: 0}
+  setCvs: {fileID: 0}
 --- !u!4 &540089938
 Transform:
   m_ObjectHideFlags: 0
