@@ -12,6 +12,7 @@
   * [Scene 흐름](#Scene-흐름)  
   * [백엔드 흐름](#백엔드-흐름)  
 + 인게임 구성
+  * [퀘스트](#퀘스트)
   * 상호작용
     - [Npc 상호작용](#Npc-상호작용)  
     - [QuestItem 상호작용](#QuestItem-상호작용)  
@@ -52,6 +53,12 @@
 
 ---
 ## 인게임 구성  
+
+### 퀘스트  
+퀘스트의 데이터 원본이 저장되어있는 Quest를  
+퀘스트 도중 바뀌는 값 (퀘스트의 진행도, Npc대화 등) Quest_Obj에 담아서 하나의 GameObject로 만든다.  
+만들어진 Quest_Obj는 Npc GameObject에 들어가게되며 플레이어가 퀘스트 수락 시, 리스트에 추가된다.  
+![퀘스트 구성도](https://user-images.githubusercontent.com/22339727/160859551-d0bb5162-6c2f-47ed-9bf7-a47739547090.PNG)
 
 ### 상호작용
 상호작용 F Input입력을 받기위하여 OnTriggerStay(FixedUpdate)대신 코루틴을 이용
