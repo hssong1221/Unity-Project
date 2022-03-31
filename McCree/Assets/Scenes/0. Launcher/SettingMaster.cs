@@ -20,6 +20,9 @@ namespace com.ThreeCS.McCree
         public GameObject SettingPanel;     // 전체 설정 패널
         private bool isSettingOpen = false;
 
+        public Button setBtn;   // 톱니바퀴 모양 버튼
+
+
         public GameObject gPanel;   //그래픽 패널
         public GameObject sPanel;   //사운드
         public GameObject mPanel;   //마우스
@@ -30,15 +33,11 @@ namespace com.ThreeCS.McCree
         [SerializeField] private Button mButton;
         [SerializeField] private Button kButton;
 
-        public Button setBtn;   // 톱니바퀴 모양 버튼
-
-
         [Header("그래픽설정 관련 UI")]
         [SerializeField] private Transform graphicObject;
 
-        private int graphicOpt; // 그래픽 프리셋
+        private int graphicOpt;         // 그래픽 프리셋
         private Text graphicTxt;
-
         private Button graphicDownBtn;
         private Button graphicUpBtn;
 
@@ -47,14 +46,25 @@ namespace com.ThreeCS.McCree
 
         [SerializeField] private Transform soundObject;
 
-        private int soundOpt;
+        private int soundOpt;       // 전체 볼륨
         private Text soundTxt;
-
         private Button soundDownBtn;
         private Button soundUpBtn;
         private Slider soundSld;
 
+        [Header("마우스설정 관련 UI")]
+
+        [SerializeField] private Transform mouseObject;
+
+        private int mouseOpt;       // 마우스 감도
+        private Text mouseTxt;
+        private Button mouseDownBtn;
+        private Button mouseUpBtn;
+        private Slider mouseSld;
+
+
         // 저장버튼
+        [Header("저장버튼")]
         [SerializeField] private Button saveButton;
 
 
@@ -69,6 +79,8 @@ namespace com.ThreeCS.McCree
 
             InitContent(soundObject, out soundTxt, out soundDownBtn, out soundUpBtn, out soundSld, SoundOptDown, SoundOptUp, SliderValueChangeSound);
 
+            //InitContent(mouseObject, out mouseTxt, out mouseDownBtn, out mouseUpBtn, out mouseSld, );
+
             // 설정 메뉴 버튼 
             gButton.onClick.AddListener(Gpanel);
             sButton.onClick.AddListener(Spanel);
@@ -79,19 +91,17 @@ namespace com.ThreeCS.McCree
 
             // 저장버튼 버튼 
             saveButton.onClick.AddListener(SaveSetting);
+
+            Setting();
+
         }
 
         void Start()
         {
+            Setting();
             DontDestroyOnLoad(this.gameObject);
         }
 
-        void OnEnable()
-        {
-            // 본인 환경설정 세팅값 가져오기
-            graphicOpt = Data.GraphicOpt;
-            soundOpt = Data.SoundOpt;
-        }
 
         // Update is called once per frame
         void Update()
@@ -116,7 +126,7 @@ namespace com.ThreeCS.McCree
             upBtn.onClick.AddListener(btnUp);
         }
         // 이거에 오바로오딩인거시다
-        // 사운드 설정
+        // 사운드 설정 + 마우스 설정
         void InitContent(Transform obj, out Text text, out Button downBtn, out Button upBtn, out Slider slider, UnityAction btnDown, UnityAction btnUp, UnityAction<float> sliderChange)
         {
             text = obj.Find("Text").GetComponent<Text>();
@@ -128,6 +138,7 @@ namespace com.ThreeCS.McCree
             upBtn.onClick.AddListener(btnUp);
             slider.onValueChanged.AddListener(sliderChange);
         }
+
 
         // 환경 설정 UI on/off
         void Setting()
@@ -184,7 +195,7 @@ namespace com.ThreeCS.McCree
             kPanel.SetActive(true);
         }
 
-        // 버튼 동작
+        // -------------------------------------- 버튼 동작 -------------------------------------- 
         void GraphicOptDown()
         {
             --graphicOpt;
@@ -211,7 +222,9 @@ namespace com.ThreeCS.McCree
 
             UpdateSoundOpt();
         }
-        // 슬라이더 동작
+
+
+        // -------------------------------------- 슬라이더 동작 ----------------------------------------------
 
         void SliderValueChangeSound(float volume)
         {
@@ -219,7 +232,7 @@ namespace com.ThreeCS.McCree
             UpdateSoundOpt();
         }
 
-        // 내부 텍스트 값( 또는 슬라이더 값도 포함) 
+        // -------------------------------------- 내부 텍스트 값( 또는 슬라이더 값도 포함) --------------------------------------
         void UpdateGraphicOpt()
         {
             graphicDownBtn.interactable = graphicOpt != 0;
