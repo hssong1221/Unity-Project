@@ -560,7 +560,6 @@ namespace com.ThreeCS.McCree
 
             animator.SetTrigger("Banged");
 
-
             if (photonView.IsMine)
             {
                 Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
@@ -589,10 +588,27 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public void Bang_Trigger()
+        IEnumerator Bang_Trigger(string shooterNick, string targetNick)
         {
-            animator.SetTrigger("Bang");
+
+            GameObject bangLogObj = ObjectPool.Instance.GetObject(1); //오브젝트 풀에서 가져오기
+            bangLogObj.transform.SetParent(MineUI.Instance.logPanel);
+            bangLogObj.GetComponent<BangLogObj>().shooterNick.text = shooterNick;
+            bangLogObj.GetComponent<BangLogObj>().targetNick.text = targetNick;
+            bangLogObj.GetComponent<Animator>().Play("LogStart");
+            yield return null;
         }
+
+        [PunRPC]
+        public void QuestLog(string questTitle)
+        {
+            // 퀘스트 공지 창
+            GameObject bangLogObj = ObjectPool.Instance.GetObject(2); //오브젝트 풀에서 가져오기
+            bangLogObj.transform.SetParent(MineUI.Instance.logPanel);
+            bangLogObj.GetComponent<QuestLogObj>().noticeText.text = "\'"+questTitle+"\' 월드 퀘스트가 활성화 되었습니다.";
+            bangLogObj.GetComponent<Animator>().Play("LogStart");
+        }
+
 
         [PunRPC]
         public void Pick_Trigger()

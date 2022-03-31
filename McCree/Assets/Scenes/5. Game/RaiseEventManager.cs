@@ -5,6 +5,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using UnityEngine.UI;
 
 namespace com.ThreeCS.McCree
 {
@@ -90,8 +91,11 @@ namespace com.ThreeCS.McCree
 
                 int questIndex = (int)data[0];
 
+
+
+
                 // 퀘스트 생성해서 오른쪽 상단 목표에 붙여줌
-                GameObject subquestObj = Instantiate(MineUI.Instance.subQuestObj, MineUI.Instance.subQuestPanel);
+                GameObject subquestObj = Instantiate(MineUI.Instance.questObj, MineUI.Instance.worldQuestPanel);
 
                 Quest_Obj questObj = Instantiate(questObjList[questIndex]);
                 subquestObj.GetComponent<SubQuestList>().questObj = questObj;
@@ -99,6 +103,9 @@ namespace com.ThreeCS.McCree
 
                 // 내 퀘스트리스트에 붙임
                 playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>());
+
+                LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)MineUI.Instance.worldQuestPanel);
+                // contentsizefillter가 적용이 안되는 오류때메 재배치하는 함수
             }
         }
 

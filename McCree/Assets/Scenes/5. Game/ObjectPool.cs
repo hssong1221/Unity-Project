@@ -19,12 +19,12 @@ namespace com.ThreeCS.McCree
 
 
         [SerializeField]
-        private GameObject bulletObject; // 플레이어 리스트
-        Queue<GameObject> bulletListQueue = new Queue<GameObject>();
+        private GameObject bangLogObject; // 플레이어 리스트
+        Queue<GameObject> bangLogListQueue = new Queue<GameObject>();
 
-        //[SerializeField]
-        //private GameObject roomList; // 플레이어 리스트
-        //Queue<GameObject> roomListQueue = new Queue<GameObject>();
+        [SerializeField]
+        private GameObject questLogObject; // 플레이어 리스트
+        Queue<GameObject> questLogListQueue = new Queue<GameObject>();
 
         private void Awake()
         {
@@ -34,18 +34,22 @@ namespace com.ThreeCS.McCree
 
         private void Initialize()
         {
-            for (int i = 0; i < 10; i++) // 총알개수 10
+            for (int i = 0; i < 7; i++)
             {
-                bulletListQueue.Enqueue(CreateNewObject(1));
+                bangLogListQueue.Enqueue(CreateNewObject(1));
+            }
+            for (int i= 0; i < 3; i++)
+            {
+                questLogListQueue.Enqueue(CreateNewObject(2));
             }
         }
 
         private GameObject CreateNewObject(int num)
         {
             if (num == 1)
-                poolingObject = bulletObject;
-            //if (num == 2)
-            //    poolingObject = roomList;
+                poolingObject = bangLogObject;
+            if (num == 2)
+                poolingObject = questLogObject;
 
             GameObject newObj = Instantiate(poolingObject);
             newObj.SetActive(false);
@@ -56,9 +60,10 @@ namespace com.ThreeCS.McCree
         public GameObject GetObject(int num)
         {
             if (num == 1)
-                poolingObjectQueue = bulletListQueue; // 아마 얕은복사될듯 (주소만)
-            //else if (num == 2)
-            //    poolingObjectQueue = roomListQueue;
+                poolingObjectQueue = bangLogListQueue; // 아마 얕은복사될듯 (주소만)
+            else if (num == 2)
+                poolingObjectQueue = questLogListQueue;
+
 
 
             if (Instance.poolingObjectQueue.Count > 0)
@@ -83,9 +88,9 @@ namespace com.ThreeCS.McCree
         public void ReturnObject(GameObject obj, int num)
         {
             if (num == 1)
-                poolingObjectQueue = bulletListQueue;
-            //else if (num == 2)
-            //    poolingObjectQueue = roomListQueue;
+                poolingObjectQueue = bangLogListQueue;
+            else if (num == 2)
+                poolingObjectQueue = questLogListQueue;
 
 
             obj.SetActive(false);

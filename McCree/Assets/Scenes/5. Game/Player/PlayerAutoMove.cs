@@ -48,17 +48,20 @@ namespace com.ThreeCS.McCree
                         //GameObject bullet = ObjectPool.Instance.GetObject(1);
                         //bullet.transform.position = 
 
-
+                        animator.SetTrigger("Bang");
 
                         // 적 한테 데미지
                         targetedEnemy.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All);
-                        targetedEnemy = null;
-
                         playerInfo.myItemList[0].itemCount -= 1;
 
+
+                        string shooterNick = PhotonNetwork.LocalPlayer.NickName;
+                        string targetNick = targetedEnemy.GetComponent<PhotonView>().Owner.NickName;
+
                         // Bang 애니메이션 실행
-                        photonView.RPC("Bang_Trigger", RpcTarget.All);
-                        animator.SetTrigger("Bang");
+                        targetedEnemy.GetComponent<PhotonView>().RPC("Bang_Trigger", RpcTarget.All, shooterNick, targetNick);
+
+                        targetedEnemy = null;
 
                     }
                     else
@@ -70,18 +73,13 @@ namespace com.ThreeCS.McCree
         }
 
 
-
         [PunRPC]
-        void TurnOnBangBubble()
+        IEnumerator TurnOnBangBubble()
         {
             ui.bangGifImg.enabled = true;
-            ui.bangGifImg.GetComponent<Animator>().Play("BangAnim", -1, 0f);
-            Invoke("TurnOffBangBubble", 2.0f);
-        }
+            ui.bangGifImg.GetComponent<Animator>().Play("BangAnim");
 
-        void TurnOffBangBubble()
-        {
-            ui.bangGifImg.enabled = false;
+            yield return null;
         }
     }
 }

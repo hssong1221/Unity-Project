@@ -39,6 +39,7 @@ namespace com.ThreeCS.McCree
 
         [Header("체력, 디버프 창 (leftTop")]
         public GameObject leftTopPanel;
+        public Transform logPanel;
 
         [Header("캐릭터 장착무기, 뱅, 회피 개수 창 (RightBottom")]
         public GameObject rightBottomPanel;
@@ -63,8 +64,9 @@ namespace com.ThreeCS.McCree
         public GameObject rightTop;
         public Button mainQuestBtn;
         public Text questTitle;
+        public Transform worldQuestPanel;
         public Transform subQuestPanel;
-        public GameObject subQuestObj;
+        public GameObject questObj;
 
         [Header("Quest Dtail UI 퀘스트 상세보기 창")]
         public GameObject questDetail;
@@ -76,7 +78,9 @@ namespace com.ThreeCS.McCree
         public bool isquestDetailopen;
 
 
+        [HideInInspector]
         public float range_x;
+        [HideInInspector]
         public float range_y;
 
 
