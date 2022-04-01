@@ -355,7 +355,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 2.45}
   m_SizeDelta: {x: 3500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7420495182961451760
@@ -2271,8 +2271,8 @@ GameObject:
   - component: {fileID: 1699740346841986243}
   - component: {fileID: 1161130445872975911}
   - component: {fileID: 6215404349552739544}
-  - component: {fileID: 6215404349552739549}
   - component: {fileID: 5835623836623352232}
+  - component: {fileID: 6215404349552739549}
   m_Layer: 6
   m_Name: Characters
   m_TagString: Player
@@ -2510,22 +2510,6 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &6215404349552739549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6215404349552837223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!114 &5835623836623352232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2551,13 +2535,13 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: IsAiming
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Bang
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Rifle
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Pistol
   - Type: 9
     SynchronizeType: 1
@@ -2566,20 +2550,36 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: IsPicking
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Pick
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Lift
   - Type: 4
     SynchronizeType: 1
     Name: IsLifting
   - Type: 9
-    SynchronizeType: 1
+    SynchronizeType: 0
     Name: Banged
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
+--- !u!114 &6215404349552739549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6215404349552837223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &6215404349552837225
 GameObject:
   m_ObjectHideFlags: 0

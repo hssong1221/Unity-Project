@@ -21,7 +21,6 @@ namespace com.ThreeCS.McCree
 
         public List<SubQuestList> myQuestList;
 
-
         protected Transform content;
 
 

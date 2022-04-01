@@ -11,7 +11,15 @@ namespace com.ThreeCS.McCree
     public class Interaction : Controller
     {
 
-        public IEnumerator coroutine;
+        private IEnumerator _coroutine;
+        public IEnumerator coroutine
+        {
+            get { return _coroutine; }
+            set
+            {
+                _coroutine = value;
+            }
+        }
 
         void Awake()
         {
@@ -35,6 +43,8 @@ namespace com.ThreeCS.McCree
                         MineUI.Instance.interactionText.text = "대화 하기";
                         // F 상호작용 랜덤 위치
 
+                        if (coroutine != null)
+                            StopCoroutine(coroutine);
                         coroutine = returnchatList(0, other);
                         StartCoroutine(coroutine);
                         // 트리거된 상태에서 F누르면 대화창 뜰수있도록 코루틴함수 실행
@@ -57,6 +67,8 @@ namespace com.ThreeCS.McCree
                             MineUI.Instance.interactionText.text = "줍기";
                             // F 상호작용 랜덤 위치
 
+                            if (coroutine != null)
+                                StopCoroutine(coroutine);
                             coroutine = QuestItemInteraction(other);
                             StartCoroutine(coroutine);
                             // 트리거된 상태에서 F누르면 줍는 애니메이션 실행될수있도록

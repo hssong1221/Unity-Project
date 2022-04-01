@@ -19,12 +19,16 @@ namespace com.ThreeCS.McCree
 
 
         [SerializeField]
-        private GameObject bangLogObject; // 플레이어 리스트
+        private GameObject bangLogObject; // 뱅 로그
         Queue<GameObject> bangLogListQueue = new Queue<GameObject>();
 
         [SerializeField]
-        private GameObject questLogObject; // 플레이어 리스트
+        private GameObject questLogObject; // 월드퀘스트 로그
         Queue<GameObject> questLogListQueue = new Queue<GameObject>();
+
+        [SerializeField]
+        private GameObject avoidLogObject; // 회피 로그
+        Queue<GameObject> avoidLogListQueue = new Queue<GameObject>();
 
         private void Awake()
         {
@@ -42,14 +46,20 @@ namespace com.ThreeCS.McCree
             {
                 questLogListQueue.Enqueue(CreateNewObject(2));
             }
+            for (int i = 0; i < 7; i++)
+            {
+                avoidLogListQueue.Enqueue(CreateNewObject(3));
+            }
         }
 
         private GameObject CreateNewObject(int num)
         {
             if (num == 1)
                 poolingObject = bangLogObject;
-            if (num == 2)
+            else if (num == 2)
                 poolingObject = questLogObject;
+            else if (num == 3)
+                poolingObject = avoidLogObject;
 
             GameObject newObj = Instantiate(poolingObject);
             newObj.SetActive(false);
@@ -63,6 +73,8 @@ namespace com.ThreeCS.McCree
                 poolingObjectQueue = bangLogListQueue; // 아마 얕은복사될듯 (주소만)
             else if (num == 2)
                 poolingObjectQueue = questLogListQueue;
+            else if (num == 3)
+                poolingObjectQueue = avoidLogListQueue;
 
 
 
@@ -91,6 +103,8 @@ namespace com.ThreeCS.McCree
                 poolingObjectQueue = bangLogListQueue;
             else if (num == 2)
                 poolingObjectQueue = questLogListQueue;
+            else if (num == 3)
+                poolingObjectQueue = avoidLogListQueue;
 
 
             obj.SetActive(false);

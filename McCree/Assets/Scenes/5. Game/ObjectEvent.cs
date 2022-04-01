@@ -10,6 +10,8 @@ namespace com.ThreeCS.McCree
 {
     public class ObjectEvent : MonoBehaviour
     {
+        public Item.iType pickItem;
+
         private void Update()
         {
             transform.Rotate(Vector3.up * 40.0f * Time.deltaTime);
@@ -18,14 +20,12 @@ namespace com.ThreeCS.McCree
         {
             if (other.tag == "Player")
             {
-                Item.iType pickItem = GameManager.Instance.entireItemSet.Pick_Item();
-
                 var json = JsonConvert.SerializeObject(pickItem);
 
-                if (other.GetComponent<PhotonView>().IsMine)
-                {
+                //if (other.GetComponent<PhotonView>().IsMine)
+                //{
                     other.GetComponent<PhotonView>().RPC("GiveItems", RpcTarget.All, json);
-                }
+                //}
             }
         }
     }

@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bangLogObject: {fileID: 4331855327453406677, guid: 3c6fae52c1397854eb8e58e4418ee4c9, type: 3}
+  questLogObject: {fileID: 4331855327453406677, guid: 0ccb45893b988444dbbe8e8016dc9f78, type: 3}
+  avoidLogObject: {fileID: 4331855327453406677, guid: e237254e928b6bf4d90210ab7b00df0a, type: 3}

@@ -60,7 +60,7 @@ namespace com.ThreeCS.McCree
 
             hpOffset = new Vector3(0, 2.0f, 0);
             bangOffset = new Vector3(0, 3.0f, 0);
-            itemOffset = new Vector3(0.5f, 1.0f, 0f);
+            itemOffset = new Vector3(0.5f, 2.5f, 0f);
             progressOffset = new Vector3(0, 2.5f, 0f);
 
             
@@ -127,13 +127,13 @@ namespace com.ThreeCS.McCree
                 if (interactObj.tag == "QItem_PickUp")
                 {
                     progressText.text = interactObj.name+" 치우는 중...";
-                    photonView.RPC("Pick_Trigger", RpcTarget.All);
+                    animator.SetTrigger("Pick");
                 }
 
                 else if (interactObj.tag == "QItem_TransPort")
                 {
                     progressText.text = interactObj.name + " 들어 올리는 중...";
-                    photonView.RPC("Lift_Trigger", RpcTarget.All);
+                    animator.SetTrigger("Lift");
                 }
                 
                 playerManager.isPicking = true;
@@ -148,6 +148,8 @@ namespace com.ThreeCS.McCree
             progressPercent.enabled = true;
 
             currentValue = 0;
+            if (coroutine != null)
+                StopCoroutine(coroutine);
             coroutine = LoadingProgreeCircleCoroutine(time, interactObj);
             StartCoroutine(coroutine);
         }

@@ -19,7 +19,7 @@ namespace com.ThreeCS.McCree
 
         private bool _isAiming;
         public bool isAiming // 조준 중 , 조준 끝
-        { 
+        {
             get { return _isAiming; }
             set
             {
@@ -107,12 +107,14 @@ namespace com.ThreeCS.McCree
 
         public Transform objectTransPos
         {
-            get { return _objectTransPos;  }
+            get { return _objectTransPos; }
         }
 
 
         protected bool isCharacterPlayer;
         public float maxAttackDistance;
+
+        private IEnumerator coroutine;
 
         // 기본상태                                        offset Vector3(0.0f, 5.0f, -5.0f)
 
@@ -216,51 +218,51 @@ namespace com.ThreeCS.McCree
 
             //if (!PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 모든 입력금지
             //{                                 // 대화창 활성화하면 캐릭터 제자리 걸음함 
-                if (photonView.IsMine)
+            if (photonView.IsMine)
+            {
+                if (Input.GetKeyDown(KeyCode.Tab))
                 {
-                    if (Input.GetKeyDown(KeyCode.Tab))
-                    {
-                        Inventory();
-                    }
-
-                    if (!isBanging && !isBangeding && !isInteraction && !isLifting) // 아무코토 못함
-                    {
-                        if (Input.GetButtonDown("LockOn"))
-                        {
-                            AttackRange(); // 뱅 준비
-                        }
-                        
-                        if (isAiming && Input.GetButtonDown("Attack"))
-                        {
-                            Bang();
-                        }
-
-                        //Camera.main.transform.position = character.transform.position + offset;
-                        if (Input.GetKeyDown("1")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
-                            ui.attackRange = 1;
-                        if (Input.GetKeyDown("2"))
-                            ui.attackRange = 2;
-                        if (Input.GetKeyDown("3"))
-                            ui.attackRange = 3;
-
-                        if (Input.GetKeyDown("4"))
-                            animator.SetTrigger("Base");
-                        if (Input.GetKeyDown("5"))
-                        {
-                            GameObject testPistol = Instantiate(Resources.Load("TestGun/Colt Navy Revolver")) as GameObject;
-                            playerInfo.equipedWeapon = testPistol.GetComponent<Weapon_Obj>();
-                        }
-                        if (Input.GetKeyDown("6"))
-                        {
-                            GameObject testPistol = Instantiate(Resources.Load("TestGun/SM_Wep_Rifle")) as GameObject;
-                            playerInfo.equipedWeapon = testPistol.GetComponent<Weapon_Obj>();
-                        }
-
-
-                        ui.indicatorRangeCircle.rectTransform.localScale = new Vector3(ui.attackRange, ui.attackRange, 0);
-                        // Range_Indicator 이미지의 크기 변경 
-                    }
+                    Inventory();
                 }
+
+                if (!isBanging && !isBangeding && !isInteraction && !isLifting) // 아무코토 못함
+                {
+                    if (Input.GetButtonDown("LockOn"))
+                    {
+                        AttackRange(); // 뱅 준비
+                    }
+
+                    if (isAiming && Input.GetButtonDown("Attack"))
+                    {
+                        Bang();
+                    }
+
+                    //Camera.main.transform.position = character.transform.position + offset;
+                    if (Input.GetKeyDown("1")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
+                        ui.attackRange = 1;
+                    if (Input.GetKeyDown("2"))
+                        ui.attackRange = 2;
+                    if (Input.GetKeyDown("3"))
+                        ui.attackRange = 3;
+
+                    if (Input.GetKeyDown("4"))
+                        animator.SetTrigger("Base");
+                    if (Input.GetKeyDown("5"))
+                    {
+                        GameObject testPistol = Instantiate(Resources.Load("TestGun/Colt Navy Revolver")) as GameObject;
+                        playerInfo.equipedWeapon = testPistol.GetComponent<Weapon_Obj>();
+                    }
+                    if (Input.GetKeyDown("6"))
+                    {
+                        GameObject testPistol = Instantiate(Resources.Load("TestGun/SM_Wep_Rifle")) as GameObject;
+                        playerInfo.equipedWeapon = testPistol.GetComponent<Weapon_Obj>();
+                    }
+
+
+                    ui.indicatorRangeCircle.rectTransform.localScale = new Vector3(ui.attackRange, ui.attackRange, 0);
+                    // Range_Indicator 이미지의 크기 변경 
+                }
+            }
             //}
             //else
             //{
@@ -324,7 +326,7 @@ namespace com.ThreeCS.McCree
 
         //        animator.SetTrigger("Pick");
 
-                
+
         //    }
         //}
 
@@ -376,7 +378,7 @@ namespace com.ThreeCS.McCree
                         Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
 
                     playerAutoMove.targetedEnemy = hit.collider.gameObject;
-                    
+
                 }
                 else
                 {
@@ -501,7 +503,7 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public IEnumerator GiveItems(string jsonData)
+        public void GiveItems(string jsonData)
         {
             Item.iType pickedItem = JsonConvert.DeserializeObject<Item.iType>(jsonData);
 
@@ -516,56 +518,74 @@ namespace com.ThreeCS.McCree
                     }
                 }
             }
-            return_itemNoticeText("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
-
-            yield return new WaitForEndOfFrame();
+            Character_Notice_Text("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
         }
 
         [PunRPC]
         public void GetQuest(string questTitle)
         {
-            return_itemNoticeText("<color=#000000>" + questTitle + " 퀘스트를 수락하였습니다!" + "</color>");
+            Character_Notice_Text("<color=#000000>" + questTitle + " 퀘스트를 수락하였습니다!" + "</color>");
         }
 
         [PunRPC]
         public void QuestComplete(string questTitle)
         {
-            return_itemNoticeText("<color=#FF3E6E>" + questTitle + " 퀘스트를 완료하였습니다!" + "</color>");
+            Character_Notice_Text("<color=#FF3E6E>" + questTitle + " 퀘스트를 완료하였습니다!" + "</color>");
         }
 
+        public void Character_Notice_Text(string sentence)
+        {
+            if (coroutine != null) // 이미 텍스트 나온게있다면 4초 기다리던 코루틴 중지시키고 
+                StopCoroutine(coroutine); // 새로운 코루틴 스타트 해서 다시 4초기다림
+            coroutine = Character_Notice_Text_Coroutine(sentence);
+            StartCoroutine(coroutine);
+        }
 
-        public void return_itemNoticeText(string sentece)
+        public IEnumerator Character_Notice_Text_Coroutine(string sentence)
         {
             ui.itemNotice.enabled = true;
-            ui.itemNotice.text = sentece;
-            //ui.itemNotice1.GetComponent<Animator>().Play("ItemNoticeText");
-            Invoke("TurnOffItemText", 4.0f);
-        }
+            ui.itemNotice.text = sentence;
 
-        void TurnOffItemText()
-        {
+            yield return new WaitForSeconds(4.0f);
+
             ui.itemNotice.enabled = false;
+
+            yield return null;
         }
 
+        // Avoid 보류
+        //[PunRPC]
+        //void Damaged()
+        //{
+        //    Debug.Log("회피 수: " + playerInfo.myItemList[1].itemCount);
+        //    if (playerInfo.myItemList[1].itemCount > 0) // 회피 있으면
+        //    {
+        //        playerInfo.myItemList[1].itemCount -= 1;
+        //        Debug.Log("로그 떠야함");
+        //        Character_Notice_Text("<color=#FF8000>" + "회피!" + "</color>");
+        //        Avoid_Trigger();
+        //        return; // 회피있으면 avoid로그 출력하고 함수 종료
+        //    }
+        //    else
+        //    {
+        //        // 회피없으면 날라가는 함수 실행 
+        //        rb.AddForce(new Vector3(50.0f, 10.0f, 50.0f), ForceMode.Impulse);
 
-        [PunRPC]
-        void Damaged()
-        {
-            rb.AddForce(new Vector3(50.0f, 10.0f, 50.0f), ForceMode.Impulse);
+        //        playerInfo.hp -= playerInfo.damage;
 
-            playerInfo.hp -= playerInfo.damage;
+        //        Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
+        //        tempImg.sprite = ui.emptyBullet;
 
-            Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
-            tempImg.sprite = ui.emptyBullet;
+        //        animator.SetTrigger("Banged");
 
-            animator.SetTrigger("Banged");
+        //        if (photonView.IsMine)
+        //        {
+        //            Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
+        //            tempImg2.sprite = MineUI.Instance.emptyHealth;
+        //        }
+        //    }
 
-            if (photonView.IsMine)
-            {
-                Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
-                tempImg2.sprite = MineUI.Instance.emptyHealth;
-            }
-        }
+        //}
 
         [PunRPC]
         public void PickUp_Transform_Item(int photonID)
@@ -588,16 +608,22 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        IEnumerator Bang_Trigger(string shooterNick, string targetNick)
+        void Bang_Trigger(string shooterNick, string targetNick)
         {
-
             GameObject bangLogObj = ObjectPool.Instance.GetObject(1); //오브젝트 풀에서 가져오기
             bangLogObj.transform.SetParent(MineUI.Instance.logPanel);
             bangLogObj.GetComponent<BangLogObj>().shooterNick.text = shooterNick;
             bangLogObj.GetComponent<BangLogObj>().targetNick.text = targetNick;
             bangLogObj.GetComponent<Animator>().Play("LogStart");
-            yield return null;
         }
+
+        //void Avoid_Trigger()
+        //{
+        //    GameObject avoidLogObj = ObjectPool.Instance.GetObject(3); //오브젝트 풀에서 가져오기
+        //    avoidLogObj.transform.SetParent(MineUI.Instance.logPanel);
+        //    avoidLogObj.GetComponent<AvoidLogObj>().nick1.text = PhotonNetwork.LocalPlayer.NickName;
+        //    avoidLogObj.GetComponent<Animator>().Play("LogStart");
+        //}
 
         [PunRPC]
         public void QuestLog(string questTitle)
@@ -609,18 +635,6 @@ namespace com.ThreeCS.McCree
             bangLogObj.GetComponent<Animator>().Play("LogStart");
         }
 
-
-        [PunRPC]
-        public void Pick_Trigger()
-        {
-            animator.SetTrigger("Pick");
-        }
-
-        [PunRPC]
-        public void Lift_Trigger()
-        {
-            animator.SetTrigger("Lift");
-        }
 
         #endregion
     }

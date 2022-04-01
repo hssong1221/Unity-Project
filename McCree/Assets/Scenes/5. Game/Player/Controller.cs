@@ -63,7 +63,9 @@ namespace com.ThreeCS.McCree
 
         protected void Bang_Speech_Bubble_Anim()
         {
-            photonView.RPC("TurnOnBangBubble", RpcTarget.All);
+            playerAutoMove.TurnOnBangBubble();
+            //if (photonView.IsMine)
+            //    photonView.RPC("TurnOnBangBubble", RpcTarget.All);
         }
 
         protected void Bang_Speech_Bubble_Anim_End()
