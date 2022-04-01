@@ -127,13 +127,13 @@ namespace com.ThreeCS.McCree
                 if (interactObj.tag == "QItem_PickUp")
                 {
                     progressText.text = interactObj.name+" 치우는 중...";
-                    animator.SetTrigger("Pick");
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "Pick", "Trigger");
                 }
 
                 else if (interactObj.tag == "QItem_TransPort")
                 {
                     progressText.text = interactObj.name + " 들어 올리는 중...";
-                    animator.SetTrigger("Lift");
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "Lift", "Trigger");
                 }
                 
                 playerManager.isPicking = true;

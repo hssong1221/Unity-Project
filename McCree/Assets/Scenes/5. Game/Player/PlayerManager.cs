@@ -27,13 +27,13 @@ namespace com.ThreeCS.McCree
 
                 if (_isAiming == true)
                 {
-                    animator.SetBool("IsAiming", isAiming);
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "IsAiming", "Bool", _isAiming);
                     moveSpeed = 2.5f;
                     ui.indicatorRangeCircle.enabled = true;
                 }
                 else
                 {
-                    animator.SetBool("IsAiming", isAiming);
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "IsAiming", "Bool", _isAiming);
                     moveSpeed = 5.0f;
                     ui.indicatorRangeCircle.enabled = false;
                 }
@@ -55,11 +55,11 @@ namespace com.ThreeCS.McCree
 
                 if (_isPicking == true)
                 {
-                    animator.SetBool("IsPicking", _isPicking);
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "IsPicking", "Bool", _isPicking);
                 }
                 else
                 {
-                    animator.SetBool("IsPicking", _isPicking);
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "IsPicking", "Bool", _isPicking);
                 }
             }
         }
@@ -74,12 +74,12 @@ namespace com.ThreeCS.McCree
 
                 if (_isLifting == true)
                 {
-                    animator.SetBool("IsLifting", _isLifting);
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "IsLifting", "Bool", _isLifting);
                     moveSpeed = 2.0f;
                 }
                 else
                 {
-                    animator.SetBool("IsLifting", _isLifting);
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "IsLifting", "Bool", _isLifting);
                     moveSpeed = 5.0f;
                 }
             }
@@ -111,10 +111,51 @@ namespace com.ThreeCS.McCree
         }
 
 
+        private bool _EquipedNone;
+        public bool EquipedNone
+        {
+            get { return _EquipedNone; }
+            set
+            {
+                _EquipedNone = value;
+
+                animSync.SendPlayAnimationEvent(photonView.ViewID, "EquipedNone", "Bool", _EquipedNone);
+            }
+        }
+
+        private bool _EquipedPistol;
+        public bool EquipedPistol
+        {
+            get { return _EquipedPistol; }
+            set
+            {
+                _EquipedPistol = value;
+
+                animSync.SendPlayAnimationEvent(photonView.ViewID, "EquipedPistol", "Bool", _EquipedPistol);
+            }
+        }
+
+        private bool _EquipedRifle;
+        public bool EquipedRifle 
+        { 
+            get { return _EquipedRifle; }
+            set
+            {
+                _EquipedRifle = value;
+
+                animSync.SendPlayAnimationEvent(photonView.ViewID, "EquipedRifle", "Bool", _EquipedRifle);
+            }
+        }
+
+        
+
+
+
         protected bool isCharacterPlayer;
         public float maxAttackDistance;
 
         private IEnumerator coroutine;
+
 
         // 기본상태                                        offset Vector3(0.0f, 5.0f, -5.0f)
 
@@ -191,6 +232,10 @@ namespace com.ThreeCS.McCree
         void Start()
         {
             photonView.RPC("PlayerListSync", RpcTarget.All); // 플레이어 리스트 동기화
+
+            EquipedNone = true;
+            EquipedPistol = false;
+            EquipedRifle = false;
         }
 
         [PunRPC]
@@ -229,11 +274,14 @@ namespace com.ThreeCS.McCree
                 {
                     if (Input.GetButtonDown("LockOn"))
                     {
+                        Debug.Log(playerAutoMove.targetedEnemy);
+                        Debug.Log("뱅 준비");
                         AttackRange(); // 뱅 준비
                     }
 
                     if (isAiming && Input.GetButtonDown("Attack"))
                     {
+                        Debug.Log("뱅으로 들어감");
                         Bang();
                     }
 
@@ -246,7 +294,12 @@ namespace com.ThreeCS.McCree
                         ui.attackRange = 3;
 
                     if (Input.GetKeyDown("4"))
-                        animator.SetTrigger("Base");
+                    {
+                        playerManager.EquipedNone = true;
+                        playerManager.EquipedPistol = false;
+                        playerManager.EquipedRifle = false;
+                        //animSync.SendPlayAnimationEvent(photonView.ViewID, "Base", "Trigger");
+                    }
                     if (Input.GetKeyDown("5"))
                     {
                         GameObject testPistol = Instantiate(Resources.Load("TestGun/Colt Navy Revolver")) as GameObject;
@@ -302,7 +355,7 @@ namespace com.ThreeCS.McCree
                         // transfrom.position을 사용해도 되지만 얇은 벽등을 통과할 문제등이 생길 수 있다.
                         // 객체의 충돌을 유지하면서 이동하기 위해 MovePosition을 사용 했다.
                         rb.MovePosition(rb.position + moveDir * Time.fixedDeltaTime * moveSpeed);
-                        animator.SetFloat("Speed", moveDir.magnitude);
+                        animSync.SendPlayAnimationEvent(photonView.ViewID, "Speed", "Float", moveDir.magnitude);
                     }
                 }
             }
@@ -365,6 +418,7 @@ namespace com.ThreeCS.McCree
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
             {
+                Debug.Log("레이캐스트");
                 if (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player")
                 { // 클릭한 오브젝트가 자기 자신이 아닌 다른 플레이어 일때
 
@@ -378,7 +432,7 @@ namespace com.ThreeCS.McCree
                         Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
 
                     playerAutoMove.targetedEnemy = hit.collider.gameObject;
-
+                    Debug.Log("타겟 설정");
                 }
                 else
                 {
@@ -608,7 +662,7 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        void Bang_Trigger(string shooterNick, string targetNick)
+        void BangLog(string shooterNick, string targetNick)
         {
             GameObject bangLogObj = ObjectPool.Instance.GetObject(1); //오브젝트 풀에서 가져오기
             bangLogObj.transform.SetParent(MineUI.Instance.logPanel);

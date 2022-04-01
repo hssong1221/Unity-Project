@@ -41,7 +41,10 @@ namespace com.ThreeCS.McCree
 
                 if(_equipedWeapon.wepaon.kind == Weapon.iType.Pistol)
                 {
-                    animator.SetTrigger("Pistol");
+                    playerManager.EquipedNone = false;
+                    playerManager.EquipedPistol = true;
+                    playerManager.EquipedRifle = false;
+                    //animSync.SendPlayAnimationEvent(photonView.ViewID, "Pistol", "Trigger");
 
                     _equipedWeapon.gameObject.transform.SetParent(pistolPos);
                     _equipedWeapon.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -52,7 +55,10 @@ namespace com.ThreeCS.McCree
                 }
                 else if (_equipedWeapon.wepaon.kind == Weapon.iType.Rifle)
                 {
-                    animator.SetTrigger("Rifle");
+                    playerManager.EquipedNone = false;
+                    playerManager.EquipedPistol = false;
+                    playerManager.EquipedRifle = true;
+                    //animSync.SendPlayAnimationEvent(photonView.ViewID, "Rifle", "Trigger");
 
                     _equipedWeapon.gameObject.transform.SetParent(riflePos);
                     _equipedWeapon.transform.localPosition = new Vector3(0f, 0f, 0f);

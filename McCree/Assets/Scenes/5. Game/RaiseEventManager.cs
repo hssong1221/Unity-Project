@@ -22,7 +22,7 @@ namespace com.ThreeCS.McCree
         private PlayerManager playerManager;
         private PlayerInfo playerInfo;
         private UI ui;
-
+        private Animator anim;
 
         [SerializeField]
         private GameObject playerPrefab; // 1
@@ -35,7 +35,6 @@ namespace com.ThreeCS.McCree
         private const byte PipesInstantiate = 2;
         private const byte AddWorldQuest = 3;
 
-
         void Awake()
         {
             pInstance = this;
@@ -47,6 +46,7 @@ namespace com.ThreeCS.McCree
             playerManager = player.GetComponent<PlayerManager>();
             playerInfo = player.GetComponent<PlayerInfo>();
             ui = player.GetComponent<UI>();
+            anim = player.GetComponent<Animator>();
         }
 
 
@@ -91,9 +91,6 @@ namespace com.ThreeCS.McCree
 
                 int questIndex = (int)data[0];
 
-
-
-
                 // 퀘스트 생성해서 오른쪽 상단 목표에 붙여줌
                 GameObject subquestObj = Instantiate(MineUI.Instance.questObj, MineUI.Instance.worldQuestPanel);
 
@@ -107,6 +104,7 @@ namespace com.ThreeCS.McCree
                 LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)MineUI.Instance.worldQuestPanel);
                 // contentsizefillter가 적용이 안되는 오류때메 재배치하는 함수
             }
+            
         }
 
         // 캐릭터 생성 --------------------------------------------------------------------
@@ -179,7 +177,7 @@ namespace com.ThreeCS.McCree
             }
         }
 
-
+        // 월드 퀘스트 캐릭터 퀘스트리스트에 추가
         public void Add_World_Quest(NPC npc)
         {
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions
@@ -198,7 +196,6 @@ namespace com.ThreeCS.McCree
                 Debug.Log(questObjList[i].qrange);
                 if (npc.questObj.name == questObjList[i].name)
                 {
-                    Debug.Log("aaaaaaaaaaaa");
                     object[] data = new object[]{ i };
                     PhotonNetwork.RaiseEvent(AddWorldQuest, data, raiseEventOptions, sendOptions);
                     break;

@@ -66,6 +66,7 @@ MonoBehaviour:
   - Pick_Trigger
   - Bang_Trigger
   - QuestLog
+  - BangLog
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

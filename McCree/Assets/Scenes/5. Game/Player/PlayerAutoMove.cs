@@ -41,6 +41,7 @@ namespace com.ThreeCS.McCree
                     // 뱅 범위 사거리안에 적이 들어와 있을때
                     else
                     {
+                        Debug.Log("사거리 안에 들어옴");
                         playerManager.agent.SetDestination(transform.position); // 쏠때 제자리
                         transform.LookAt(targetedEnemy.transform); // 쏠때 적 바라보기
 
@@ -49,8 +50,8 @@ namespace com.ThreeCS.McCree
 
                             //GameObject bullet = ObjectPool.Instance.GetObject(1);
                             //bullet.transform.position = 
-
-                            animator.SetTrigger("Bang");
+                            Debug.Log("뱅 트리거");
+                            animSync.SendPlayAnimationEvent(photonView.ViewID, "Bang", "Trigger");
 
                             playerInfo.myItemList[0].itemCount -= 1;
 
@@ -59,7 +60,7 @@ namespace com.ThreeCS.McCree
                             string targetNick = targetedEnemy.GetComponent<PhotonView>().Owner.NickName;
 
                             // Bang 애니메이션 실행
-                            targetedEnemy.GetComponent<PhotonView>().RPC("Bang_Trigger", RpcTarget.All, shooterNick, targetNick);
+                            targetedEnemy.GetComponent<PhotonView>().RPC("BangLog", RpcTarget.All, shooterNick, targetNick);
 
                             // 적 한테 데미지
                             //targetedEnemy.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All);
