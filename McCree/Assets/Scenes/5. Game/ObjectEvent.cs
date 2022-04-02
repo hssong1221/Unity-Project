@@ -24,7 +24,7 @@ namespace com.ThreeCS.McCree
 
                 //if (other.GetComponent<PhotonView>().IsMine)
                 //{
-                    other.GetComponent<PhotonView>().RPC("GiveItems", RpcTarget.All, json);
+                other.GetComponent<PhotonView>().RPC("GiveItems", RpcTarget.AllViaServer, json);
                 //}
             }
         }

@@ -10,7 +10,38 @@ namespace com.ThreeCS.McCree
 {
     public class PlayerInfo : Controller
     {
-        public int hp;  // 기본 5
+        private int _hp;
+
+        public int hp
+        {
+            get { return _hp;  }
+            set
+            {
+                if (hp + 1 == _hp) // hp가 1깎였을때 캐릭터 UI 총알 이미지 바꿈
+                {
+                    Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
+                    tempImg.sprite = ui.emptyBullet;
+
+                    if (photonView.IsMine) // MineUI 체력 이미지 바꿈
+                    {
+                        Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
+                        tempImg2.sprite = MineUI.Instance.emptyHealth;
+                    }
+                }
+                else if (hp - 1 == _hp) // hp가 1업했을때 
+                {
+                    Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
+                    tempImg.sprite = ui.fullBullet;
+
+                    if (photonView.IsMine) // MineUI 체력 이미지 바꿈
+                    {
+                        Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
+                        tempImg2.sprite = MineUI.Instance.fullHealth;
+                    }
+                }
+                _hp = value;
+            }
+        }
         public int maxHp;
         public int damage = 1;
 

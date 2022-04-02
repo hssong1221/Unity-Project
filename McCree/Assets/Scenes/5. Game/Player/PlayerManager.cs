@@ -40,6 +40,7 @@ namespace com.ThreeCS.McCree
             }
         }
 
+
         public bool isBanging;
         public bool isDeath;
         public bool isBangeding;
@@ -86,31 +87,8 @@ namespace com.ThreeCS.McCree
         }
 
 
-        private bool isInventoryOpen;
 
-        // 플레이어 정보 타입
-        [Header("플레이어 정보")]
-        public GameManager.jType playerType;
-        public GameManager.aType abilityType;
-
-        [Header("이동 관련")]
-        [HideInInspector]
-        public float rotateSpeedMovement = 0.1f;  // 캐릭터 회전하는 속도
-        [HideInInspector]
-        public float rotateVelocity;
-
-        [Header("카메라 오프셋")]
-        protected Vector3 offset;
-
-        [SerializeField]
-        protected Transform _objectTransPos;
-
-        public Transform objectTransPos
-        {
-            get { return _objectTransPos; }
-        }
-
-
+        // 장착무기상태--------------------------------------------------------------------------------
         private bool _EquipedNone;
         public bool EquipedNone
         {
@@ -136,8 +114,8 @@ namespace com.ThreeCS.McCree
         }
 
         private bool _EquipedRifle;
-        public bool EquipedRifle 
-        { 
+        public bool EquipedRifle
+        {
             get { return _EquipedRifle; }
             set
             {
@@ -146,8 +124,36 @@ namespace com.ThreeCS.McCree
                 animSync.SendPlayAnimationEvent(photonView.ViewID, "EquipedRifle", "Bool", _EquipedRifle);
             }
         }
+        // ----------------------------------------------------------------------------------------
 
-        
+
+        private bool isInventoryOpen;
+
+        // 플레이어 정보 타입
+        [Header("플레이어 정보")]
+        public GameManager.jType playerType;
+        public GameManager.aType abilityType;
+
+        [Header("이동 관련")]
+        [HideInInspector]
+        public float rotateSpeedMovement = 0.1f;  // 캐릭터 회전하는 속도
+        [HideInInspector]
+        public float rotateVelocity;
+
+        [Header("카메라 오프셋")]
+        protected Vector3 offset;
+
+        [SerializeField]
+        protected Transform _objectTransPos;
+
+        public Transform objectTransPos
+        {
+            get { return _objectTransPos; }
+        }
+
+
+
+
 
 
 
@@ -272,19 +278,15 @@ namespace com.ThreeCS.McCree
 
                 if (!isBanging && !isBangeding && !isInteraction && !isLifting) // 아무코토 못함
                 {
-                    if (Input.GetButtonDown("LockOn"))
+                    if (!EquipedNone && Input.GetButtonDown("LockOn"))
                     {
-                        Debug.Log(playerAutoMove.targetedEnemy);
-                        Debug.Log("뱅 준비");
                         AttackRange(); // 뱅 준비
                     }
 
                     if (isAiming && Input.GetButtonDown("Attack"))
                     {
-                        Debug.Log("뱅으로 들어감");
                         Bang();
                     }
-
                     //Camera.main.transform.position = character.transform.position + offset;
                     if (Input.GetKeyDown("1")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
                         ui.attackRange = 1;
@@ -361,28 +363,6 @@ namespace com.ThreeCS.McCree
             }
         }
         #endregion
-
-        //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        //{
-        //    if (stream.isWriting)
-        //    {
-        //        stream.SendNext(transform.position);
-        //        stream.SendNext(transform.rotation);
-        //        stream.SendNext(animator.Get);
-        //    }
-        //    else
-        //    {
-        //        realPos = (Vector3)stream.ReceiveNext();
-        //        realRot = (Quaternion)stream.ReceiveNext();
-        //        anim.SetFloat("Speed", (float)stream.ReceiveNext());
-        //        anim.SetFloat("Strafe", (float)stream.ReceiveNext());
-
-        //        animator.SetTrigger("Pick");
-
-
-        //    }
-        //}
-
 
         #region private Methods
 
@@ -474,8 +454,6 @@ namespace com.ThreeCS.McCree
                 isInventoryOpen = false;
             }
         }
-
-
         #endregion
 
 
@@ -608,38 +586,29 @@ namespace com.ThreeCS.McCree
         }
 
         // Avoid 보류
-        //[PunRPC]
-        //void Damaged()
-        //{
-        //    Debug.Log("회피 수: " + playerInfo.myItemList[1].itemCount);
-        //    if (playerInfo.myItemList[1].itemCount > 0) // 회피 있으면
-        //    {
-        //        playerInfo.myItemList[1].itemCount -= 1;
-        //        Debug.Log("로그 떠야함");
-        //        Character_Notice_Text("<color=#FF8000>" + "회피!" + "</color>");
-        //        Avoid_Trigger();
-        //        return; // 회피있으면 avoid로그 출력하고 함수 종료
-        //    }
-        //    else
-        //    {
-        //        // 회피없으면 날라가는 함수 실행 
-        //        rb.AddForce(new Vector3(50.0f, 10.0f, 50.0f), ForceMode.Impulse);
+        [PunRPC]
+        void Damaged()
+        {
+            //    Debug.Log("회피 수: " + playerInfo.myItemList[1].itemCount);
+            //    if (playerInfo.myItemList[1].itemCount > 0) // 회피 있으면
+            //    {
+            //        playerInfo.myItemList[1].itemCount -= 1;
+            //        Debug.Log("로그 떠야함");
+            //        Character_Notice_Text("<color=#FF8000>" + "회피!" + "</color>");
+            //        Avoid_Trigger();
+            //        return; // 회피있으면 avoid로그 출력하고 함수 종료
+            //    }
+            //    else
+            //    {
+            //        // 회피없으면 날라가는 함수 실행 
+                
+                rb.AddForce(new Vector3(50.0f, 10.0f, 50.0f), ForceMode.Impulse);
 
-        //        playerInfo.hp -= playerInfo.damage;
+                playerInfo.hp -= playerInfo.damage;
 
-        //        Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
-        //        tempImg.sprite = ui.emptyBullet;
+                animator.SetTrigger("Banged");
+        }
 
-        //        animator.SetTrigger("Banged");
-
-        //        if (photonView.IsMine)
-        //        {
-        //            Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
-        //            tempImg2.sprite = MineUI.Instance.emptyHealth;
-        //        }
-        //    }
-
-        //}
 
         [PunRPC]
         public void PickUp_Transform_Item(int photonID)

@@ -2465,7 +2465,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef7f6058e5ab4e24ab02e8d6903c2b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 0
   maxHp: 0
   damage: 1
   myItemList: []
@@ -2517,7 +2516,6 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 0}
   - {fileID: 6215404349552739549}
   sceneViewId: 0
   InstantiationId: 0

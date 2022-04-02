@@ -36,7 +36,6 @@ namespace com.ThreeCS.McCree
             {
                 object[] data = (object[])obj.CustomData;
                 int targetPhotonView = (int)data[0];
-                Debug.Log(targetPhotonView + "  " + photonView.ViewID);
                 if (targetPhotonView == photonView.ViewID)
                 {
                     string animatorParameter = (string)data[1];
@@ -85,7 +84,6 @@ namespace com.ThreeCS.McCree
                     default:
                         break;
                 }
-                Debug.Log("AAAAAAAA");
                 object[] content = new object[] { photonViewID, animatorParameter, parameterType, parameterValue };
                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
                 PhotonNetwork.RaiseEvent(PlayAnimationEventCode, content, raiseEventOptions, SendOptions.SendReliable);

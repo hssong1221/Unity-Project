@@ -55,11 +55,8 @@ namespace com.ThreeCS.McCree
         #region 뱅 쏠때 (Shooting Gun)
         protected void Bang_Speech_Bubble_Anim_Start()
         {
-            if (photonView.IsMine)
-            {
-                playerManager.isBanging = true;
-                playerManager.isAiming = false;
-            }
+            playerManager.isBanging = true;
+            playerManager.isAiming = false;
         }
 
         protected void Bang_Speech_Bubble_Anim()
@@ -69,10 +66,8 @@ namespace com.ThreeCS.McCree
 
         protected void Bang_Speech_Bubble_Anim_End()
         {
-            if (photonView.IsMine)
-            {
-                playerManager.isBanging = false;
-            }
+
+            playerManager.isBanging = false;
         }
 
         #endregion
