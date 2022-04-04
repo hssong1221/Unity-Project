@@ -154,7 +154,7 @@ namespace com.ThreeCS.McCree
 
 
 
-
+        public GameObject bulletAttackedPos;
 
 
         protected bool isCharacterPlayer;

@@ -24,6 +24,18 @@ namespace com.ThreeCS.McCree
         protected MineUI mineUI;
         protected AnimSync animSync;
 
+        protected bool trigger;
+
+        private IEnumerator _animcoroutine;
+        public IEnumerator animcoroutine
+        {
+            get { return _animcoroutine; }
+            set
+            {
+                _animcoroutine = value;
+            }
+        }
+
         protected void Awake()
         {
 
@@ -59,14 +71,37 @@ namespace com.ThreeCS.McCree
             playerManager.isAiming = false;
         }
 
+        protected IEnumerator Set_Bullet_Target(GameObject target)
+        {
+            yield return new WaitUntil(() => trigger == true);
+
+            GameObject bullet = ObjectPool.Instance.GetObject(4);
+            Debug.Log(target);
+            bullet.GetComponent<Bullet>().target = target;
+            bullet.transform.position = playerInfo.equipedWeapon.bulletPos.position;
+            //bullet.GetComponent<Rigidbody>().position = playerInfo.equipedWeapon.bulletPos.position;
+            bullet.GetComponent<Bullet>().enabled = true; // FixedUpdate활성화
+        }
+
+        protected void Stop_Anim_Coroutine() // 코루틴은 해당 파일에서 꺼야함
+        {
+            if (animcoroutine != null)
+            {
+                StopCoroutine(animcoroutine);
+            }
+        }
+
         protected void Bang_Speech_Bubble_Anim()
         {
+            trigger = true;
             playerAutoMove.TurnOnBangBubble();
         }
 
         protected void Bang_Speech_Bubble_Anim_End()
         {
+            Stop_Anim_Coroutine();
 
+            trigger = false;
             playerManager.isBanging = false;
         }
 

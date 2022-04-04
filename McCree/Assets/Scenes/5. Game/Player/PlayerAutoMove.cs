@@ -24,7 +24,7 @@ namespace com.ThreeCS.McCree
 
         }
         
-        void Update()
+        void FixedUpdate()
         {
             if (photonView.IsMine)
             {
@@ -48,10 +48,12 @@ namespace com.ThreeCS.McCree
                         if (playerInfo.myItemList[0].itemCount > 0) // 뱅 있으면
                         {
 
-                            //GameObject bullet = ObjectPool.Instance.GetObject(1);
-                            //bullet.transform.position = 
+                            //if (controller.animcoroutine != null)
+                            //    Stop_Anim_Coroutine();
+                            //controller.animcoroutine = Set_Bullet_Target(targetedEnemy.GetComponent<PlayerManager>().bulletAttackedPos);
+                            //StartCoroutine(controller.animcoroutine);
+                            animSync.Shooting_Bullet(photonView.ViewID, targetedEnemy.GetComponent<PhotonView>().ViewID, targetedEnemy.GetComponent<PlayerManager>().bulletAttackedPos);
 
-                            
                             playerManager.isBanging = true; // Lookat함수가 잘 먹지않아서 일부로 isbanging먼저 넣고 Lookat함수 넣음
                             transform.LookAt(targetedEnemy.transform); // 쏠때 적 바라보기
                             animSync.SendPlayAnimationEvent(photonView.ViewID, "Bang", "Trigger");
@@ -80,7 +82,7 @@ namespace com.ThreeCS.McCree
 
         public void TurnOnBangBubble()
         {
-            Debug.Log("떠야함22");
+            Debug.Log("7번 뜨는 이유??");
             ui.bangGifImg.enabled = true;
             ui.bangGifImg.GetComponent<Animator>().Play("BangAnim", -1, 0);
             // 두번째 인자-1일경우 첫 state재생 

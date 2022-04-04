@@ -11,6 +11,7 @@ namespace com.ThreeCS.McCree
 {
     public class AnimSync : Controller
     {
+        private const byte ShootBulletEventCode = 98;
         private const byte PlayAnimationEventCode = 99;
 
         void Awake()
@@ -60,7 +61,23 @@ namespace com.ThreeCS.McCree
                     }
                 }
             }
+            else if(obj.Code == ShootBulletEventCode)
+            {
+                object[] data = (object[])obj.CustomData;
+                int shooterPhotonView = (int)data[0];
+                int targetPhotonView = (int)data[1];
+
+                if (shooterPhotonView == photonView.ViewID)
+                {
+                    if (controller.animcoroutine != null)
+                        Stop_Anim_Coroutine();
+                    controller.animcoroutine = Set_Bullet_Target(PhotonView.Find(targetPhotonView).gameObject.GetComponent<PlayerManager>().bulletAttackedPos);
+                    StartCoroutine(controller.animcoroutine);
+                }
+            }
         }
+
+
 
         // 애니메이션 동기화
         public void SendPlayAnimationEvent(int photonViewID, string animatorParameter, string parameterType, object parameterValue = null)
@@ -89,6 +106,21 @@ namespace com.ThreeCS.McCree
                 PhotonNetwork.RaiseEvent(PlayAnimationEventCode, content, raiseEventOptions, SendOptions.SendReliable);
             }
             
+        }
+
+        public void Shooting_Bullet(int photonViewID, int targetPvID ,GameObject targetpos)
+        {
+            if (photonView.IsMine)
+            {
+                if (controller.animcoroutine != null)
+                    Stop_Anim_Coroutine();
+                controller.animcoroutine = Set_Bullet_Target(targetpos);
+                StartCoroutine(controller.animcoroutine);
+
+                object[] content = new object[] { photonViewID, targetPvID };
+                RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+                PhotonNetwork.RaiseEvent(ShootBulletEventCode, content, raiseEventOptions, SendOptions.SendReliable);
+            }
         }
     }
 }

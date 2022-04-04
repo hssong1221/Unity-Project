@@ -30,6 +30,10 @@ namespace com.ThreeCS.McCree
         private GameObject avoidLogObject; // 회피 로그
         Queue<GameObject> avoidLogListQueue = new Queue<GameObject>();
 
+        [SerializeField]
+        private GameObject bulletObject; // 총알 프리팹
+        Queue<GameObject> bulletListQueue = new Queue<GameObject>();
+
         private void Awake()
         {
             pInstance = this;
@@ -50,6 +54,10 @@ namespace com.ThreeCS.McCree
             {
                 avoidLogListQueue.Enqueue(CreateNewObject(3));
             }
+            for (int i = 0; i < 7; i++)
+            {
+                bulletListQueue.Enqueue(CreateNewObject(4));
+            }
         }
 
         private GameObject CreateNewObject(int num)
@@ -60,10 +68,21 @@ namespace com.ThreeCS.McCree
                 poolingObject = questLogObject;
             else if (num == 3)
                 poolingObject = avoidLogObject;
+            else if (num == 4)
+                poolingObject = bulletObject;
 
             GameObject newObj = Instantiate(poolingObject);
             newObj.SetActive(false);
             newObj.transform.SetParent(transform);
+
+
+            if (poolingObject == bulletObject)
+            {
+                Debug.Log("AASDASD");
+                newObj.GetComponent<Bullet>().enabled = false;
+            }
+
+
             return newObj;
         }
 
@@ -75,6 +94,8 @@ namespace com.ThreeCS.McCree
                 poolingObjectQueue = questLogListQueue;
             else if (num == 3)
                 poolingObjectQueue = avoidLogListQueue;
+            else if (num == 4)
+                poolingObjectQueue = bulletListQueue;
 
 
 
@@ -91,7 +112,7 @@ namespace com.ThreeCS.McCree
             {
                 var newObj = CreateNewObject(num);
                 newObj.SetActive(true);
-                newObj.transform.SetParent(null); 
+                newObj.transform.SetParent(null);
                 return newObj;
             }
         }
@@ -105,6 +126,8 @@ namespace com.ThreeCS.McCree
                 poolingObjectQueue = questLogListQueue;
             else if (num == 3)
                 poolingObjectQueue = avoidLogListQueue;
+            else if (num == 4)
+                poolingObjectQueue = bulletListQueue;
 
 
             obj.SetActive(false);
