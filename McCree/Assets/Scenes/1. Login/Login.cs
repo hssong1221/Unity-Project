@@ -42,8 +42,6 @@ namespace com.ThreeCS.McCree
         private string password;
 
 
-
-
         #endregion
 
 
@@ -56,6 +54,7 @@ namespace com.ThreeCS.McCree
 
             loginBtn.onClick.AddListener(Login_Btn);
             registerBtn.onClick.AddListener(Register_Btn);
+            //setBtn.onClick.AddListener(Set_Btn);
         }
 
         private void Start()
@@ -63,6 +62,9 @@ namespace com.ThreeCS.McCree
             // Awake에 넣으면 작동 안하드라
             system = EventSystem.current;
             ID_Input.Select();
+
+           // setCvs.enabled = false;
+           // DontDestroyOnLoad(setCvs);
         }
 
         void Update()
@@ -90,6 +92,8 @@ namespace com.ThreeCS.McCree
             //    // 엔터키를 치면 로그인 (제출) 버튼을 클릭
             //    loginBtn.onClick.Invoke();
             //}
+            
+            
         }
 
 
@@ -119,12 +123,6 @@ namespace com.ThreeCS.McCree
 
             SceneManager.LoadScene("Register");
         }
-
-        
-
-        
-
-       
 
         #endregion
     }

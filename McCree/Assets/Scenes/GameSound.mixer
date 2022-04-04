@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!243 &-1279174113943971766
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Lobby
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: a4096ed609dfbe046a91bb614473e6da
+  m_Children: []
+  m_Volume: 4bbce44f3dce8514c91df19b12794d5c
+  m_Pitch: 218037296c79b964b8c24e612739ead7
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 5669285192793715208}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -18,12 +37,15 @@ AudioMixerController:
   m_ExposedParameters:
   - guid: 03a9fe1ea08635645a331291b26c467f
     name: BGM
+  - guid: 4bbce44f3dce8514c91df19b12794d5c
+    name: Lobby
   - guid: ce47048cb86a14f4a8d062fc43f8a946
     name: Master
   m_AudioMixerGroupViews:
   - guids:
     - 1ec69ecbd8748f540af0f1c78794d276
     - 7b07ad23efdb77649ac2dae27cd76bf3
+    - a4096ed609dfbe046a91bb614473e6da
     name: View
   m_CurrentViewIndex: 0
   m_TargetSnapshot: {fileID: 24500006}
@@ -38,6 +60,7 @@ AudioMixerGroupController:
   m_GroupID: 1ec69ecbd8748f540af0f1c78794d276
   m_Children:
   - {fileID: 1553729327537944700}
+  - {fileID: -1279174113943971766}
   m_Volume: ce47048cb86a14f4a8d062fc43f8a946
   m_Pitch: ed16a9024723d2f4caa3d4fad897cd5f
   m_Send: 00000000000000000000000000000000
@@ -94,6 +117,20 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!244 &5669285192793715208
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: b89ba8ef803f43e4abeac2e7fa54872d
+  m_EffectName: Attenuation
+  m_MixLevel: 31a9d5bdc28759a4abc1071f507f25f1
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!244 &7329172313090978675
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
