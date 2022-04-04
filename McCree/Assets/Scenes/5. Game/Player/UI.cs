@@ -60,7 +60,7 @@ namespace com.ThreeCS.McCree
 
             hpOffset = new Vector3(0, 2.0f, 0);
             bangOffset = new Vector3(0, 3.0f, 0);
-            itemOffset = new Vector3(0.5f, 1.0f, 0f);
+            itemOffset = new Vector3(0.5f, 2.5f, 0f);
             progressOffset = new Vector3(0, 2.5f, 0f);
 
             
@@ -127,16 +127,15 @@ namespace com.ThreeCS.McCree
                 if (interactObj.tag == "QItem_PickUp")
                 {
                     progressText.text = interactObj.name+" 치우는 중...";
-                    animator.SetTrigger("Pick");
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "Pick", "Trigger");
                 }
 
                 else if (interactObj.tag == "QItem_TransPort")
                 {
                     progressText.text = interactObj.name + " 들어 올리는 중...";
-                    animator.SetTrigger("Lift");
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "Lift", "Trigger");
                 }
                 
-                animator.SetBool("IsPicking", true);
                 playerManager.isPicking = true;
                 LoadingProgreeCircle(time, interactObj);
             }
@@ -149,13 +148,15 @@ namespace com.ThreeCS.McCree
             progressPercent.enabled = true;
 
             currentValue = 0;
+            if (coroutine != null)
+                StopCoroutine(coroutine);
             coroutine = LoadingProgreeCircleCoroutine(time, interactObj);
             StartCoroutine(coroutine);
         }
 
         IEnumerator LoadingProgreeCircleCoroutine(float time, GameObject interactObj)
         {
-            while (true && playerManager.isPicking)
+            while (playerManager.isPicking)
             {
                 currentValue += 100 * Time.deltaTime / time; // 아마 초단위 맞을듯?
                 progressPercent.text = ((int)currentValue).ToString() + "%";
@@ -187,18 +188,25 @@ namespace com.ThreeCS.McCree
                             {
                                 Quest_Transport_Obj pickQuest = (Quest_Transport_Obj)ptQuest;
 
-                                Debug.Log(interactObj.name);
-                                interactObj.transform.SetParent(playerManager.objectTransPos);
-                                interactObj.GetComponent<ParticleSystem>().Stop();
-                                interactObj.GetComponent<ParticleSystem>().Clear();
-                                // position 오브젝트의 위치를 항상 월드의 원점을 기준으로 월드 공간상에 선언한다.
-                                // localPosition 부모의 위치 기준으로 설정한다
-                                interactObj.transform.localPosition = new Vector3(0f, 0f, 0f);
-                                interactObj.transform.localRotation = Quaternion.identity;
-                                interactObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                                if (pickQuest.qrange == Quest_Obj.oType.World) // 월드 퀘스트 아이템일때
+                                {
+                                    Debug.Log(interactObj.GetComponent<PhotonView>().ViewID);
+                                    photonView.RPC("PickUp_Transform_Item", RpcTarget.All, interactObj.GetComponent<PhotonView>().ViewID);
+                                }
+                                else // 개인 퀘스트 아이템 일때
+                                {
+                                    interactObj.transform.SetParent(playerManager.objectTransPos);
+                                    interactObj.GetComponent<ParticleSystem>().Stop();
+                                    interactObj.GetComponent<ParticleSystem>().Clear();
+                                    // position 오브젝트의 위치를 항상 월드의 원점을 기준으로 월드 공간상에 선언한다.
+                                    // localPosition 부모의 위치 기준으로 설정한다
+                                    interactObj.transform.localPosition = new Vector3(0f, 0f, 0f);
+                                    interactObj.transform.localRotation = Quaternion.identity;
+                                    interactObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
-                                Debug.Log("들어올리기 성공!");
-                                animator.SetBool("IsLifting", true);
+                                    Debug.Log("들어올리기 성공!");
+                                    playerManager.isLifting = true;
+                                }
                             }
                             break;
                         }
@@ -215,7 +223,6 @@ namespace com.ThreeCS.McCree
         public void Off_ProgressUI() // 원 진행도, interaction 코루틴 스탑
         {
             playerManager.isPicking = false;
-            animator.SetBool("IsPicking", false);
             if (coroutine != null) 
                 StopCoroutine(coroutine);
             if (interaction.coroutine != null)
@@ -230,7 +237,6 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.interactionPanel.SetActive(true);
 
             playerManager.isPicking = false;
-            animator.SetBool("IsPicking", false);
             if (coroutine != null) // 원 진행도 코루틴만 스탑, 다시 주울수있도록 interaction코루틴은 끄지않음
                 StopCoroutine(coroutine);
             progressText.enabled = false;

@@ -68,28 +68,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0
-        functionName: Bang_Speech_Bubble_Anim_Start
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: f231d72ae3e815c4f92971d7101778e1, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.5772059
-        functionName: Bang_Speech_Bubble_Anim
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: f231d72ae3e815c4f92971d7101778e1, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 1
-        functionName: Bang_Speech_Bubble_Anim_End
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: f231d72ae3e815c4f92971d7101778e1, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

@@ -22,6 +22,7 @@ namespace com.ThreeCS.McCree
         protected Interaction interaction;
         protected UI ui;
         protected MineUI mineUI;
+        protected AnimSync animSync;
 
         protected void Awake()
         {
@@ -36,15 +37,12 @@ namespace com.ThreeCS.McCree
             playerInfo = GetComponent<PlayerInfo>();
             interaction = GetComponent<Interaction>();
             ui = GetComponent<UI>();
+            animSync = GetComponent<AnimSync>();
 
             animator = GetComponent<Animator>();
             rb = GetComponent<Rigidbody>();
         }
 
-        private void Start()
-        {
-            playerManager.isBanging = false;
-        }
 
         private void Update()
         {
@@ -63,13 +61,13 @@ namespace com.ThreeCS.McCree
 
         protected void Bang_Speech_Bubble_Anim()
         {
-            photonView.RPC("TurnOnBangBubble", RpcTarget.All);
+            playerAutoMove.TurnOnBangBubble();
         }
 
         protected void Bang_Speech_Bubble_Anim_End()
         {
+
             playerManager.isBanging = false;
-            
         }
 
         #endregion
@@ -77,12 +75,18 @@ namespace com.ThreeCS.McCree
         #region 뱅 맞을때 (Flying Death, Stand Up)
         protected void IsAttacked_True()
         {
-            playerManager.isBangeding = true;
+            if (photonView.IsMine)
+            {
+                playerManager.isBangeding = true;
+            }
         }
 
         protected void IsAttacked_False()
         {
-            playerManager.isBangeding = false;
+            if (photonView.IsMine)
+            {
+                playerManager.isBangeding = false;
+            }
         }
 
         #endregion

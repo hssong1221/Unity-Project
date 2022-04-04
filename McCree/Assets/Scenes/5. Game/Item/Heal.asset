@@ -16,4 +16,4 @@ MonoBehaviour:
   itemName: Heal
   itemExplain: "\uC790\uC2E0\uC758 \uCCB4\uB825\uC744 1\uCE78 \uD68C\uBCF5\uD560
     \uC218 \uC788\uC2B5\uB2C8\uB2E4."
-  ability: 2
+  Ability: 2

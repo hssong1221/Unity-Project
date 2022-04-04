@@ -50,9 +50,6 @@ namespace com.ThreeCS.McCree
                     npcChatList = quest.npcChatList_progress;
                     foreach (Transform pos in quest.start_InstantePos)
                     {
-                        GameObject clonedObj = Instantiate(quest.bringGameObj, pos.position, Quaternion.identity);
-                        clonedObj.name = quest.bringGameObj.name;
-
                         object[] data = new object[]
                         {
                             pos.position, Quaternion.identity
@@ -77,5 +74,6 @@ namespace com.ThreeCS.McCree
             questTitle_progress = questProgress + " " + quest.questTitle;
             questContent_progress = quest.questContent + "\n" + questProgress;
         }
+
     }
 }

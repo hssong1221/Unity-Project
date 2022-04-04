@@ -4,13 +4,22 @@ using UnityEngine;
 
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 namespace com.ThreeCS.McCree
 {
     public class Interaction : Controller
     {
 
-        public IEnumerator coroutine;
+        private IEnumerator _coroutine;
+        public IEnumerator coroutine
+        {
+            get { return _coroutine; }
+            set
+            {
+                _coroutine = value;
+            }
+        }
 
         void Awake()
         {
@@ -21,8 +30,6 @@ namespace com.ThreeCS.McCree
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log(photonView.IsMine);
-
             if (photonView.IsMine)
             {
                 if (other.tag == "NPC")
@@ -36,6 +43,8 @@ namespace com.ThreeCS.McCree
                         MineUI.Instance.interactionText.text = "대화 하기";
                         // F 상호작용 랜덤 위치
 
+                        if (coroutine != null)
+                            StopCoroutine(coroutine);
                         coroutine = returnchatList(0, other);
                         StartCoroutine(coroutine);
                         // 트리거된 상태에서 F누르면 대화창 뜰수있도록 코루틴함수 실행
@@ -43,8 +52,6 @@ namespace com.ThreeCS.McCree
                 }
                 else if (other.gameObject.layer == LayerMask.NameToLayer("QuestItem"))
                 {
-                    Debug.Log(photonView.IsMine);
-
                     foreach (SubQuestList subQuestObj in playerInfo.myQuestList)
                     {
                         Quest_Interface_PT_Obj pickQuest = (Quest_Interface_PT_Obj) subQuestObj.questObj;
@@ -60,6 +67,8 @@ namespace com.ThreeCS.McCree
                             MineUI.Instance.interactionText.text = "줍기";
                             // F 상호작용 랜덤 위치
 
+                            if (coroutine != null)
+                                StopCoroutine(coroutine);
                             coroutine = QuestItemInteraction(other);
                             StartCoroutine(coroutine);
                             // 트리거된 상태에서 F누르면 줍는 애니메이션 실행될수있도록
@@ -186,17 +195,33 @@ namespace com.ThreeCS.McCree
         {
             if (photonView.IsMine)
             {
+                
                 // 퀘스트 진행중으로 상태 바꿈
                 npc.questObj.qState = Quest_Obj.qType.Progress;
                 npc.questObj.npcChatList = npc.questObj.quest.npcChatList_progress;
 
                 // 퀘스트 생성해서 오른쪽 상단 목표에 붙여줌
-                GameObject subquestObj = Instantiate(MineUI.Instance.subQuestObj, MineUI.Instance.subQuestPanel);
+                GameObject subquestObj;
+
+                if (npc.questObj.qrange == Quest_Obj.oType.World) 
+                {
+                    subquestObj = Instantiate(MineUI.Instance.questObj, MineUI.Instance.worldQuestPanel);
+                    photonView.RPC("QuestLog", RpcTarget.All, npc.questObj.quest.questTitle); // 퀘스트 알림
+                    RaiseEventManager.Instance.Add_World_Quest(npc); // 월드 퀘스트라면 전체에게 퀘스트 추가
+                }
+                else // 서브 퀘스트면 나한테만 추가
+                {   
+                    subquestObj = Instantiate(MineUI.Instance.questObj, MineUI.Instance.subQuestPanel);
+                }
+
                 subquestObj.GetComponent<SubQuestList>().questObj = npc.questObj;
                 subquestObj.GetComponent<SubQuestList>().questTitle.text = npc.questObj.questTitle_progress;
 
                 // 내 퀘스트리스트에 붙임
                 playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>());
+
+                // contentsizefillter가 적용이 안되는 오류때메 재배치하는 함수
+                LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)MineUI.Instance.worldQuestPanel);
 
                 // npc대화 끔
                 Close_NPC_Chat();

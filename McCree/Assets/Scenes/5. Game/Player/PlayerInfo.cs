@@ -10,7 +10,38 @@ namespace com.ThreeCS.McCree
 {
     public class PlayerInfo : Controller
     {
-        public int hp;  // 기본 5
+        private int _hp;
+
+        public int hp
+        {
+            get { return _hp;  }
+            set
+            {
+                if (hp + 1 == _hp) // hp가 1깎였을때 캐릭터 UI 총알 이미지 바꿈
+                {
+                    Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
+                    tempImg.sprite = ui.emptyBullet;
+
+                    if (photonView.IsMine) // MineUI 체력 이미지 바꿈
+                    {
+                        Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
+                        tempImg2.sprite = MineUI.Instance.emptyHealth;
+                    }
+                }
+                else if (hp - 1 == _hp) // hp가 1업했을때 
+                {
+                    Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
+                    tempImg.sprite = ui.fullBullet;
+
+                    if (photonView.IsMine) // MineUI 체력 이미지 바꿈
+                    {
+                        Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
+                        tempImg2.sprite = MineUI.Instance.fullHealth;
+                    }
+                }
+                _hp = value;
+            }
+        }
         public int maxHp;
         public int damage = 1;
 
@@ -20,7 +51,6 @@ namespace com.ThreeCS.McCree
         // 2번째 Heal
 
         public List<SubQuestList> myQuestList;
-
 
         protected Transform content;
 
@@ -42,7 +72,10 @@ namespace com.ThreeCS.McCree
 
                 if(_equipedWeapon.wepaon.kind == Weapon.iType.Pistol)
                 {
-                    animator.SetTrigger("Pistol");
+                    playerManager.EquipedNone = false;
+                    playerManager.EquipedPistol = true;
+                    playerManager.EquipedRifle = false;
+                    //animSync.SendPlayAnimationEvent(photonView.ViewID, "Pistol", "Trigger");
 
                     _equipedWeapon.gameObject.transform.SetParent(pistolPos);
                     _equipedWeapon.transform.localPosition = new Vector3(0f, 0f, 0f);
@@ -53,7 +86,10 @@ namespace com.ThreeCS.McCree
                 }
                 else if (_equipedWeapon.wepaon.kind == Weapon.iType.Rifle)
                 {
-                    animator.SetTrigger("Rifle");
+                    playerManager.EquipedNone = false;
+                    playerManager.EquipedPistol = false;
+                    playerManager.EquipedRifle = true;
+                    //animSync.SendPlayAnimationEvent(photonView.ViewID, "Rifle", "Trigger");
 
                     _equipedWeapon.gameObject.transform.SetParent(riflePos);
                     _equipedWeapon.transform.localPosition = new Vector3(0f, 0f, 0f);

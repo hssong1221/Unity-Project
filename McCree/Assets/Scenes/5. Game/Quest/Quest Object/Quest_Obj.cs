@@ -24,6 +24,21 @@ namespace com.ThreeCS.McCree
         }
 
 
+        [SerializeField]
+        protected oType _qrange; // 개인 퀘스트 인지 전체 퀘스트 인지
+
+        public oType qrange
+        {
+            get { return _qrange; }
+        }
+
+        public enum oType
+        {
+            Local,
+            World
+        }
+
+
         protected List<string> _npcChatList; // 현재 텍스트
         public List<string> npcChatList
         {

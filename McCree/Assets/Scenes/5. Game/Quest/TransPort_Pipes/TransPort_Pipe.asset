@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TransPort_Pipe
   m_EditorClassIdentifier: 
   Reward: 1
+  Range: 1
   npcChatList_start:
   - "\uC800\uAE30\uC694 \uC9C0\uB098\uAC00\uC2DC\uB294 \uC2E0\uC0AC\uBD84"
   - "\uC800 \uD63C\uC790 \uC62E\uAE30\uAE30\uB294 \uD798\uB4E0\uB370 \uC800\uAE30\uC788\uB294

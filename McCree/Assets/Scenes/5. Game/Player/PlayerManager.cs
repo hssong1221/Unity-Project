@@ -18,8 +18,8 @@ namespace com.ThreeCS.McCree
         public static GameObject LocalPlayerInstance;
 
         private bool _isAiming;
-        public bool isAiming
-        { 
+        public bool isAiming // 조준 중 , 조준 끝
+        {
             get { return _isAiming; }
             set
             {
@@ -27,24 +27,105 @@ namespace com.ThreeCS.McCree
 
                 if (_isAiming == true)
                 {
-                    animator.SetBool("IsAiming", isAiming);
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "IsAiming", "Bool", _isAiming);
                     moveSpeed = 2.5f;
                     ui.indicatorRangeCircle.enabled = true;
                 }
                 else
                 {
-                    animator.SetBool("IsAiming", isAiming);
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "IsAiming", "Bool", _isAiming);
                     moveSpeed = 5.0f;
                     ui.indicatorRangeCircle.enabled = false;
                 }
             }
         }
 
+
         public bool isBanging;
         public bool isDeath;
-        public bool isPicking;
         public bool isBangeding;
         public bool isInteraction;
+
+        private bool _isPicking;
+        public bool isPicking
+        {
+            get { return _isPicking; }
+            set
+            {
+                _isPicking = value;
+
+                if (_isPicking == true)
+                {
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "IsPicking", "Bool", _isPicking);
+                }
+                else
+                {
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "IsPicking", "Bool", _isPicking);
+                }
+            }
+        }
+
+        private bool _isLifting;
+        public bool isLifting // 들고있는 중 , 들고있지않은 중
+        {
+            get { return _isLifting; }
+            set
+            {
+                _isLifting = value;
+
+                if (_isLifting == true)
+                {
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "IsLifting", "Bool", _isLifting);
+                    moveSpeed = 2.0f;
+                }
+                else
+                {
+                    animSync.SendPlayAnimationEvent(photonView.ViewID, "IsLifting", "Bool", _isLifting);
+                    moveSpeed = 5.0f;
+                }
+            }
+        }
+
+
+
+        // 장착무기상태--------------------------------------------------------------------------------
+        private bool _EquipedNone;
+        public bool EquipedNone
+        {
+            get { return _EquipedNone; }
+            set
+            {
+                _EquipedNone = value;
+
+                animSync.SendPlayAnimationEvent(photonView.ViewID, "EquipedNone", "Bool", _EquipedNone);
+            }
+        }
+
+        private bool _EquipedPistol;
+        public bool EquipedPistol
+        {
+            get { return _EquipedPistol; }
+            set
+            {
+                _EquipedPistol = value;
+
+                animSync.SendPlayAnimationEvent(photonView.ViewID, "EquipedPistol", "Bool", _EquipedPistol);
+            }
+        }
+
+        private bool _EquipedRifle;
+        public bool EquipedRifle
+        {
+            get { return _EquipedRifle; }
+            set
+            {
+                _EquipedRifle = value;
+
+                animSync.SendPlayAnimationEvent(photonView.ViewID, "EquipedRifle", "Bool", _EquipedRifle);
+            }
+        }
+        // ----------------------------------------------------------------------------------------
+
 
         private bool isInventoryOpen;
 
@@ -67,12 +148,20 @@ namespace com.ThreeCS.McCree
 
         public Transform objectTransPos
         {
-            get { return _objectTransPos;  }
+            get { return _objectTransPos; }
         }
+
+
+
+
+
 
 
         protected bool isCharacterPlayer;
         public float maxAttackDistance;
+
+        private IEnumerator coroutine;
+
 
         // 기본상태                                        offset Vector3(0.0f, 5.0f, -5.0f)
 
@@ -149,6 +238,10 @@ namespace com.ThreeCS.McCree
         void Start()
         {
             photonView.RPC("PlayerListSync", RpcTarget.All); // 플레이어 리스트 동기화
+
+            EquipedNone = true;
+            EquipedPistol = false;
+            EquipedRifle = false;
         }
 
         [PunRPC]
@@ -176,53 +269,55 @@ namespace com.ThreeCS.McCree
 
             //if (!PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 모든 입력금지
             //{                                 // 대화창 활성화하면 캐릭터 제자리 걸음함 
-                if (photonView.IsMine)
+            if (photonView.IsMine)
+            {
+                if (Input.GetKeyDown(KeyCode.Tab))
                 {
-                    if (!isBanging && !isBangeding && !isInteraction) // 아무코토 못함
-                    {
-
-                        //Move();
-
-
-                        if (Input.GetButtonDown("LockOn"))
-                        {
-                            AttackRange(); // 뱅 준비
-                        }
-                        if (Input.GetKeyDown(KeyCode.Tab))
-                        {
-                            Inventory();
-                        }
-                        if (isAiming && Input.GetButtonDown("Attack"))
-                        {
-                            Bang();
-                        }
-
-                        //Camera.main.transform.position = character.transform.position + offset;
-                        if (Input.GetKeyDown("1")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
-                            ui.attackRange = 1;
-                        if (Input.GetKeyDown("2"))
-                            ui.attackRange = 2;
-                        if (Input.GetKeyDown("3"))
-                            ui.attackRange = 3;
-
-                        if (Input.GetKeyDown("4"))
-                            animator.SetTrigger("Base");
-                        if (Input.GetKeyDown("5"))
-                        {
-                            GameObject testPistol = Instantiate(Resources.Load("TestGun/Colt Navy Revolver")) as GameObject;
-                            playerInfo.equipedWeapon = testPistol.GetComponent<Weapon_Obj>();
-                        }
-                        if (Input.GetKeyDown("6"))
-                        {
-                            GameObject testPistol = Instantiate(Resources.Load("TestGun/SM_Wep_Rifle")) as GameObject;
-                            playerInfo.equipedWeapon = testPistol.GetComponent<Weapon_Obj>();
-                        }
-
-
-                        ui.indicatorRangeCircle.rectTransform.localScale = new Vector3(ui.attackRange, ui.attackRange, 0);
-                        // Range_Indicator 이미지의 크기 변경 
-                    }
+                    Inventory();
                 }
+
+                if (!isBanging && !isBangeding && !isInteraction && !isLifting) // 아무코토 못함
+                {
+                    if (!EquipedNone && Input.GetButtonDown("LockOn"))
+                    {
+                        AttackRange(); // 뱅 준비
+                    }
+
+                    if (isAiming && Input.GetButtonDown("Attack"))
+                    {
+                        Bang();
+                    }
+                    //Camera.main.transform.position = character.transform.position + offset;
+                    if (Input.GetKeyDown("1")) // 시점 임의로 변경, 추후에 아이템먹으면 시점변경
+                        ui.attackRange = 1;
+                    if (Input.GetKeyDown("2"))
+                        ui.attackRange = 2;
+                    if (Input.GetKeyDown("3"))
+                        ui.attackRange = 3;
+
+                    if (Input.GetKeyDown("4"))
+                    {
+                        playerManager.EquipedNone = true;
+                        playerManager.EquipedPistol = false;
+                        playerManager.EquipedRifle = false;
+                        //animSync.SendPlayAnimationEvent(photonView.ViewID, "Base", "Trigger");
+                    }
+                    if (Input.GetKeyDown("5"))
+                    {
+                        GameObject testPistol = Instantiate(Resources.Load("TestGun/Colt Navy Revolver")) as GameObject;
+                        playerInfo.equipedWeapon = testPistol.GetComponent<Weapon_Obj>();
+                    }
+                    if (Input.GetKeyDown("6"))
+                    {
+                        GameObject testPistol = Instantiate(Resources.Load("TestGun/SM_Wep_Rifle")) as GameObject;
+                        playerInfo.equipedWeapon = testPistol.GetComponent<Weapon_Obj>();
+                    }
+
+
+                    ui.indicatorRangeCircle.rectTransform.localScale = new Vector3(ui.attackRange, ui.attackRange, 0);
+                    // Range_Indicator 이미지의 크기 변경 
+                }
+            }
             //}
             //else
             //{
@@ -231,7 +326,7 @@ namespace com.ThreeCS.McCree
 
         }
 
-        private void FixedUpdate()
+        private void FixedUpdate() // move
         {
             if (photonView.IsMine)
             {
@@ -245,15 +340,12 @@ namespace com.ThreeCS.McCree
                     h = Input.GetAxis("Horizontal");
                     v = Input.GetAxis("Vertical");
 
-                    moveVec = new Vector3(h, 0, v);
+                    moveVec = new Vector3(h, 0f, v);
 
                     lookForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
                     lookRight = new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z).normalized;
 
                     moveDir = lookForward * moveVec.z + lookRight * moveVec.x;
-
-                    // 부드러운 회전을 위한 보간
-                    //currentDirection = Vector3.Slerp(currentDirection, direction, Time.deltaTime * moveSpeed);
 
                     if (moveDir.magnitude >= 0.01)
                     {
@@ -264,15 +356,13 @@ namespace com.ThreeCS.McCree
                         // Rigidbody의 MovePosition 메소드로 캐릭터 이동
                         // transfrom.position을 사용해도 되지만 얇은 벽등을 통과할 문제등이 생길 수 있다.
                         // 객체의 충돌을 유지하면서 이동하기 위해 MovePosition을 사용 했다.
-                        rb.MovePosition(rb.position + moveDir * Time.deltaTime * moveSpeed);
-
-                        animator.SetFloat("Speed", moveDir.magnitude);
+                        rb.MovePosition(rb.position + moveDir * Time.fixedDeltaTime * moveSpeed);
+                        animSync.SendPlayAnimationEvent(photonView.ViewID, "Speed", "Float", moveDir.magnitude);
                     }
                 }
             }
         }
         #endregion
-
 
         #region private Methods
 
@@ -308,6 +398,7 @@ namespace com.ThreeCS.McCree
             RaycastHit hit;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
             {
+                Debug.Log("레이캐스트");
                 if (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player")
                 { // 클릭한 오브젝트가 자기 자신이 아닌 다른 플레이어 일때
 
@@ -321,7 +412,7 @@ namespace com.ThreeCS.McCree
                         Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
 
                     playerAutoMove.targetedEnemy = hit.collider.gameObject;
-                    
+                    Debug.Log("타겟 설정");
                 }
                 else
                 {
@@ -330,75 +421,6 @@ namespace com.ThreeCS.McCree
             }
         }
 
-
-        
-
-
-        // 플레이어 이동
-        void Move()
-        {
-            // 키보드로 움직임 임시 구현
-
-
-            //if (isPicking == true && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
-            //{   // 상호작용중에 움직이면 
-            //    ui.CanCel_Animation();
-            //}
-
-            //h = Input.GetAxis("Horizontal");
-            //v = Input.GetAxis("Vertical");
-
-
-            //moveVec = new Vector3(h, 0, v);
-
-            //Old_Position = transform.position;
-
-            //lookForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
-            //lookRight = new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z).normalized;
-
-            //moveDir = lookForward * moveVec.z + lookRight * moveVec.x;
-
-            //// 회전 다시 돌아오는것을 막기위해
-            //if (!(h == 0 && v == 0))
-            //{
-            //    transform.forward = moveDir;
-            //    agent.SetDestination(transform.position);
-            //    playerAutoMove.targetedEnemy = null;
-            //}
-
-            //transform.position += 5f * Time.deltaTime * moveDir;
-
-            //Cur_Position = transform.position;
-            //animator.SetFloat("Speed", Vector3.Distance(Old_Position, Cur_Position) * 100f);
-
-
-
-            //----------------------------------------------------------
-
-            /*if (Input.GetButton("Move"))
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, (1 << LayerMask.NameToLayer("Floor")) + (1 << LayerMask.NameToLayer("Building"))))
-                {
-                    // 이동
-                    agent.SetDestination(hit.point);
-                    playerAutoMove.targetedEnemy = null;
-                    agent.stoppingDistance = 0;
-
-                    // 회전이 딱히 필요없음
-                    //Quaternion rotationToLookAt = Quaternion.LookRotation(hit.point - transform.position);
-                    //float rotationY = Mathf.SmoothDamp(transform.eulerAngles.y,
-                    //    rotationToLookAt.eulerAngles.y,
-                    //    ref rotateVelocity,
-                    //    rotateSpeedMovement * (Time.deltaTime * 5));
-                    //transform.eulerAngles = new Vector3(0, rotationY, 0);
-
-                }
-                float speed = agent.velocity.magnitude / agent.speed;
-                animator.SetFloat("Speed", speed);
-            }*/
-        }
 
         // 포탈에 상호작용 했을 때 동작
         public void Move(Transform target)
@@ -432,8 +454,6 @@ namespace com.ThreeCS.McCree
                 isInventoryOpen = false;
             }
         }
-
-
         #endregion
 
 
@@ -515,7 +535,7 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public IEnumerator GiveItems(string jsonData)
+        public void GiveItems(string jsonData)
         {
             Item.iType pickedItem = JsonConvert.DeserializeObject<Item.iType>(jsonData);
 
@@ -530,56 +550,112 @@ namespace com.ThreeCS.McCree
                     }
                 }
             }
-            return_itemNoticeText("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
-
-            yield return new WaitForEndOfFrame();
+            Character_Notice_Text("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
         }
 
         [PunRPC]
         public void GetQuest(string questTitle)
         {
-            return_itemNoticeText("<color=#000000>" + questTitle + " 퀘스트를 수락하였습니다!" + "</color>");
+            Character_Notice_Text("<color=#000000>" + questTitle + " 퀘스트를 수락하였습니다!" + "</color>");
         }
 
         [PunRPC]
         public void QuestComplete(string questTitle)
         {
-            return_itemNoticeText("<color=#FF3E6E>" + questTitle + " 퀘스트를 완료하였습니다!" + "</color>");
+            Character_Notice_Text("<color=#FF3E6E>" + questTitle + " 퀘스트를 완료하였습니다!" + "</color>");
         }
 
+        public void Character_Notice_Text(string sentence)
+        {
+            if (coroutine != null) // 이미 텍스트 나온게있다면 4초 기다리던 코루틴 중지시키고 
+                StopCoroutine(coroutine); // 새로운 코루틴 스타트 해서 다시 4초기다림
+            coroutine = Character_Notice_Text_Coroutine(sentence);
+            StartCoroutine(coroutine);
+        }
 
-        public void return_itemNoticeText(string sentece)
+        public IEnumerator Character_Notice_Text_Coroutine(string sentence)
         {
             ui.itemNotice.enabled = true;
-            ui.itemNotice.text = sentece;
-            //ui.itemNotice1.GetComponent<Animator>().Play("ItemNoticeText");
-            Invoke("TurnOffItemText", 4.0f);
+            ui.itemNotice.text = sentence;
+
+            yield return new WaitForSeconds(4.0f);
+
+            ui.itemNotice.enabled = false;
+
+            yield return null;
         }
 
-        void TurnOffItemText()
+        // Avoid 보류
+        [PunRPC]
+        void Damaged()
         {
-            ui.itemNotice.enabled = false;
+            //    Debug.Log("회피 수: " + playerInfo.myItemList[1].itemCount);
+            //    if (playerInfo.myItemList[1].itemCount > 0) // 회피 있으면
+            //    {
+            //        playerInfo.myItemList[1].itemCount -= 1;
+            //        Debug.Log("로그 떠야함");
+            //        Character_Notice_Text("<color=#FF8000>" + "회피!" + "</color>");
+            //        Avoid_Trigger();
+            //        return; // 회피있으면 avoid로그 출력하고 함수 종료
+            //    }
+            //    else
+            //    {
+            //        // 회피없으면 날라가는 함수 실행 
+                
+                rb.AddForce(new Vector3(50.0f, 10.0f, 50.0f), ForceMode.Impulse);
+
+                playerInfo.hp -= playerInfo.damage;
+
+                animator.SetTrigger("Banged");
         }
 
 
         [PunRPC]
-        void Damaged()
+        public void PickUp_Transform_Item(int photonID)
         {
-            animator.SetTrigger("Banged");
+            GameObject interactObj = PhotonView.Find(photonID).gameObject;
 
-            rb.AddForce(new Vector3(50.0f, 10.0f, 50.0f), ForceMode.Impulse);
-
-            playerInfo.hp -= playerInfo.damage;
-
-            Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
-            tempImg.sprite = ui.emptyBullet;
+            interactObj.transform.SetParent(playerManager.objectTransPos);
+            interactObj.GetComponent<ParticleSystem>().Stop();
+            interactObj.GetComponent<ParticleSystem>().Clear();
+            // position 오브젝트의 위치를 항상 월드의 원점을 기준으로 월드 공간상에 선언한다.
+            // localPosition 부모의 위치 기준으로 설정한다
+            interactObj.transform.localPosition = new Vector3(0f, 0f, 0f);
+            interactObj.transform.localRotation = Quaternion.identity;
+            interactObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
             if (photonView.IsMine)
             {
-                Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
-                tempImg2.sprite = MineUI.Instance.emptyHealth;
-
+                playerManager.isLifting = true;
             }
+        }
+
+        [PunRPC]
+        void BangLog(string shooterNick, string targetNick)
+        {
+            GameObject bangLogObj = ObjectPool.Instance.GetObject(1); //오브젝트 풀에서 가져오기
+            bangLogObj.transform.SetParent(MineUI.Instance.logPanel);
+            bangLogObj.GetComponent<BangLogObj>().shooterNick.text = shooterNick;
+            bangLogObj.GetComponent<BangLogObj>().targetNick.text = targetNick;
+            bangLogObj.GetComponent<Animator>().Play("LogStart");
+        }
+
+        //void Avoid_Trigger()
+        //{
+        //    GameObject avoidLogObj = ObjectPool.Instance.GetObject(3); //오브젝트 풀에서 가져오기
+        //    avoidLogObj.transform.SetParent(MineUI.Instance.logPanel);
+        //    avoidLogObj.GetComponent<AvoidLogObj>().nick1.text = PhotonNetwork.LocalPlayer.NickName;
+        //    avoidLogObj.GetComponent<Animator>().Play("LogStart");
+        //}
+
+        [PunRPC]
+        public void QuestLog(string questTitle)
+        {
+            // 퀘스트 공지 창
+            GameObject bangLogObj = ObjectPool.Instance.GetObject(2); //오브젝트 풀에서 가져오기
+            bangLogObj.transform.SetParent(MineUI.Instance.logPanel);
+            bangLogObj.GetComponent<QuestLogObj>().noticeText.text = "\'"+questTitle+"\' 월드 퀘스트가 활성화 되었습니다.";
+            bangLogObj.GetComponent<Animator>().Play("LogStart");
         }
 
 
