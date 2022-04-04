@@ -239,6 +239,7 @@ namespace com.ThreeCS.McCree
         {
             photonView.RPC("PlayerListSync", RpcTarget.All); // 플레이어 리스트 동기화
 
+
             EquipedNone = true;
             EquipedPistol = false;
             EquipedRifle = false;
@@ -347,7 +348,7 @@ namespace com.ThreeCS.McCree
 
                     moveDir = lookForward * moveVec.z + lookRight * moveVec.x;
 
-                    if (moveDir.magnitude >= 0.01)
+                    if (moveDir.magnitude >= 0.001)
                     {
                         agent.SetDestination(transform.position);
                         playerAutoMove.targetedEnemy = null;
@@ -357,7 +358,9 @@ namespace com.ThreeCS.McCree
                         // transfrom.position을 사용해도 되지만 얇은 벽등을 통과할 문제등이 생길 수 있다.
                         // 객체의 충돌을 유지하면서 이동하기 위해 MovePosition을 사용 했다.
                         rb.MovePosition(rb.position + moveDir * Time.fixedDeltaTime * moveSpeed);
-                        animSync.SendPlayAnimationEvent(photonView.ViewID, "Speed", "Float", moveDir.magnitude);
+                        animator.SetFloat("Speed", moveDir.magnitude); // speed는 raiseonevent하니까 이상함
+
+                        //animSync.SendPlayAnimationEvent(photonView.ViewID, "Speed", "Float", moveDir.magnitude);
                     }
                 }
             }
