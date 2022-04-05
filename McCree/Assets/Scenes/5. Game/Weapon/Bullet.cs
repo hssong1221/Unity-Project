@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Photon.Pun;
 namespace com.ThreeCS.McCree
 {
     public class Bullet : MonoBehaviour
@@ -34,8 +35,11 @@ namespace com.ThreeCS.McCree
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.tag == "Player")
+            if (collision.gameObject.GetComponent<Collider>() == target.transform.parent.GetComponent<Collider>())
             {
+                enabled = false;
+                ObjectPool.Instance.ReturnObject(gameObject, 4);
+                collision.gameObject.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All);
                 Debug.Log("닿음1");
             }
         }

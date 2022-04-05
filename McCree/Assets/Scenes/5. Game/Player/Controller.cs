@@ -69,17 +69,17 @@ namespace com.ThreeCS.McCree
         {
             playerManager.isBanging = true;
             playerManager.isAiming = false;
+            Debug.Log("두번뜸?1");
         }
 
         protected IEnumerator Set_Bullet_Target(GameObject target)
         {
             yield return new WaitUntil(() => trigger == true);
 
+            Debug.Log("두번뜸?2");
             GameObject bullet = ObjectPool.Instance.GetObject(4);
-            Debug.Log(target);
             bullet.GetComponent<Bullet>().target = target;
             bullet.transform.position = playerInfo.equipedWeapon.bulletPos.position;
-            //bullet.GetComponent<Rigidbody>().position = playerInfo.equipedWeapon.bulletPos.position;
             bullet.GetComponent<Bullet>().enabled = true; // FixedUpdate활성화
         }
 

@@ -47,11 +47,6 @@ namespace com.ThreeCS.McCree
 
                         if (playerInfo.myItemList[0].itemCount > 0) // 뱅 있으면
                         {
-
-                            //if (controller.animcoroutine != null)
-                            //    Stop_Anim_Coroutine();
-                            //controller.animcoroutine = Set_Bullet_Target(targetedEnemy.GetComponent<PlayerManager>().bulletAttackedPos);
-                            //StartCoroutine(controller.animcoroutine);
                             animSync.Shooting_Bullet(photonView.ViewID, targetedEnemy.GetComponent<PhotonView>().ViewID, targetedEnemy.GetComponent<PlayerManager>().bulletAttackedPos);
 
                             playerManager.isBanging = true; // Lookat함수가 잘 먹지않아서 일부로 isbanging먼저 넣고 Lookat함수 넣음

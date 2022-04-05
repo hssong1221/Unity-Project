@@ -24,6 +24,7 @@ namespace com.ThreeCS.McCree
             set
             {
                 _isAiming = value;
+                Debug.Log("이건뭐?");
 
                 if (_isAiming == true)
                 {
@@ -298,20 +299,15 @@ namespace com.ThreeCS.McCree
 
                     if (Input.GetKeyDown("4"))
                     {
-                        playerManager.EquipedNone = true;
-                        playerManager.EquipedPistol = false;
-                        playerManager.EquipedRifle = false;
-                        //animSync.SendPlayAnimationEvent(photonView.ViewID, "Base", "Trigger");
+                        animSync.Temp_Weapon_None(photonView.ViewID);
                     }
                     if (Input.GetKeyDown("5"))
                     {
-                        GameObject testPistol = Instantiate(Resources.Load("TestGun/Colt Navy Revolver")) as GameObject;
-                        playerInfo.equipedWeapon = testPistol.GetComponent<Weapon_Obj>();
+                        animSync.Temp_Weapon_Pistol(photonView.ViewID);
                     }
                     if (Input.GetKeyDown("6"))
                     {
-                        GameObject testPistol = Instantiate(Resources.Load("TestGun/SM_Wep_Rifle")) as GameObject;
-                        playerInfo.equipedWeapon = testPistol.GetComponent<Weapon_Obj>();
+                        animSync.Temp_Weapon_Rifle(photonView.ViewID);
                     }
 
 

@@ -78,7 +78,6 @@ namespace com.ThreeCS.McCree
 
             if (poolingObject == bulletObject)
             {
-                Debug.Log("AASDASD");
                 newObj.GetComponent<Bullet>().enabled = false;
             }
 
