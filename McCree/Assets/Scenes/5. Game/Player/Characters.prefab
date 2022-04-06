@@ -2469,8 +2469,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 0
-  damage: 1
-  myItemList: []
+  myItemList:
+  - {fileID: 1259370552536998253, guid: 8fb6c8635acda5a4bb62306c85127bad, type: 3}
+  - {fileID: 1259370552536998253, guid: dc3b98c0e389f9947860d262a56285d3, type: 3}
+  - {fileID: 1259370552536998253, guid: dffb9ce01884a18428fa80b796f7a28f, type: 3}
   myQuestList: []
   pistolPos: {fileID: 7054863257368476639}
   riflePos: {fileID: 7578049222411756460}

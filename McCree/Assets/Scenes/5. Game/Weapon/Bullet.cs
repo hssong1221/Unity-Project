@@ -35,12 +35,17 @@ namespace com.ThreeCS.McCree
 
         private void OnCollisionEnter(Collision collision)
         {
+
             if (collision.gameObject.GetComponent<Collider>() == target.transform.parent.GetComponent<Collider>())
             {
                 enabled = false;
                 ObjectPool.Instance.ReturnObject(gameObject, 4);
-                collision.gameObject.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All);
-                Debug.Log("닿음1");
+
+                if (collision.gameObject.GetComponent<PhotonView>().IsMine)
+                {
+                    Vector3 bulletFoward = target.transform.position - transform.position;
+                    collision.gameObject.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All, -bulletFoward);
+                }
             }
         }
     }

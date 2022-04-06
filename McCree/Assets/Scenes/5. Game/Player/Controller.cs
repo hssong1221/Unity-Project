@@ -56,27 +56,18 @@ namespace com.ThreeCS.McCree
         }
 
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.P))
-                animator.SetTrigger("Banged");
-        }
-
-
-
         #region 뱅 쏠때 (Shooting Gun)
         protected void Bang_Speech_Bubble_Anim_Start()
         {
+            Debug.Log("7번 뜨는 이유??");
             playerManager.isBanging = true;
             playerManager.isAiming = false;
-            Debug.Log("두번뜸?1");
         }
 
         protected IEnumerator Set_Bullet_Target(GameObject target)
         {
             yield return new WaitUntil(() => trigger == true);
 
-            Debug.Log("두번뜸?2");
             GameObject bullet = ObjectPool.Instance.GetObject(4);
             bullet.GetComponent<Bullet>().target = target;
             bullet.transform.position = playerInfo.equipedWeapon.bulletPos.position;

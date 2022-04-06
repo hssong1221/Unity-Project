@@ -8,6 +8,8 @@ namespace com.ThreeCS.McCree
     public class ItemList : MonoBehaviour
     {
         public Item item; // 아이템
+
+        [SerializeField]
         private int Count; // 아이템 개수
 
         [HideInInspector]
@@ -34,6 +36,7 @@ namespace com.ThreeCS.McCree
             itemListObj.SetActive(false);
         }
 
+
         public int itemCount
         {
             get { return Count; }
@@ -42,10 +45,13 @@ namespace com.ThreeCS.McCree
                 Count = value;
                 CountText.text = Count.ToString();
 
+                //if (photonView.IsMine)
+                //{
                 if (item.ability == Item.iType.Bang)
                     MineUI.Instance.bangCount.text = CountText.text;
                 else if (item.ability == Item.iType.Avoid)
                     MineUI.Instance.avoidCount.text = CountText.text;
+                //}
 
                 if (Count <= 0)
                     itemListObj.SetActive(false);

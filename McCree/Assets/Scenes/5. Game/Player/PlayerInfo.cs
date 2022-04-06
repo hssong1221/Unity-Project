@@ -17,7 +17,11 @@ namespace com.ThreeCS.McCree
             get { return _hp;  }
             set
             {
-                if (hp + 1 == _hp) // hp가 1깎였을때 캐릭터 UI 총알 이미지 바꿈
+                int prehp = _hp;
+                
+                _hp = value;
+
+                if (prehp - 1 == _hp) // hp가 1깎였을때 캐릭터 UI 총알 이미지 바꿈
                 {
                     Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
                     tempImg.sprite = ui.emptyBullet;
@@ -28,7 +32,7 @@ namespace com.ThreeCS.McCree
                         tempImg2.sprite = MineUI.Instance.emptyHealth;
                     }
                 }
-                else if (hp - 1 == _hp) // hp가 1업했을때 
+                else if (prehp + 1 == _hp) // hp가 1업했을때 
                 {
                     Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
                     tempImg.sprite = ui.fullBullet;
@@ -39,11 +43,11 @@ namespace com.ThreeCS.McCree
                         tempImg2.sprite = MineUI.Instance.fullHealth;
                     }
                 }
-                _hp = value;
+                
+                Debug.Log(hp + "  " + _hp);
             }
         }
         public int maxHp;
-        public int damage = 1;
 
         public List<ItemList> myItemList;
         // 0번째 Bang
@@ -109,6 +113,7 @@ namespace com.ThreeCS.McCree
             isDeath = false;
 
             MineUI.Instance.statusPanel.gameObject.SetActive(true);
+
             content = GameObject.FindGameObjectWithTag("Content").transform;
 
             myItemList = new List<ItemList>();

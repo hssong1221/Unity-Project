@@ -24,7 +24,6 @@ namespace com.ThreeCS.McCree
             set
             {
                 _isAiming = value;
-                Debug.Log("이건뭐?");
 
                 if (_isAiming == true)
                 {
@@ -356,7 +355,6 @@ namespace com.ThreeCS.McCree
                         rb.MovePosition(rb.position + moveDir * Time.fixedDeltaTime * moveSpeed);
                         animator.SetFloat("Speed", moveDir.magnitude); // speed는 raiseonevent하니까 이상함
 
-                        //animSync.SendPlayAnimationEvent(photonView.ViewID, "Speed", "Float", moveDir.magnitude);
                     }
                 }
             }
@@ -534,9 +532,10 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public void GiveItems(string jsonData)
+        public void GiveItems(string jsonData, int photonViewId)
         {
             Item.iType pickedItem = JsonConvert.DeserializeObject<Item.iType>(jsonData);
+
 
             if (photonView.IsMine)
             {
@@ -586,26 +585,28 @@ namespace com.ThreeCS.McCree
 
         // Avoid 보류
         [PunRPC]
-        void Damaged()
+        void Damaged(Vector3 lookat)
         {
-            //    Debug.Log("회피 수: " + playerInfo.myItemList[1].itemCount);
-            //    if (playerInfo.myItemList[1].itemCount > 0) // 회피 있으면
-            //    {
-            //        playerInfo.myItemList[1].itemCount -= 1;
-            //        Debug.Log("로그 떠야함");
-            //        Character_Notice_Text("<color=#FF8000>" + "회피!" + "</color>");
-            //        Avoid_Trigger();
-            //        return; // 회피있으면 avoid로그 출력하고 함수 종료
-            //    }
-            //    else
-            //    {
-            //        // 회피없으면 날라가는 함수 실행 
-                
-                rb.AddForce(new Vector3(50.0f, 10.0f, 50.0f), ForceMode.Impulse);
+            Debug.Log("회피 수: " + playerInfo.myItemList[1].itemCount);
 
-                playerInfo.hp -= playerInfo.damage;
+            if (playerInfo.myItemList[1].itemCount > 0) // 회피 있으면
+            {
+                playerInfo.myItemList[1].itemCount -= 1;
+                Debug.Log("로그 떠야함");
+                Character_Notice_Text("<color=#FF8000>" + "회피!" + "</color>");
+                Avoid_Trigger();
+                return; // 회피있으면 avoid로그 출력하고 함수 종료
+            }
+            else
+            {
+                // 회피없으면 날라가는 함수 실행 
+
+                transform.rotation = Quaternion.LookRotation(lookat);
+                //rb.AddForce(100.0f * transform.forward, ForceMode.VelocityChange);
+                playerInfo.hp -= 1;
 
                 animator.SetTrigger("Banged");
+            }
         }
 
 
@@ -639,13 +640,13 @@ namespace com.ThreeCS.McCree
             bangLogObj.GetComponent<Animator>().Play("LogStart");
         }
 
-        //void Avoid_Trigger()
-        //{
-        //    GameObject avoidLogObj = ObjectPool.Instance.GetObject(3); //오브젝트 풀에서 가져오기
-        //    avoidLogObj.transform.SetParent(MineUI.Instance.logPanel);
-        //    avoidLogObj.GetComponent<AvoidLogObj>().nick1.text = PhotonNetwork.LocalPlayer.NickName;
-        //    avoidLogObj.GetComponent<Animator>().Play("LogStart");
-        //}
+        void Avoid_Trigger()
+        {
+            GameObject avoidLogObj = ObjectPool.Instance.GetObject(3); //오브젝트 풀에서 가져오기
+            avoidLogObj.transform.SetParent(MineUI.Instance.logPanel);
+            avoidLogObj.GetComponent<AvoidLogObj>().nick1.text = PhotonNetwork.LocalPlayer.NickName;
+            avoidLogObj.GetComponent<Animator>().Play("LogStart");
+        }
 
         [PunRPC]
         public void QuestLog(string questTitle)
