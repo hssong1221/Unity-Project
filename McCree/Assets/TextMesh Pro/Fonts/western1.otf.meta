@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 9325a5dc98254a34ebf76a1d85a25613
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Rustik
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: bcc5cabc479733a488879bf6a66308f6, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

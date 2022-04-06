@@ -34,12 +34,26 @@ namespace com.ThreeCS.McCree
         [SerializeField] private Button kButton;
 
         [Header("그래픽설정 관련 UI")]
-        [SerializeField] private Transform graphicObject;
+        [SerializeField] private Transform graphicObject; // 그래픽 프리셋
+        [SerializeField] private Transform resolutionObject; // 해상도 
+        [SerializeField] private Transform screenObject; // 전체 화면 or 창모드
+
+        List<(int, int)> resolutionList = new List<(int, int)>() { (960, 540), (1280, 720), (1366, 768), (1600, 900), (1920, 1080), (2560, 1440), (3840, 2160) }; //qHD, HD, 메이플사이즈, HD+, FHD, QHD, UHD
 
         private int graphicOpt;         // 그래픽 프리셋
         private Text graphicTxt;
         private Button graphicDownBtn;
         private Button graphicUpBtn;
+
+        private (int, int) resolutionOpt; // 해상도
+        private Text resolutionTxt;
+        private Button resolutionDownBtn;
+        private Button resolutionUpBtn;
+
+        private int screenOpt;          // 화면 모드
+        private Text screenTxt;
+        private Button screenDownBtn;
+        private Button screenUpBtn; 
 
         [Header("사운드설정 관련 UI")]
         public AudioMixer audioMixer;
@@ -52,7 +66,7 @@ namespace com.ThreeCS.McCree
         private Button soundUpBtn;
         private Slider soundSld;
 
-        [Header("마우스설정 관련 UI")]
+        [Header("마우스설정 관련 UI")] // 카메라 시점과 관련 있으므로 잠시 보류
 
         [SerializeField] private Transform mouseObject;
 
@@ -76,10 +90,29 @@ namespace com.ThreeCS.McCree
         {
             //환경설정 UI init
             InitContent(graphicObject, out graphicTxt, out graphicDownBtn, out graphicUpBtn, GraphicOptDown, GraphicOptUp);
+            InitContent(resolutionObject, out resolutionTxt, out resolutionDownBtn, out resolutionUpBtn, ResolutionOptDown, ResolutionOptUp);
+            InitContent(screenObject, out screenTxt, out screenDownBtn, out screenUpBtn, ScreenOptDown, ScreenOptUp);
 
             InitContent(soundObject, out soundTxt, out soundDownBtn, out soundUpBtn, out soundSld, SoundOptDown, SoundOptUp, SliderValueChangeSound);
 
             //InitContent(mouseObject, out mouseTxt, out mouseDownBtn, out mouseUpBtn, out mouseSld, );
+
+            // 해상도 리스트에서 자기 모니터 최대 해상도보다 넘는 해상도는 빼기
+            for(int i = resolutionList.Count - 1; 0 <= i; i--)
+            {
+                if (Screen.currentResolution.height < resolutionList[i].Item2)
+                {
+                    resolutionList.RemoveAt(i);
+                }
+                else break;
+            }
+
+            /*Debug.Log("------------ 현재 해상도 리스트 --------------");
+            for(int i = 0; i < resolutionList.Count; i++)
+            {
+                Debug.Log(resolutionList[i].Item1);
+                Debug.Log(resolutionList[i].Item2);
+            }*/
 
             // 설정 메뉴 버튼 
             gButton.onClick.AddListener(Gpanel);
@@ -92,13 +125,17 @@ namespace com.ThreeCS.McCree
             // 저장버튼 버튼 
             saveButton.onClick.AddListener(SaveSetting);
 
-            Setting();
-
         }
 
         void Start()
         {
             Setting();
+            Setting();
+
+            // --------------------------------------- 마우스가 게임 화면 밖으로 나가지 않게 함 (나중에 활성화)-----------------------------------
+            //Cursor.lockState = CursorLockMode.Confined;
+
+
             DontDestroyOnLoad(this.gameObject);
         }
 
@@ -143,28 +180,37 @@ namespace com.ThreeCS.McCree
         // 환경 설정 UI on/off
         void Setting()
         {
-            // 본인 컴퓨터의 저장된 설정 값 안불러와질 경우를 대비해서 한번 더 부름
-            graphicOpt = PlayerPrefs.GetInt("graphicOpt", 0);
-            soundOpt = PlayerPrefs.GetInt("soundOpt", 0);
-
-            UpdateGraphicOpt();
-            UpdateSoundOpt();
-
-            if (isSettingOpen)
+            if(isSettingOpen)
             {
                 SettingPanel.SetActive(false);
                 isSettingOpen = false;
-
+                return;
             }
             else
             {
                 SettingPanel.SetActive(true);
                 isSettingOpen = true;
             }
+
+            // 본인 컴퓨터의 저장된 설정 값 불러오기
+            graphicOpt = PlayerPrefs.GetInt("graphicOpt", 0);
+            resolutionOpt.Item1 = PlayerPrefs.GetInt("resolutionWidth", 0);
+            resolutionOpt.Item2 = PlayerPrefs.GetInt("resolutionHeight", 0);
+            screenOpt = PlayerPrefs.GetInt("screenMode", 0);
+
+            Debug.Log(screenOpt);
+
+            soundOpt = PlayerPrefs.GetInt("soundOpt", 0);
+
+            UpdateGraphicOpt();
+            UpdateResolution();
+            UpdateScreenMode();
+
+            UpdateSoundOpt();
         }
 
 
-        // 설정 종류 버튼 하드코딩인데 이거보다 좋은방법이 있나
+        // 설정 종류 버튼 
         public void Gpanel()
         {
             gPanel.SetActive(true);
@@ -206,6 +252,65 @@ namespace com.ThreeCS.McCree
             ++graphicOpt;
             UpdateGraphicOpt();
         }
+
+        void ResolutionOptDown()
+        {
+            if (resolutionList[resolutionList.Count - 1].Item1 < resolutionOpt.Item1) 
+            {
+                resolutionOpt.Item1 = resolutionList[resolutionList.Count - 1].Item1;
+                resolutionOpt.Item2 = resolutionList[resolutionList.Count - 1].Item2;
+            }
+            else
+            {
+                for (int i = 0; i < resolutionList.Count; ++i)
+                {
+                    if (resolutionOpt.Item1 == resolutionList[i].Item1)
+                    {
+                        resolutionOpt.Item1 = resolutionList[i - 1].Item1;
+                        resolutionOpt.Item2 = resolutionList[i - 1].Item2;
+                        break;
+                    }
+                }
+            }
+            UpdateResolution();
+        }
+        void ResolutionOptUp()
+        {
+            if (resolutionOpt.Item1 < resolutionList[0].Item1)
+            {
+                resolutionOpt.Item1 = resolutionList[0].Item1;
+                resolutionOpt.Item2 = resolutionList[0].Item2;
+            }
+            else
+            {
+                for (int i = 0; i < resolutionList.Count; ++i)
+                {
+                    if (resolutionOpt.Item1 == resolutionList[i].Item1)
+                    {
+                        resolutionOpt.Item1 = resolutionList[i + 1].Item1;
+                        resolutionOpt.Item2 = resolutionList[i + 1].Item2;
+                        break;
+                    }
+                }
+            }
+            UpdateResolution();
+        }
+
+        void ScreenOptDown()
+        {
+            if (screenOpt == 3) 
+                screenOpt = 0;
+
+            UpdateScreenMode();
+        }
+        void ScreenOptUp()
+        {
+            if (screenOpt == 0)
+                screenOpt = 3;
+
+            UpdateScreenMode();
+        }
+        
 
         void SoundOptDown()
         {
@@ -265,6 +370,37 @@ namespace com.ThreeCS.McCree
 
         }
 
+        void UpdateResolution()
+        {
+            resolutionTxt.text = resolutionOpt.Item1 + " x " + resolutionOpt.Item2; // ex) 1920 x 1080
+
+            resolutionDownBtn.interactable = resolutionList[0].Item1 < resolutionOpt.Item1;
+            resolutionUpBtn.interactable = resolutionOpt.Item1 < resolutionList[resolutionList.Count - 1].Item1;
+        }
+
+        void UpdateScreenMode()
+        {
+            switch (screenOpt)
+            {
+                case 0:
+                    screenTxt.text = "전체 화면";
+                    break;
+                /*case 1:
+                    screenTxt.text = "전체 창 모드";
+                    break;*/
+                case 3:
+                    screenTxt.text = "창모드";
+                    break;
+                default:
+                    screenTxt.text = "error";
+                    break;
+            }
+            Debug.Log(screenOpt);
+
+            screenDownBtn.interactable = screenOpt != 0;
+            screenUpBtn.interactable = screenOpt != 3;
+        }
+
         void UpdateSoundOpt()
         {
             // 저장 값 변경
@@ -277,12 +413,20 @@ namespace com.ThreeCS.McCree
 
         }
 
-        // 환경설정 저장
+        // -------------------------- 환경설정 저장 ----------------------------------
         void SaveSetting()
         {
+            // 저장 버튼 눌렀을 때 실제로 적용
             QualitySettings.SetQualityLevel(graphicOpt);
 
+            Screen.SetResolution(resolutionOpt.Item1, resolutionOpt.Item2, (FullScreenMode) screenOpt);
+
+            // 플레이어 프리퍼런스에 값을 저장한다.
             Data.GraphicOpt = graphicOpt;
+            Data.ResolutionWidth = resolutionOpt.Item1;
+            Data.ResolutionHeight = resolutionOpt.Item2;
+            Data.ScreenMode = screenOpt;
+
             Data.SoundOpt = soundOpt;
         }
 
@@ -296,6 +440,10 @@ namespace com.ThreeCS.McCree
         #region Variable
 
         private static int graphicOpt;
+        private static int resolutionWidth;
+        private static int resolutionHeight;
+        private static int screenMode;
+
         private static int soundOpt;
 
         #endregion
@@ -320,6 +468,47 @@ namespace com.ThreeCS.McCree
             }
         }
 
+        // 해상도 너비 width
+        public static int ResolutionWidth
+        {
+            get
+            {
+                return resolutionWidth;
+            }
+            set
+            {
+                resolutionWidth = value;
+                PlayerPrefs.SetInt(GetMemberName(() => resolutionWidth), value);
+            }
+        }
+        // 해상도 높이 height
+        public static int ResolutionHeight
+        {
+            get
+            {
+                return resolutionHeight;
+            }
+            set
+            {
+                resolutionHeight = value;
+                PlayerPrefs.SetInt(GetMemberName(() => resolutionHeight), value);
+            }
+        }
+        // 화면 모드
+        public static int ScreenMode
+        {
+            get
+            {
+                return screenMode;
+            }
+            set
+            {
+                screenMode = value;
+                PlayerPrefs.SetInt(GetMemberName(() => screenMode), value);
+            }
+        }
+
+        // 전체 볼륨 
         public static int SoundOpt
         {
             get
