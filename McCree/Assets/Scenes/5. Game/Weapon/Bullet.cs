@@ -9,8 +9,6 @@ namespace com.ThreeCS.McCree
     {
         public float speed;
 
-        private Rigidbody rb;
-
         private GameObject _target;
         public GameObject target
         {
@@ -21,10 +19,6 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        private void Awake()
-        {
-            rb = GetComponent<Rigidbody>();
-        }
 
         private void FixedUpdate()
         {
@@ -35,7 +29,6 @@ namespace com.ThreeCS.McCree
 
         private void OnCollisionEnter(Collision collision)
         {
-
             if (collision.gameObject.GetComponent<Collider>() == target.transform.parent.GetComponent<Collider>())
             {
                 enabled = false;

@@ -359,6 +359,26 @@ namespace com.ThreeCS.McCree
                 }
             }
         }
+
+
+        //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //{
+        //    if (stream.IsWriting)
+        //    {
+        //        stream.SendNext(rb.position);
+        //        stream.SendNext(rb.rotation);
+        //        stream.SendNext(rb.velocity);
+        //    }
+        //    else
+        //    {
+        //        rb.position = (Vector3)stream.ReceiveNext();
+        //        rb.rotation = (Quaternion)stream.ReceiveNext();
+        //        rb.velocity = (Vector3)stream.ReceiveNext();
+
+        //        float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+        //        rb.position += (rb.velocity * lag);
+        //    }
+        //}
         #endregion
 
         #region private Methods
@@ -587,26 +607,26 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         void Damaged(Vector3 lookat)
         {
-            Debug.Log("회피 수: " + playerInfo.myItemList[1].itemCount);
+            //Debug.Log("회피 수: " + playerInfo.myItemList[1].itemCount);
 
-            if (playerInfo.myItemList[1].itemCount > 0) // 회피 있으면
-            {
-                playerInfo.myItemList[1].itemCount -= 1;
-                Debug.Log("로그 떠야함");
-                Character_Notice_Text("<color=#FF8000>" + "회피!" + "</color>");
-                Avoid_Trigger();
-                return; // 회피있으면 avoid로그 출력하고 함수 종료
-            }
-            else
-            {
-                // 회피없으면 날라가는 함수 실행 
+            //if (playerInfo.myItemList[1].itemCount > 0) // 회피 있으면
+            //{
+            //    playerInfo.myItemList[1].itemCount -= 1;
+            //    Debug.Log("로그 떠야함");
+            //    Character_Notice_Text("<color=#FF8000>" + "회피!" + "</color>");
+            //    Avoid_Trigger();
+            //    return; // 회피있으면 avoid로그 출력하고 함수 종료
+            //}
+            //else
+            //{
+            //    // 회피없으면 날라가는 함수 실행 
 
-                transform.rotation = Quaternion.LookRotation(lookat);
-                //rb.AddForce(100.0f * transform.forward, ForceMode.VelocityChange);
-                playerInfo.hp -= 1;
+            transform.rotation = Quaternion.LookRotation(lookat);
+            //rb.AddForce(100.0f * transform.forward, ForceMode.VelocityChange);
+            playerInfo.hp -= 1;
 
-                animator.SetTrigger("Banged");
-            }
+            animator.SetTrigger("Banged");
+            //}
         }
 
 
