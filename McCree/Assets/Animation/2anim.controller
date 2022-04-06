@@ -89,10 +89,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Bang
+    m_ConditionEvent: EquipedRifle
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: EquipedRifle
+    m_ConditionEvent: Bang
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8767368595034728452}
@@ -385,10 +385,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: Bang
+    m_ConditionEvent: EquipedPistol
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: EquipedPistol
+    m_ConditionEvent: Bang
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8611600410009220504}
@@ -457,7 +457,7 @@ BlendTree:
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
-    m_DirectBlendParameter: Blend
+    m_DirectBlendParameter: Speed
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: -6310371157915165426, guid: 00d3edbdf36d61c41996f468bdeebe10, type: 3}
@@ -468,7 +468,7 @@ BlendTree:
     m_DirectBlendParameter: Speed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 9059529167492975352, guid: 5bd62d58797ddd24ea6155115a62971c, type: 3}
+    m_Motion: {fileID: 646517967788212683, guid: 483815fe4dca1f543a00e0ccaeb63d68, type: 3}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -479,7 +479,7 @@ BlendTree:
   m_BlendParameterY: Blend
   m_MinThreshold: 0
   m_MaxThreshold: 1
-  m_UseAutomaticThresholds: 0
+  m_UseAutomaticThresholds: 1
   m_NormalizedBlendValues: 0
   m_BlendType: 0
 --- !u!1102 &-3177287151815181590
@@ -700,24 +700,6 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
   - m_Name: Bang
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: Rifle
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: Pistol
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: Base
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -1252,22 +1234,22 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -6661362441357972820}
-    m_Position: {x: 180, y: 470, z: 0}
+    m_Position: {x: 180, y: 480, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4472984468277255007}
     m_Position: {x: 190, y: -470, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8750282137283148056}
-    m_Position: {x: 700, y: 190, z: 0}
+    m_Position: {x: 720, y: 210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 850233231441757548}
-    m_Position: {x: 390, y: 210, z: 0}
+    m_Position: {x: 400, y: 210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3170475265499117894}
     m_Position: {x: 400, y: 740, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3177287151815181590}
-    m_Position: {x: 290, y: 910, z: 0}
+    m_Position: {x: 720, y: 740, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5210178294872751723}
     m_Position: {x: 70, y: -330, z: 0}
@@ -1279,16 +1261,16 @@ AnimatorStateMachine:
     m_Position: {x: -170, y: -250, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8492360302409735079}
-    m_Position: {x: -430, y: -150, z: 0}
+    m_Position: {x: -430, y: -130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1626224899332995870}
-    m_Position: {x: -220, y: -30, z: 0}
+    m_Position: {x: -270, y: 20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8611600410009220504}
-    m_Position: {x: -420, y: 300, z: 0}
+    m_Position: {x: -550, y: 340, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8767368595034728452}
-    m_Position: {x: -340, y: 180, z: 0}
+    m_Position: {x: -430, y: 210, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 940607642118289034}

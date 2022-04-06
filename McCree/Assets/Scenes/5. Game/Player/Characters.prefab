@@ -112,7 +112,7 @@ RectTransform:
   - {fileID: 8228960101888859797}
   - {fileID: 8301784570608199034}
   m_Father: {fileID: 6215404349552877127}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -351,7 +351,7 @@ RectTransform:
   m_Children:
   - {fileID: 7345407067310090181}
   m_Father: {fileID: 6215404349552877127}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -511,7 +511,7 @@ RectTransform:
   m_Children:
   - {fileID: 856090917126419177}
   m_Father: {fileID: 6215404349552877127}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -838,7 +838,7 @@ RectTransform:
   - {fileID: 6215404349877222860}
   - {fileID: 4594746724282977904}
   m_Father: {fileID: 6215404349552877127}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1088,7 +1088,7 @@ RectTransform:
   m_Children:
   - {fileID: 6215404349647825287}
   m_Father: {fileID: 6215404349552877127}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2093,7 +2093,7 @@ Transform:
   m_Children:
   - {fileID: 6215404349552877155}
   m_Father: {fileID: 6215404349552877127}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6215404349552837181
 GameObject:
@@ -2273,6 +2273,7 @@ GameObject:
   - component: {fileID: 9115706970723543485}
   - component: {fileID: 6215404349552739544}
   - component: {fileID: 6215404349552739549}
+  - component: {fileID: 8215667974689350164}
   m_Layer: 6
   m_Name: Characters
   m_TagString: Player
@@ -2291,6 +2292,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 648825686776389952}
   - {fileID: 6215404349552877151}
   - {fileID: 6215404349552877145}
   - {fileID: 6215404349552877083}
@@ -2372,6 +2374,7 @@ MonoBehaviour:
   rotateSpeedMovement: 0.1
   rotateVelocity: 0
   _objectTransPos: {fileID: 4608065460106329307}
+  bulletAttackedPos: {fileID: 6755281479944650918}
   maxAttackDistance: 5
 --- !u!114 &6215404349552739545
 MonoBehaviour:
@@ -2466,8 +2469,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 0
-  damage: 1
-  myItemList: []
+  myItemList:
+  - {fileID: 1259370552536998253, guid: 8fb6c8635acda5a4bb62306c85127bad, type: 3}
+  - {fileID: 1259370552536998253, guid: dc3b98c0e389f9947860d262a56285d3, type: 3}
+  - {fileID: 1259370552536998253, guid: dffb9ce01884a18428fa80b796f7a28f, type: 3}
   myQuestList: []
   pistolPos: {fileID: 7054863257368476639}
   riflePos: {fileID: 7578049222411756460}
@@ -2517,6 +2522,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 6215404349552739549}
+  - {fileID: 8215667974689350164}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2536,6 +2542,60 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &8215667974689350164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6215404349552837223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 1
+    SynchronizeType: 2
+    Name: Speed
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsDeath
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsAiming
+  - Type: 9
+    SynchronizeType: 0
+    Name: Bang
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsPicking
+  - Type: 9
+    SynchronizeType: 0
+    Name: Pick
+  - Type: 9
+    SynchronizeType: 0
+    Name: Lift
+  - Type: 4
+    SynchronizeType: 0
+    Name: IsLifting
+  - Type: 9
+    SynchronizeType: 0
+    Name: Banged
+  - Type: 4
+    SynchronizeType: 0
+    Name: EquipedRifle
+  - Type: 4
+    SynchronizeType: 0
+    Name: EquipedPistol
+  - Type: 4
+    SynchronizeType: 0
+    Name: EquipedNone
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!1 &6215404349552837225
 GameObject:
   m_ObjectHideFlags: 0
@@ -2811,7 +2871,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6215404349552877127}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6215404349549662071
 SkinnedMeshRenderer:
@@ -3105,7 +3165,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6215404349552877127}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6215404349549662069
 SkinnedMeshRenderer:
@@ -3701,6 +3761,36 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 50%
+--- !u!1 &6755281479944650918
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 648825686776389952}
+  m_Layer: 6
+  m_Name: BulletAttackedPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &648825686776389952
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6755281479944650918}
+  m_LocalRotation: {x: -0.41387504, y: 0.53469515, z: -0.470033, w: 0.5673426}
+  m_LocalPosition: {x: 0.0045971107, y: 1.2337811, z: -0.06927431}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6215404349552877127}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7536765620553524535
 GameObject:
   m_ObjectHideFlags: 0

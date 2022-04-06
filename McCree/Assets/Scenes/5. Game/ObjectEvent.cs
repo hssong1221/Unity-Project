@@ -22,10 +22,10 @@ namespace com.ThreeCS.McCree
             {
                 var json = JsonConvert.SerializeObject(pickItem);
 
-                //if (other.GetComponent<PhotonView>().IsMine)
-                //{
-                other.GetComponent<PhotonView>().RPC("GiveItems", RpcTarget.AllViaServer, json);
-                //}
+                if (other.GetComponent<PhotonView>().IsMine)
+                {
+                    other.GetComponent<PhotonView>().RPC("GiveItems", RpcTarget.AllViaServer, json, other.GetComponent<PhotonView>().ViewID);
+                }
             }
         }
     }
