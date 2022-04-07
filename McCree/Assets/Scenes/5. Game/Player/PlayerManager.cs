@@ -40,6 +40,7 @@ namespace com.ThreeCS.McCree
             }
         }
 
+        public float force;
 
         public bool isBanging;
         public bool isDeath;
@@ -199,7 +200,9 @@ namespace com.ThreeCS.McCree
 
 
         // 캐릭터 키보드 움직임 구현
+        [SerializeField]
         float h;
+        [SerializeField]
         float v;
 
         Vector3 moveVec;
@@ -277,6 +280,14 @@ namespace com.ThreeCS.McCree
                     Inventory();
                 }
 
+
+                if (Input.GetKeyDown(KeyCode.U))
+                {
+                    //transform.rotation = Quaternion.LookRotation(transform.forward);
+                    rb.AddForce((-transform.forward).normalized * force, ForceMode.Impulse);
+                    animator.SetTrigger("Banged");
+                }
+
                 if (!isBanging && !isBangeding && !isInteraction && !isLifting) // 아무코토 못함
                 {
                     if (!EquipedNone && Input.GetButtonDown("LockOn"))
@@ -326,59 +337,47 @@ namespace com.ThreeCS.McCree
         {
             if (photonView.IsMine)
             {
-                if (!isBanging && !isBangeding && !isInteraction) // 아무코토 못함
+                h = Input.GetAxis("Horizontal");
+                v = Input.GetAxis("Vertical");
+
+                if (isBanging || isBangeding || isInteraction) // 플레이어가 동작중일때 0 0 넣어줘서 못 움직이게 만듬
                 {
-                    if (isPicking == true && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
-                    {   // 상호작용중에 움직이면 
-                        ui.CanCel_Animation();
-                    }
-
-                    h = Input.GetAxis("Horizontal");
-                    v = Input.GetAxis("Vertical");
-
-                    moveVec = new Vector3(h, 0f, v);
-
-                    lookForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
-                    lookRight = new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z).normalized;
-
-                    moveDir = lookForward * moveVec.z + lookRight * moveVec.x;
-
-                    if (moveDir.magnitude >= 0.001)
-                    {
-                        agent.SetDestination(transform.position);
-                        playerAutoMove.targetedEnemy = null;
-
-                        transform.rotation = Quaternion.LookRotation(moveDir);
-                        // Rigidbody의 MovePosition 메소드로 캐릭터 이동
-                        // transfrom.position을 사용해도 되지만 얇은 벽등을 통과할 문제등이 생길 수 있다.
-                        // 객체의 충돌을 유지하면서 이동하기 위해 MovePosition을 사용 했다.
-                        rb.MovePosition(rb.position + moveDir * Time.fixedDeltaTime * moveSpeed);
-                        animator.SetFloat("Speed", moveDir.magnitude); // speed는 raiseonevent하니까 이상함
-
-                    }
+                    h = 0;
+                    v = 0;
                 }
+
+                if (isPicking == true && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
+                {   // 상호작용중에 움직이면 
+                    ui.CanCel_Animation();
+                }
+
+                moveVec = new Vector3(h, 0f, v);
+
+                lookForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
+                lookRight = new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z).normalized;
+
+                moveDir = lookForward * moveVec.z + lookRight * moveVec.x;
+
+                if (moveDir.magnitude >= 0.001) // 이동 후 플레이어 회전 방지
+                {
+                    agent.SetDestination(transform.position);
+                    playerAutoMove.targetedEnemy = null;
+                    transform.rotation = Quaternion.LookRotation(moveDir);
+                }
+
+                // Rigidbody의 MovePosition 메소드로 캐릭터 이동
+                // transfrom.position을 사용해도 되지만 얇은 벽등을 통과할 문제등이 생길 수 있다.
+                // 객체의 충돌을 유지하면서 이동하기 위해 MovePosition을 사용 했다.
+                rb.MovePosition(rb.position + moveDir * Time.fixedDeltaTime * moveSpeed);
+
+                if (playerAutoMove.targetedEnemy == null) 
+                    animator.SetFloat("Speed", moveDir.magnitude); // speed는 raiseonevent하니까 이상함
+                else // 조준중일때는 agent Speed넣어줘야 애니메이션 작동
+                    animator.SetFloat("Speed", agent.velocity.magnitude / agent.speed);
             }
         }
 
 
-        //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        //{
-        //    if (stream.IsWriting)
-        //    {
-        //        stream.SendNext(rb.position);
-        //        stream.SendNext(rb.rotation);
-        //        stream.SendNext(rb.velocity);
-        //    }
-        //    else
-        //    {
-        //        rb.position = (Vector3)stream.ReceiveNext();
-        //        rb.rotation = (Quaternion)stream.ReceiveNext();
-        //        rb.velocity = (Vector3)stream.ReceiveNext();
-
-        //        float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
-        //        rb.position += (rb.velocity * lag);
-        //    }
-        //}
         #endregion
 
         #region private Methods
@@ -621,9 +620,12 @@ namespace com.ThreeCS.McCree
             //{
             //    // 회피없으면 날라가는 함수 실행 
 
-            transform.rotation = Quaternion.LookRotation(lookat);
-            //rb.AddForce(100.0f * transform.forward, ForceMode.VelocityChange);
+            transform.rotation = Quaternion.LookRotation(-lookat);
+            rb.AddForce((lookat).normalized * force, ForceMode.Impulse);
+
+
             playerInfo.hp -= 1;
+
 
             animator.SetTrigger("Banged");
             //}

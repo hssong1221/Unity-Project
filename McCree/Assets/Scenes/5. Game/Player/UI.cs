@@ -60,10 +60,8 @@ namespace com.ThreeCS.McCree
 
             hpOffset = new Vector3(0, 2.0f, 0);
             bangOffset = new Vector3(0, 3.0f, 0);
-            itemOffset = new Vector3(0.5f, 2.5f, 0f);
+            itemOffset = new Vector3(0f, 1.0f, 0f);
             progressOffset = new Vector3(0, 2.5f, 0f);
-
-            
         }
 
 
