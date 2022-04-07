@@ -40,7 +40,6 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        public float force;
 
         public bool isBanging;
         public bool isDeath;
@@ -200,9 +199,7 @@ namespace com.ThreeCS.McCree
 
 
         // 캐릭터 키보드 움직임 구현
-        [SerializeField]
         float h;
-        [SerializeField]
         float v;
 
         Vector3 moveVec;
@@ -224,7 +221,6 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.inventoryBtn.onClick.AddListener(Inventory); // 아이템 이미지
             MineUI.Instance.mainQuestBtn.onClick.AddListener(Inventory); // 메인 목표 
 
-
             // 포톤뷰에 의한 내 플레이어만
             if (photonView.IsMine)
             {
@@ -241,7 +237,6 @@ namespace com.ThreeCS.McCree
         void Start()
         {
             photonView.RPC("PlayerListSync", RpcTarget.All); // 플레이어 리스트 동기화
-
 
             EquipedNone = true;
             EquipedPistol = false;
@@ -271,25 +266,15 @@ namespace com.ThreeCS.McCree
             }
 
 
-            //if (!PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 모든 입력금지
-            //{                                 // 대화창 활성화하면 캐릭터 제자리 걸음함 
-            if (photonView.IsMine)
+            if (photonView.IsMine) // 자기자신 캐릭터만 제어해야함
             {
                 if (Input.GetKeyDown(KeyCode.Tab))
-                {
+                {   // 인벤토리 
                     Inventory();
                 }
 
-
-                if (Input.GetKeyDown(KeyCode.U))
-                {
-                    //transform.rotation = Quaternion.LookRotation(transform.forward);
-                    rb.AddForce((-transform.forward).normalized * force, ForceMode.Impulse);
-                    animator.SetTrigger("Banged");
-                }
-
-                if (!isBanging && !isBangeding && !isInteraction && !isLifting) // 아무코토 못함
-                {
+                if (!isBanging && !isBangeding && !isInteraction && !isLifting && !PunChat.Instance.usingInput)
+                {   // 아무입력 못받게 
                     if (!EquipedNone && Input.GetButtonDown("LockOn"))
                     {
                         AttackRange(); // 뱅 준비
@@ -325,12 +310,6 @@ namespace com.ThreeCS.McCree
                     // Range_Indicator 이미지의 크기 변경 
                 }
             }
-            //}
-            //else
-            //{
-            //    animator.SetFloat("Speed", 0f); // 최후의 보루 
-            //}
-
         }
 
         private void FixedUpdate() // move
@@ -341,6 +320,12 @@ namespace com.ThreeCS.McCree
                 v = Input.GetAxis("Vertical");
 
                 if (isBanging || isBangeding || isInteraction) // 플레이어가 동작중일때 0 0 넣어줘서 못 움직이게 만듬
+                {
+                    h = 0;
+                    v = 0;
+                }
+
+                if (PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 움직임 금지
                 {
                     h = 0;
                     v = 0;
@@ -621,12 +606,8 @@ namespace com.ThreeCS.McCree
             //    // 회피없으면 날라가는 함수 실행 
 
             transform.rotation = Quaternion.LookRotation(-lookat);
-            rb.AddForce((lookat).normalized * force, ForceMode.Impulse);
-
-
+            rb.AddForce((lookat).normalized * tempLaboratory.force, ForceMode.Impulse);
             playerInfo.hp -= 1;
-
-
             animator.SetTrigger("Banged");
             //}
         }
@@ -646,6 +627,8 @@ namespace com.ThreeCS.McCree
             interactObj.transform.localRotation = Quaternion.identity;
             interactObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
+            interactObj.GetComponent<LiftItem>().isLifting = true; // 이 아이템은 누가 들어올린 상태
+
             if (photonView.IsMine)
             {
                 playerManager.isLifting = true;
@@ -662,13 +645,13 @@ namespace com.ThreeCS.McCree
             bangLogObj.GetComponent<Animator>().Play("LogStart");
         }
 
-        void Avoid_Trigger()
-        {
-            GameObject avoidLogObj = ObjectPool.Instance.GetObject(3); //오브젝트 풀에서 가져오기
-            avoidLogObj.transform.SetParent(MineUI.Instance.logPanel);
-            avoidLogObj.GetComponent<AvoidLogObj>().nick1.text = PhotonNetwork.LocalPlayer.NickName;
-            avoidLogObj.GetComponent<Animator>().Play("LogStart");
-        }
+        //void Avoid_Trigger()
+        //{
+        //    GameObject avoidLogObj = ObjectPool.Instance.GetObject(3); //오브젝트 풀에서 가져오기
+        //    avoidLogObj.transform.SetParent(MineUI.Instance.logPanel);
+        //    avoidLogObj.GetComponent<AvoidLogObj>().nick1.text = PhotonNetwork.LocalPlayer.NickName;
+        //    avoidLogObj.GetComponent<Animator>().Play("LogStart");
+        //}
 
         [PunRPC]
         public void QuestLog(string questTitle)

@@ -188,7 +188,7 @@ namespace com.ThreeCS.McCree
 
                                 if (pickQuest.qrange == Quest_Obj.oType.World) // 월드 퀘스트 아이템일때
                                 {
-                                    Debug.Log(interactObj.GetComponent<PhotonView>().ViewID);
+                                    //Debug.Log(interactObj.GetComponent<PhotonView>().ViewID);
                                     photonView.RPC("PickUp_Transform_Item", RpcTarget.All, interactObj.GetComponent<PhotonView>().ViewID);
                                 }
                                 else // 개인 퀘스트 아이템 일때

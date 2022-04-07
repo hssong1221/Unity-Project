@@ -24,6 +24,8 @@ namespace com.ThreeCS.McCree
         protected MineUI mineUI;
         protected AnimSync animSync;
 
+        protected TempLaboratory tempLaboratory; // 나중에 지워야함
+
         protected bool trigger;
 
         private IEnumerator _animcoroutine;
@@ -50,6 +52,8 @@ namespace com.ThreeCS.McCree
             interaction = GetComponent<Interaction>();
             ui = GetComponent<UI>();
             animSync = GetComponent<AnimSync>();
+
+            tempLaboratory = GetComponent<TempLaboratory>(); // 나중에 지워야함
 
             animator = GetComponent<Animator>();
             rb = GetComponent<Rigidbody>();

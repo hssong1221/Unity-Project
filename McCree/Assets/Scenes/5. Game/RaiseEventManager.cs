@@ -53,14 +53,12 @@ namespace com.ThreeCS.McCree
         void OnEnable()
         {
             // 활성화 될 때마다 호출되는 함수 (Awake/Start와 달리 활성화 될 때마다)
-
             PhotonNetwork.NetworkingClient.EventReceived += NetworkingClient_EventReceived;
         }
 
         void OnDisable()
         {
             // 비활성화 될 때마다 호출되는 함수 (스크립트든 오브젝트든)
-
             PhotonNetwork.NetworkingClient.EventReceived -= NetworkingClient_EventReceived;
         }
 
@@ -97,9 +95,11 @@ namespace com.ThreeCS.McCree
                 Quest_Obj questObj = Instantiate(questObjList[questIndex]);
                 subquestObj.GetComponent<SubQuestList>().questObj = questObj;
                 subquestObj.GetComponent<SubQuestList>().questTitle.text = questObj.questTitle_progress;
+                
 
                 // 내 퀘스트리스트에 붙임
                 playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>());
+
 
                 LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)MineUI.Instance.worldQuestPanel);
                 // contentsizefillter가 적용이 안되는 오류때메 재배치하는 함수
