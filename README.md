@@ -16,6 +16,8 @@
   * 상호작용
     - [Npc 상호작용](#Npc-상호작용)  
     - [QuestItem 상호작용](#QuestItem-상호작용)  
+    - [Player 상호작용](#Player-상호작용)
+      + Bang
 
 ---
 ## 게임 설명  
@@ -72,3 +74,6 @@
 |||
 |:-:|:-:|
 |![QuestItem Pick상호작용](https://user-images.githubusercontent.com/22339727/159646259-781ebe61-6de4-4171-9daf-00fc62f9afc3.gif)|![QuestItem Pick상호작용취소](https://user-images.githubusercontent.com/22339727/160849044-50218f5c-3d11-4e80-b363-6ecf8a487e92.gif)|
+
+#### Player 상호작용
+![뱅](https://user-images.githubusercontent.com/22339727/162130209-2028d1d0-e485-4fbd-b72f-68c62bb981be.gif)
