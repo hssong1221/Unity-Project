@@ -17,8 +17,8 @@
     - [Npc 상호작용](#Npc-상호작용)  
     - [QuestItem 상호작용](#QuestItem-상호작용)  
     - [Player 상호작용](#Player-상호작용)
-      + Bang
-
+      + Bang  
+  * [애니메이션 동기화](#애니메이션-동기화)  
 ---
 게임 설명  
 =========================================================================================================================
@@ -85,4 +85,14 @@
     |:-:|:-:|
     |![뱅 사거리 내](https://user-images.githubusercontent.com/22339727/162132393-033c4485-c1e6-49d6-b397-d4dfe295dba5.gif)|![뱅 사거리 밖](https://user-images.githubusercontent.com/22339727/162130209-2028d1d0-e485-4fbd-b72f-68c62bb981be.gif)|
 
+
++ ## 애니메이션 동기화  
+
+  포톤에서 제공해주는 Photon Animator View가 제대로 작동하지않아 서버/클라이언트간 통신에 사용되는 RaiseEvent라는 커스텀 이벤트를 사용  
+  ex) SendPlayAnimationEvent(photonView.ViewID, "IsAiming", "Bool", _isAiming);  
+
+  ![SendPlayAnimationEvent](https://user-images.githubusercontent.com/22339727/162636145-c5b7982e-1c0d-4372-a883-f70c25640c27.png)  
+  PhotonView ID, 애니메이터 파라미터, 타입, 값을 마스터 클라이언트가 모든 월드에게 뿌려주고 해당 PhotonView ID를 가진 캐릭터가 애니메이션을 실행한다.  
+  ![AnymSyncFun](https://user-images.githubusercontent.com/22339727/162636098-51dcb83c-9b78-4b8a-a075-8d5c828dbd32.png)  
+  
 ---  
