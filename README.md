@@ -7,6 +7,7 @@
 목차
 =========================================================================================================================
 + 게임 설명
+  * [재구성](#재구성)
 + 백엔드 구성  
   * [사용한 SDK](#사용한-SDK)  
   * [Scene 흐름](#Scene-흐름)  
@@ -43,12 +44,13 @@
 + ## 사용한 SDK
   * Photon PUN - (클라이언트/서버)
   * Photon Chat - (채팅 시스템)
-  * playFab - (데이터베이스)
+  * PlayFab - (데이터베이스)
 
 
 + ## Scene 흐름
-  ![Scene](https://user-images.githubusercontent.com/22339727/159645968-c2dbe87d-9702-40c5-9f3b-4857777bc3c9.jpeg)
-  백엔드에 사용되는 PunCallbacks PunChat PlayFab 파일들은 Singleton으로 선언
+  ![Scene](https://user-images.githubusercontent.com/22339727/162636663-39a812e1-ae07-4fdd-846d-3391b5c5fd28.png)
+  계정 등록 및 로그인을 위한 Photon SDK, PlayFab은 Singleton 패턴과 Don’t Destroy()를 이용하여 어느 씬(Scene) 에서나 사용 가능 하도록 구현  
+  인게임 씬(Scene)에선, 마스터 클라이언트가 제어하는 게임 마스터와 개인 UI를 싱글톤으로 구현하여 개인만이 사용할 수 있는 콘텐츠에 접근 가능  
 
 + ## 백엔드 흐름
   ![PhotonConnect1](https://user-images.githubusercontent.com/22339727/159645959-60d4f109-49c6-41b9-b9de-d7fc9399d3e4.jpg)
@@ -58,9 +60,10 @@
 인게임 구성  
 =========================================================================================================================
 + ## 퀘스트  
-  퀘스트의 데이터 원본이 저장되어있는 Quest를  
-  퀘스트 도중 바뀌는 값 (퀘스트의 진행도, Npc대화 등) Quest_Obj에 담아서 하나의 GameObject로 만든다.  
-  만들어진 Quest_Obj는 Npc GameObject에 들어가게되며 플레이어가 퀘스트 수락 시, 리스트에 추가된다.  
+
+  퀘스트 데이터를 ScriptableObject 스크립트를 이용하여 저장  
+  퀘스트 진행 중 수정되는 값 (퀘스트의 진행도, Npc대화 등)을 위해 Quest_Obj에 Quest를 담아서 하나의 GameObject로 만듦  
+  만들어진 Quest_Obj는 Npc 컴포넌트에 부착되며, 플레이어가 퀘스트 수락 시, 퀘스트 리스트에 추가됨  
   ![퀘스트 구성도](https://user-images.githubusercontent.com/22339727/160859551-d0bb5162-6c2f-47ed-9bf7-a47739547090.PNG)
 
 + ## 상호작용
