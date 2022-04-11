@@ -105,9 +105,6 @@ namespace com.ThreeCS.McCree
         public Sprite outlaw4;
         public Sprite renegade4;
 
-        [Header("맵 기준점")]
-        public Transform[] points;
-        public List<GameObject> maps;
 
         // 한 게임에서 사용할 전체 아이템 세트
         public ItemSet entireItemSet;
@@ -165,18 +162,18 @@ namespace com.ThreeCS.McCree
 
         #region Coroutine
 
-        // 캐릭터 생성 후 맵 스폰 순서대로
+        // 캐릭터 생성
         IEnumerator InstantiateResource()
         {
             yield return new WaitForEndOfFrame();
 
             StartCoroutine(SpawnPlayer());
 
-            StartCoroutine(SpawnMap());
+            //StartCoroutine(SpawnMap());
         }
 
-        // 맵 생성
-        IEnumerator SpawnMap()
+        // 맵 생성(기능 삭제 - 기능 부활 시 맵 리스트랑 스폰포인트 생성해야함)
+        /*IEnumerator SpawnMap()
         {
             // 방장만 맵 스폰
             if(PhotonNetwork.IsMasterClient)
@@ -193,7 +190,7 @@ namespace com.ThreeCS.McCree
                 yield return new WaitForEndOfFrame();
             }
             
-        }
+        }*/
 
         IEnumerator SpawnPlayer()
         {
@@ -323,7 +320,7 @@ namespace com.ThreeCS.McCree
             StatusUI.Instance.job_Explain.text = abilText.text;
 
 
-            // ---------------------- 사람들이 텍스트를 읽을 시간 부여(나중에 다시 활성화) ----------------------------
+            // ------------------------------------------------ 사람들이 텍스트를 읽을 시간 부여(나중에 다시 활성화) ----------------------------
             //yield return new WaitForSeconds(12f);
             abilPanel.SetActive(false);
             MineUI.Instance.leftTopPanel.SetActive(true);
