@@ -2,6 +2,7 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
+QuaterView3D
 QuaterView3D/[Ll]ibrary/
 QuaterView3D/[Tt]emp/
 QuaterView3D/[Oo]bj/
@@ -16,6 +17,12 @@ McCree/[Bb]uild/
 McCree/[Bb]uilds/
 McCree/[Ll]ogs/
 McCree/[Mm]emoryCaptures/
+McCree/[Aa]ssets/Fantasy Wooden GUI  Free
+McCree/[Aa]ssets/Nokobot
+McCree/[Aa]ssets/Photon
+McCree/[Aa]ssets/PolygonStarter
+McCree/[Aa]ssets/PolygonWestern
+McCree/[Aa]ssets/PolygonWesternFrontier
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !QuaterView3D/[Aa]ssets/**/*.meta
