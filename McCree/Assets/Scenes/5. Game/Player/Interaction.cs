@@ -52,6 +52,17 @@ namespace com.ThreeCS.McCree
                 }
                 else if (other.gameObject.layer == LayerMask.NameToLayer("QuestItem"))
                 {
+
+                    if (other.gameObject.GetComponent<LiftItem>() != null)
+                    {   // 월드퀘스트 진행 중 다른애가 들고있는 운반중인물품 줍기 불가
+
+                        Debug.Log(other.gameObject.GetComponent<LiftItem>().isLifting);
+                        if (other.gameObject.GetComponent<LiftItem>().isLifting)
+                        {
+                            return;
+                        }
+                    }
+
                     foreach (SubQuestList subQuestObj in playerInfo.myQuestList)
                     {
                         Quest_Interface_PT_Obj pickQuest = (Quest_Interface_PT_Obj) subQuestObj.questObj;
@@ -165,15 +176,13 @@ namespace com.ThreeCS.McCree
                                 {
                                     if (subQuest.questObj == npc.questObj)
                                     {
-                                        Destroy(subQuest.gameObject);
+                                        subQuest.GetComponent<QuestListAnim>().Destroy_Object_End_Anim();
                                         break;
                                     }
                                 }
 
                                 npc.isComplete = true;
-
                                 Close_NPC_Chat();
-
                                 photonView.RPC("QuestComplete", RpcTarget.All, npc.questObj.quest.questTitle);
                             }
 

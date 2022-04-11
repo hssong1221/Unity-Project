@@ -221,7 +221,6 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.inventoryBtn.onClick.AddListener(Inventory); // 아이템 이미지
             MineUI.Instance.mainQuestBtn.onClick.AddListener(Inventory); // 메인 목표 
 
-
             // 포톤뷰에 의한 내 플레이어만
             if (photonView.IsMine)
             {
@@ -238,7 +237,6 @@ namespace com.ThreeCS.McCree
         void Start()
         {
             photonView.RPC("PlayerListSync", RpcTarget.All); // 플레이어 리스트 동기화
-
 
             EquipedNone = true;
             EquipedPistol = false;
@@ -268,17 +266,15 @@ namespace com.ThreeCS.McCree
             }
 
 
-            //if (!PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 모든 입력금지
-            //{                                 // 대화창 활성화하면 캐릭터 제자리 걸음함 
-            if (photonView.IsMine)
+            if (photonView.IsMine) // 자기자신 캐릭터만 제어해야함
             {
                 if (Input.GetKeyDown(KeyCode.Tab))
-                {
+                {   // 인벤토리 
                     Inventory();
                 }
 
-                if (!isBanging && !isBangeding && !isInteraction && !isLifting) // 아무코토 못함
-                {
+                if (!isBanging && !isBangeding && !isInteraction && !isLifting && !PunChat.Instance.usingInput)
+                {   // 아무입력 못받게 
                     if (!EquipedNone && Input.GetButtonDown("LockOn"))
                     {
                         AttackRange(); // 뱅 준비
@@ -314,71 +310,59 @@ namespace com.ThreeCS.McCree
                     // Range_Indicator 이미지의 크기 변경 
                 }
             }
-            //}
-            //else
-            //{
-            //    animator.SetFloat("Speed", 0f); // 최후의 보루 
-            //}
-
         }
 
         private void FixedUpdate() // move
         {
             if (photonView.IsMine)
             {
-                if (!isBanging && !isBangeding && !isInteraction) // 아무코토 못함
+                h = Input.GetAxis("Horizontal");
+                v = Input.GetAxis("Vertical");
+
+                if (isBanging || isBangeding || isInteraction) // 플레이어가 동작중일때 0 0 넣어줘서 못 움직이게 만듬
                 {
-                    if (isPicking == true && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
-                    {   // 상호작용중에 움직이면 
-                        ui.CanCel_Animation();
-                    }
-
-                    h = Input.GetAxis("Horizontal");
-                    v = Input.GetAxis("Vertical");
-
-                    moveVec = new Vector3(h, 0f, v);
-
-                    lookForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
-                    lookRight = new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z).normalized;
-
-                    moveDir = lookForward * moveVec.z + lookRight * moveVec.x;
-
-                    if (moveDir.magnitude >= 0.001)
-                    {
-                        agent.SetDestination(transform.position);
-                        playerAutoMove.targetedEnemy = null;
-
-                        transform.rotation = Quaternion.LookRotation(moveDir);
-                        // Rigidbody의 MovePosition 메소드로 캐릭터 이동
-                        // transfrom.position을 사용해도 되지만 얇은 벽등을 통과할 문제등이 생길 수 있다.
-                        // 객체의 충돌을 유지하면서 이동하기 위해 MovePosition을 사용 했다.
-                        rb.MovePosition(rb.position + moveDir * Time.fixedDeltaTime * moveSpeed);
-                        animator.SetFloat("Speed", moveDir.magnitude); // speed는 raiseonevent하니까 이상함
-
-                    }
+                    h = 0;
+                    v = 0;
                 }
+
+                if (PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 움직임 금지
+                {
+                    h = 0;
+                    v = 0;
+                }
+
+                if (isPicking == true && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
+                {   // 상호작용중에 움직이면 
+                    ui.CanCel_Animation();
+                }
+
+                moveVec = new Vector3(h, 0f, v);
+
+                lookForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
+                lookRight = new Vector3(Camera.main.transform.right.x, 0f, Camera.main.transform.right.z).normalized;
+
+                moveDir = lookForward * moveVec.z + lookRight * moveVec.x;
+
+                if (moveDir.magnitude >= 0.001) // 이동 후 플레이어 회전 방지
+                {
+                    agent.SetDestination(transform.position);
+                    playerAutoMove.targetedEnemy = null;
+                    transform.rotation = Quaternion.LookRotation(moveDir);
+                }
+
+                // Rigidbody의 MovePosition 메소드로 캐릭터 이동
+                // transfrom.position을 사용해도 되지만 얇은 벽등을 통과할 문제등이 생길 수 있다.
+                // 객체의 충돌을 유지하면서 이동하기 위해 MovePosition을 사용 했다.
+                rb.MovePosition(rb.position + moveDir * Time.fixedDeltaTime * moveSpeed);
+
+                if (playerAutoMove.targetedEnemy == null) 
+                    animator.SetFloat("Speed", moveDir.magnitude); // speed는 raiseonevent하니까 이상함
+                else // 조준중일때는 agent Speed넣어줘야 애니메이션 작동
+                    animator.SetFloat("Speed", agent.velocity.magnitude / agent.speed);
             }
         }
 
 
-        //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        //{
-        //    if (stream.IsWriting)
-        //    {
-        //        stream.SendNext(rb.position);
-        //        stream.SendNext(rb.rotation);
-        //        stream.SendNext(rb.velocity);
-        //    }
-        //    else
-        //    {
-        //        rb.position = (Vector3)stream.ReceiveNext();
-        //        rb.rotation = (Quaternion)stream.ReceiveNext();
-        //        rb.velocity = (Vector3)stream.ReceiveNext();
-
-        //        float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
-        //        rb.position += (rb.velocity * lag);
-        //    }
-        //}
         #endregion
 
         #region private Methods
@@ -621,10 +605,9 @@ namespace com.ThreeCS.McCree
             //{
             //    // 회피없으면 날라가는 함수 실행 
 
-            transform.rotation = Quaternion.LookRotation(lookat);
-            //rb.AddForce(100.0f * transform.forward, ForceMode.VelocityChange);
+            transform.rotation = Quaternion.LookRotation(-lookat);
+            rb.AddForce((lookat).normalized * tempLaboratory.force, ForceMode.Impulse);
             playerInfo.hp -= 1;
-
             animator.SetTrigger("Banged");
             //}
         }
@@ -644,6 +627,8 @@ namespace com.ThreeCS.McCree
             interactObj.transform.localRotation = Quaternion.identity;
             interactObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
+            interactObj.GetComponent<LiftItem>().isLifting = true; // 이 아이템은 누가 들어올린 상태
+
             if (photonView.IsMine)
             {
                 playerManager.isLifting = true;
@@ -660,13 +645,13 @@ namespace com.ThreeCS.McCree
             bangLogObj.GetComponent<Animator>().Play("LogStart");
         }
 
-        void Avoid_Trigger()
-        {
-            GameObject avoidLogObj = ObjectPool.Instance.GetObject(3); //오브젝트 풀에서 가져오기
-            avoidLogObj.transform.SetParent(MineUI.Instance.logPanel);
-            avoidLogObj.GetComponent<AvoidLogObj>().nick1.text = PhotonNetwork.LocalPlayer.NickName;
-            avoidLogObj.GetComponent<Animator>().Play("LogStart");
-        }
+        //void Avoid_Trigger()
+        //{
+        //    GameObject avoidLogObj = ObjectPool.Instance.GetObject(3); //오브젝트 풀에서 가져오기
+        //    avoidLogObj.transform.SetParent(MineUI.Instance.logPanel);
+        //    avoidLogObj.GetComponent<AvoidLogObj>().nick1.text = PhotonNetwork.LocalPlayer.NickName;
+        //    avoidLogObj.GetComponent<Animator>().Play("LogStart");
+        //}
 
         [PunRPC]
         public void QuestLog(string questTitle)

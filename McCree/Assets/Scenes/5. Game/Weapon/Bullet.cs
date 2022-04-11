@@ -37,7 +37,7 @@ namespace com.ThreeCS.McCree
                 if (collision.gameObject.GetComponent<PhotonView>().IsMine)
                 {
                     Vector3 bulletFoward = target.transform.position - transform.position;
-                    collision.gameObject.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All, -bulletFoward);
+                    collision.gameObject.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All, bulletFoward);
                 }
             }
         }

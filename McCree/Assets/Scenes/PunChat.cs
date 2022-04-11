@@ -216,7 +216,6 @@ namespace com.ThreeCS.McCree
 
             if (chatInput.IsActive())
             {
-                Debug.Log("c: " + chatInput.isFocused);
                 if (chatInput.text.Equals(""))
                 {
                     chatInput.DeactivateInputField();
@@ -246,9 +245,7 @@ namespace com.ThreeCS.McCree
             else
             {
                 chatInput.gameObject.SetActive(true);
-                Debug.Log("a: "+chatInput.isFocused);
                 chatInput.ActivateInputField();
-                Debug.Log("b: " + chatInput.isFocused);
                 usingInput = true;
             }
         }
