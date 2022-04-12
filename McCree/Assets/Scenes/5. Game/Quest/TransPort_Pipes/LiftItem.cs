@@ -83,7 +83,7 @@ public class LiftItem : MonoBehaviour
 
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.7f, floorLayerMask))
         {   // 대략 0.6부터 지면이랑 충돌했다고 인식함
-            Invoke("IsKinematic_True", 0.3f); // 0.3초후에 isground true
+            Invoke("IsKinematic_True", 1f); // 1초후에 isground true, rigidbody삭제
             Debug.Log("닿음");
         }
         else
