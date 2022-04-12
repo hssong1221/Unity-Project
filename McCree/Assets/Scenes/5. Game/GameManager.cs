@@ -42,6 +42,12 @@ namespace com.ThreeCS.McCree
         private GameObject BGMLobby;
         private AudioSource bgm;
 
+        // 게임 종료 조건(각 직업의 숫자 - 보안관은 죽으면 바로 무법자 승리)
+        private int outlawNum;
+        private int renegadeNum;
+        private int viceNum;
+
+        private bool isVitory = false;
         
 
         public enum jType
@@ -157,7 +163,7 @@ namespace com.ThreeCS.McCree
             StartCoroutine(WaitAllPlayers()); // 다른 플레이어 기다리기
 
         }
-        
+
         #endregion
 
         #region Coroutine
@@ -228,6 +234,8 @@ namespace com.ThreeCS.McCree
             // 플레이어들이 모두 들어오면 밑에 실행 가능
 
             StartCoroutine(FindMinePv());  // 자기 자신의 PhotonView, 관련 스크립트 찾기
+
+            StartCoroutine(EndGame()); // 게임 종료 조건을 판단
 
             if (PhotonNetwork.IsMasterClient && photonView.IsMine)
             {
@@ -328,6 +336,71 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.rightTop.SetActive(true);
         }
 
+        // 게임 종료 조건 만족하는지 확인함 
+        IEnumerator EndGame()
+        {
+            while (!isVitory)
+            {
+                foreach(GameObject player in playerList)
+                {
+                    
+                    if(player.GetComponent<PlayerManager>().playerType == jType.Sheriff && player.GetComponent<PlayerInfo>().isDeath)
+                    {
+                        // 보안관 사망시 무법자 승리
+                        Victory("outlaw");
+                        isVitory = true;
+                    }
+                    else if(player.GetComponent<PlayerManager>().playerType == jType.Outlaw)
+                    {
+                        //현재 남아있는 무법자 수
+                        outlawNum = 0;
+                        if (!player.GetComponent<PlayerInfo>().isDeath)
+                        {
+                            outlawNum++;
+                        }
+                    }
+                    else if(player.GetComponent<PlayerManager>().playerType == jType.Renegade)
+                    {
+                        // 현재 남아있는 배신자 수
+                        renegadeNum = 0;
+                        if (!player.GetComponent<PlayerInfo>().isDeath)
+                        {
+                            renegadeNum++;
+                        }
+                    }
+                    else if(player.GetComponent<PlayerManager>().playerType == jType.Vice)
+                    {
+                        // 현재 남아있는 부관 수
+                        viceNum = 0;
+                        if (!player.GetComponent<PlayerInfo>().isDeath)
+                        {
+                            viceNum++;
+                        }
+                    }
+
+
+                    Debug.Log("플레이어 : " + player.GetComponent<PlayerManager>().playerType + "    플레이어 hp : " + player.GetComponent<PlayerInfo>().hp);
+                }
+
+                // 부관과 무법자가 모두 사망해서 보안관과 1대1일이 되면 배신자 승리
+                if (viceNum == 0 && outlawNum == 0)
+                {
+                    Victory("renegade");
+                    isVitory = true;
+                }
+
+                // 무법자 배신자 모두 사망하면 보안관 승리
+                if (outlawNum == 0 && renegadeNum == 0)
+                {
+                    Victory("sherrif");
+                    isVitory = true;
+                }
+
+                //Debug.Log("캐릭터 체력 " + playerInfo.hp);
+                yield return new WaitForSeconds(1f);
+            }
+            yield return null;
+        }
 
         #endregion
 
@@ -436,10 +509,30 @@ namespace com.ThreeCS.McCree
             PhotonNetwork.LeaveRoom();
         }
 
+        public void Victory(string winner)
+        {
+            switch (winner)
+            {
+                case "sherrif":
+                    Debug.Log("보안관과 부관 승리!");
+                    break;
+                case "outlaw":
+                    Debug.Log("무법자 승리!");
+                    break;
+                case "renegade":
+                    Debug.Log("배신자 승리");
+                    break;
+                default:
+                    Debug.Log("어딘가에서 조건 빠진게 생김");
+                    break;
+
+            }
+
+        }
 
         #endregion
 
-        
+
 
         #region Photon Callback
 

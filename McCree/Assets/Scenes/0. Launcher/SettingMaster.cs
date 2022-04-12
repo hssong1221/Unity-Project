@@ -193,12 +193,13 @@ namespace com.ThreeCS.McCree
             }
 
             // 본인 컴퓨터의 저장된 설정 값 불러오기
+
             graphicOpt = PlayerPrefs.GetInt("graphicOpt", 0);
             resolutionOpt.Item1 = PlayerPrefs.GetInt("resolutionWidth", 0);
             resolutionOpt.Item2 = PlayerPrefs.GetInt("resolutionHeight", 0);
             screenOpt = PlayerPrefs.GetInt("screenMode", 0);
 
-            Debug.Log(screenOpt);
+            //Debug.Log(screenOpt);
 
             soundOpt = PlayerPrefs.GetInt("soundOpt", 0);
 
@@ -395,7 +396,7 @@ namespace com.ThreeCS.McCree
                     screenTxt.text = "error";
                     break;
             }
-            Debug.Log(screenOpt);
+            //Debug.Log(screenOpt);
 
             screenDownBtn.interactable = screenOpt != 0;
             screenUpBtn.interactable = screenOpt != 3;

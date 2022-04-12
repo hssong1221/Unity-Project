@@ -125,6 +125,8 @@ namespace com.ThreeCS.McCree
                 myItemList.Add(content.GetChild(i).GetComponent<ItemList>());
             }
             MineUI.Instance.statusPanel.gameObject.SetActive(false);
+
+            StartCoroutine(CurrentHP());
         }
 
         public void Show_Hp()
@@ -146,6 +148,23 @@ namespace com.ThreeCS.McCree
                         MineUI.Instance.mineUIhpImgs[i].SetActive(false);
                 }
             }
+        }
+
+        IEnumerator CurrentHP()
+        {
+            yield return new WaitForSeconds(5f);
+            while (true)
+            {
+                Debug.Log("현재 체력 : " + hp);
+                if (hp <= 0)
+                {
+                    isDeath = true;
+                    break;
+                }
+
+                yield return new WaitForSeconds(1f);
+            }
+            yield return null;
         }
     }
 }
