@@ -606,7 +606,7 @@ namespace com.ThreeCS.McCree
             //    // 회피없으면 날라가는 함수 실행 
 
             transform.rotation = Quaternion.LookRotation(-lookat);
-            rb.AddForce((lookat).normalized * tempLaboratory.force, ForceMode.Impulse);
+            //rb.AddForce((lookat).normalized * tempLaboratory.force, ForceMode.Impulse);
             playerInfo.hp -= 1;
             animator.SetTrigger("Banged");
             //}

@@ -20,28 +20,12 @@ namespace com.ThreeCS.McCree
         }
 
 
-        public GameObject statusUI;  // 네트워크 상태 UI
-        public Text statusText;      // 네트워크 상태 텍스트
-        // stataic 변수는 처음에 지정을 못해주는듯
-        // Awake함수에서 하위요소를 불러와서 각각 저장
-
         private Transform[] canvasChildrens;
 
         private void Awake()
         {
             pInstance = this;
 
-            canvasChildrens = transform.GetComponentsInChildren<Transform>();
-            foreach (Transform child in canvasChildrens)
-            {
-                if (child.name == "StatusBackGround")
-                {
-                    statusUI = child.gameObject;
-                    statusUI.SetActive(false);
-                }
-                else if (child.name == "StatusText")
-                    statusText = child.gameObject.GetComponent<Text>();
-            }
             DontDestroyOnLoad(this.gameObject);
         }
 

@@ -27,24 +27,7 @@ namespace com.ThreeCS.McCree
         void Awake()
         {
             pInstance = this;
-
-            canvasChildrens = transform.GetComponentsInChildren<Transform>();
-            foreach (Transform child in canvasChildrens)
-            {
-                if (child.name == "MsgCanvas")
-                {
-                    msg_Canvas = child.gameObject;
-                    msg_Canvas.SetActive(false);
-                }
-                else if (child.name == "Message")
-                {
-                    msg_Text = child.GetComponent<Text>();
-                }
-                else if (child.name == "CloseBtn")
-                {
-                    close_Btn = child.GetComponent<Button>();
-                }
-            }
+            
             close_Btn.onClick.AddListener(Close_Btn);
             DontDestroyOnLoad(this.gameObject);
         }

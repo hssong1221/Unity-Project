@@ -28,7 +28,6 @@ namespace com.ThreeCS.McCree
         protected Button joinBtn;  // 입장 버튼
 
         
-        private PlayFabModule playFabModule;
 
 
 
@@ -49,8 +48,6 @@ namespace com.ThreeCS.McCree
         {
             // 게임 버젼
             PhotonNetwork.GameVersion = gameVersion;
-
-            playFabModule = GameObject.Find("LoadingUI").GetComponent<PlayFabModule>();
 
             loginBtn.onClick.AddListener(Login_Btn);
             registerBtn.onClick.AddListener(Register_Btn);
@@ -108,7 +105,7 @@ namespace com.ThreeCS.McCree
                 Username = username, 
                 Password = password
             };
-            PlayFabClientAPI.LoginWithPlayFab(request, playFabModule.OnLoginSuccess, playFabModule.OnLoginFailure);
+            PlayFabClientAPI.LoginWithPlayFab(request, PlayFabModule.Instance.OnLoginSuccess, PlayFabModule.Instance.OnLoginFailure);
 
             LoadingUI.Instance.msg_Text.text = "로그인 시도 중...";
             LoadingUI.Instance.close_Btn.gameObject.SetActive(false);

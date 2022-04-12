@@ -909,9 +909,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c00b7c2553f377d4a856f73f1c4cbaba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  msg_Canvas: {fileID: 0}
-  msg_Text: {fileID: 0}
-  close_Btn: {fileID: 0}
+  msg_Canvas: {fileID: 93476055}
+  msg_Text: {fileID: 994987431}
+  close_Btn: {fileID: 1027884776}
 --- !u!114 &298621449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -950,8 +950,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ba11b76f26d49429ce783af246ace4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statusUI: {fileID: 0}
-  statusText: {fileID: 0}
 --- !u!224 &298621452
 RectTransform:
   m_ObjectHideFlags: 0
