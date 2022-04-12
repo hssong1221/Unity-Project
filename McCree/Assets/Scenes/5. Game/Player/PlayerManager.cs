@@ -400,13 +400,9 @@ namespace com.ThreeCS.McCree
             RaycastHit[] hits;
             hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition));
 
-            for (int i = 0; i < hits.Length; i++)
-                Debug.Log(hits[i].collider.gameObject.name);
-
             for (int i=0; i < hits.Length; i++)
             {
                 RaycastHit hit = hits[i];
-
 
                 if (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player")
                 { // 클릭한 오브젝트가 자기 자신이 아닌 다른 플레이어 일때
@@ -644,19 +640,9 @@ namespace com.ThreeCS.McCree
             {  // 무언가 들고있다면 떨군다.
                 int photonID = playerManager.objectTransPos.GetChild(0).GetComponent<PhotonView>().ViewID;
 
-
                 GameObject interactObj = PhotonView.Find(photonID).gameObject;
-                interactObj.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                // 크기 되돌려놓고
-
-                interactObj.GetComponent<Collider>().enabled = true;
-                // 콜라이더 활성화
-
                 interactObj.transform.SetParent(null);
-                interactObj.GetComponent<ParticleSystem>().Play();
-
                 interactObj.GetComponent<LiftItem>().isLifting = false; // 이 아이템을 떨군 상태
-
 
                 playerManager.isLifting = false;
             }
@@ -674,19 +660,8 @@ namespace com.ThreeCS.McCree
         {
             GameObject interactObj = PhotonView.Find(photonID).gameObject;
 
+
             interactObj.transform.SetParent(playerManager.objectTransPos);
-
-            interactObj.GetComponent<Collider>().enabled = false;
-            // 콜라이더 활성화 뱅 쏠때 파이프가 대신맞음
-
-            interactObj.GetComponent<ParticleSystem>().Stop();
-            interactObj.GetComponent<ParticleSystem>().Clear();
-            // position 오브젝트의 위치를 항상 월드의 원점을 기준으로 월드 공간상에 선언한다.
-            // localPosition 부모의 위치 기준으로 설정한다
-            interactObj.transform.localPosition = new Vector3(0f, 0f, 0f);
-            interactObj.transform.localRotation = Quaternion.identity;
-            interactObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-
             interactObj.GetComponent<LiftItem>().isLifting = true; // 이 아이템은 누가 들어올린 상태
 
             if (photonView.IsMine)
