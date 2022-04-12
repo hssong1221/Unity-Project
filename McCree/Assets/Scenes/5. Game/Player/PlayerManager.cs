@@ -396,16 +396,23 @@ namespace com.ThreeCS.McCree
         // 뱅!
         void Bang()
         {
-            RaycastHit hit;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
+
+            RaycastHit[] hits;
+            hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition));
+
+            for (int i = 0; i < hits.Length; i++)
+                Debug.Log(hits[i].collider.gameObject.name);
+
+            for (int i=0; i < hits.Length; i++)
             {
-                Debug.Log("레이캐스트");
+                RaycastHit hit = hits[i];
+
+
                 if (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player")
                 { // 클릭한 오브젝트가 자기 자신이 아닌 다른 플레이어 일때
 
                     // 클릭한 물체의 위치와 내 위치의 거리 
                     float distance = Vector3.Distance(hit.collider.transform.position, transform.position);
-
 
                     if (distance <= maxAttackDistance)
                         Debug.Log("캐릭터 선택 닿음  " + "거리: " + distance);
@@ -413,13 +420,41 @@ namespace com.ThreeCS.McCree
                         Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
 
                     playerAutoMove.targetedEnemy = hit.collider.gameObject;
-                    Debug.Log("타겟 설정");
+                    return;
                 }
                 else
                 {
                     playerAutoMove.targetedEnemy = null;
                 }
             }
+
+
+            //if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
+            //{
+
+            //    Debug.Log("레이캐스트");
+            //    Debug.Log(hit.collider.name + "  " + (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player"));
+            //    if (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player")
+            //    { // 클릭한 오브젝트가 자기 자신이 아닌 다른 플레이어 일때
+
+            //        // 클릭한 물체의 위치와 내 위치의 거리 
+            //        float distance = Vector3.Distance(hit.collider.transform.position, transform.position);
+
+
+            //        if (distance <= maxAttackDistance)
+            //            Debug.Log("캐릭터 선택 닿음  " + "거리: " + distance);
+            //        else
+            //            Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
+
+            //        playerAutoMove.targetedEnemy = hit.collider.gameObject;
+            //        Debug.Log("타겟 설정");
+            //    }
+            //    else
+            //    {
+            //        playerAutoMove.targetedEnemy = null;
+            //    }
+            //}
+
         }
 
 
@@ -605,6 +640,27 @@ namespace com.ThreeCS.McCree
             //{
             //    // 회피없으면 날라가는 함수 실행 
 
+            if (playerManager.objectTransPos.childCount != 0)
+            {  // 무언가 들고있다면 떨군다.
+                int photonID = playerManager.objectTransPos.GetChild(0).GetComponent<PhotonView>().ViewID;
+
+
+                GameObject interactObj = PhotonView.Find(photonID).gameObject;
+                interactObj.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                // 크기 되돌려놓고
+
+                interactObj.GetComponent<Collider>().enabled = true;
+                // 콜라이더 활성화
+
+                interactObj.transform.SetParent(null);
+                interactObj.GetComponent<ParticleSystem>().Play();
+
+                interactObj.GetComponent<LiftItem>().isLifting = false; // 이 아이템을 떨군 상태
+
+
+                playerManager.isLifting = false;
+            }
+
             transform.rotation = Quaternion.LookRotation(-lookat);
             //rb.AddForce((lookat).normalized * tempLaboratory.force, ForceMode.Impulse);
             playerInfo.hp -= 1;
@@ -619,6 +675,10 @@ namespace com.ThreeCS.McCree
             GameObject interactObj = PhotonView.Find(photonID).gameObject;
 
             interactObj.transform.SetParent(playerManager.objectTransPos);
+
+            interactObj.GetComponent<Collider>().enabled = false;
+            // 콜라이더 활성화 뱅 쏠때 파이프가 대신맞음
+
             interactObj.GetComponent<ParticleSystem>().Stop();
             interactObj.GetComponent<ParticleSystem>().Clear();
             // position 오브젝트의 위치를 항상 월드의 원점을 기준으로 월드 공간상에 선언한다.
