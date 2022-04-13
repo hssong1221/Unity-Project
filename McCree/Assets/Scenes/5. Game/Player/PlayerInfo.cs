@@ -152,6 +152,7 @@ namespace com.ThreeCS.McCree
 
         IEnumerator CurrentHP()
         {
+            // 너무 빨리 측정하면 hp 동기화 하기 전이라 사망처리됨 
             yield return new WaitForSeconds(5f);
             while (true)
             {

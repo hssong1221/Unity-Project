@@ -87,6 +87,13 @@ namespace com.ThreeCS.McCree
         public Image abilImage;
         public Text abilText;
 
+        [Header("게임 종료 관련 UI")]
+        public GameObject vicPanel;
+        public GameObject backPlane;
+
+        public GameObject[] pnt;
+        public GameObject[] player;
+
 
         [Header("직업 일러스트")]
         public Sprite sheriff1;  // 보안관 일러스트
@@ -339,6 +346,9 @@ namespace com.ThreeCS.McCree
         // 게임 종료 조건 만족하는지 확인함 
         IEnumerator EndGame()
         {
+            // 너무 빨리 측정하면 hp 동기화 전이라 전부 사망처리됨
+            yield return new WaitForSeconds(5f);
+
             while (!isVitory)
             {
                 foreach(GameObject player in playerList)
@@ -358,6 +368,7 @@ namespace com.ThreeCS.McCree
                         {
                             outlawNum++;
                         }
+                        Debug.Log("현재 무법자 수 : " + outlawNum);
                     }
                     else if(player.GetComponent<PlayerManager>().playerType == jType.Renegade)
                     {
@@ -367,6 +378,8 @@ namespace com.ThreeCS.McCree
                         {
                             renegadeNum++;
                         }
+                        Debug.Log("현재 배신자 수 : " + renegadeNum);
+
                     }
                     else if(player.GetComponent<PlayerManager>().playerType == jType.Vice)
                     {
@@ -376,8 +389,9 @@ namespace com.ThreeCS.McCree
                         {
                             viceNum++;
                         }
-                    }
+                        Debug.Log("현재 부관 수 : " + viceNum);
 
+                    }
 
                     Debug.Log("플레이어 : " + player.GetComponent<PlayerManager>().playerType + "    플레이어 hp : " + player.GetComponent<PlayerInfo>().hp);
                 }
@@ -396,7 +410,6 @@ namespace com.ThreeCS.McCree
                     isVitory = true;
                 }
 
-                //Debug.Log("캐릭터 체력 " + playerInfo.hp);
                 yield return new WaitForSeconds(1f);
             }
             yield return null;
@@ -511,6 +524,11 @@ namespace com.ThreeCS.McCree
 
         public void Victory(string winner)
         {
+            vicPanel.SetActive(true);
+            backPlane.SetActive(true);
+
+            SpawnWinner();
+
             switch (winner)
             {
                 case "sherrif":
@@ -528,6 +546,20 @@ namespace com.ThreeCS.McCree
 
             }
 
+        }
+
+        public void SpawnWinner()
+        {
+            // 방장만 맵 스폰
+            if (PhotonNetwork.IsMasterClient)
+            {
+                // 맵은 8칸 + 가운데 마을1칸(이건 중앙 고정)
+                for (int i = 0; i < 8; i++)
+                {
+                    // 맵 모듈을 스폰해서 동기화
+                    PhotonNetwork.Instantiate(player[0].name , pnt[i].transform.position, pnt[i].transform.rotation, 0);
+                }
+            }
         }
 
         #endregion
