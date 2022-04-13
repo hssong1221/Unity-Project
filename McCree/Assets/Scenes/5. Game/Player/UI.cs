@@ -120,23 +120,20 @@ namespace com.ThreeCS.McCree
 
         public void InterAction(float time, GameObject interactObj)
         {
-            if (!playerManager.isPicking) // 이미 줍고있을때 또 누르면 코루틴이 겹쳐서 빨라짐
-            {                             // 또 줍는걸 방지
-                if (interactObj.tag == "QItem_PickUp")
-                {
-                    progressText.text = interactObj.name+" 치우는 중...";
-                    animSync.SendPlayAnimationEvent(photonView.ViewID, "Pick", "Trigger");
-                }
-
-                else if (interactObj.tag == "QItem_TransPort")
-                {
-                    progressText.text = interactObj.name + " 들어 올리는 중...";
-                    animSync.SendPlayAnimationEvent(photonView.ViewID, "Lift", "Trigger");
-                }
-                
-                playerManager.isPicking = true;
-                LoadingProgreeCircle(time, interactObj);
+            if (interactObj.tag == "QItem_PickUp")
+            {
+                progressText.text = interactObj.name+" 치우는 중...";
+                animSync.SendPlayAnimationEvent(photonView.ViewID, "Pick", "Trigger");
             }
+
+            else if (interactObj.tag == "QItem_TransPort")
+            {
+                progressText.text = interactObj.name + " 들어 올리는 중...";
+                animSync.SendPlayAnimationEvent(photonView.ViewID, "Lift", "Trigger");
+            }
+                
+            playerManager.isPicking = true;
+            LoadingProgreeCircle(time, interactObj);
         }
 
         public void LoadingProgreeCircle(float time, GameObject interactObj)
@@ -159,7 +156,13 @@ namespace com.ThreeCS.McCree
                 currentValue += 100 * Time.deltaTime / time; // 아마 초단위 맞을듯?
                 progressPercent.text = ((int)currentValue).ToString() + "%";
                 progressBar.fillAmount = currentValue / 100;
+                MineUI.Instance.interactionPanel.SetActive(false);
 
+                if (interactObj.GetComponent<LiftItem>().isLifting)
+                {
+                    Off_ProgressUI();
+                    yield break;
+                }
 
                 if (progressBar.fillAmount > 0.99)
                 {
@@ -223,8 +226,7 @@ namespace com.ThreeCS.McCree
             playerManager.isPicking = false;
             if (coroutine != null) 
                 StopCoroutine(coroutine);
-            if (interaction.coroutine != null)
-                interaction.Direct_StopCoroutine();
+            interaction.StopCoroutine_Direct(interaction.coroutine_Interact);
             progressText.enabled = false;
             progressBar.enabled = false;
             progressPercent.enabled = false;

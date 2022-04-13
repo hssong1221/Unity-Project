@@ -29,22 +29,22 @@ namespace com.ThreeCS.McCree
                 animator.SetTrigger("Banged");
             }
 
-            if (Input.GetKeyDown(KeyCode.Y))
-            {
-                if (playerManager.objectTransPos.childCount != 0)
-                {
-                    int photonID = playerManager.objectTransPos.GetChild(0).GetComponent<PhotonView>().ViewID;
+            //if (Input.GetKeyDown(KeyCode.Y))
+            //{
+            //    if (playerManager.objectTransPos.childCount != 0)
+            //    {
+            //        int photonID = playerManager.objectTransPos.GetChild(0).GetComponent<PhotonView>().ViewID;
 
-                    GameObject interactObj = PhotonView.Find(photonID).gameObject;
+            //        GameObject interactObj = PhotonView.Find(photonID).gameObject;
 
-                    interactObj.transform.SetParent(null);
+            //        interactObj.transform.SetParent(null);
 
-                    interactObj.GetComponent<LiftItem>().isLifting = false; // 이 아이템을 떨군 상태
+            //        interactObj.GetComponent<LiftItem>().isLifting = false; // 이 아이템을 떨군 상태
 
 
-                    playerManager.isLifting = false;
-                }
-            }
+            //        playerManager.isLifting = false;
+            //    }
+            //}
 
         }
     }

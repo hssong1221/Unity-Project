@@ -29,7 +29,9 @@ public class LiftItem : MonoBehaviour
 
             else if (_isLifting == false) // 떨굴 때
             {
-                gameObject.AddComponent<Rigidbody>(); // 떨굴때 중력주려고 rigidbody추가
+                Rigidbody rb = gameObject.AddComponent<Rigidbody>(); // 떨굴때 중력주려고 rigidbody추가
+                rb.AddForce(new Vector3(0.0f, 5.0f, 0.0f), ForceMode.Impulse);
+
                 ps.Play();
 
                 transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
@@ -59,6 +61,8 @@ public class LiftItem : MonoBehaviour
 
     private Collider cd;
     private ParticleSystem ps;
+    
+    private float rotate_x = 0f;
 
     void Awake()
     {
@@ -78,18 +82,18 @@ public class LiftItem : MonoBehaviour
 
     private void FixedUpdate()
     {
+        transform.rotation = new Quaternion(rotate_x, transform.rotation.y, transform.rotation.z, transform.rotation.w);
 
         RaycastHit hit;
 
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 0.7f, floorLayerMask))
         {   // 대략 0.6부터 지면이랑 충돌했다고 인식함
             Invoke("IsKinematic_True", 1f); // 1초후에 isground true, rigidbody삭제
-            Debug.Log("닿음");
         }
         else
         {
             isGrounded = false;
-            Debug.Log("안닿음");
+            CancelInvoke();
         }
 
     }

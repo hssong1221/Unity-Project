@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace com.ThreeCS.McCree
 {
-    public class PlayerManager : Controller, IPunObservable
+    public class PlayerManager : Controller
     {
         #region Variable Fields
 
@@ -40,13 +40,57 @@ namespace com.ThreeCS.McCree
             }
         }
 
-
-        public bool isBanging;
-        public bool isDeath;
-        public bool isBangeding;
-        public bool isInteraction;
-
+        [SerializeField]
+        private bool _isBanging;
+        [SerializeField]
+        private bool _isBangeding;
+        [SerializeField]
+        private bool _isInteraction;
+        [SerializeField]
+        private bool _isLifting;
+        [SerializeField]
         private bool _isPicking;
+        [SerializeField]
+        private bool _canBehave;
+
+        public bool isBanging
+        {
+            get { return _isBanging; }
+            set
+            {
+                _isBanging = value;
+
+                if (_isBanging == true)
+                    canBehave = false;
+            }
+        }
+        
+        public bool isBangeding
+        {
+            get { return _isBangeding; }
+            set
+            {
+                _isBangeding = value;
+
+                if (_isBangeding == true)
+                    canBehave = false;
+            }
+        }
+        public bool isInteraction
+        {
+            get { return _isInteraction; }
+            set
+            {
+                _isInteraction = value;
+
+                if (_isInteraction == true)
+                    canBehave = false;
+            }
+        }
+
+
+
+
         public bool isPicking
         {
             get { return _isPicking; }
@@ -65,7 +109,6 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        private bool _isLifting;
         public bool isLifting // 들고있는 중 , 들고있지않은 중
         {
             get { return _isLifting; }
@@ -86,6 +129,11 @@ namespace com.ThreeCS.McCree
             }
         }
 
+
+
+        public bool isDeath;
+
+        public bool canBehave;
 
 
         // 장착무기상태--------------------------------------------------------------------------------
@@ -209,9 +257,6 @@ namespace com.ThreeCS.McCree
 
         float moveSpeed = 5f; // 캐릭터 이동 속도
 
-        Vector3 networkPosition;
-        Quaternion networkRotation;
-        float mSmag;
 
         #endregion
 
@@ -241,6 +286,8 @@ namespace com.ThreeCS.McCree
         void Start()
         {
             photonView.RPC("PlayerListSync", RpcTarget.All); // 플레이어 리스트 동기화
+
+            canBehave = true;
 
             EquipedNone = true;
             EquipedPistol = false;
@@ -277,7 +324,7 @@ namespace com.ThreeCS.McCree
                     Inventory();
                 }
 
-                if (!isBanging && !isBangeding && !isInteraction && !isLifting && !PunChat.Instance.usingInput)
+                if (canBehave && !isLifting && !PunChat.Instance.usingInput)
                 {   // 아무입력 못받게 
                     if (!EquipedNone && Input.GetButtonDown("LockOn"))
                     {
@@ -323,14 +370,14 @@ namespace com.ThreeCS.McCree
                 h = Input.GetAxis("Horizontal");
                 v = Input.GetAxis("Vertical");
 
-                if (isBanging || isBangeding || isInteraction) // 플레이어가 동작중일때 0 0 넣어줘서 못 움직이게 만듬
+                if (!isBanging && !isBangeding && !isInteraction)
                 {
-                    h = 0;
-                    v = 0;
+                    canBehave = true;
                 }
 
-                if (PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 움직임 금지
-                {
+
+                if (!canBehave || PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 움직임 금지
+                {   // 플레이어가 동작중일때 0 0 넣어줘서 못 움직이게 만듬
                     h = 0;
                     v = 0;
                 }
@@ -362,44 +409,42 @@ namespace com.ThreeCS.McCree
                 if (playerAutoMove.targetedEnemy == null)
                 {
                     animator.SetFloat("Speed", moveDir.magnitude); // speed는 raiseonevent하니까 이상함
-                    mSmag = moveDir.magnitude;
                 }
                 else // 조준중일때는 agent Speed넣어줘야 애니메이션 작동
                 {
                     animator.SetFloat("Speed", agent.velocity.magnitude / agent.speed);
-                    mSmag = agent.velocity.magnitude / agent.speed;
                 }
             }
-            else
-            {
-                rb.position = Vector3.MoveTowards(rb.position, networkPosition, Time.fixedDeltaTime * 5.0f);
-                rb.rotation = Quaternion.RotateTowards(rb.rotation, networkRotation, Time.fixedDeltaTime * 1000.0f);
-                animator.SetFloat("Speed", mSmag);
-            }
+            //else
+            //{
+            //    rb.position = Vector3.MoveTowards(rb.position, networkPosition, Time.fixedDeltaTime * 5.0f);
+            //    rb.rotation = Quaternion.RotateTowards(rb.rotation, networkRotation, Time.fixedDeltaTime * 1000.0f);
+            //    animator.SetFloat("Speed", mSmag);
+            //}
         }
 
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            if (stream.IsWriting)
-            {
-                stream.SendNext(rb.position);
-                stream.SendNext(rb.rotation);
-                stream.SendNext(rb.velocity);
+        //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //{
+            //if (stream.IsWriting)
+            //{
+            //    stream.SendNext(rb.position);
+            //    stream.SendNext(rb.rotation);
+            //    stream.SendNext(rb.velocity);
 
-                stream.SendNext(mSmag);
-            }
-            else
-            {
-                networkPosition = (Vector3)stream.ReceiveNext();
-                networkRotation = (Quaternion)stream.ReceiveNext();
-                rb.velocity = (Vector3)stream.ReceiveNext();
+            //    stream.SendNext(mSmag);
+            //}
+            //else
+            //{
+            //    networkPosition = (Vector3)stream.ReceiveNext();
+            //    networkRotation = (Quaternion)stream.ReceiveNext();
+            //    rb.velocity = (Vector3)stream.ReceiveNext();
 
-                mSmag = (float)stream.ReceiveNext();
+            //    mSmag = (float)stream.ReceiveNext();
 
-                float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTimestamp));
-                networkPosition += rb.velocity * lag;
-            }
-        }
+            //    float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTimestamp));
+            //    networkPosition += rb.velocity * lag;
+            //}
+        //}
 
         #endregion
 
