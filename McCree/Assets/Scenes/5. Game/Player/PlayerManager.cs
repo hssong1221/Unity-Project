@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace com.ThreeCS.McCree
 {
-    public class PlayerManager : Controller
+    public class PlayerManager : Controller, IPunObservable
     {
         #region Variable Fields
 
@@ -209,6 +209,10 @@ namespace com.ThreeCS.McCree
 
         float moveSpeed = 5f; // 캐릭터 이동 속도
 
+        Vector3 networkPosition;
+        Quaternion networkRotation;
+        float mSmag;
+
         #endregion
 
         #region MonoBehaviour CallBacks
@@ -355,13 +359,47 @@ namespace com.ThreeCS.McCree
                 // 객체의 충돌을 유지하면서 이동하기 위해 MovePosition을 사용 했다.
                 rb.MovePosition(rb.position + moveDir * Time.fixedDeltaTime * moveSpeed);
 
-                if (playerAutoMove.targetedEnemy == null) 
+                if (playerAutoMove.targetedEnemy == null)
+                {
                     animator.SetFloat("Speed", moveDir.magnitude); // speed는 raiseonevent하니까 이상함
+                    mSmag = moveDir.magnitude;
+                }
                 else // 조준중일때는 agent Speed넣어줘야 애니메이션 작동
+                {
                     animator.SetFloat("Speed", agent.velocity.magnitude / agent.speed);
+                    mSmag = agent.velocity.magnitude / agent.speed;
+                }
+            }
+            else
+            {
+                rb.position = Vector3.MoveTowards(rb.position, networkPosition, Time.fixedDeltaTime * 5.0f);
+                rb.rotation = Quaternion.RotateTowards(rb.rotation, networkRotation, Time.fixedDeltaTime * 1000.0f);
+                animator.SetFloat("Speed", mSmag);
             }
         }
 
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                stream.SendNext(rb.position);
+                stream.SendNext(rb.rotation);
+                stream.SendNext(rb.velocity);
+
+                stream.SendNext(mSmag);
+            }
+            else
+            {
+                networkPosition = (Vector3)stream.ReceiveNext();
+                networkRotation = (Quaternion)stream.ReceiveNext();
+                rb.velocity = (Vector3)stream.ReceiveNext();
+
+                mSmag = (float)stream.ReceiveNext();
+
+                float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTimestamp));
+                networkPosition += rb.velocity * lag;
+            }
+        }
 
         #endregion
 
