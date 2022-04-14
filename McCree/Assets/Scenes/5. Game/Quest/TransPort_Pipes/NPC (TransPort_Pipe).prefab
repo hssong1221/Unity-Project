@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1819583331}
   - component: {fileID: 1819583330}
   m_Layer: 0
-  m_Name: NPC
+  m_Name: NPC (TransPort_Pipe)
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -158,10 +158,13 @@ namespace com.ThreeCS.McCree
                 progressBar.fillAmount = currentValue / 100;
                 MineUI.Instance.interactionPanel.SetActive(false);
 
-                if (interactObj.GetComponent<LiftItem>().isLifting)
+                if (interactObj.GetComponent<LiftItem>() != null)
                 {
-                    Off_ProgressUI();
-                    yield break;
+                    if (interactObj.GetComponent<LiftItem>().isLifting)
+                    {
+                        Off_ProgressUI();
+                        yield break;
+                    }
                 }
 
                 if (progressBar.fillAmount > 0.99)

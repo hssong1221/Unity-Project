@@ -232,30 +232,28 @@ namespace com.ThreeCS.McCree
         {
             if (photonView.IsMine)
             {
-                
-                // 퀘스트 진행중으로 상태 바꿈
-                npc.questObj.qState = Quest_Obj.qType.Progress;
-                npc.questObj.npcChatList = npc.questObj.quest.npcChatList_progress;
-
-                // 퀘스트 생성해서 오른쪽 상단 목표에 붙여줌
-                GameObject subquestObj;
-
                 if (npc.questObj.qrange == Quest_Obj.oType.World) 
                 {
-                    subquestObj = Instantiate(MineUI.Instance.questObj, MineUI.Instance.worldQuestPanel);
-                    photonView.RPC("QuestLog", RpcTarget.All, npc.questObj.quest.questTitle); // 퀘스트 알림
                     RaiseEventManager.Instance.Add_World_Quest(npc); // 월드 퀘스트라면 전체에게 퀘스트 추가
+                    photonView.RPC("QuestLog", RpcTarget.All, npc.questObj.quest.questTitle); // 퀘스트 알림
                 }
                 else // 서브 퀘스트면 나한테만 추가
-                {   
+                {
+                    // 퀘스트 진행중으로 상태 바꿈
+                    npc.questObj.qState = Quest_Obj.qType.Progress;
+                    npc.questObj.npcChatList = npc.questObj.quest.npcChatList_progress;
+
+                    GameObject subquestObj;
+
                     subquestObj = Instantiate(MineUI.Instance.questObj, MineUI.Instance.subQuestPanel);
+
+                    subquestObj.GetComponent<SubQuestList>().questObj = npc.questObj;
+                    subquestObj.GetComponent<SubQuestList>().questTitle.text = npc.questObj.questTitle_progress;
+
+                    // 내 퀘스트리스트에 붙임
+                    playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>());
                 }
 
-                subquestObj.GetComponent<SubQuestList>().questObj = npc.questObj;
-                subquestObj.GetComponent<SubQuestList>().questTitle.text = npc.questObj.questTitle_progress;
-
-                // 내 퀘스트리스트에 붙임
-                playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>());
 
                 // contentsizefillter가 적용이 안되는 오류때메 재배치하는 함수
                 LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)MineUI.Instance.worldQuestPanel);
