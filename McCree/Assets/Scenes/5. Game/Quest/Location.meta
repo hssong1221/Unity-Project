@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:McCree/Assets/Scenes/5. Game/Quest/Location.meta
 guid: 328271c6be8b5934c9034079128aa8bf
 folderAsset: yes
+========
+guid: 9b992129dbfd7654e8fbad7ff5184845
+>>>>>>>> Song:McCree/Assets/Scenes/5. Game/Song.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

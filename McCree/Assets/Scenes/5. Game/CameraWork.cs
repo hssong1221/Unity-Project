@@ -13,6 +13,8 @@ namespace com.ThreeCS.McCree
 
         // 가상 카메라
         private CinemachineVirtualCamera Cam;
+
+        private CinemachineClearShot ccam;
         #endregion
 
         #region Public Fields
@@ -27,7 +29,7 @@ namespace com.ThreeCS.McCree
         void Start()
         {
             Cam = GetComponent<CinemachineVirtualCamera>();
-
+            ccam = GetComponentInParent<CinemachineClearShot>();
             player = null;
         }
 
@@ -64,6 +66,16 @@ namespace com.ThreeCS.McCree
                         Cam.LookAt = target;
                     }
                 }
+            }
+
+            Debug.Log("현재 승리 상태 : " + GameManager.Instance.isVitory);
+
+
+            if (GameManager.Instance.isVitory)
+            {
+                ccam.ChildCameras[2].gameObject.SetActive(true);
+                ccam.ChildCameras[0].gameObject.SetActive(false);
+                ccam.ChildCameras[1].gameObject.SetActive(false);
             }
         }
 

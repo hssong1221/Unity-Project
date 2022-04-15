@@ -110,8 +110,6 @@ namespace com.ThreeCS.McCree
                 itemCanvas.transform.position = character.transform.position + itemOffset;
                 progressCanvas.transform.position = character.transform.position + progressOffset;
 
-                if (playerInfo.isDeath && playerInfo.hp <= 0)
-                    GameManager.Instance.LeaveRoom();
             }
             else
                 return;
