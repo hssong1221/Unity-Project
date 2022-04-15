@@ -11169,7 +11169,10 @@ MonoBehaviour:
     NearClipPlane: 0.001
     FarClipPlane: 2000
     Dutch: 0
+    ModeOverride: 0
     LensShift: {x: 0, y: 0}
+    GateFit: 2
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -28705,7 +28708,10 @@ MonoBehaviour:
     NearClipPlane: 0.001
     FarClipPlane: 2000
     Dutch: 0
+    ModeOverride: 0
     LensShift: {x: 0, y: 0}
+    GateFit: 2
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -31781,7 +31787,10 @@ MonoBehaviour:
     NearClipPlane: 0.001
     FarClipPlane: 2000
     Dutch: 0
+    ModeOverride: 0
     LensShift: {x: 0, y: 0}
+    GateFit: 2
+    m_SensorSize: {x: 1, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

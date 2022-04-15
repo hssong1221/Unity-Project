@@ -4,6 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - Stair
+  - Climb
+  - Fly
   - Bullet
   - PhotonView
   - MineUI
@@ -15,6 +18,8 @@ TagManager:
   - QItem_PickUp
   - QItem_TransPort
   - Bullet_Pos
+  - Animal
+  - Water
   layers:
   - Default
   - TransparentFX
@@ -36,17 +41,17 @@ TagManager:
   - 
   - 
   - 
+  - Animal
+  - 
+  - 
+  - Enemy
   - 
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Item
   - 
   m_SortingLayers:
   - name: Default

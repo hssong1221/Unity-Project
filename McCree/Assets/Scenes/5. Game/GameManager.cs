@@ -47,7 +47,7 @@ namespace com.ThreeCS.McCree
         private int renegadeNum;
         private int viceNum;
 
-        private bool isVitory = false;
+        public bool isVitory = false;
         
 
         public enum jType
@@ -351,7 +351,11 @@ namespace com.ThreeCS.McCree
 
             while (!isVitory)
             {
-                foreach(GameObject player in playerList)
+                outlawNum = 0;
+                renegadeNum = 0;
+                viceNum = 0;
+
+                foreach (GameObject player in playerList)
                 {
                     
                     if(player.GetComponent<PlayerManager>().playerType == jType.Sheriff && player.GetComponent<PlayerInfo>().isDeath)
@@ -363,7 +367,6 @@ namespace com.ThreeCS.McCree
                     else if(player.GetComponent<PlayerManager>().playerType == jType.Outlaw)
                     {
                         //현재 남아있는 무법자 수
-                        outlawNum = 0;
                         if (!player.GetComponent<PlayerInfo>().isDeath)
                         {
                             outlawNum++;
@@ -373,7 +376,6 @@ namespace com.ThreeCS.McCree
                     else if(player.GetComponent<PlayerManager>().playerType == jType.Renegade)
                     {
                         // 현재 남아있는 배신자 수
-                        renegadeNum = 0;
                         if (!player.GetComponent<PlayerInfo>().isDeath)
                         {
                             renegadeNum++;
@@ -384,7 +386,6 @@ namespace com.ThreeCS.McCree
                     else if(player.GetComponent<PlayerManager>().playerType == jType.Vice)
                     {
                         // 현재 남아있는 부관 수
-                        viceNum = 0;
                         if (!player.GetComponent<PlayerInfo>().isDeath)
                         {
                             viceNum++;
@@ -393,7 +394,7 @@ namespace com.ThreeCS.McCree
 
                     }
 
-                    Debug.Log("플레이어 : " + player.GetComponent<PlayerManager>().playerType + "    플레이어 hp : " + player.GetComponent<PlayerInfo>().hp);
+                    //Debug.Log("플레이어 : " + player.GetComponent<PlayerManager>().playerType + "    플레이어 hp : " + player.GetComponent<PlayerInfo>().hp);
                 }
 
                 // 부관과 무법자가 모두 사망해서 보안관과 1대1일이 되면 배신자 승리
@@ -522,6 +523,7 @@ namespace com.ThreeCS.McCree
             PhotonNetwork.LeaveRoom();
         }
 
+        // 게임 종료 관련 
         public void Victory(string winner)
         {
             vicPanel.SetActive(true);
@@ -548,15 +550,13 @@ namespace com.ThreeCS.McCree
 
         }
 
+        // 마지막에 전체 인원 생존 확인 (살아있으면 캐릭터 죽으면 무덤)
         public void SpawnWinner()
         {
-            // 방장만 맵 스폰
             if (PhotonNetwork.IsMasterClient)
             {
-                // 맵은 8칸 + 가운데 마을1칸(이건 중앙 고정)
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < playerList.Length; i++)
                 {
-                    // 맵 모듈을 스폰해서 동기화
                     PhotonNetwork.Instantiate(player[0].name , pnt[i].transform.position, pnt[i].transform.rotation, 0);
                 }
             }
