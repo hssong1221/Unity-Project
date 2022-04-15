@@ -168,6 +168,7 @@ namespace com.ThreeCS.McCree
             yield return new WaitForEndOfFrame();
 
             StartCoroutine(SpawnPlayer());
+            StartCoroutine(SpawnNpc());
 
             //StartCoroutine(SpawnMap());
         }
@@ -196,6 +197,12 @@ namespace com.ThreeCS.McCree
         {
             RaiseEventManager.Instance.Spwan_Player();
             yield return new WaitForEndOfFrame();
+        }
+
+        IEnumerator SpawnNpc()
+        {
+            RaiseEventManager.Instance.Spawn_NPC();
+            yield return null;
         }
 
         IEnumerator FindMinePv()
@@ -283,6 +290,9 @@ namespace com.ThreeCS.McCree
             }
             yield return new WaitForEndOfFrame();
         }
+
+
+
 
         // 애니메이션 스타트
         IEnumerator AnimPlay()

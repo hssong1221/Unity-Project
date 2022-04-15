@@ -42,6 +42,24 @@ namespace com.ThreeCS.McCree
             return list;
         }
 
+        public static T[] ShuffleArray<T>(T[] array)
+        {
+            int random1, random2;
+            T temp;
+
+            for (int i = 0; i < array.Length; ++i)
+            {
+                random1 = Random.Range(0, array.Length);
+                random2 = Random.Range(0, array.Length);
+
+                temp = array[random1];
+                array[random1] = array[random2];
+                array[random2] = temp;
+            }
+
+            return array;
+        }
+
 
         //public static byte[] ObjectToByteArray(Object obj)
         //{

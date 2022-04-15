@@ -84,6 +84,10 @@
 
   * ## Player 상호작용
     ![뱅 흐름도](https://user-images.githubusercontent.com/22339727/162135309-5748dd4e-68d6-4ab3-a089-ac78543ec54a.PNG)  
+    |||
+    |:-:|---|
+    |![RayCastAll](https://user-images.githubusercontent.com/22339727/162968008-2cf94a90-dfa7-4f67-ad86-45cc52a08427.PNG)| ![RayCastAllCode](https://user-images.githubusercontent.com/22339727/162968606-395fe67c-e6a1-4c1d-894a-4c33722e9d45.PNG)  단일 RayCast로는 겹친 콜라이더 모두를 판별불가, RayCastAll을 사용하여 hit중 플레이어가있으면 뱅을 실행하고 return|
+    
     |사거리 내|사거리 밖|
     |:-:|:-:|
     |![뱅 사거리 내](https://user-images.githubusercontent.com/22339727/162132393-033c4485-c1e6-49d6-b397-d4dfe295dba5.gif)|![뱅 사거리 밖](https://user-images.githubusercontent.com/22339727/162130209-2028d1d0-e485-4fbd-b72f-68c62bb981be.gif)|

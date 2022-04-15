@@ -25,15 +25,22 @@ namespace com.ThreeCS.McCree
         private Animator anim;
 
         [SerializeField]
-        private GameObject playerPrefab; // 1
+        private GameObject playerPrefab;
         [SerializeField]
-        private GameObject pipePrefab; // 2
-        [SerializeField]
-        private List<Quest_Obj> questObjList; // 3 , 퀘스트 리스트
+        private GameObject pipePrefab;
 
-        private const byte CharacterInstantiate = 1;
-        private const byte PipesInstantiate = 2;
-        private const byte AddWorldQuest = 3;
+
+        [SerializeField]
+        private List<NPC> npcObjList; // 하이어라키에서 순서대로 끌고오기
+
+        [SerializeField]
+        private List<Transform> npcSpawnPointList;
+
+
+        private const byte CharacterInstantiate = 1; // 캐릭터 생성
+        private const byte NPCInstantiate = 2;       // NPC 생성
+        private const byte PipesInstantiate = 3;     // 월드퀘스트 파이프 생성
+        private const byte AddWorldQuest = 4;        // 월드퀘트스 동기화
 
         void Awake()
         {
@@ -72,6 +79,20 @@ namespace com.ThreeCS.McCree
                 PhotonView photonView = player.GetComponent<PhotonView>();
                 photonView.ViewID = (int)data[2];
             }
+
+            else if (obj.Code == NPCInstantiate)
+            {
+                object[] data = (object[])obj.CustomData;
+
+                int[] npcArray = (int[])data[0];
+                int[] posArray = (int[])data[1];
+
+                for (int i = 0; i < npcArray.Length; i++)
+                {
+                    npcObjList[npcArray[i]].transform.position = npcSpawnPointList[posArray[i]].position;
+                }
+            }
+
             else if (obj.Code == PipesInstantiate)
             {
                 object[] data = (object[])obj.CustomData;
@@ -83,28 +104,32 @@ namespace com.ThreeCS.McCree
                 photonView.ViewID = (int)data[2];
 
             }
+
             else if (obj.Code == AddWorldQuest)
             {
                 object[] data = (object[])obj.CustomData;
 
                 int questIndex = (int)data[0];
 
-                // 퀘스트 생성해서 오른쪽 상단 목표에 붙여줌
+                // 상단 목표에 부착되는 오브젝트 생성
                 GameObject subquestObj = Instantiate(MineUI.Instance.questObj, MineUI.Instance.worldQuestPanel);
 
-                Quest_Obj questObj = Instantiate(questObjList[questIndex]);
-                subquestObj.GetComponent<SubQuestList>().questObj = questObj;
+                // NPC리스트에서 해당 퀘스트에 맞는 퀘스트 오브젝트 생성
+                Quest_Obj questObj = npcObjList[questIndex].questObj;
+
+                subquestObj.GetComponent<SubQuestList>().questObj = questObj; // 오브젝트에 퀘스트 연동
                 subquestObj.GetComponent<SubQuestList>().questTitle.text = questObj.questTitle_progress;
-                
+                subquestObj.GetComponent<SubQuestList>().questObj.qState = Quest_Obj.qType.Progress; 
+                // 누군가 실행시켜놓은것이므로 퀘스트 진행중이라 바꿈 
 
                 // 내 퀘스트리스트에 붙임
                 playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>());
 
-
                 LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)MineUI.Instance.worldQuestPanel);
                 // contentsizefillter가 적용이 안되는 오류때메 재배치하는 함수
             }
-            
+
+
         }
 
         // 캐릭터 생성 --------------------------------------------------------------------
@@ -143,61 +168,116 @@ namespace com.ThreeCS.McCree
 
         // -----------------------------------------------------------------------------
 
+
+        // NPC 스폰 --------------------------------------------------------------------
+        public void Spawn_NPC()
+        {
+            int[] npcArray = new int[npcObjList.Count];
+            for (int i = 0; i < npcObjList.Count; i++)
+                npcArray[i] = i;
+            npcArray = CommonFunction.ShuffleArray(npcArray); // npc배열
+
+            int[] posArray = new int[npcSpawnPointList.Count];
+            for (int i = 0; i < npcSpawnPointList.Count; i++)
+                posArray[i] = i;
+            posArray = CommonFunction.ShuffleArray(posArray); // npc spawnPoint 배열
+
+            for(int i=0; i<npcArray.Length; i++)
+            {
+                Debug.Log("npc[" + i + "]" + npcArray[i]);
+            }
+            for(int i=0; i<posArray.Length; i++)
+            {
+                Debug.Log("pos["+i+"]"+posArray[i]);
+            }
+
+            object[] content = new object[] { npcArray , posArray };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(NPCInstantiate, content, raiseEventOptions, SendOptions.SendReliable);
+        }
+        // -----------------------------------------------------------------------------
+
+
+
         // 파이프
         public void Pipe_Instantiate(object[] data)
         {
-            GameObject pipe = Instantiate(pipePrefab, (Vector3)data[0], (Quaternion)data[1]);
-            pipe.name = pipePrefab.name;
-            PhotonView photonView = pipe.GetComponent<PhotonView>();
-
-
-            if (PhotonNetwork.AllocateViewID(photonView))
+            if(PhotonNetwork.IsMasterClient)
             {
-                object[] data2 = new object[]
-                {
-                    (Vector3)data[0], (Quaternion)data[1], photonView.ViewID
-                };
+                GameObject pipe = Instantiate(pipePrefab, (Vector3)data[0], (Quaternion)data[1]);
+                pipe.name = pipePrefab.name;
+                PhotonView photonView = pipe.GetComponent<PhotonView>();
 
-                RaiseEventOptions raiseEventOptions = new RaiseEventOptions
+                if (PhotonNetwork.AllocateViewID(photonView))
                 {
-                    Receivers = ReceiverGroup.Others,
-                    CachingOption = EventCaching.AddToRoomCache
-                };
+                    object[] data2 = new object[]
+                    {
+                        (Vector3)data[0], (Quaternion)data[1], photonView.ViewID
+                    };
 
-                SendOptions sendOptions = new SendOptions
+                    RaiseEventOptions raiseEventOptions = new RaiseEventOptions
+                    {
+                        Receivers = ReceiverGroup.Others,
+                        CachingOption = EventCaching.AddToRoomCache
+                    };
+
+                    SendOptions sendOptions = new SendOptions
+                    {
+                        Reliability = true
+                    };
+                    PhotonNetwork.RaiseEvent(PipesInstantiate, data2, raiseEventOptions, sendOptions);
+                }
+                else
                 {
-                    Reliability = true
-                };
-                PhotonNetwork.RaiseEvent(PipesInstantiate, data2, raiseEventOptions, sendOptions);
+                    Debug.LogError("Failed to allocate a ViewId.");
+                    Destroy(pipe);
+                }
             }
-            else
-            {
-                Debug.LogError("Failed to allocate a ViewId.");
-                Destroy(pipe);
-            }
+
+            //RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.MasterClient };
+            //PhotonNetwork.RaiseEvent(PipesInstantiate, data, raiseEventOptions, SendOptions.SendReliable);
+
+
+            
+
+
+            //if (PhotonNetwork.AllocateViewID(photonView))
+            //{
+            //    object[] data2 = new object[]
+            //    {
+            //        (Vector3)data[0], (Quaternion)data[1], photonView.ViewID
+            //    };
+
+            //    RaiseEventOptions raiseEventOptions = new RaiseEventOptions
+            //    {
+            //        Receivers = ReceiverGroup.Others,
+            //        CachingOption = EventCaching.AddToRoomCache
+            //    };
+
+            //    SendOptions sendOptions = new SendOptions
+            //    {
+            //        Reliability = true
+            //    };
+            //    PhotonNetwork.RaiseEvent(PipesInstantiate, data2, raiseEventOptions, sendOptions);
+            //}
+            //else
+            //{
+            //    Debug.LogError("Failed to allocate a ViewId.");
+            //    Destroy(pipe);
+            //}
         }
 
         // 월드 퀘스트 캐릭터 퀘스트리스트에 추가
         public void Add_World_Quest(NPC npc)
         {
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions
-            {
-                Receivers = ReceiverGroup.Others,
-                CachingOption = EventCaching.AddToRoomCache
-            };
+            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
 
-            SendOptions sendOptions = new SendOptions
+            for (int i = 0; i < npcObjList.Count; i++)
             {
-                Reliability = true
-            };
-
-            for (int i = 0; i < questObjList.Count; i++)
-            {
-                Debug.Log(questObjList[i].qrange);
-                if (npc.questObj.name == questObjList[i].name)
+                if (npc.questObj.name == npcObjList[i].questObj.name)
                 {
-                    object[] data = new object[]{ i };
-                    PhotonNetwork.RaiseEvent(AddWorldQuest, data, raiseEventOptions, sendOptions);
+                    object[] data = new object[] { i };
+                    PhotonNetwork.RaiseEvent(AddWorldQuest, data, raiseEventOptions, SendOptions.SendReliable);
                     break;
                 }
             }

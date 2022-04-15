@@ -61,8 +61,6 @@ namespace com.ThreeCS.McCree
                             // Bang 애니메이션 실행
                             targetedEnemy.GetComponent<PhotonView>().RPC("BangLog", RpcTarget.All, shooterNick, targetNick);
 
-                            // 적 한테 데미지
-                            //targetedEnemy.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All);
                             targetedEnemy = null;
                         }
                         else

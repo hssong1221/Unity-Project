@@ -40,13 +40,57 @@ namespace com.ThreeCS.McCree
             }
         }
 
-
-        public bool isBanging;
-        public bool isDeath;
-        public bool isBangeding;
-        public bool isInteraction;
-
+        [SerializeField]
+        private bool _isBanging;
+        [SerializeField]
+        private bool _isBangeding;
+        [SerializeField]
+        private bool _isInteraction;
+        [SerializeField]
+        private bool _isLifting;
+        [SerializeField]
         private bool _isPicking;
+        [SerializeField]
+        private bool _canBehave;
+
+        public bool isBanging
+        {
+            get { return _isBanging; }
+            set
+            {
+                _isBanging = value;
+
+                if (_isBanging == true)
+                    canBehave = false;
+            }
+        }
+        
+        public bool isBangeding
+        {
+            get { return _isBangeding; }
+            set
+            {
+                _isBangeding = value;
+
+                if (_isBangeding == true)
+                    canBehave = false;
+            }
+        }
+        public bool isInteraction
+        {
+            get { return _isInteraction; }
+            set
+            {
+                _isInteraction = value;
+
+                if (_isInteraction == true)
+                    canBehave = false;
+            }
+        }
+
+
+
+
         public bool isPicking
         {
             get { return _isPicking; }
@@ -65,7 +109,6 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        private bool _isLifting;
         public bool isLifting // 들고있는 중 , 들고있지않은 중
         {
             get { return _isLifting; }
@@ -86,6 +129,11 @@ namespace com.ThreeCS.McCree
             }
         }
 
+
+
+        public bool isDeath;
+
+        public bool canBehave;
 
 
         // 장착무기상태--------------------------------------------------------------------------------
@@ -209,6 +257,7 @@ namespace com.ThreeCS.McCree
 
         float moveSpeed = 5f; // 캐릭터 이동 속도
 
+
         #endregion
 
         #region MonoBehaviour CallBacks
@@ -237,6 +286,8 @@ namespace com.ThreeCS.McCree
         void Start()
         {
             photonView.RPC("PlayerListSync", RpcTarget.All); // 플레이어 리스트 동기화
+
+            canBehave = true;
 
             EquipedNone = true;
             EquipedPistol = false;
@@ -273,7 +324,7 @@ namespace com.ThreeCS.McCree
                     Inventory();
                 }
 
-                if (!isBanging && !isBangeding && !isInteraction && !isLifting && !PunChat.Instance.usingInput)
+                if (canBehave && !isLifting && !PunChat.Instance.usingInput)
                 {   // 아무입력 못받게 
                     if (!EquipedNone && Input.GetButtonDown("LockOn"))
                     {
@@ -319,14 +370,14 @@ namespace com.ThreeCS.McCree
                 h = Input.GetAxis("Horizontal");
                 v = Input.GetAxis("Vertical");
 
-                if (isBanging || isBangeding || isInteraction) // 플레이어가 동작중일때 0 0 넣어줘서 못 움직이게 만듬
+                if (!isBanging && !isBangeding && !isInteraction)
                 {
-                    h = 0;
-                    v = 0;
+                    canBehave = true;
                 }
 
-                if (PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 움직임 금지
-                {
+
+                if (!canBehave || PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 움직임 금지
+                {   // 플레이어가 동작중일때 0 0 넣어줘서 못 움직이게 만듬
                     h = 0;
                     v = 0;
                 }
@@ -355,13 +406,45 @@ namespace com.ThreeCS.McCree
                 // 객체의 충돌을 유지하면서 이동하기 위해 MovePosition을 사용 했다.
                 rb.MovePosition(rb.position + moveDir * Time.fixedDeltaTime * moveSpeed);
 
-                if (playerAutoMove.targetedEnemy == null) 
+                if (playerAutoMove.targetedEnemy == null)
+                {
                     animator.SetFloat("Speed", moveDir.magnitude); // speed는 raiseonevent하니까 이상함
+                }
                 else // 조준중일때는 agent Speed넣어줘야 애니메이션 작동
+                {
                     animator.SetFloat("Speed", agent.velocity.magnitude / agent.speed);
+                }
             }
+            //else
+            //{
+            //    rb.position = Vector3.MoveTowards(rb.position, networkPosition, Time.fixedDeltaTime * 5.0f);
+            //    rb.rotation = Quaternion.RotateTowards(rb.rotation, networkRotation, Time.fixedDeltaTime * 1000.0f);
+            //    animator.SetFloat("Speed", mSmag);
+            //}
         }
 
+        //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        //{
+            //if (stream.IsWriting)
+            //{
+            //    stream.SendNext(rb.position);
+            //    stream.SendNext(rb.rotation);
+            //    stream.SendNext(rb.velocity);
+
+            //    stream.SendNext(mSmag);
+            //}
+            //else
+            //{
+            //    networkPosition = (Vector3)stream.ReceiveNext();
+            //    networkRotation = (Quaternion)stream.ReceiveNext();
+            //    rb.velocity = (Vector3)stream.ReceiveNext();
+
+            //    mSmag = (float)stream.ReceiveNext();
+
+            //    float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTimestamp));
+            //    networkPosition += rb.velocity * lag;
+            //}
+        //}
 
         #endregion
 
@@ -396,16 +479,19 @@ namespace com.ThreeCS.McCree
         // 뱅!
         void Bang()
         {
-            RaycastHit hit;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
+
+            RaycastHit[] hits;
+            hits = Physics.RaycastAll(Camera.main.ScreenPointToRay(Input.mousePosition));
+
+            for (int i=0; i < hits.Length; i++)
             {
-                Debug.Log("레이캐스트");
+                RaycastHit hit = hits[i];
+
                 if (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player")
                 { // 클릭한 오브젝트가 자기 자신이 아닌 다른 플레이어 일때
 
                     // 클릭한 물체의 위치와 내 위치의 거리 
                     float distance = Vector3.Distance(hit.collider.transform.position, transform.position);
-
 
                     if (distance <= maxAttackDistance)
                         Debug.Log("캐릭터 선택 닿음  " + "거리: " + distance);
@@ -413,13 +499,41 @@ namespace com.ThreeCS.McCree
                         Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
 
                     playerAutoMove.targetedEnemy = hit.collider.gameObject;
-                    Debug.Log("타겟 설정");
+                    return;
                 }
                 else
                 {
                     playerAutoMove.targetedEnemy = null;
                 }
             }
+
+
+            //if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
+            //{
+
+            //    Debug.Log("레이캐스트");
+            //    Debug.Log(hit.collider.name + "  " + (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player"));
+            //    if (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player")
+            //    { // 클릭한 오브젝트가 자기 자신이 아닌 다른 플레이어 일때
+
+            //        // 클릭한 물체의 위치와 내 위치의 거리 
+            //        float distance = Vector3.Distance(hit.collider.transform.position, transform.position);
+
+
+            //        if (distance <= maxAttackDistance)
+            //            Debug.Log("캐릭터 선택 닿음  " + "거리: " + distance);
+            //        else
+            //            Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
+
+            //        playerAutoMove.targetedEnemy = hit.collider.gameObject;
+            //        Debug.Log("타겟 설정");
+            //    }
+            //    else
+            //    {
+            //        playerAutoMove.targetedEnemy = null;
+            //    }
+            //}
+
         }
 
 
@@ -605,6 +719,17 @@ namespace com.ThreeCS.McCree
             //{
             //    // 회피없으면 날라가는 함수 실행 
 
+            if (playerManager.objectTransPos.childCount != 0)
+            {  // 무언가 들고있다면 떨군다.
+                int photonID = playerManager.objectTransPos.GetChild(0).GetComponent<PhotonView>().ViewID;
+
+                GameObject interactObj = PhotonView.Find(photonID).gameObject;
+                interactObj.transform.SetParent(null);
+                interactObj.GetComponent<LiftItem>().isLifting = false; // 이 아이템을 떨군 상태
+
+                playerManager.isLifting = false;
+            }
+
             transform.rotation = Quaternion.LookRotation(-lookat);
             //rb.AddForce((lookat).normalized * tempLaboratory.force, ForceMode.Impulse);
             playerInfo.hp -= 1;
@@ -618,15 +743,8 @@ namespace com.ThreeCS.McCree
         {
             GameObject interactObj = PhotonView.Find(photonID).gameObject;
 
-            interactObj.transform.SetParent(playerManager.objectTransPos);
-            interactObj.GetComponent<ParticleSystem>().Stop();
-            interactObj.GetComponent<ParticleSystem>().Clear();
-            // position 오브젝트의 위치를 항상 월드의 원점을 기준으로 월드 공간상에 선언한다.
-            // localPosition 부모의 위치 기준으로 설정한다
-            interactObj.transform.localPosition = new Vector3(0f, 0f, 0f);
-            interactObj.transform.localRotation = Quaternion.identity;
-            interactObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
+            interactObj.transform.SetParent(playerManager.objectTransPos);
             interactObj.GetComponent<LiftItem>().isLifting = true; // 이 아이템은 누가 들어올린 상태
 
             if (photonView.IsMine)

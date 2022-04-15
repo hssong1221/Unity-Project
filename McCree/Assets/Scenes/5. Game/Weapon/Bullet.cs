@@ -27,17 +27,18 @@ namespace com.ThreeCS.McCree
             transform.rotation = Quaternion.LookRotation(target.transform.position - transform.position);
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider collider)
         {
-            if (collision.gameObject.GetComponent<Collider>() == target.transform.parent.GetComponent<Collider>())
+            if (collider == target.transform.parent.GetComponent<Collider>())
             {
                 enabled = false;
                 ObjectPool.Instance.ReturnObject(gameObject, 4);
 
-                if (collision.gameObject.GetComponent<PhotonView>().IsMine)
+                if (collider.gameObject.GetComponent<PhotonView>().IsMine)
                 {
                     Vector3 bulletFoward = target.transform.position - transform.position;
-                    collision.gameObject.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All, bulletFoward);
+                    Debug.Log("맞음?");
+                    collider.gameObject.GetComponent<PhotonView>().RPC("Damaged", RpcTarget.All, bulletFoward);
                 }
             }
         }

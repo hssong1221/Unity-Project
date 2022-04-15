@@ -11,15 +11,36 @@ namespace com.ThreeCS.McCree
     public class Interaction : Controller
     {
 
-        private IEnumerator _coroutine;
-        public IEnumerator coroutine
+        private IEnumerator _coroutine_Chat;
+        public IEnumerator coroutine_Chat
         {
-            get { return _coroutine; }
+            get { return _coroutine_Chat; }
             set
             {
-                _coroutine = value;
+                _coroutine_Chat = value;
             }
         }
+
+        private IEnumerator _coroutine_Interact;
+        public IEnumerator coroutine_Interact
+        {
+            get { return _coroutine_Interact; }
+            set
+            {
+                _coroutine_Interact = value;
+            }
+        }
+
+        //private IEnumerator _coroutine;
+        //public IEnumerator coroutine
+        //{
+        //    get { return _coroutine; }
+        //    set
+        //    {
+        //        _coroutine = value;
+        //    }
+        //}
+
 
         void Awake()
         {
@@ -27,10 +48,9 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.rejectBtn.onClick.AddListener(Close_NPC_Chat);
         }
 
-
         private void OnTriggerEnter(Collider other)
         {
-            if (photonView.IsMine)
+            if (photonView.IsMine && playerManager.canBehave)
             {
                 if (other.tag == "NPC")
                 {
@@ -43,10 +63,10 @@ namespace com.ThreeCS.McCree
                         MineUI.Instance.interactionText.text = "대화 하기";
                         // F 상호작용 랜덤 위치
 
-                        if (coroutine != null)
-                            StopCoroutine(coroutine);
-                        coroutine = returnchatList(0, other);
-                        StartCoroutine(coroutine);
+                        if (coroutine_Chat != null)
+                            StopCoroutine(coroutine_Chat);
+                        coroutine_Chat = returnchatList(0, other);
+                        StartCoroutine(coroutine_Chat);
                         // 트리거된 상태에서 F누르면 대화창 뜰수있도록 코루틴함수 실행
                     }
                 }
@@ -55,8 +75,6 @@ namespace com.ThreeCS.McCree
 
                     if (other.gameObject.GetComponent<LiftItem>() != null)
                     {   // 월드퀘스트 진행 중 다른애가 들고있는 운반중인물품 줍기 불가
-
-                        Debug.Log(other.gameObject.GetComponent<LiftItem>().isLifting);
                         if (other.gameObject.GetComponent<LiftItem>().isLifting)
                         {
                             return;
@@ -78,10 +96,10 @@ namespace com.ThreeCS.McCree
                             MineUI.Instance.interactionText.text = "줍기";
                             // F 상호작용 랜덤 위치
 
-                            if (coroutine != null)
-                                StopCoroutine(coroutine);
-                            coroutine = QuestItemInteraction(other);
-                            StartCoroutine(coroutine);
+                            if (coroutine_Interact != null)
+                                StopCoroutine(coroutine_Interact);
+                            coroutine_Interact = QuestItemInteraction(other);
+                            StartCoroutine(coroutine_Interact);
                             // 트리거된 상태에서 F누르면 줍는 애니메이션 실행될수있도록
                             break;
                         }
@@ -90,9 +108,18 @@ namespace com.ThreeCS.McCree
             }
         }
 
+        private void OnTriggerStay(Collider other)
+        {
+            if (!playerManager.canBehave)
+            {
+                MineUI.Instance.interactionPanel.SetActive(false);
+                if (coroutine_Interact != null)
+                    StopCoroutine(coroutine_Interact);
+            }
+        }
+
         private void OnTriggerExit(Collider other)
         {
-
             if (photonView.IsMine)
             {
                 if (other.tag == "NPC")
@@ -106,10 +133,10 @@ namespace com.ThreeCS.McCree
                     MineUI.Instance.interactionPanel.SetActive(false);
                 }
 
-                if (coroutine != null)
-                {
-                    StopCoroutine(coroutine);
-                }
+                if (coroutine_Chat != null)
+                    StopCoroutine(coroutine_Chat);
+                if (coroutine_Interact != null)
+                    StopCoroutine(coroutine_Interact);
             }
         }
 
@@ -119,6 +146,7 @@ namespace com.ThreeCS.McCree
         {
             while (true)
             {
+                Debug.Log("npc겹치는중");
                 if (Input.GetButtonDown("Interaction"))
                 {
                     MineUI.Instance.interactionPanel.SetActive(false);
@@ -204,30 +232,28 @@ namespace com.ThreeCS.McCree
         {
             if (photonView.IsMine)
             {
-                
-                // 퀘스트 진행중으로 상태 바꿈
-                npc.questObj.qState = Quest_Obj.qType.Progress;
-                npc.questObj.npcChatList = npc.questObj.quest.npcChatList_progress;
-
-                // 퀘스트 생성해서 오른쪽 상단 목표에 붙여줌
-                GameObject subquestObj;
-
                 if (npc.questObj.qrange == Quest_Obj.oType.World) 
                 {
-                    subquestObj = Instantiate(MineUI.Instance.questObj, MineUI.Instance.worldQuestPanel);
-                    photonView.RPC("QuestLog", RpcTarget.All, npc.questObj.quest.questTitle); // 퀘스트 알림
                     RaiseEventManager.Instance.Add_World_Quest(npc); // 월드 퀘스트라면 전체에게 퀘스트 추가
+                    photonView.RPC("QuestLog", RpcTarget.All, npc.questObj.quest.questTitle); // 퀘스트 알림
                 }
                 else // 서브 퀘스트면 나한테만 추가
-                {   
+                {
+                    // 퀘스트 진행중으로 상태 바꿈
+                    npc.questObj.qState = Quest_Obj.qType.Progress;
+                    npc.questObj.npcChatList = npc.questObj.quest.npcChatList_progress;
+
+                    GameObject subquestObj;
+
                     subquestObj = Instantiate(MineUI.Instance.questObj, MineUI.Instance.subQuestPanel);
+
+                    subquestObj.GetComponent<SubQuestList>().questObj = npc.questObj;
+                    subquestObj.GetComponent<SubQuestList>().questTitle.text = npc.questObj.questTitle_progress;
+
+                    // 내 퀘스트리스트에 붙임
+                    playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>());
                 }
 
-                subquestObj.GetComponent<SubQuestList>().questObj = npc.questObj;
-                subquestObj.GetComponent<SubQuestList>().questTitle.text = npc.questObj.questTitle_progress;
-
-                // 내 퀘스트리스트에 붙임
-                playerInfo.myQuestList.Add(subquestObj.GetComponent<SubQuestList>());
 
                 // contentsizefillter가 적용이 안되는 오류때메 재배치하는 함수
                 LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)MineUI.Instance.worldQuestPanel);
@@ -243,8 +269,8 @@ namespace com.ThreeCS.McCree
         {
             if (photonView.IsMine)
             {
-                if (coroutine != null)
-                    StopCoroutine(coroutine);
+                if (coroutine_Chat != null)
+                    StopCoroutine(coroutine_Chat);
                 MineUI.Instance.interactionPanel.SetActive(false);
                 MineUI.Instance.chatPanel.SetActive(false);
                 playerManager.isInteraction = false;
@@ -258,8 +284,9 @@ namespace com.ThreeCS.McCree
             while (true)
             {
                 Debug.Log("화제의 코루틴");
-                if (Input.GetButtonDown("Interaction"))
-                {
+                if (Input.GetButtonDown("Interaction") && !playerManager.isPicking)
+                {   // 이미 줍고있을때 또 누르면 코루틴이 겹쳐서 빨라짐
+                    // 또 줍는걸 방지
                     ui.InterAction(5, other.gameObject);
                     MineUI.Instance.interactionPanel.SetActive(false);
                 }
@@ -268,13 +295,14 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        public void Direct_StopCoroutine() // 코루틴은 해당 파일에서 꺼야함
+        public void StopCoroutine_Direct(IEnumerator get_Coroutine) // 코루틴은 해당 파일에서 꺼야함
         {
-            if (coroutine != null)
+            if (get_Coroutine != null)
             {
-                StopCoroutine(coroutine);
+                StopCoroutine(get_Coroutine);
             }
         }
+
         #endregion
     }
 }
