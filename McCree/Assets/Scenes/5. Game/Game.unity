@@ -718,7 +718,7 @@ PrefabInstance:
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: deputy1
       value: 
-      objectReference: {fileID: 21300000, guid: 2f0bffead2ff66d4f8601872b6906bc6, type: 3}
+      objectReference: {fileID: 21300000, guid: 822c8bfd03e04aa4487a32cfd744139e, type: 3}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: deputy2
       value: 
@@ -726,7 +726,7 @@ PrefabInstance:
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: deputy3
       value: 
-      objectReference: {fileID: 21300000, guid: 2f0bffead2ff66d4f8601872b6906bc6, type: 3}
+      objectReference: {fileID: 21300000, guid: 29957a85534a7be4ca7a145d3f07009b, type: 3}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: deputy4
       value: 
@@ -766,7 +766,7 @@ PrefabInstance:
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: outlaw1
       value: 
-      objectReference: {fileID: 21300000, guid: f92350949cfd95e4f815800af31d5b45, type: 3}
+      objectReference: {fileID: 21300000, guid: 4b3538b825e77194bbb2f24cf7261bdb, type: 3}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: outlaw2
       value: 
@@ -774,7 +774,7 @@ PrefabInstance:
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: outlaw3
       value: 
-      objectReference: {fileID: 21300000, guid: f92350949cfd95e4f815800af31d5b45, type: 3}
+      objectReference: {fileID: 21300000, guid: d6eec004e17803d4a8580c45097f930f, type: 3}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: outlaw4
       value: 
@@ -862,15 +862,15 @@ PrefabInstance:
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: renegade1
       value: 
-      objectReference: {fileID: 21300000, guid: af7da4d173f414b4ca7684383381b7f7, type: 3}
+      objectReference: {fileID: 21300000, guid: 60037d637fdecdc489bfc4bd185e2e6a, type: 3}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: renegade2
       value: 
-      objectReference: {fileID: 21300000, guid: af7da4d173f414b4ca7684383381b7f7, type: 3}
+      objectReference: {fileID: 21300000, guid: 16d7e77529ddec4459e299af7936e948, type: 3}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: renegade3
       value: 
-      objectReference: {fileID: 21300000, guid: af7da4d173f414b4ca7684383381b7f7, type: 3}
+      objectReference: {fileID: 21300000, guid: 461902b6c6ba06042bf1ab9bf5f753fe, type: 3}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: renegade4
       value: 

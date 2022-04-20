@@ -5856,19 +5856,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 9325a5dc98254a34ebf76a1d85a25613, type: 3}
-    m_FontSize: 30
+    m_Font: {fileID: 12800000, guid: 07e0d4782f92a844ea77afd16af8b883, type: 3}
+    m_FontSize: 170
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 0
-    m_MaxSize: 100
+    m_MaxSize: 200
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Jun SenJo the Yasmaster
+  m_Text: 3cs bANG!
 --- !u!222 &1482588344
 CanvasRenderer:
   m_ObjectHideFlags: 0
