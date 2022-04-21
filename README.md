@@ -79,7 +79,11 @@
   - Quest_Pick_Up_Obj 와 Quest_TransPort_Obj 클래스를 이용하여 다양한 줍기, 운송 퀘스트 생성 가능 
 
 + ## 상호작용
-  상호작용 F Input입력을 받기위하여 OnTriggerStay(FixedUpdate)대신 코루틴을 이용  
+  상호작용 대상과 OnTriggerEnter 시, (F Input) 입력을 받기 위하여 OnTriggerStay (FixedUpdate) 대신 코루틴(Coroutine)을 사용
+  ![OnTriggerEnter](https://user-images.githubusercontent.com/22339727/164404827-9ee23a8e-1b7e-4096-965e-9bbe27e73ee0.png)  
+    |Npc 대화|QuestItem|
+    |:-:|:-:|
+    | <img src ="https://user-images.githubusercontent.com/22339727/164404830-d6dc80c3-4608-47ce-8aed-c4b8445f3fe7.png" width="75%" heigth="75%">  |![](https://user-images.githubusercontent.com/22339727/164404824-a5c137e1-6c7d-4ab2-a9fd-818738b51612.png) |
 
 
   * ## Npc 상호작용
