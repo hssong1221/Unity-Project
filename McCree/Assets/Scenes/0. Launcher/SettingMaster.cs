@@ -9,6 +9,10 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.Audio;
 
+/// <summary>
+///  전체 환경 설정 총괄함
+/// </summary>
+
 namespace com.ThreeCS.McCree 
 {
     public class SettingMaster : MonoBehaviour
@@ -129,18 +133,19 @@ namespace com.ThreeCS.McCree
 
         void Start()
         {
-            Setting();      // 처음에 꺼졌다 켜지면서 저장돼있었던 값 적용
+            Setting();      // 처음에 꺼졌다 켜지면서 저장돼있었던 값 적용 ( 더 깔끔하게 적용할 수 있는지 나중에 테스트해야함 )
             Setting();
 
             // --------------------------------------- 마우스가 게임 화면 밖으로 나가지 않게 함 (나중에 활성화)-----------------------------------
             //Cursor.lockState = CursorLockMode.Confined;
 
 
+            // 게임 꺼질 때까지 유지되어야 하므로 다음 씬으로 넘어갈 때 파괴되어서는 안된다.
             DontDestroyOnLoad(this.gameObject);
         }
 
 
-        // Update is called once per frame
+        // 언제 어디서든 esc키 눌렀을 때 켜져야함
         void Update()
         {
             if(Input.GetKeyDown(KeyCode.Escape))
@@ -192,7 +197,7 @@ namespace com.ThreeCS.McCree
                 isSettingOpen = true;
             }
 
-            // 본인 컴퓨터의 저장된 설정 값 불러오기
+            // 본인 컴퓨터의 저장된 설정 값 불러오기 (레지스트리에 저장됨)
 
             graphicOpt = PlayerPrefs.GetInt("graphicOpt", 0);
             resolutionOpt.Item1 = PlayerPrefs.GetInt("resolutionWidth", 0);

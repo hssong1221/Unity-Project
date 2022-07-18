@@ -74,8 +74,10 @@ namespace com.ThreeCS.McCree
             LoadingUI.Instance.msg_Text.text = "방 참가 성공";
             LoadingUI.Instance.msg_Canvas.SetActive(false);
 
-            PunChat.Instance.behave = "EnterRoom";
-            PunChat.Instance.chatClient.Subscribe(new string[] { PhotonNetwork.CurrentRoom.Name }, 10);
+            SceneManager.LoadScene("Room");
+
+            /*PunChat.Instance.behave = "EnterRoom";
+            PunChat.Instance.chatClient.Subscribe(new string[] { PhotonNetwork.CurrentRoom.Name }, 10);*/
         }
 
 
