@@ -26,8 +26,8 @@ namespace com.ThreeCS.McCree
         public GameObject login_Canvas;
         public InputField ID_Input;
         public Button loginBtn;  // 로그인 버튼
-        private string username;
-        private string password;
+        public string username;
+        //private string password;
         #endregion
 
 
@@ -39,10 +39,10 @@ namespace com.ThreeCS.McCree
             loginBtn.onClick.AddListener(Login_Btn);
         }
 
-        private void Start()
+        /*private void Start()
         {
             
-        }
+        }*/
 
         /*void Update()
         {   
@@ -67,6 +67,8 @@ namespace com.ThreeCS.McCree
             LoadingUI.Instance.close_Btn.gameObject.SetActive(false);
             LoadingUI.Instance.msg_Canvas.SetActive(true);
 
+            // 닉네임 사용
+            PhotonNetwork.NickName = username;
             // 포톤 서버 연결
             PhotonNetwork.ConnectUsingSettings();
         }

@@ -76,6 +76,7 @@ namespace com.ThreeCS.McCree
         public override void OnPlayerEnteredRoom(Player newPlayer)
         {
             //base.OnPlayerEnteredRoom(newPlayer);
+            
             AddPlayerListing(newPlayer);
             GetCurrentPlayersCount();
         }
@@ -100,9 +101,11 @@ namespace com.ThreeCS.McCree
             LoadingUI.Instance.msg_Text.text = "방 떠나는 중...";
             LoadingUI.Instance.msg_Canvas.SetActive(true);
             string msgs = string.Format("​<color=navy>[{0}]님이 퇴장하셨습니다.</color>", PhotonNetwork.LocalPlayer.NickName);
-            PunChat.Instance.chatClient.PublishMessage(PhotonNetwork.CurrentRoom.Name, msgs);
-            PunChat.Instance.behave = "ExitRoom";
-            PunChat.Instance.chatClient.Unsubscribe(new string[] {PhotonNetwork.CurrentRoom.Name});
+            /* PunChat.Instance.chatClient.PublishMessage(PhotonNetwork.CurrentRoom.Name, msgs);
+             PunChat.Instance.behave = "ExitRoom";
+             PunChat.Instance.chatClient.Unsubscribe(new string[] {PhotonNetwork.CurrentRoom.Name});*/
+
+            PhotonNetwork.LeaveRoom();
         }
 
         // 시작하기 버튼을 눌렀을 때
@@ -115,7 +118,7 @@ namespace com.ThreeCS.McCree
                 PhotonNetwork.CurrentRoom.IsVisible = false;
 
                 GameLoading(); // 자기화면 로딩
-                PunChat.Instance.Function_Loading_GameScene(); // PunChat에서 남의화면 로딩하라고 일러줌
+                //PunChat.Instance.Function_Loading_GameScene(); // PunChat에서 남의화면 로딩하라고 일러줌
 
                 PhotonNetwork.IsMessageQueueRunning = false;
                 PhotonNetwork.LoadLevel("Game");
@@ -130,6 +133,7 @@ namespace com.ThreeCS.McCree
 
         public void AddPlayerListing(Player playerList)
         {
+            Debug.Log(playerList);
             GameObject _playerDict = Instantiate(playerListing, content);
             _playerDict.GetComponent<PlayerList>().myPlayer = playerList;
             playerDict.Add(playerList.UserId, _playerDict);
@@ -146,6 +150,8 @@ namespace com.ThreeCS.McCree
         {
             foreach (KeyValuePair<int, Player> playerInfo in PhotonNetwork.CurrentRoom.Players)
             {
+                Debug.Log("-------");
+                Debug.Log(playerInfo);
                 AddPlayerListing(playerInfo.Value);
             }
         }

@@ -82,6 +82,7 @@ namespace com.ThreeCS.McCree
 
 
         // 룸 리스트들를 업데이트하는것이 아니고 변경된 roomList의 정보를 받아오는것이다.
+        // 예를 들면 방 생성 삭제 안에 들어있는 플레이어의 수 등
         public override void OnRoomListUpdate(List<RoomInfo> roomList)
         {
             GameObject tempRoom = null;
@@ -91,8 +92,8 @@ namespace com.ThreeCS.McCree
                 // 룸이 삭제된 경우
                 if (room.RemovedFromList == true)
                 {
-                    // room.Name을 찾아서 tempRoom(gameObject)에 저장한뒤 파괴하고
-                    // 리스트에서도 삭제한다.
+                    // room.Name을 찾아서 tempRoom(gameObject)에 저장한뒤 파괴하고 리스트에서도 삭제한다.
+                    // 이렇게 하는 이유는 그냥 삭제하면 정보가 업데이트가 안된다.
                     roomDict.TryGetValue(room.Name, out tempRoom);
                     Destroy(tempRoom);
                     roomDict.Remove(room.Name);

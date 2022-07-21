@@ -41,7 +41,7 @@ namespace com.ThreeCS.McCree
             }
             return list;
         }
-
+        // 어레이 셔플
         public static T[] ShuffleArray<T>(T[] array)
         {
             int random1, random2;
