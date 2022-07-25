@@ -22,6 +22,8 @@ namespace com.ThreeCS.McCree
             get { return pInstance; }
         }
 
+        public ChatClient chatClient;
+
         private List<string> chatList = new List<string>();
         private Button sendBtn;
         private Text chatLog;
@@ -30,11 +32,12 @@ namespace com.ThreeCS.McCree
 
         private string lobbyName = "Lobby";
 
-        public ChatClient chatClient;
+        
         public string behave;
 
-
+        // 로비와 방과 게임씬에 있는 채팅 동작을 위해 필요
         private Scene currentScene;
+
         private CanvasGroup chatCanvas;
         private IEnumerator coroutine;
 
@@ -49,7 +52,10 @@ namespace com.ThreeCS.McCree
         void Awake()
         {
             pInstance = this;
+        }
 
+        void Start()
+        {
             chatClient = new ChatClient(this);
         }
 
@@ -57,11 +63,14 @@ namespace com.ThreeCS.McCree
         {
             if (chatClient != null)
                 chatClient.Service();
+
+            // 로비와 룸에는 send버튼 있고 채팅창이 없어지지 않음
             if (Input.GetKeyDown(KeyCode.Return) && sendBtn != null)
             {
                 Send_Chat();
             }
 
+            // 게임씬에서는 send 버튼이 없음, 채팅창이 확대 축소 됨
             if (currentScene.name == "Game" && Input.GetKeyDown(KeyCode.Return))
             {
                 Send_Chat_NoBtn();
@@ -73,7 +82,10 @@ namespace com.ThreeCS.McCree
             //Photon Chat 연결 시도 
             chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat,
                 "1.0", new Photon.Chat.AuthenticationValues(PhotonNetwork.LocalPlayer.NickName));
+
+            // 준비 되기 전까지 메세지 받거나 보내는 것 막음
             PhotonNetwork.IsMessageQueueRunning = true;
+
             LoadingUI.Instance.msg_Text.text = "채팅 서버에 접속 중...";
             enabled = true;
             behave = "InitialConnecting";
@@ -379,7 +391,6 @@ namespace com.ThreeCS.McCree
             else if (behave == "InitialConnecting") // 최초 연결할때
             {
                 LoadingUI.Instance.msg_Text.text = "로비 채팅에 접속 중...";
-                PhotonNetwork.ConnectUsingSettings();
             }
             //throw new System.NotImplementedException();
         }

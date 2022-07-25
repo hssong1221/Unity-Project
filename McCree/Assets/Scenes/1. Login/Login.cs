@@ -10,9 +10,6 @@ using TMPro; // TextMeshPro inputfield
 using Photon.Pun;
 using Photon.Realtime;
 
-using PlayFab;
-using PlayFab.ClientModels;
-
 namespace com.ThreeCS.McCree
 {
     public class Login : MonoBehaviourPunCallbacks
@@ -39,17 +36,6 @@ namespace com.ThreeCS.McCree
             loginBtn.onClick.AddListener(Login_Btn);
         }
 
-        /*private void Start()
-        {
-            
-        }*/
-
-        /*void Update()
-        {   
-            
-        }*/
-
-
         #region Public Methods
 
         private void Login_Btn()
@@ -71,6 +57,8 @@ namespace com.ThreeCS.McCree
             PhotonNetwork.NickName = username;
             // 포톤 서버 연결
             PhotonNetwork.ConnectUsingSettings();
+            // 포톤 채팅서버 연결
+            PunChat.Instance.Connect();
         }
 
 

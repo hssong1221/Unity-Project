@@ -250,7 +250,7 @@ namespace com.ThreeCS.McCree
 
             StartCoroutine(FindMinePv());  // 자기 자신의 PhotonView, 관련 스크립트 찾기
 
-            StartCoroutine(EndGame()); // 게임 종료 조건을 판단
+            //StartCoroutine(EndGame()); // 게임 종료 조건을 판단
 
             if (PhotonNetwork.IsMasterClient && photonView.IsMine)
             {

@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/2. Register/Register.unity
     guid: 65043447b65c82a47a0d56ba8d7569a7
   - enabled: 0
+    path: Assets/Photon/PhotonChat/Demos/DemoChat/DemoChat-Scene.unity
+    guid: ec07267f6a28fb044ac89845274e79af
+  - enabled: 0
     path: Assets/Scenes/5. Game/PhotoScene/test.unity
     guid: 28eb883e12352cf458d9303c99006f4e
   m_configObjects: {}
