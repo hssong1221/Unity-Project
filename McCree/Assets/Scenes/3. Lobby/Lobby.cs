@@ -155,7 +155,7 @@ namespace com.ThreeCS.McCree
         // 방 만들기 버튼 눌렀을 때
         public void CreateRoom()
         {
-            Debug.Log("생성버튼누름");
+            Debug.Log("만들기 버튼누름");
             string RoomName = roomName.text;
 
             // 방 이름이 빈칸이면 못 만들게

@@ -95,6 +95,23 @@ namespace com.ThreeCS.McCree
 
         #region Public Methods
 
+        // 시작하기 버튼을 눌렀을 때
+        public void Start_Game()
+        {
+            // 마스터 클라이언트만 로드레벨을 해야함
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PhotonNetwork.CurrentRoom.IsOpen = false;
+                PhotonNetwork.CurrentRoom.IsVisible = false;
+
+                GameLoading(); // 자기화면 로딩
+                //PunChat.Instance.Function_Loading_GameScene(); // PunChat에서 남의화면 로딩하라고 일러줌
+
+                PhotonNetwork.IsMessageQueueRunning = false;
+                PhotonNetwork.LoadLevel("Game");
+            }
+        }
+
         // 방 나가기 버튼 눌렀을 때
         public void Exit_Room()
         {
@@ -106,23 +123,6 @@ namespace com.ThreeCS.McCree
              PunChat.Instance.chatClient.Unsubscribe(new string[] {PhotonNetwork.CurrentRoom.Name});*/
 
             PhotonNetwork.LeaveRoom();
-        }
-
-        // 시작하기 버튼을 눌렀을 때
-        public void Start_Game()
-        {
-            // 마스터 클라이언트만 로드레벨을 해야함
-            if (PhotonNetwork.IsMasterClient) 
-            {
-                PhotonNetwork.CurrentRoom.IsOpen = false;
-                PhotonNetwork.CurrentRoom.IsVisible = false;
-
-                GameLoading(); // 자기화면 로딩
-                //PunChat.Instance.Function_Loading_GameScene(); // PunChat에서 남의화면 로딩하라고 일러줌
-
-                PhotonNetwork.IsMessageQueueRunning = false;
-                PhotonNetwork.LoadLevel("Game");
-            }
         }
 
         private void GameLoading()
@@ -150,7 +150,6 @@ namespace com.ThreeCS.McCree
         {
             foreach (KeyValuePair<int, Player> playerInfo in PhotonNetwork.CurrentRoom.Players)
             {
-                Debug.Log("-------");
                 Debug.Log(playerInfo);
                 AddPlayerListing(playerInfo.Value);
             }

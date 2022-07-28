@@ -51,7 +51,7 @@ namespace com.ThreeCS.McCree
         // 로비에 참가했한 후에 실행 (룸에서 나왓을 때도 실행)
         public override void OnJoinedLobby()
         {
-            //base.OnJoinedLobby();
+            base.OnJoinedLobby();
             Debug.Log("로비 참가 성공");
             LoadingUI.Instance.msg_Text.text = "로비와 연결 성공!";
             SceneManager.LoadScene("Lobby");
@@ -76,8 +76,9 @@ namespace com.ThreeCS.McCree
 
             SceneManager.LoadScene("Room");
 
-            /*PunChat.Instance.behave = "EnterRoom";
-            PunChat.Instance.chatClient.Subscribe(new string[] { PhotonNetwork.CurrentRoom.Name }, 10);*/
+            // 방 이름으로 새로 구독
+            PunChat.Instance.behave = "EnterRoom";
+            PunChat.Instance.chatClient.Subscribe(new string[] { PhotonNetwork.CurrentRoom.Name }, 10);
         }
 
 

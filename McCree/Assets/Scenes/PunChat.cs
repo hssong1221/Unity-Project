@@ -22,6 +22,8 @@ namespace com.ThreeCS.McCree
             get { return pInstance; }
         }
 
+        #region Varibale Fields
+
         public ChatClient chatClient;
 
         private List<string> chatList = new List<string>();
@@ -48,6 +50,10 @@ namespace com.ThreeCS.McCree
         // PhotonRaiseEvent 이벤트 코드
         private const byte LoadingGameScene = 0;
 
+        #endregion
+
+        #region MonoBehaviour CallBacks
+
 
         void Awake()
         {
@@ -57,6 +63,8 @@ namespace com.ThreeCS.McCree
         void Start()
         {
             chatClient = new ChatClient(this);
+            // 어플이 백그라운드 동작시 서버 끊어지지 않음
+            chatClient.UseBackgroundWorkerForSending = true;
         }
 
         void Update()
@@ -76,21 +84,6 @@ namespace com.ThreeCS.McCree
                 Send_Chat_NoBtn();
             }
         }
-
-        public void Connect()
-        {
-            //Photon Chat 연결 시도 
-            chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat,
-                "1.0", new Photon.Chat.AuthenticationValues(PhotonNetwork.LocalPlayer.NickName));
-
-            // 준비 되기 전까지 메세지 받거나 보내는 것 막음
-            PhotonNetwork.IsMessageQueueRunning = true;
-
-            LoadingUI.Instance.msg_Text.text = "채팅 서버에 접속 중...";
-            enabled = true;
-            behave = "InitialConnecting";
-        }
-
         void OnEnable()
         {
             // 활성화 될 때마다 호출되는 함수 (Awake/Start와 달리 활성화 될 때마다)
@@ -107,6 +100,27 @@ namespace com.ThreeCS.McCree
 
             PhotonNetwork.NetworkingClient.EventReceived -= NetworkingClient_EventReceived;
         }
+
+        #endregion
+
+        // 
+        // ---------------------- 포톤 챗 접속 -----------------------
+        //
+        public void Connect()
+        {
+            //Photon Chat 연결 시도 
+            chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat,
+                "1.0", new Photon.Chat.AuthenticationValues(PhotonNetwork.LocalPlayer.NickName));
+
+            // 준비 되기 전까지 메세지 받거나 보내는 것 막음
+            PhotonNetwork.IsMessageQueueRunning = true;
+
+            LoadingUI.Instance.msg_Text.text = "채팅 서버에 접속 중...";
+            enabled = true;
+            behave = "InitialConnecting";
+        }
+
+       
 
 
         // -------------- 룸에서 게임씬 이동할때 다른 클라이언트들에게 로딩하라고 알려주는 함수 -----------
@@ -382,8 +396,10 @@ namespace com.ThreeCS.McCree
 
             if (behave == "EnterRoom") // 방에 입장하였을때
             {
+                //puncallback 과 연결 되어있음
                 LoadingUI.Instance.msg_Canvas.SetActive(false);
-                SceneManager.LoadScene("Room");
+
+                // 입장 메세지
                 string msgs = string.Format("​<color=navy>[{0}]님이 입장하셨습니다.</color>", PhotonNetwork.LocalPlayer.NickName);
                 chatClient.PublishMessage(PhotonNetwork.CurrentRoom.Name, msgs);
             }
