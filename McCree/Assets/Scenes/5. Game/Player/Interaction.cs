@@ -105,6 +105,20 @@ namespace com.ThreeCS.McCree
                         }
                     }
                 }
+                // 의자와 상호작용해서 의자에 앉기
+                else if(other.tag == "chair")
+                {
+                    // F 상호작용
+                    MineUI.Instance.range_x = Random.Range(-50, 50);
+                    MineUI.Instance.range_y = Random.Range(-100, 100);
+                    MineUI.Instance.interactionRect.anchoredPosition = new Vector2(MineUI.Instance.range_x, MineUI.Instance.range_y);
+                    MineUI.Instance.interactionPanel.SetActive(true);
+                    MineUI.Instance.interactionText.text = "앉기";
+                    Debug.Log("의자");
+
+
+
+                }
             }
         }
 
@@ -115,6 +129,14 @@ namespace com.ThreeCS.McCree
                 MineUI.Instance.interactionPanel.SetActive(false);
                 if (coroutine_Interact != null)
                     StopCoroutine(coroutine_Interact);
+            }
+            if(other.tag == "chair")
+            {
+                if (Input.GetButtonDown("Interaction"))
+                {
+                    Debug.Log("의자의자!");
+                    playerManager.Sit(other.GetComponent<Transform>().transform);
+                }
             }
         }
 
@@ -129,6 +151,10 @@ namespace com.ThreeCS.McCree
                     playerManager.isInteraction = false;
                 }
                 else if (other.gameObject.layer == LayerMask.NameToLayer("QuestItem"))
+                {
+                    MineUI.Instance.interactionPanel.SetActive(false);
+                }
+                else if (other.tag == "chair")
                 {
                     MineUI.Instance.interactionPanel.SetActive(false);
                 }

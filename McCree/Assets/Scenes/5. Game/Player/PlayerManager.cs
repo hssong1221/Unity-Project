@@ -88,9 +88,6 @@ namespace com.ThreeCS.McCree
             }
         }
 
-
-
-
         public bool isPicking
         {
             get { return _isPicking; }
@@ -448,7 +445,7 @@ namespace com.ThreeCS.McCree
 
         #endregion
 
-        #region private Methods
+        #region  Methods
 
         // 뱅 준비 (공격 사거리 표시)
         void AttackRange()
@@ -554,6 +551,23 @@ namespace com.ThreeCS.McCree
             animator.SetFloat("Speed", speed);*/
         }
 
+        // 의자에 앉기
+        public void Sit(Transform other)
+        {
+            animator.SetBool("isSit", true);
+            agent.enabled = false;
+
+            transform.position = other.position;
+            playerAutoMove.targetedEnemy = null;
+
+            transform.rotation = other.rotation;
+            Invoke("navoff", 0.1f);
+            
+        }
+        void navoff()
+        {
+            agent.enabled = true;
+        }
         void Inventory()
         {
             if (!isInventoryOpen)

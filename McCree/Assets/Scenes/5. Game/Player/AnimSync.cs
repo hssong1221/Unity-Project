@@ -144,13 +144,6 @@ namespace com.ThreeCS.McCree
         }
 
 
-
-
-
-
-
-
-
         // 임시로 무기 동기화----------------------------------------------------------
         public void Temp_Weapon_None(int photonViewID)
         {
