@@ -130,6 +130,7 @@ namespace com.ThreeCS.McCree
 
         public bool isDeath;
 
+        // 동작관련 플래그 true여야 동작 중 이동이 불가능함
         public bool canBehave;
 
 
@@ -551,23 +552,38 @@ namespace com.ThreeCS.McCree
             animator.SetFloat("Speed", speed);*/
         }
 
-        // 의자에 앉기
-        public void Sit(Transform other)
+        // 의자에 앉고 일어나기
+        public void Sit(Transform other, bool isSit)
         {
-            animator.SetBool("isSit", true);
-            agent.enabled = false;
+            if (isSit == true)
+            {
+                animator.SetBool("isSit", true);
+                agent.enabled = false;
 
-            transform.position = other.position;
-            playerAutoMove.targetedEnemy = null;
+                // 의자에 앉는 모습으로 순간이동
+                transform.position = other.position;
+                playerAutoMove.targetedEnemy = null;
+                transform.rotation = other.rotation;
 
-            transform.rotation = other.rotation;
-            Invoke("navoff", 0.1f);
-            
+                Invoke("navonoff", 0.15f);
+            }
+            else if (isSit == false)
+            {
+                animator.SetBool("isSit", false);
+                agent.enabled = false;
+
+                playerAutoMove.targetedEnemy = null;
+                Invoke("navonoff", 0.15f);
+            }
         }
-        void navoff()
+
+        // 네비게이션 메쉬가 꺼져있어야 순간이동이 가능하므로 잠시 꺼졌다 켜진는 기능
+        void navonoff()
         {
             agent.enabled = true;
         }
+
+
         void Inventory()
         {
             if (!isInventoryOpen)

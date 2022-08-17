@@ -31,6 +31,9 @@ namespace com.ThreeCS.McCree
             }
         }
 
+        public bool isSit;
+
+
         //private IEnumerator _coroutine;
         //public IEnumerator coroutine
         //{
@@ -41,11 +44,14 @@ namespace com.ThreeCS.McCree
         //    }
         //}
 
+        // 의자 착석 플래그
 
         void Awake()
         {
             base.Awake();
             MineUI.Instance.rejectBtn.onClick.AddListener(Close_NPC_Chat);
+
+            isSit = true;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -115,9 +121,6 @@ namespace com.ThreeCS.McCree
                     MineUI.Instance.interactionPanel.SetActive(true);
                     MineUI.Instance.interactionText.text = "앉기";
                     Debug.Log("의자");
-
-
-
                 }
             }
         }
@@ -130,12 +133,17 @@ namespace com.ThreeCS.McCree
                 if (coroutine_Interact != null)
                     StopCoroutine(coroutine_Interact);
             }
-            if(other.tag == "chair")
+            Debug.Log("상호작용.");
+            if (other.tag == "chair")
             {
+                Debug.Log("의자와 상호작용.");
+
                 if (Input.GetButtonDown("Interaction"))
                 {
-                    Debug.Log("의자의자!");
-                    playerManager.Sit(other.GetComponent<Transform>().transform);
+                    playerManager.Sit(other.GetComponent<Transform>().transform, isSit);
+                    isSit = !isSit;
+                    
+                    Debug.Log(isSit);
                 }
             }
         }
