@@ -31,7 +31,10 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        public bool isSit;
+        // 의자에 앉기
+        public bool isSit = false;
+        // 의자에 닿기
+        public bool triggerStay = false;
 
 
         //private IEnumerator _coroutine;
@@ -50,12 +53,22 @@ namespace com.ThreeCS.McCree
         {
             base.Awake();
             MineUI.Instance.rejectBtn.onClick.AddListener(Close_NPC_Chat);
-
-            isSit = true;
         }
 
+        private void Update()
+        {
+            // 의자와 상호작용
+            if (Input.GetButtonDown("Interaction") && triggerStay)
+            {
+                isSit = !isSit;
+                Debug.Log(isSit);
+            }
+        }
         private void OnTriggerEnter(Collider other)
         {
+            //의자관련
+            triggerStay = true;
+
             if (photonView.IsMine && playerManager.canBehave)
             {
                 if (other.tag == "NPC")
@@ -133,23 +146,25 @@ namespace com.ThreeCS.McCree
                 if (coroutine_Interact != null)
                     StopCoroutine(coroutine_Interact);
             }
-            Debug.Log("상호작용.");
-            if (other.tag == "chair")
+            if (other.CompareTag("chair"))
             {
                 Debug.Log("의자와 상호작용.");
-
-                if (Input.GetButtonDown("Interaction"))
+                if (isSit)
                 {
-                    playerManager.Sit(other.GetComponent<Transform>().transform, isSit);
-                    isSit = !isSit;
-                    
-                    Debug.Log(isSit);
+                    playerManager.Sit(other.GetComponent<Transform>().transform);
+                }
+                else 
+                {
+                    playerManager.StandUp(other.GetComponent<Transform>().transform);
                 }
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
+            // 의자관련
+            triggerStay = false;
+
             if (photonView.IsMine)
             {
                 if (other.tag == "NPC")

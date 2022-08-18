@@ -130,6 +130,8 @@ namespace com.ThreeCS.McCree
 
         public bool isDeath;
 
+        public bool isSit = false;
+
         // 동작관련 플래그 true여야 동작 중 이동이 불가능함
         public bool canBehave;
 
@@ -363,7 +365,7 @@ namespace com.ThreeCS.McCree
 
         private void FixedUpdate() // move
         {
-            if (photonView.IsMine)
+            if (photonView.IsMine && !isSit)
             {
                 h = Input.GetAxis("Horizontal");
                 v = Input.GetAxis("Vertical");
@@ -553,29 +555,26 @@ namespace com.ThreeCS.McCree
         }
 
         // 의자에 앉고 일어나기
-        public void Sit(Transform other, bool isSit)
+        public void Sit(Transform other)
         {
-            if (isSit == true)
-            {
-                animator.SetBool("isSit", true);
-                agent.enabled = false;
+            isSit = true;
+            Debug.Log("sit이 작동됨");
+            animator.SetBool("isSit", true);
+            agent.enabled = false;
 
-                // 의자에 앉는 모습으로 순간이동
-                transform.position = other.position;
-                playerAutoMove.targetedEnemy = null;
-                transform.rotation = other.rotation;
+            // 의자에 앉는 모습으로 순간이동
+            transform.position = other.position;
+            playerAutoMove.targetedEnemy = null;
+            transform.rotation = other.rotation;
 
-                Invoke("navonoff", 0.15f);
-            }
-            else if (isSit == false)
-            {
-                animator.SetBool("isSit", false);
-                agent.enabled = false;
-
-                playerAutoMove.targetedEnemy = null;
-                Invoke("navonoff", 0.15f);
-            }
+            Invoke("navonoff", 0.15f);
         }
+        public void StandUp(Transform other)
+        {
+            animator.SetBool("isSit", false);
+            isSit = false;
+        }
+
 
         // 네비게이션 메쉬가 꺼져있어야 순간이동이 가능하므로 잠시 꺼졌다 켜진는 기능
         void navonoff()
