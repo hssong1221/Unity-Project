@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6559106700118211130}
   - component: {fileID: 342263121116531153}
   - component: {fileID: 3715993003985175830}
-  - component: {fileID: -6498456960084704517}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -42,12 +41,12 @@ AudioSource:
   m_GameObject: {fileID: 6559106700118211124}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  OutputAudioMixerGroup: {fileID: 1553729327537944700, guid: 163c5d5622281964da9799eec288f527, type: 2}
+  m_audioClip: {fileID: 8300000, guid: f6ac24bd883a4c14388bc29bc974a9d0, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -142,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerList: []
-  playerPrefab: {fileID: 6215404349552837223, guid: db43c7ab86ae6804bbf84a4e146e3bd7, type: 3}
+  isVitory: 0
   jobPanel: {fileID: 0}
   jobBoard: {fileID: 0}
   jobText: {fileID: 0}
@@ -152,48 +151,32 @@ MonoBehaviour:
   abilPanel: {fileID: 0}
   abilImage: {fileID: 0}
   abilText: {fileID: 0}
-  sheriff1: {fileID: 0}
-  sheriff2: {fileID: 0}
-  sheriff3: {fileID: 0}
-  deputy1: {fileID: 0}
-  deputy2: {fileID: 0}
-  deputy3: {fileID: 0}
-  outlaw1: {fileID: 0}
-  outlaw2: {fileID: 0}
-  outlaw3: {fileID: 0}
-  renegade1: {fileID: 0}
-  renegade2: {fileID: 0}
-  renegade3: {fileID: 0}
-  sheriff4: {fileID: 0}
-  deputy4: {fileID: 0}
-  outlaw4: {fileID: 0}
-  renegade4: {fileID: 0}
-  points: []
-  maps: []
-  entireItemSet: {fileID: 0}
-  SettingPanel: {fileID: 0}
-  gPanel: {fileID: 0}
-  sPanel: {fileID: 0}
-  mPanel: {fileID: 0}
-  kPanel: {fileID: 0}
-  gButton: {fileID: 0}
-  sButton: {fileID: 0}
-  mButton: {fileID: 0}
-  kButton: {fileID: 0}
-  graphicObject: {fileID: 0}
-  audioMixer: {fileID: 0}
-  soundObject: {fileID: 0}
-  saveButton: {fileID: 0}
---- !u!114 &-6498456960084704517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6559106700118211124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40763af7c6b47d440b5ae0f6937917df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 6215404349552837223, guid: db43c7ab86ae6804bbf84a4e146e3bd7, type: 3}
+  vicPanel: {fileID: 0}
+  backPlane: {fileID: 0}
+  pnt:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  player:
+  - {fileID: 7375564505485457377, guid: 46e3496e75fd4b84bb90573ce6570cec, type: 3}
+  sheriff1: {fileID: -1836120431684336037, guid: 83b8c4c4ba1e36447bbefd0e4ab10294, type: 3}
+  sheriff2: {fileID: -3689370695421367102, guid: b34db70a35d530647b80f336beb1e8fd, type: 3}
+  sheriff3: {fileID: 21300000, guid: 0dd92b26feb86f542b9890c9f7dcf981, type: 3}
+  deputy1: {fileID: 21300000, guid: 822c8bfd03e04aa4487a32cfd744139e, type: 3}
+  deputy2: {fileID: 21300000, guid: 2f0bffead2ff66d4f8601872b6906bc6, type: 3}
+  deputy3: {fileID: 21300000, guid: 29957a85534a7be4ca7a145d3f07009b, type: 3}
+  outlaw1: {fileID: 21300000, guid: 4b3538b825e77194bbb2f24cf7261bdb, type: 3}
+  outlaw2: {fileID: 21300000, guid: f92350949cfd95e4f815800af31d5b45, type: 3}
+  outlaw3: {fileID: 21300000, guid: d6eec004e17803d4a8580c45097f930f, type: 3}
+  renegade1: {fileID: 21300000, guid: 60037d637fdecdc489bfc4bd185e2e6a, type: 3}
+  renegade2: {fileID: 21300000, guid: 16d7e77529ddec4459e299af7936e948, type: 3}
+  renegade3: {fileID: 21300000, guid: 461902b6c6ba06042bf1ab9bf5f753fe, type: 3}
+  sheriff4: {fileID: 21300000, guid: 512567abd27d62949a8f3bda1343ae8c, type: 3}
+  deputy4: {fileID: 21300000, guid: 2f0bffead2ff66d4f8601872b6906bc6, type: 3}
+  outlaw4: {fileID: 21300000, guid: f92350949cfd95e4f815800af31d5b45, type: 3}
+  renegade4: {fileID: 21300000, guid: af7da4d173f414b4ca7684383381b7f7, type: 3}
+  entireItemSet: {fileID: 3035227858612469285, guid: 847bcefee497f874faf3427ca3c9771e, type: 3}

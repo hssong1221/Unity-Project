@@ -130,7 +130,7 @@ namespace com.ThreeCS.McCree
 
         public bool isDeath;
 
-        public bool isSit = false;
+        public bool isSit = false; // 의자에 앉는 동작 관련
 
         // 동작관련 플래그 true여야 동작 중 이동이 불가능함
         public bool canBehave;
@@ -299,7 +299,7 @@ namespace com.ThreeCS.McCree
         {
             //플레이어 오브젝트가 전부 담김
             GameManager.Instance.playerList = GameObject.FindGameObjectsWithTag("Player");
-            Debug.Log("플레이어 수(많큼 나올 듯) : " + GameManager.Instance.playerList.Length);
+            Debug.Log("플레이어 수(만큼 나올 듯) : " + GameManager.Instance.playerList.Length);
         }
 
 
@@ -555,12 +555,16 @@ namespace com.ThreeCS.McCree
         }
 
         // 의자에 앉고 일어나기
-        public void Sit(Transform other)
+        public void Sit(Transform other, MeshRenderer mr)
         {
             isSit = true;
             Debug.Log("sit이 작동됨");
             animator.SetBool("isSit", true);
             agent.enabled = false;
+
+            // 의자에 앉으면 의자 하이라이트 꺼짐
+            Material mat = mr.material;
+            mat.SetColor("_EmissionColor", Color.black);
 
             // 의자에 앉는 모습으로 순간이동
             transform.position = other.position;
@@ -574,7 +578,6 @@ namespace com.ThreeCS.McCree
             animator.SetBool("isSit", false);
             isSit = false;
         }
-
 
         // 네비게이션 메쉬가 꺼져있어야 순간이동이 가능하므로 잠시 꺼졌다 켜진는 기능
         void navonoff()

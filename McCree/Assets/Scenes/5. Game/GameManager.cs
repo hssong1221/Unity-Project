@@ -82,18 +82,26 @@ namespace com.ThreeCS.McCree
         private Animator jobUIAnimator;
         private Animator abilUIAnimator;
 
-
         [Header("고유 능력 관련 UI")]
         public GameObject abilPanel;
         public Image abilImage;
         public Text abilText;
 
+        [Header("게임 시작 관련 UI(의자 주변)")]
+        public Canvas startCanvas;
+        public Text pnumText; // 플레이어 앉은 숫자
+        public int sitNum = 0; // 앉아 있는 숫자
+
+
         [Header("게임 종료 관련 UI")]
         public GameObject vicPanel;
         public GameObject backPlane;
 
+        [Header("게임 종료후 출력 될 위치와 플레이어 오브젝트")]
         public GameObject[] pnt;
         public GameObject[] player;
+
+
 
 
         [Header("직업 일러스트")]
@@ -172,6 +180,12 @@ namespace com.ThreeCS.McCree
 
         }
 
+        private void Update()
+        {
+            // UI가 계속 정면을 보게 만듬
+            startCanvas.transform.LookAt(startCanvas.transform.position + Camera.main.transform.forward);
+        }
+
         #endregion
 
         #region Coroutine
@@ -240,13 +254,16 @@ namespace com.ThreeCS.McCree
 
         IEnumerator WaitAllPlayers()
         {
+            // 플레이어들이 모두 들어오면 밑에 실행 가능
             while (PhotonNetwork.PlayerList.Length != playerList.Length)
             {
                 Debug.Log("PM 방 총원 : " + PhotonNetwork.PlayerList.Length);
                 Debug.Log("PM 현재 로딩된 인원 수 : " + playerList.Length);
                 yield return null;
             }
-            // 플레이어들이 모두 들어오면 밑에 실행 가능
+
+            // 의자에 전체 인원 수 적용
+            pnumText.text = sitNum + " / " + playerList.Length;
 
             StartCoroutine(FindMinePv());  // 자기 자신의 PhotonView, 관련 스크립트 찾기
 
@@ -262,10 +279,10 @@ namespace com.ThreeCS.McCree
 
                 // 카드 나눠주는것
                 //StartCoroutine(Cards());
-                
-                
+
+
                 //StartCoroutine(GiveCardSet());
-                
+
             }
         }
 
@@ -573,6 +590,39 @@ namespace com.ThreeCS.McCree
             }
         }
 
+        // --------------------------- 앉아있는 인원 체크 --------------------------------
+        public void NumCheckSit()
+        {
+            int max = 0;
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                if (max < playerList[i].GetComponent<Interaction>().sitNum)
+                    max = playerList[i].GetComponent<Interaction>().sitNum;
+            }
+            sitNum = max;
+
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                playerList[i].GetComponent<PhotonView>().RPC("NumCheck", RpcTarget.All, sitNum);
+            }
+        }
+        public void NumCheckStand()
+        {
+            int min = 8;
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                if(playerList[i].GetComponent<Interaction>().sitNum < min)
+                    min = playerList[i].GetComponent<Interaction>().sitNum; 
+            }
+            sitNum = min;
+
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                playerList[i].GetComponent<PhotonView>().RPC("NumCheck", RpcTarget.All, sitNum);
+            }
+        }
+
+        // --------------------------- 앉아있는 인원 체크 --------------------------------
         #endregion
 
 
@@ -600,6 +650,8 @@ namespace com.ThreeCS.McCree
                 //LoadArena();
             }
         }
+
+       
         #endregion
 
     }

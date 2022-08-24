@@ -31,10 +31,14 @@ namespace com.ThreeCS.McCree
             }
         }
 
+        // 의자 접촉 시 하이라이트 관련
+        public MeshRenderer mr;
+        public Material mat;
         // 의자에 앉기
         public bool isSit = false;
         // 의자에 닿기
         public bool triggerStay = false;
+        public int sitNum = 0;   // 본인
 
 
         //private IEnumerator _coroutine;
@@ -53,6 +57,7 @@ namespace com.ThreeCS.McCree
         {
             base.Awake();
             MineUI.Instance.rejectBtn.onClick.AddListener(Close_NPC_Chat);
+
         }
 
         private void Update()
@@ -61,16 +66,14 @@ namespace com.ThreeCS.McCree
             if (Input.GetButtonDown("Interaction") && triggerStay)
             {
                 isSit = !isSit;
-                Debug.Log(isSit);
             }
         }
         private void OnTriggerEnter(Collider other)
         {
-            //의자관련
-            triggerStay = true;
-
             if (photonView.IsMine && playerManager.canBehave)
             {
+                //의자관련
+                triggerStay = true;
                 if (other.tag == "NPC")
                 {
                     if (!other.GetComponent<NPC>().isComplete)
@@ -134,6 +137,15 @@ namespace com.ThreeCS.McCree
                     MineUI.Instance.interactionPanel.SetActive(true);
                     MineUI.Instance.interactionText.text = "앉기";
                     Debug.Log("의자");
+
+                    //의자 하이라이트
+                    mr = other.GetComponent<MeshRenderer>();
+                    mat = mr.material;
+                    mat.EnableKeyword("_EMISSION");
+                    mat.SetColor("_EmissionColor", Color.white * 0.5f);
+
+                    sitNum++;
+                    GameManager.Instance.NumCheckSit();
                 }
             }
         }
@@ -146,12 +158,12 @@ namespace com.ThreeCS.McCree
                 if (coroutine_Interact != null)
                     StopCoroutine(coroutine_Interact);
             }
-            if (other.CompareTag("chair"))
+            if (photonView.IsMine && other.CompareTag("chair"))
             {
-                Debug.Log("의자와 상호작용.");
+                // 전체 인원 체크
                 if (isSit)
                 {
-                    playerManager.Sit(other.GetComponent<Transform>().transform);
+                    playerManager.Sit(other.GetComponent<Transform>().transform, other.GetComponent<MeshRenderer>());
                 }
                 else 
                 {
@@ -162,11 +174,10 @@ namespace com.ThreeCS.McCree
 
         private void OnTriggerExit(Collider other)
         {
-            // 의자관련
-            triggerStay = false;
-
             if (photonView.IsMine)
             {
+                // 의자관련
+                triggerStay = false;
                 if (other.tag == "NPC")
                 {
                     MineUI.Instance.interactionPanel.SetActive(false);
@@ -180,6 +191,10 @@ namespace com.ThreeCS.McCree
                 else if (other.tag == "chair")
                 {
                     MineUI.Instance.interactionPanel.SetActive(false);
+                    mat.SetColor("_EmissionColor", Color.black);
+
+                    sitNum--;
+                    GameManager.Instance.NumCheckStand();
                 }
 
                 if (coroutine_Chat != null)
@@ -188,6 +203,17 @@ namespace com.ThreeCS.McCree
                     StopCoroutine(coroutine_Interact);
             }
         }
+
+        #region methods
+        [PunRPC]
+        public void NumCheck(int n)
+        {
+            sitNum = n;
+            // 앉은 인원 / 전체 인원
+            GameManager.Instance.pnumText.text = sitNum + " / " + GameManager.Instance.playerList.Length;
+        }
+
+        #endregion
 
 
         #region npc대화 관련

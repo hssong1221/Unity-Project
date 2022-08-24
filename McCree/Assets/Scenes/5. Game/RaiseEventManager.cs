@@ -128,8 +128,6 @@ namespace com.ThreeCS.McCree
                 LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)MineUI.Instance.worldQuestPanel);
                 // contentsizefillter가 적용이 안되는 오류때메 재배치하는 함수
             }
-
-
         }
 
         // 캐릭터 생성 --------------------------------------------------------------------

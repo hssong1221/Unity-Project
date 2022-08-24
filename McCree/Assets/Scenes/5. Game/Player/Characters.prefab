@@ -2482,7 +2482,7 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: 33757463b4963cd4e813aab10ca1e32f, type: 2}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
@@ -2505,6 +2505,7 @@ MonoBehaviour:
   _isPicking: 0
   _canBehave: 0
   isDeath: 0
+  isSit: 0
   canBehave: 0
   playerType: 0
   abilityType: 0
@@ -2627,6 +2628,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e338911d3e3434ab78f817ad3e787c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mr: {fileID: 0}
+  mat: {fileID: 0}
+  isSit: 0
+  triggerStay: 0
+  sitNum: 0
 --- !u!114 &9115706970723543485
 MonoBehaviour:
   m_ObjectHideFlags: 0

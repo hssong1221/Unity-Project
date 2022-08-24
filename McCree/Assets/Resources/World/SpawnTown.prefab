@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 5302064069681587142}
   - component: {fileID: 7447285572284537869}
   - component: {fileID: 2929800988746943801}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8157117937392765537
 Transform:
@@ -107,12 +107,12 @@ GameObject:
   - component: {fileID: 468829759986435252}
   - component: {fileID: 7184415386616775538}
   - component: {fileID: 3809564205482267261}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (17)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &468829759986435252
 Transform:
@@ -189,12 +189,12 @@ GameObject:
   - component: {fileID: 135722571387787967}
   - component: {fileID: 128317435902044521}
   - component: {fileID: 104095773014038663}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Poker_Chip_03 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &115924427527837847
 Transform:
@@ -285,12 +285,12 @@ GameObject:
   - component: {fileID: 23095031810444155}
   - component: {fileID: 4435196173921604290}
   - component: {fileID: 8638060774068943765}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_Broken_03 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8789740913325218980
 Transform:
@@ -380,12 +380,12 @@ GameObject:
   - component: {fileID: 5492451802388498338}
   - component: {fileID: 3845211669644526596}
   - component: {fileID: 232560609678741622}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Bld_Saloon_UpstairsDoor_02_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5492451802388498338
 Transform:
@@ -462,12 +462,12 @@ GameObject:
   - component: {fileID: 7455278375930919855}
   - component: {fileID: 6088565947166290753}
   - component: {fileID: 4359837845387975511}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_Rail_01 (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4346364467367915281
 Transform:
@@ -558,12 +558,12 @@ GameObject:
   - component: {fileID: 8489580858052760316}
   - component: {fileID: 6238866774579556240}
   - component: {fileID: 3929378933382735436}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (20)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8625864355642892557
 Transform:
@@ -654,12 +654,12 @@ GameObject:
   - component: {fileID: 283644859691492045}
   - component: {fileID: 271942816187599081}
   - component: {fileID: 248637997387921323}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Poker_Chip_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &259331876395570111
 Transform:
@@ -749,12 +749,12 @@ GameObject:
   - component: {fileID: 271759040276990380}
   - component: {fileID: 269411571271657588}
   - component: {fileID: 261077060137645452}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Card_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &271759040276990380
 Transform:
@@ -831,12 +831,12 @@ GameObject:
   - component: {fileID: 9168472440907934622}
   - component: {fileID: 7196732826109070862}
   - component: {fileID: 221648674483156460}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_Rail_01 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1344761832822017169
 Transform:
@@ -927,12 +927,12 @@ GameObject:
   - component: {fileID: 5775481371379623894}
   - component: {fileID: 5709406576279670065}
   - component: {fileID: 7828362949483720117}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_Rail_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8873753450977652601
 Transform:
@@ -1023,12 +1023,12 @@ GameObject:
   - component: {fileID: 2815120732609326916}
   - component: {fileID: 5424243798842242171}
   - component: {fileID: 2894864366166932355}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_04 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6802363512063911642
 Transform:
@@ -1158,12 +1158,12 @@ GameObject:
   - component: {fileID: 991215423700419539}
   - component: {fileID: 4561224853449178124}
   - component: {fileID: 8884566977829148153}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_JailBed_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1483459072660317821
 Transform:
@@ -1254,12 +1254,12 @@ GameObject:
   - component: {fileID: 458954636648627545}
   - component: {fileID: 467044217987387023}
   - component: {fileID: 490176263914848097}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Poker_Chip_03 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &443462304339705713
 Transform:
@@ -1446,12 +1446,12 @@ GameObject:
   - component: {fileID: 2336940439436165489}
   - component: {fileID: 3451348567168491501}
   - component: {fileID: 994107156168119024}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Bld_Sign_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3190322505121574965
 Transform:
@@ -1542,12 +1542,12 @@ GameObject:
   - component: {fileID: 8665675960871905918}
   - component: {fileID: 5126076092282600841}
   - component: {fileID: 1287220256896877279}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_02 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3925867409223595728
 Transform:
@@ -1561,7 +1561,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8665675960871905918
 MeshFilter:
@@ -1638,12 +1638,12 @@ GameObject:
   - component: {fileID: 8062520838992037208}
   - component: {fileID: 5149377272034811003}
   - component: {fileID: 6599892175455595544}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_07 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2783618847510617675
 Transform:
@@ -1732,12 +1732,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1982023702869216194}
   - component: {fileID: 485239127640558667}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Lantern_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1982023702869216194
 Transform:
@@ -1828,12 +1828,12 @@ GameObject:
   - component: {fileID: 2546721641914018190}
   - component: {fileID: 4283378900253511579}
   - component: {fileID: 4712877036866832586}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Wep_Shotgun_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &819680129351684530
 Transform:
@@ -1941,12 +1941,12 @@ GameObject:
   - component: {fileID: 1247602102509478842}
   - component: {fileID: 1919038824790156729}
   - component: {fileID: 6265367857654493640}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Dresser_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7155828833240235846
 Transform:
@@ -1960,7 +1960,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1247602102509478842
 MeshFilter:
@@ -2035,12 +2035,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4765078275782182746}
   - component: {fileID: 7629191109210107483}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Lantern_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4765078275782182746
 Transform:
@@ -2129,7 +2129,6 @@ GameObject:
   - component: {fileID: 825588132351557432}
   - component: {fileID: 796036165770670356}
   - component: {fileID: 805782337597796062}
-  - component: {fileID: 837331398014958584}
   - component: {fileID: 837253788025061616}
   m_Layer: 0
   m_Name: SM_Prop_Chair_01
@@ -2201,20 +2200,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &837331398014958584
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 827722916887130624}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43840572287429086, guid: ba6f2a32b2f4d18459dc0c9d50615416, type: 2}
 --- !u!64 &837253788025061616
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2242,12 +2227,12 @@ GameObject:
   - component: {fileID: 8506462830927527467}
   - component: {fileID: 6340150173645510983}
   - component: {fileID: 6080348751928942264}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Water_Tower_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3652928776776476172
 Transform:
@@ -2352,12 +2337,12 @@ GameObject:
   - component: {fileID: 5787781793069552946}
   - component: {fileID: 9188160455364682591}
   - component: {fileID: 1439490255422358602}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_04 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3052348457809806021
 Transform:
@@ -2447,12 +2432,12 @@ GameObject:
   - component: {fileID: 8477315046988701926}
   - component: {fileID: 857632737572579849}
   - component: {fileID: 1184876915582080894}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8477315046988701926
 Transform:
@@ -2528,7 +2513,6 @@ GameObject:
   - component: {fileID: 498650903926470030}
   - component: {fileID: 4669390620364248022}
   - component: {fileID: 5073631842728373889}
-  - component: {fileID: 3646397141583330247}
   - component: {fileID: 8196206431926756739}
   m_Layer: 0
   m_Name: SM_Prop_Chair_01 (5)
@@ -2600,20 +2584,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3646397141583330247
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1082151015636767242}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43840572287429086, guid: ba6f2a32b2f4d18459dc0c9d50615416, type: 2}
 --- !u!64 &8196206431926756739
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2640,12 +2610,12 @@ GameObject:
   - component: {fileID: 4887920028856244403}
   - component: {fileID: 1830034781345817003}
   - component: {fileID: 7209540572274891009}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4752793753439843849
 Transform:
@@ -2735,12 +2705,12 @@ GameObject:
   - component: {fileID: 1152072535185956804}
   - component: {fileID: 1118199821544390172}
   - component: {fileID: 1127598129790182372}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Card_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1152072535185956804
 Transform:
@@ -2817,12 +2787,12 @@ GameObject:
   - component: {fileID: 7083275195962205055}
   - component: {fileID: 7317924406145480983}
   - component: {fileID: 3851748366904379185}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_02 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4074078309817773163
 Transform:
@@ -2912,12 +2882,12 @@ GameObject:
   - component: {fileID: 1862432338628218042}
   - component: {fileID: 5402451133756564575}
   - component: {fileID: 1977456858424167937}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1862432338628218042
 Transform:
@@ -2994,12 +2964,12 @@ GameObject:
   - component: {fileID: 5400176143099427052}
   - component: {fileID: 5580588929912449437}
   - component: {fileID: 4928498646803166864}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Crate_01 (25)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8008521058098130924
 Transform:
@@ -3090,12 +3060,12 @@ GameObject:
   - component: {fileID: 4589885444966640895}
   - component: {fileID: 8548956555183564941}
   - component: {fileID: 7209150786493123355}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Stool_Round_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &9134933535592007815
 Transform:
@@ -3109,7 +3079,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3082101871021315292
 MeshFilter:
@@ -3199,12 +3169,12 @@ GameObject:
   - component: {fileID: 4542693004076394666}
   - component: {fileID: 6965241435016847525}
   - component: {fileID: 7924576256078794867}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Wep_Shotgun_01_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4542693004076394666
 Transform:
@@ -3281,12 +3251,12 @@ GameObject:
   - component: {fileID: 3017253452666365502}
   - component: {fileID: 4062342625504299109}
   - component: {fileID: 8003345730814332227}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_Broken_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &327069124326269392
 Transform:
@@ -3377,12 +3347,12 @@ GameObject:
   - component: {fileID: 7887723971681301690}
   - component: {fileID: 6036415880290169660}
   - component: {fileID: 2165280521342105654}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Bld_Saloon_RoomDoor_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8529233410659371692
 Transform:
@@ -3473,12 +3443,12 @@ GameObject:
   - component: {fileID: 3850805964919017131}
   - component: {fileID: 5713186308846621846}
   - component: {fileID: 3013678306740825780}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_06 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8032361240901868670
 Transform:
@@ -3570,12 +3540,12 @@ GameObject:
   - component: {fileID: 536065500693398556}
   - component: {fileID: 3577483097141822430}
   - component: {fileID: 3425963482946116267}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Table_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7986665890208381547
 Transform:
@@ -3593,7 +3563,7 @@ Transform:
   - {fileID: 8379882357220665050}
   - {fileID: 77755656327217720}
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4664606268370464179
 MeshFilter:
@@ -3684,12 +3654,12 @@ GameObject:
   - component: {fileID: 4685033184902839095}
   - component: {fileID: 4794194249590638655}
   - component: {fileID: 744777611164281972}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Env_DustPile_Long_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4575894360670636411
 Transform:
@@ -3779,12 +3749,12 @@ GameObject:
   - component: {fileID: 5867070966998737360}
   - component: {fileID: 5313728451823021655}
   - component: {fileID: 1350750544555220688}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Coffin_Lid_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5867070966998737360
 Transform:
@@ -3861,12 +3831,12 @@ GameObject:
   - component: {fileID: 6397297920276905378}
   - component: {fileID: 7373468903508822852}
   - component: {fileID: 2489914524332086223}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Crate_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8677970850724273300
 Transform:
@@ -3956,12 +3926,12 @@ GameObject:
   - component: {fileID: 1553201254380923911}
   - component: {fileID: 9149731436957498971}
   - component: {fileID: 6870849513014531586}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_02 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1681022502266926187
 Transform:
@@ -4052,12 +4022,12 @@ GameObject:
   - component: {fileID: 7892727188611050004}
   - component: {fileID: 2378337419792390074}
   - component: {fileID: 8021819148930533367}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Coffin_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &857108570471687700
 Transform:
@@ -4149,12 +4119,12 @@ GameObject:
   - component: {fileID: 3860660172963175522}
   - component: {fileID: 439361317656707793}
   - component: {fileID: 5318403057264562928}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_05 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1377329008544199539
 Transform:
@@ -4245,12 +4215,12 @@ GameObject:
   - component: {fileID: 7284499860424403453}
   - component: {fileID: 368146790641968856}
   - component: {fileID: 7049611660935805170}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_Rail_01 (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &596694235542599909
 Transform:
@@ -4264,7 +4234,7 @@ Transform:
   m_LocalScale: {x: 0.49205005, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7284499860424403453
 MeshFilter:
@@ -4340,12 +4310,12 @@ GameObject:
   - component: {fileID: 7643372059971473567}
   - component: {fileID: 8404607976691282105}
   - component: {fileID: 2361888038505880071}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (24)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7643372059971473567
 Transform:
@@ -4420,12 +4390,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5917957980156720504}
   - component: {fileID: 1625305579328286469}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Lantern_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5917957980156720504
 Transform:
@@ -4514,7 +4484,6 @@ GameObject:
   - component: {fileID: 7446703070244296790}
   - component: {fileID: 2368624909274337302}
   - component: {fileID: 1443660296870033883}
-  - component: {fileID: 8870973089611843731}
   - component: {fileID: 1823266759147922086}
   m_Layer: 0
   m_Name: SM_Prop_Chair_01 (6)
@@ -4586,20 +4555,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8870973089611843731
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1686839765047304992}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43840572287429086, guid: ba6f2a32b2f4d18459dc0c9d50615416, type: 2}
 --- !u!64 &1823266759147922086
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4624,12 +4579,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2233411861829238583}
   - component: {fileID: 8521093078134316218}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2233411861829238583
 Transform:
@@ -4719,12 +4674,12 @@ GameObject:
   - component: {fileID: 1419249575345285443}
   - component: {fileID: 7467924229064646947}
   - component: {fileID: 9362794663013471}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Suitcase_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5593763749403799666
 Transform:
@@ -4803,6 +4758,106 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.080758, y: 0.2631057, z: 0.66314363}
   m_Center: {x: 0, y: 0.13155285, z: -0.000000044703484}
+--- !u!1 &1756509666371595479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7807764430537874610}
+  - component: {fileID: 5177211622948995698}
+  - component: {fileID: 4180892723965922937}
+  - component: {fileID: 8530532951352927145}
+  m_Layer: 12
+  m_Name: Canvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7807764430537874610
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756509666371595479}
+  m_LocalRotation: {x: -0, y: -0.40819088, z: -0, w: 0.91289663}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.0015, y: 0.0015, z: 0.0015}
+  m_Children:
+  - {fileID: 4826844611580263620}
+  m_Father: {fileID: 975763933522394919}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 1.91}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!223 &5177211622948995698
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756509666371595479}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &4180892723965922937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756509666371595479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 1
+--- !u!114 &8530532951352927145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756509666371595479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &1771092299436943605
 GameObject:
   m_ObjectHideFlags: 0
@@ -4815,12 +4870,12 @@ GameObject:
   - component: {fileID: 3707977144892370634}
   - component: {fileID: 8909862408505685962}
   - component: {fileID: 7563770975712706442}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Crate_01 (24)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8730726411861500778
 Transform:
@@ -4910,12 +4965,12 @@ GameObject:
   - component: {fileID: 2794056721003880332}
   - component: {fileID: 6701085127808651905}
   - component: {fileID: 7583286500770355888}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Bld_Saloon_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &9145797671562718986
 Transform:
@@ -5013,12 +5068,12 @@ GameObject:
   - component: {fileID: 207930658936129600}
   - component: {fileID: 5424818293209397192}
   - component: {fileID: 9079865132946989491}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (20)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &207930658936129600
 Transform:
@@ -5095,12 +5150,12 @@ GameObject:
   - component: {fileID: 5789762094753922745}
   - component: {fileID: 2993776112525195420}
   - component: {fileID: 2788093385849610160}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_Candle_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4994056666928655872
 Transform:
@@ -5191,12 +5246,12 @@ GameObject:
   - component: {fileID: 900180823615733586}
   - component: {fileID: 374682354263405087}
   - component: {fileID: 5320266929168635282}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Veh_Cart_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8938803287503378524
 Transform:
@@ -5211,7 +5266,7 @@ Transform:
   m_Children:
   - {fileID: 2108817349361772107}
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 8.572, y: -82.347, z: -6.548}
 --- !u!33 &900180823615733586
 MeshFilter:
@@ -5288,12 +5343,12 @@ GameObject:
   - component: {fileID: 2184675323954945110}
   - component: {fileID: 7218589573657245640}
   - component: {fileID: 2871971937778639875}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Veh_Cart_Wheels_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2108817349361772107
 Transform:
@@ -5384,12 +5439,12 @@ GameObject:
   - component: {fileID: 9212158029570241027}
   - component: {fileID: 7793652689342519549}
   - component: {fileID: 3289515615304647003}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Crate_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1328879820575160372
 Transform:
@@ -5479,12 +5534,12 @@ GameObject:
   - component: {fileID: 7413733149495412599}
   - component: {fileID: 313840263004656847}
   - component: {fileID: 67966511546729912}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_CartWheel_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6532940051416708359
 Transform:
@@ -5576,12 +5631,12 @@ GameObject:
   - component: {fileID: 828488004820022742}
   - component: {fileID: 2450031254893543282}
   - component: {fileID: 8938575887946809275}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7652553391607149176
 Transform:
@@ -5686,12 +5741,12 @@ GameObject:
   - component: {fileID: 1291666310161561712}
   - component: {fileID: 3908711736595658686}
   - component: {fileID: 857990748852259967}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7523247012834368263
 Transform:
@@ -5782,12 +5837,12 @@ GameObject:
   - component: {fileID: 2185499666791885298}
   - component: {fileID: 7012492802064977212}
   - component: {fileID: 349707113988887380}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_Rail_01 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3655121332722202738
 Transform:
@@ -5801,7 +5856,7 @@ Transform:
   m_LocalScale: {x: 0.49205005, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2185499666791885298
 MeshFilter:
@@ -5878,12 +5933,12 @@ GameObject:
   - component: {fileID: 3646805921937025819}
   - component: {fileID: 4481177003731547988}
   - component: {fileID: 5308270351417375199}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Fur_Roll_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &875084683687248542
 Transform:
@@ -5974,12 +6029,12 @@ GameObject:
   - component: {fileID: 277129210497955739}
   - component: {fileID: 1577625440987105493}
   - component: {fileID: 1856776495313851758}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Crate_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1359639358286908312
 Transform:
@@ -5993,7 +6048,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &277129210497955739
 MeshFilter:
@@ -6069,12 +6124,12 @@ GameObject:
   - component: {fileID: 2768759844792951716}
   - component: {fileID: 8013130154964447078}
   - component: {fileID: 7776918200934581756}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6002924899181165328
 Transform:
@@ -6166,12 +6221,12 @@ GameObject:
   - component: {fileID: 6011697258959014334}
   - component: {fileID: 5554517068302718027}
   - component: {fileID: 1072260523184401368}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Rope_Hanging_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3827279307392216006
 Transform:
@@ -6275,12 +6330,12 @@ GameObject:
   - component: {fileID: 4453025820518875468}
   - component: {fileID: 8102313591408632900}
   - component: {fileID: 5562836401620345648}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4453025820518875468
 Transform:
@@ -6294,7 +6349,7 @@ Transform:
   m_LocalScale: {x: 0.5846154, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8102313591408632900
 MeshFilter:
@@ -6356,12 +6411,12 @@ GameObject:
   - component: {fileID: 8790786258075067369}
   - component: {fileID: 3454404586582749405}
   - component: {fileID: 6191742475823538630}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8790786258075067369
 Transform:
@@ -6435,12 +6490,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 451405113618600603}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Saloon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &451405113618600603
 Transform:
@@ -6454,6 +6509,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9145797671562718986}
+  - {fileID: 975763933522394919}
   - {fileID: 4453025820518875468}
   - {fileID: 596694235542599909}
   - {fileID: 9201968513009881783}
@@ -6477,7 +6533,6 @@ Transform:
   - {fileID: 3150091525432746078}
   - {fileID: 4735303902191016682}
   - {fileID: 656319274127085061}
-  - {fileID: 975763933522394919}
   - {fileID: 6392347948225934473}
   - {fileID: 8402557813530555998}
   - {fileID: 8543974994021610536}
@@ -6654,12 +6709,12 @@ GameObject:
   - component: {fileID: 6750450657174462045}
   - component: {fileID: 4326003622641284951}
   - component: {fileID: 5066109697960533007}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Rope_01 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7234400747813117551
 Transform:
@@ -6749,12 +6804,12 @@ GameObject:
   - component: {fileID: 2580836604064523936}
   - component: {fileID: 2573504249856082838}
   - component: {fileID: 2563357440967066740}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Card_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2580836604064523936
 Transform:
@@ -6868,12 +6923,12 @@ GameObject:
   - component: {fileID: 777685985119399536}
   - component: {fileID: 3638515132290609606}
   - component: {fileID: 8011325845707400466}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &777685985119399536
 Transform:
@@ -6950,12 +7005,12 @@ GameObject:
   - component: {fileID: 3005442533749839701}
   - component: {fileID: 2185210542073419026}
   - component: {fileID: 387013696488842729}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_MessageBoard (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5253985405400170681
 Transform:
@@ -7045,12 +7100,12 @@ GameObject:
   - component: {fileID: 4205476334829585744}
   - component: {fileID: 5585231710201898476}
   - component: {fileID: 6235015523851245776}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Barrel_01 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7401799567549185837
 Transform:
@@ -7141,12 +7196,12 @@ GameObject:
   - component: {fileID: 4586568277553754654}
   - component: {fileID: 151253907689784510}
   - component: {fileID: 2814266286049600763}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2775256865822370013
 Transform:
@@ -7237,12 +7292,12 @@ GameObject:
   - component: {fileID: 5498099314172211840}
   - component: {fileID: 429424146172570399}
   - component: {fileID: 9160023415176545298}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_JailBed_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6466533801462689797
 Transform:
@@ -7256,7 +7311,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5498099314172211840
 MeshFilter:
@@ -7333,12 +7388,12 @@ GameObject:
   - component: {fileID: 2112824136863196174}
   - component: {fileID: 8066612126773712549}
   - component: {fileID: 1908223058693759959}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Rope_01 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2922317187780055901
 Transform:
@@ -7429,12 +7484,12 @@ GameObject:
   - component: {fileID: 6709933876037070726}
   - component: {fileID: 1873023495720260894}
   - component: {fileID: 4082234453689723542}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_06 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2941202595558978153
 Transform:
@@ -7525,12 +7580,12 @@ GameObject:
   - component: {fileID: 1339026296897762908}
   - component: {fileID: 8814723365833757581}
   - component: {fileID: 6782154792567983568}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Ladder_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6392347948225934473
 Transform:
@@ -7624,12 +7679,12 @@ GameObject:
   - component: {fileID: 1352652207156698860}
   - component: {fileID: 8539712187137365016}
   - component: {fileID: 1742421807016763633}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bed_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &607632083556273372
 Transform:
@@ -7734,12 +7789,12 @@ GameObject:
   - component: {fileID: 3389068369555235248}
   - component: {fileID: 7232170235788769083}
   - component: {fileID: 8047379771290968743}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_JailBed_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1901657292889950769
 Transform:
@@ -7830,12 +7885,12 @@ GameObject:
   - component: {fileID: 2073370309810194469}
   - component: {fileID: 3712721022977155161}
   - component: {fileID: 5799999619946304486}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Barrel_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &319317381570010718
 Transform:
@@ -7926,12 +7981,12 @@ GameObject:
   - component: {fileID: 5279159640545937950}
   - component: {fileID: 2165025593263654145}
   - component: {fileID: 4265305926421005670}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Env_DustPile_Large_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3150091525432746078
 Transform:
@@ -7945,7 +8000,7 @@ Transform:
   m_LocalScale: {x: 0.7670327, y: 0.40991002, z: 0.76703274}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5279159640545937950
 MeshFilter:
@@ -8022,12 +8077,12 @@ GameObject:
   - component: {fileID: 2807174978627410940}
   - component: {fileID: 9027266958365226503}
   - component: {fileID: 6284633381436673442}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Bld_Saloon_RoomDoor_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &665826238614657900
 Transform:
@@ -8118,12 +8173,12 @@ GameObject:
   - component: {fileID: 4841165596388654317}
   - component: {fileID: 8056334077719344185}
   - component: {fileID: 8606413421914973311}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_Broken_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2036899079378862433
 Transform:
@@ -8214,12 +8269,12 @@ GameObject:
   - component: {fileID: 3375645360485444185}
   - component: {fileID: 3386000348565100943}
   - component: {fileID: 3335847817416763489}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Poker_Chip_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3360043490941216881
 Transform:
@@ -8310,12 +8365,12 @@ GameObject:
   - component: {fileID: 2004067764755815719}
   - component: {fileID: 3490151003167364937}
   - component: {fileID: 6980783089205362149}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &645163606809000068
 Transform:
@@ -8406,12 +8461,12 @@ GameObject:
   - component: {fileID: 997865754855067064}
   - component: {fileID: 4278154171733519492}
   - component: {fileID: 3465869839370351095}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_GoldBar_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6765456308804404703
 Transform:
@@ -8503,12 +8558,12 @@ GameObject:
   - component: {fileID: 3612240435630545507}
   - component: {fileID: 3846003327026352729}
   - component: {fileID: 1762441091786485562}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Chair_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7236730099455973574
 Transform:
@@ -8613,12 +8668,12 @@ GameObject:
   - component: {fileID: 1117943540604466774}
   - component: {fileID: 2937760283903829834}
   - component: {fileID: 6852942828259823554}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8552275474946822522
 Transform:
@@ -8709,12 +8764,12 @@ GameObject:
   - component: {fileID: 2378183268949831777}
   - component: {fileID: 5951710723790087019}
   - component: {fileID: 55335102325106106}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_02 (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3096366437405298529
 Transform:
@@ -8805,12 +8860,12 @@ GameObject:
   - component: {fileID: 1613803708666246506}
   - component: {fileID: 2808377613948680856}
   - component: {fileID: 5171995114234731152}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5762984535675533006
 Transform:
@@ -8901,12 +8956,12 @@ GameObject:
   - component: {fileID: 1191765818858963462}
   - component: {fileID: 161481133272970517}
   - component: {fileID: 8243465707373234842}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &9050515100623887197
 Transform:
@@ -8997,12 +9052,12 @@ GameObject:
   - component: {fileID: 341094171223327092}
   - component: {fileID: 2643832252857416106}
   - component: {fileID: 9210647542764066572}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7135171611571571331
 Transform:
@@ -9093,12 +9148,12 @@ GameObject:
   - component: {fileID: 3726055153283769484}
   - component: {fileID: 3718861239521906344}
   - component: {fileID: 3686610691017437674}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Poker_Chip_02 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3729960033174590974
 Transform:
@@ -9190,12 +9245,12 @@ GameObject:
   - component: {fileID: 7987443979689388054}
   - component: {fileID: 6051970897590953864}
   - component: {fileID: 6042130881200608051}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Piano_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &94975022796752043
 Transform:
@@ -9301,12 +9356,12 @@ GameObject:
   - component: {fileID: 2117116839631015728}
   - component: {fileID: 5408317848690556401}
   - component: {fileID: 6556805565189188172}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Table_Small_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1753231117452938425
 Transform:
@@ -9396,12 +9451,12 @@ GameObject:
   - component: {fileID: 3400965217586501578}
   - component: {fileID: 1562282851808471195}
   - component: {fileID: 5659931490490289711}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3400965217586501578
 Transform:
@@ -9478,12 +9533,12 @@ GameObject:
   - component: {fileID: 2236121898059333668}
   - component: {fileID: 4649241194391697805}
   - component: {fileID: 1687000200982332119}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Table_Small_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1720629291482142448
 Transform:
@@ -9574,12 +9629,12 @@ GameObject:
   - component: {fileID: 5289326003787486105}
   - component: {fileID: 1590162885610008935}
   - component: {fileID: 6444934028994736246}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Bld_Saloon_UpstairsDoor_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8463090091150055661
 Transform:
@@ -9671,12 +9726,12 @@ GameObject:
   - component: {fileID: 1021280699984015388}
   - component: {fileID: 6785527237368872395}
   - component: {fileID: 6471704876525782269}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Bld_Single_DeckCover_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8543974994021610536
 Transform:
@@ -9767,12 +9822,12 @@ GameObject:
   - component: {fileID: 1919347300292587076}
   - component: {fileID: 8348345796410707031}
   - component: {fileID: 3756411372730176947}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7555128183035436061
 Transform:
@@ -9786,7 +9841,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1919347300292587076
 MeshFilter:
@@ -9863,12 +9918,12 @@ GameObject:
   - component: {fileID: 6692249853498972424}
   - component: {fileID: 6072716227262843310}
   - component: {fileID: 5372936171279396792}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Barrel_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &267619290211218856
 Transform:
@@ -9959,12 +10014,12 @@ GameObject:
   - component: {fileID: 4382192877085047150}
   - component: {fileID: 4280350744712223494}
   - component: {fileID: 5559185404152892584}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1923552388790151143
 Transform:
@@ -10055,12 +10110,12 @@ GameObject:
   - component: {fileID: 3028668627016489206}
   - component: {fileID: 1624798589346700100}
   - component: {fileID: 5256353400988276689}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2543502701017761759
 Transform:
@@ -10151,12 +10206,12 @@ GameObject:
   - component: {fileID: 4883728834975810290}
   - component: {fileID: 9021478379238182967}
   - component: {fileID: 5729018676109429873}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Sack_04 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5964861061367561878
 Transform:
@@ -10247,12 +10302,12 @@ GameObject:
   - component: {fileID: 7173627033293386349}
   - component: {fileID: 8632238432402883927}
   - component: {fileID: 7991519911076071087}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6335377022899163826
 Transform:
@@ -10343,12 +10398,12 @@ GameObject:
   - component: {fileID: 6215778354566163297}
   - component: {fileID: 968156650750972753}
   - component: {fileID: 7456245526524180768}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Vault_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5060417645843649158
 Transform:
@@ -10363,7 +10418,7 @@ Transform:
   m_Children:
   - {fileID: 6704595063167544215}
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6215778354566163297
 MeshFilter:
@@ -10439,12 +10494,12 @@ GameObject:
   - component: {fileID: 4047476549701102187}
   - component: {fileID: 4057060705870696285}
   - component: {fileID: 4064955302075517119}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Card_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4047476549701102187
 Transform:
@@ -10521,12 +10576,12 @@ GameObject:
   - component: {fileID: 2078802702055718000}
   - component: {fileID: 585383374493654260}
   - component: {fileID: 699115674951789562}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6088670136263281310
 Transform:
@@ -10617,12 +10672,12 @@ GameObject:
   - component: {fileID: 4793325485314550427}
   - component: {fileID: 6607462254757356957}
   - component: {fileID: 6445055513735053968}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_01 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &487525759037308946
 Transform:
@@ -10715,12 +10770,12 @@ GameObject:
   - component: {fileID: 1429615570207091614}
   - component: {fileID: 5581668475421125847}
   - component: {fileID: 6924978470155449340}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_HitchingPost_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &332723112337094117
 Transform:
@@ -10839,12 +10894,12 @@ GameObject:
   - component: {fileID: 2992872495820156711}
   - component: {fileID: 2161778729995047835}
   - component: {fileID: 5418722076956666322}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Milk_Container_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1257510887494616523
 Transform:
@@ -10934,12 +10989,12 @@ GameObject:
   - component: {fileID: 8620857643777354303}
   - component: {fileID: 1563324647316707755}
   - component: {fileID: 3720329176487041397}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (21)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8620857643777354303
 Transform:
@@ -11016,12 +11071,12 @@ GameObject:
   - component: {fileID: 4572330896919694173}
   - component: {fileID: 7570326384690022583}
   - component: {fileID: 5704008828680496277}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Map_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1186815795895862860
 Transform:
@@ -11112,12 +11167,12 @@ GameObject:
   - component: {fileID: 826989561360941850}
   - component: {fileID: 4709720049906478698}
   - component: {fileID: 9070252697353266864}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_Rail_01 (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8209421903560331534
 Transform:
@@ -11208,12 +11263,12 @@ GameObject:
   - component: {fileID: 5646713037477506228}
   - component: {fileID: 1359393145869844318}
   - component: {fileID: 498427738888242502}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Env_Sand_Ground_06 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6948817058268159935
 Transform:
@@ -11304,12 +11359,12 @@ GameObject:
   - component: {fileID: 9073398700453950296}
   - component: {fileID: 2682902861753748277}
   - component: {fileID: 1006850701428664628}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_Rail_01 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3224853871010431977
 Transform:
@@ -11399,12 +11454,12 @@ GameObject:
   - component: {fileID: 1327907900471176442}
   - component: {fileID: 1416615879577542924}
   - component: {fileID: 8259198913021792307}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (25)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1327907900471176442
 Transform:
@@ -11481,12 +11536,12 @@ GameObject:
   - component: {fileID: 5974474059303502792}
   - component: {fileID: 3176599733323894208}
   - component: {fileID: 1507766425132606661}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_GoldBar_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7353889672909043850
 Transform:
@@ -11577,12 +11632,12 @@ GameObject:
   - component: {fileID: 4179496386097309327}
   - component: {fileID: 5146908383694509618}
   - component: {fileID: 8306647981261511469}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Milk_Container_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4406908608414681963
 Transform:
@@ -11673,12 +11728,12 @@ GameObject:
   - component: {fileID: 8649365768441148877}
   - component: {fileID: 6790537702060289255}
   - component: {fileID: 5819982322136287518}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_03 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &47780384734252466
 Transform:
@@ -11769,12 +11824,12 @@ GameObject:
   - component: {fileID: 8816895136652235830}
   - component: {fileID: 2038279339554469861}
   - component: {fileID: 3921696593967660953}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5538398105215774537
 Transform:
@@ -11788,7 +11843,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8816895136652235830
 MeshFilter:
@@ -11864,12 +11919,12 @@ GameObject:
   - component: {fileID: 3014743015802840049}
   - component: {fileID: 1858651807655153919}
   - component: {fileID: 2990762175635486640}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3014743015802840049
 Transform:
@@ -11945,12 +12000,12 @@ GameObject:
   - component: {fileID: 4923048500224523232}
   - component: {fileID: 8528203240347315282}
   - component: {fileID: 8957529799434851446}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Lantern_02_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4923048500224523232
 Transform:
@@ -12027,12 +12082,12 @@ GameObject:
   - component: {fileID: 2729344107160417572}
   - component: {fileID: 3527609947027478208}
   - component: {fileID: 2834130359532091472}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_01 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4717823844113348897
 Transform:
@@ -12122,12 +12177,12 @@ GameObject:
   - component: {fileID: 2024166405780710106}
   - component: {fileID: 447029914562011452}
   - component: {fileID: 1946915947469042805}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (27)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2024166405780710106
 Transform:
@@ -12203,12 +12258,12 @@ GameObject:
   - component: {fileID: 9123748096415599308}
   - component: {fileID: 7144780275971284660}
   - component: {fileID: 7343173269478928053}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Wep_Shotgun_01_Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &9123748096415599308
 Transform:
@@ -12285,12 +12340,12 @@ GameObject:
   - component: {fileID: 6744939384246619124}
   - component: {fileID: 8951485722719136630}
   - component: {fileID: 8179466312117975273}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_03 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7707189739205918616
 Transform:
@@ -12304,7 +12359,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6744939384246619124
 MeshFilter:
@@ -12382,12 +12437,12 @@ GameObject:
   - component: {fileID: 3798866868130144190}
   - component: {fileID: 6628477544891406414}
   - component: {fileID: 5648415538420517468}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Table_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &656319274127085061
 Transform:
@@ -12405,7 +12460,7 @@ Transform:
   - {fileID: 2686741843799202083}
   - {fileID: 2189733057489478070}
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 23
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7563663018060445483
 MeshFilter:
@@ -12496,12 +12551,12 @@ GameObject:
   - component: {fileID: 2310912956587604241}
   - component: {fileID: 7585898693821370197}
   - component: {fileID: 2551338201948045598}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_04 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &454414673903553084
 Transform:
@@ -12592,12 +12647,12 @@ GameObject:
   - component: {fileID: 4677966387072275354}
   - component: {fileID: 965896274762961107}
   - component: {fileID: 4621788665947494928}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_07 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4092133383054105431
 Transform:
@@ -12688,12 +12743,12 @@ GameObject:
   - component: {fileID: 849175484776289030}
   - component: {fileID: 7218512146806232114}
   - component: {fileID: 1277512939047458221}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Suitcase_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &741853643370539010
 Transform:
@@ -12786,12 +12841,12 @@ GameObject:
   - component: {fileID: 5158854430967639487}
   - component: {fileID: 5166227144136384105}
   - component: {fileID: 5117235683304140679}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Poker_Chip_03 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5183107258401337239
 Transform:
@@ -12882,12 +12937,12 @@ GameObject:
   - component: {fileID: 7786683205788365780}
   - component: {fileID: 8369672299088099856}
   - component: {fileID: 276782362676566762}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &9058528560730859744
 Transform:
@@ -12978,12 +13033,12 @@ GameObject:
   - component: {fileID: 3142561174910465831}
   - component: {fileID: 52180695315676204}
   - component: {fileID: 3407676713128125675}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Fur_Roll_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7079145817300876176
 Transform:
@@ -13074,12 +13129,12 @@ GameObject:
   - component: {fileID: 7284038649795454266}
   - component: {fileID: 829586844873612060}
   - component: {fileID: 6489962017459633052}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Table_Small_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6524958410538080809
 Transform:
@@ -13169,12 +13224,12 @@ GameObject:
   - component: {fileID: 2169858841792042873}
   - component: {fileID: 675789803432035874}
   - component: {fileID: 1267987749528218614}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (19)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2169858841792042873
 Transform:
@@ -13250,12 +13305,12 @@ GameObject:
   - component: {fileID: 5561673212300208537}
   - component: {fileID: 5569014422728576175}
   - component: {fileID: 5579134637165284173}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Card_02 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5561673212300208537
 Transform:
@@ -13332,12 +13387,12 @@ GameObject:
   - component: {fileID: 5610292774676586298}
   - component: {fileID: 5619944225299082476}
   - component: {fileID: 5568771263461367042}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Poker_Chip_03 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5594092920728575250
 Transform:
@@ -13428,12 +13483,12 @@ GameObject:
   - component: {fileID: 1148078115196427923}
   - component: {fileID: 6894657401317158976}
   - component: {fileID: 8954883924772528161}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8599009478190933858
 Transform:
@@ -13447,7 +13502,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1148078115196427923
 MeshFilter:
@@ -13525,12 +13580,12 @@ GameObject:
   - component: {fileID: 1540262485851943249}
   - component: {fileID: 4333123322985733081}
   - component: {fileID: 5122635171663899142}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Rope_03 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2891755000279453788
 Transform:
@@ -13639,12 +13694,12 @@ GameObject:
   - component: {fileID: 9135836463276573886}
   - component: {fileID: 8135343675027014756}
   - component: {fileID: 422774507708929949}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Wep_Shotgun_01_Trigger_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &9135836463276573886
 Transform:
@@ -13709,6 +13764,85 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5776529601176597931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4826844611580263620}
+  - component: {fileID: 4129741902862705998}
+  - component: {fileID: 9177231854883899724}
+  m_Layer: 12
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4826844611580263620
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5776529601176597931}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.000061132974}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7807764430537874610}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 2.3684759e-12, y: 369}
+  m_SizeDelta: {x: 1000, y: 300}
+  m_Pivot: {x: 0.5, y: 0}
+--- !u!222 &4129741902862705998
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5776529601176597931}
+  m_CullTransparentMesh: 1
+--- !u!114 &9177231854883899724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5776529601176597931}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 07e0d4782f92a844ea77afd16af8b883, type: 3}
+    m_FontSize: 300
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 300
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: 7/7
 --- !u!1 &5826068155374031601
 GameObject:
   m_ObjectHideFlags: 0
@@ -13720,12 +13854,12 @@ GameObject:
   - component: {fileID: 4712715537541696654}
   - component: {fileID: 8370981070423996864}
   - component: {fileID: 5934249102923731367}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (26)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4712715537541696654
 Transform:
@@ -13802,12 +13936,12 @@ GameObject:
   - component: {fileID: 3224041370435589195}
   - component: {fileID: 7398779157051274651}
   - component: {fileID: 4556731478599647427}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Fur_Roll_03 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2893541740010546506
 Transform:
@@ -13898,12 +14032,12 @@ GameObject:
   - component: {fileID: 3388948207468648142}
   - component: {fileID: 6054655223773720365}
   - component: {fileID: 5393683308241035799}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Suitcase_02_Lid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1929589624880686978
 Transform:
@@ -13994,12 +14128,12 @@ GameObject:
   - component: {fileID: 639913803963835902}
   - component: {fileID: 3124214057304874463}
   - component: {fileID: 6657174333861120878}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_06 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &274323870513919858
 Transform:
@@ -14090,12 +14224,12 @@ GameObject:
   - component: {fileID: 2058815179663842969}
   - component: {fileID: 1675442383490788162}
   - component: {fileID: 147556761155240857}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_03 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7129475027252216934
 Transform:
@@ -14186,12 +14320,12 @@ GameObject:
   - component: {fileID: 329324702708680809}
   - component: {fileID: 1661889486017050516}
   - component: {fileID: 4423281580976719340}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_Candle_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1909990302264490875
 Transform:
@@ -14282,12 +14416,12 @@ GameObject:
   - component: {fileID: 8526904159164979289}
   - component: {fileID: 8441623007550614736}
   - component: {fileID: 1147957155611728839}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Bld_Saloon_RoomDoor_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1073937029264090973
 Transform:
@@ -14378,12 +14512,12 @@ GameObject:
   - component: {fileID: 6718284724888224889}
   - component: {fileID: 1621180259102554780}
   - component: {fileID: 579880856712019301}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_03 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6759550690078176533
 Transform:
@@ -14473,7 +14607,6 @@ GameObject:
   - component: {fileID: 2364079613237943688}
   - component: {fileID: 3848055127412173081}
   - component: {fileID: 8553427667867190374}
-  - component: {fileID: 6205098030373210419}
   - component: {fileID: 3534324897101289591}
   m_Layer: 0
   m_Name: SM_Prop_Chair_01 (7)
@@ -14545,20 +14678,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6205098030373210419
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6071912904388851813}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43840572287429086, guid: ba6f2a32b2f4d18459dc0c9d50615416, type: 2}
 --- !u!64 &3534324897101289591
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -14584,12 +14703,12 @@ GameObject:
   - component: {fileID: 1040327390128797457}
   - component: {fileID: 3716321539500134908}
   - component: {fileID: 6986870717795773974}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_WaterTrough_Water_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1040327390128797457
 Transform:
@@ -14666,12 +14785,12 @@ GameObject:
   - component: {fileID: 1430409577286799549}
   - component: {fileID: 608922977429844396}
   - component: {fileID: 1759986406920268551}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5281046612474852823
 Transform:
@@ -14762,12 +14881,12 @@ GameObject:
   - component: {fileID: 2445128065637459257}
   - component: {fileID: 2661007410007467778}
   - component: {fileID: 6749998355637483612}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Barrel_Half_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5410850774360359274
 Transform:
@@ -14859,12 +14978,12 @@ GameObject:
   - component: {fileID: 7247327362700097987}
   - component: {fileID: 8673344899662766120}
   - component: {fileID: 7484018551367320865}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cash_Register_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5031916233284752125
 Transform:
@@ -14970,12 +15089,12 @@ GameObject:
   - component: {fileID: 2777524902388927032}
   - component: {fileID: 3807741137030316797}
   - component: {fileID: 3830207894649965855}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Chair_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1467926922503351244
 Transform:
@@ -15079,12 +15198,12 @@ GameObject:
   - component: {fileID: 2624637597453852890}
   - component: {fileID: 543250064002700449}
   - component: {fileID: 5842690453754469131}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Bld_Saloon_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2624637597453852890
 Transform:
@@ -15161,12 +15280,12 @@ GameObject:
   - component: {fileID: 8987287706271010041}
   - component: {fileID: 20295098979028469}
   - component: {fileID: 4884176854477958012}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Pot_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2796624499743916381
 Transform:
@@ -15180,7 +15299,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8987287706271010041
 MeshFilter:
@@ -15257,12 +15376,12 @@ GameObject:
   - component: {fileID: 4632498715006786210}
   - component: {fileID: 1894862224857626630}
   - component: {fileID: 9025089307529506855}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_02 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5529173298507935286
 Transform:
@@ -15353,12 +15472,12 @@ GameObject:
   - component: {fileID: 5464263468381788241}
   - component: {fileID: 1773152600109565669}
   - component: {fileID: 4763317594171155679}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7170151834051743740
 Transform:
@@ -15449,12 +15568,12 @@ GameObject:
   - component: {fileID: 7339732585795089871}
   - component: {fileID: 809967578083510940}
   - component: {fileID: 3575568749581398436}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Bld_Saloon_UpstairsDoor_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4638477733199229808
 Transform:
@@ -15546,12 +15665,12 @@ GameObject:
   - component: {fileID: 2714745641373995480}
   - component: {fileID: 7436878608731185876}
   - component: {fileID: 9206819434473837199}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_GoldBar_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7417728943003592150
 Transform:
@@ -15641,12 +15760,12 @@ GameObject:
   - component: {fileID: 8880470817100531577}
   - component: {fileID: 3063254456290474721}
   - component: {fileID: 3338007584398544202}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Bld_Saloon_UpstairsDoor_01_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8880470817100531577
 Transform:
@@ -15723,12 +15842,12 @@ GameObject:
   - component: {fileID: 7966877902600722022}
   - component: {fileID: 5550098456006690191}
   - component: {fileID: 3787006138169301269}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_Rail_01 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1942693104106196562
 Transform:
@@ -15820,12 +15939,12 @@ GameObject:
   - component: {fileID: 7111907832026565872}
   - component: {fileID: 5132313501385684535}
   - component: {fileID: 26929147439747997}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bed_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4108002318155506282
 Transform:
@@ -15930,12 +16049,12 @@ GameObject:
   - component: {fileID: 5038996034249834626}
   - component: {fileID: 5477455005353898605}
   - component: {fileID: 5690155992783201206}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8428440262225624821
 Transform:
@@ -16027,12 +16146,12 @@ GameObject:
   - component: {fileID: 8143938649576736845}
   - component: {fileID: 4093981435286613134}
   - component: {fileID: 8519026086842965373}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_PokerTable_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &975763933522394919
 Transform:
@@ -16053,8 +16172,9 @@ Transform:
   - {fileID: 7446703070244296790}
   - {fileID: 2364079613237943688}
   - {fileID: 6366155179806764966}
+  - {fileID: 7807764430537874610}
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 24
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &126720130967664567
 MeshFilter:
@@ -16145,12 +16265,12 @@ GameObject:
   - component: {fileID: 5439360735182086965}
   - component: {fileID: 7584994933210003969}
   - component: {fileID: 4730029421336663672}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_Rail_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &9201968513009881783
 Transform:
@@ -16164,7 +16284,7 @@ Transform:
   m_LocalScale: {x: 0.49204993, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5439360735182086965
 MeshFilter:
@@ -16240,12 +16360,12 @@ GameObject:
   - component: {fileID: 6671924186805029107}
   - component: {fileID: 6696752616835073917}
   - component: {fileID: 6687161146798310721}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Card_03 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6671924186805029107
 Transform:
@@ -16321,12 +16441,12 @@ GameObject:
   - component: {fileID: 8762532651614366089}
   - component: {fileID: 7433190724659177199}
   - component: {fileID: 8976979617069395292}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Lantern_Lit_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8762532651614366089
 Transform:
@@ -16342,7 +16462,7 @@ Transform:
   - {fileID: 5917957980156720504}
   - {fileID: 6145718284611050780}
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7433190724659177199
 MeshFilter:
@@ -16405,12 +16525,12 @@ GameObject:
   - component: {fileID: 5269663457997863915}
   - component: {fileID: 8296301418718263877}
   - component: {fileID: 105533710785713023}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Dresser_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2545204749916046920
 Transform:
@@ -16500,12 +16620,12 @@ GameObject:
   - component: {fileID: 3272376563542209538}
   - component: {fileID: 5380387503343702088}
   - component: {fileID: 7044643343744380626}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3272376563542209538
 Transform:
@@ -16581,7 +16701,6 @@ GameObject:
   - component: {fileID: 6706402714343618925}
   - component: {fileID: 6730892531403519809}
   - component: {fileID: 6722272740091488395}
-  - component: {fileID: 6771784144076373421}
   - component: {fileID: 6771861702618678949}
   m_Layer: 0
   m_Name: SM_Prop_Chair_01 (2)
@@ -16653,20 +16772,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6771784144076373421
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6708199808487453781}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43840572287429086, guid: ba6f2a32b2f4d18459dc0c9d50615416, type: 2}
 --- !u!64 &6771861702618678949
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -16693,12 +16798,12 @@ GameObject:
   - component: {fileID: 5311133940175490043}
   - component: {fileID: 4880244613492677357}
   - component: {fileID: 7126144727869835499}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Crate_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2685984277843270993
 Transform:
@@ -16787,12 +16892,12 @@ GameObject:
   - component: {fileID: 6704595063167544215}
   - component: {fileID: 631738022392328820}
   - component: {fileID: 6830420060605772358}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Vault_Door_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6704595063167544215
 Transform:
@@ -16869,12 +16974,12 @@ GameObject:
   - component: {fileID: 6121691421867297167}
   - component: {fileID: 9168149290088598785}
   - component: {fileID: 2526749504650009621}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_02 (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6504515711260633571
 Transform:
@@ -16965,12 +17070,12 @@ GameObject:
   - component: {fileID: 6712577877170549219}
   - component: {fileID: 1304144180695607488}
   - component: {fileID: 7022582198935168745}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8695252794885333656
 Transform:
@@ -17061,12 +17166,12 @@ GameObject:
   - component: {fileID: 3224955093781307838}
   - component: {fileID: 4296425505867390819}
   - component: {fileID: 6304189636184413778}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_Rail_01 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &292817831838419561
 Transform:
@@ -17157,12 +17262,12 @@ GameObject:
   - component: {fileID: 7087463804863738529}
   - component: {fileID: 7093782064977500293}
   - component: {fileID: 7117755902809679815}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Poker_Chip_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7074410986617160659
 Transform:
@@ -17252,12 +17357,12 @@ GameObject:
   - component: {fileID: 7142455582647303400}
   - component: {fileID: 7167718029132356810}
   - component: {fileID: 7160146740183085366}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Card_Pile_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7142455582647303400
 Transform:
@@ -17357,12 +17462,12 @@ GameObject:
   - component: {fileID: 3101510863160437426}
   - component: {fileID: 6931926858417174856}
   - component: {fileID: 5313015228202846284}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_MooseHead_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4783443326404030609
 Transform:
@@ -17481,12 +17586,12 @@ GameObject:
   - component: {fileID: 8096503068162620837}
   - component: {fileID: 1585305598466672302}
   - component: {fileID: 8446181717874952915}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_03 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6937878114217452543
 Transform:
@@ -17577,12 +17682,12 @@ GameObject:
   - component: {fileID: 1604155116942400676}
   - component: {fileID: 1415425804842507722}
   - component: {fileID: 2384151419545195183}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Barrel_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2935153423126940409
 Transform:
@@ -17674,12 +17779,12 @@ GameObject:
   - component: {fileID: 3349905839376293712}
   - component: {fileID: 4086548543741555981}
   - component: {fileID: 553728710087253929}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Chair_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &3364821885307548687
 Transform:
@@ -17783,12 +17888,12 @@ GameObject:
   - component: {fileID: 7787313925937840941}
   - component: {fileID: 6436364194122047297}
   - component: {fileID: 7428926067711941635}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Env_Rocks_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7787313925937840941
 Transform:
@@ -17802,7 +17907,7 @@ Transform:
   m_LocalScale: {x: 0.5373453, y: 0.5373453, z: 0.5373453}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6436364194122047297
 MeshFilter:
@@ -17864,12 +17969,12 @@ GameObject:
   - component: {fileID: 6475729845547859334}
   - component: {fileID: 2255564027483437985}
   - component: {fileID: 8680593302229045592}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6475729845547859334
 Transform:
@@ -17945,7 +18050,6 @@ GameObject:
   - component: {fileID: 7577358729250656160}
   - component: {fileID: 7588896577552941452}
   - component: {fileID: 7598572381005389382}
-  - component: {fileID: 7621207597203393376}
   - component: {fileID: 7621144400960352360}
   m_Layer: 0
   m_Name: SM_Prop_Chair_01 (1)
@@ -18017,20 +18121,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7621207597203393376
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7575496635407827608}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43840572287429086, guid: ba6f2a32b2f4d18459dc0c9d50615416, type: 2}
 --- !u!64 &7621144400960352360
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -18038,7 +18128,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7575496635407827608}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b8d915d3c8fbbe1488178a3cb0d897bd, type: 2}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 4
@@ -18057,12 +18147,12 @@ GameObject:
   - component: {fileID: 696707056587199707}
   - component: {fileID: 5561282159376970734}
   - component: {fileID: 7278281067230065638}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_07
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5097224227818758729
 Transform:
@@ -18152,12 +18242,12 @@ GameObject:
   - component: {fileID: 2552803841281181830}
   - component: {fileID: 7612977487171275017}
   - component: {fileID: 4452458926912939402}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2552803841281181830
 Transform:
@@ -18233,12 +18323,12 @@ GameObject:
   - component: {fileID: 5417311563031648434}
   - component: {fileID: 6342258136469212297}
   - component: {fileID: 1747712876420943787}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Lantern_Lit_02 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5417311563031648434
 Transform:
@@ -18317,12 +18407,12 @@ GameObject:
   - component: {fileID: 4100531047938405986}
   - component: {fileID: 5168140310663308541}
   - component: {fileID: 9114244869618668512}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7715600481899523950
 Transform:
@@ -18413,12 +18503,12 @@ GameObject:
   - component: {fileID: 4312775061428240913}
   - component: {fileID: 8927190204832157380}
   - component: {fileID: 188921905014320560}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &499936402748491383
 Transform:
@@ -18509,12 +18599,12 @@ GameObject:
   - component: {fileID: 8757381498936341863}
   - component: {fileID: 7227632586831267812}
   - component: {fileID: 8353937840733336483}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Crate_01 (23)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5068688818876476325
 Transform:
@@ -18604,12 +18694,12 @@ GameObject:
   - component: {fileID: 2749067133651179502}
   - component: {fileID: 4577002166459124139}
   - component: {fileID: 8675930140940231994}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5794004828955839575
 Transform:
@@ -18700,12 +18790,12 @@ GameObject:
   - component: {fileID: 7425265964064480913}
   - component: {fileID: 3042254485806721377}
   - component: {fileID: 3398898336878652261}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Barrel_01 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6262609524344470355
 Transform:
@@ -18796,12 +18886,12 @@ GameObject:
   - component: {fileID: 6112423500161554570}
   - component: {fileID: 2623183377589939486}
   - component: {fileID: 8100153912618120414}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Env_DustPile_Long_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6680378165713839421
 Transform:
@@ -18892,12 +18982,12 @@ GameObject:
   - component: {fileID: 7787266438096431155}
   - component: {fileID: 7797046133907128109}
   - component: {fileID: 7819087875770634595}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Poker_Chip_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7811543088330647727
 Transform:
@@ -18987,12 +19077,12 @@ GameObject:
   - component: {fileID: 875658155550654126}
   - component: {fileID: 1031353315856007498}
   - component: {fileID: 7397780207019086802}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (22)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &875658155550654126
 Transform:
@@ -19069,12 +19159,12 @@ GameObject:
   - component: {fileID: 97002193384327751}
   - component: {fileID: 4453052738174691965}
   - component: {fileID: 401185264038142040}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Env_DustPile_Large_03 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7442400333808940183
 Transform:
@@ -19166,12 +19256,12 @@ GameObject:
   - component: {fileID: 1000851143602685434}
   - component: {fileID: 2011468719133339128}
   - component: {fileID: 24064921560727438}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Chair_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5522665181059355267
 Transform:
@@ -19276,12 +19366,12 @@ GameObject:
   - component: {fileID: 6640472201850482350}
   - component: {fileID: 5123275151048118304}
   - component: {fileID: 7609771117055444736}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Fireplace_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8402557813530555998
 Transform:
@@ -19372,12 +19462,12 @@ GameObject:
   - component: {fileID: 7941718156142242493}
   - component: {fileID: 7948409289849595187}
   - component: {fileID: 7956831977817777935}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Card_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7941718156142242493
 Transform:
@@ -19454,12 +19544,12 @@ GameObject:
   - component: {fileID: 2036283225843451210}
   - component: {fileID: 8098239043618238230}
   - component: {fileID: 8321157182312480110}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_WaterTrough_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4300159402968797117
 Transform:
@@ -19551,12 +19641,12 @@ GameObject:
   - component: {fileID: 6557848491241596642}
   - component: {fileID: 2253676796791388285}
   - component: {fileID: 7332348795780835405}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &712880426013420786
 Transform:
@@ -19647,12 +19737,12 @@ GameObject:
   - component: {fileID: 9071332768233051410}
   - component: {fileID: 6672739999884206810}
   - component: {fileID: 8677077317584731394}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_03 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1891481740555023014
 Transform:
@@ -19743,12 +19833,12 @@ GameObject:
   - component: {fileID: 2101257507901184210}
   - component: {fileID: 822643547398129336}
   - component: {fileID: 8630891391268669407}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_02 (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &784105556797980369
 Transform:
@@ -19839,12 +19929,12 @@ GameObject:
   - component: {fileID: 5693256698486083914}
   - component: {fileID: 5708504150944273584}
   - component: {fileID: 1742808305390017189}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_03 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &5805408073357791015
 Transform:
@@ -19937,12 +20027,12 @@ GameObject:
   - component: {fileID: 6099491431459658522}
   - component: {fileID: 548834180984885087}
   - component: {fileID: 7464618650880969022}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Shelf_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6189683707353957320
 Transform:
@@ -20061,12 +20151,12 @@ GameObject:
   - component: {fileID: 2405189832932314999}
   - component: {fileID: 2966215620185433495}
   - component: {fileID: 3892076854275750535}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_01 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &9221096393450995878
 Transform:
@@ -20157,12 +20247,12 @@ GameObject:
   - component: {fileID: 8572580791851280086}
   - component: {fileID: 3017632644670210594}
   - component: {fileID: 3560333548436725714}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6579501466618609398
 Transform:
@@ -20253,12 +20343,12 @@ GameObject:
   - component: {fileID: 7251527695652727279}
   - component: {fileID: 6473933010002299601}
   - component: {fileID: 4638167158307670849}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Sack_04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7434466361867569924
 Transform:
@@ -20351,12 +20441,12 @@ GameObject:
   - component: {fileID: 4238327089786450543}
   - component: {fileID: 5157467144323887232}
   - component: {fileID: 6938898713175215217}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_HitchingPost_01 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2454363502832227868
 Transform:
@@ -20475,12 +20565,12 @@ GameObject:
   - component: {fileID: 8371594896066852420}
   - component: {fileID: 8361109183811772762}
   - component: {fileID: 8412432028961197844}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Poker_Chip_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8382361812789475032
 Transform:
@@ -20570,12 +20660,12 @@ GameObject:
   - component: {fileID: 8397386275777932044}
   - component: {fileID: 8426596536384578690}
   - component: {fileID: 8418208756983604926}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Card_03 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8397386275777932044
 Transform:
@@ -20652,12 +20742,12 @@ GameObject:
   - component: {fileID: 2064131678994594529}
   - component: {fileID: 6249462096187128153}
   - component: {fileID: 7941303300186677011}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Cup_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2482483597868508031
 Transform:
@@ -20748,12 +20838,12 @@ GameObject:
   - component: {fileID: 3053560549742481997}
   - component: {fileID: 5751258034595950751}
   - component: {fileID: 3031965440048285173}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_04 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6671246831287004167
 Transform:
@@ -20844,12 +20934,12 @@ GameObject:
   - component: {fileID: 8570102668011186481}
   - component: {fileID: 8559882786521176807}
   - component: {fileID: 8537948033741122313}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Poker_Chip_03 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8545273163773848345
 Transform:
@@ -20939,12 +21029,12 @@ GameObject:
   - component: {fileID: 4999649084598020711}
   - component: {fileID: 7785125703517218511}
   - component: {fileID: 3336986088424361430}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Env_Grass_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4999649084598020711
 Transform:
@@ -21155,12 +21245,12 @@ GameObject:
   - component: {fileID: 8753526429422899297}
   - component: {fileID: 8742421579250334277}
   - component: {fileID: 8783750349103072519}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Poker_Chip_02 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8722386574094262547
 Transform:
@@ -21251,12 +21341,12 @@ GameObject:
   - component: {fileID: 2964528751192272469}
   - component: {fileID: 1893237796088499453}
   - component: {fileID: 3343521116241337570}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_05 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2841499979844962092
 Transform:
@@ -21347,12 +21437,12 @@ GameObject:
   - component: {fileID: 1232806092845206984}
   - component: {fileID: 6942371728359001638}
   - component: {fileID: 3471660023848684581}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_Broken_03 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4735303902191016682
 Transform:
@@ -21366,7 +21456,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 22
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1232806092845206984
 MeshFilter:
@@ -21443,12 +21533,12 @@ GameObject:
   - component: {fileID: 3544865500336044547}
   - component: {fileID: 7163259103578071806}
   - component: {fileID: 69352267515596986}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_02 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4748988695069704946
 Transform:
@@ -21538,12 +21628,12 @@ GameObject:
   - component: {fileID: 8820592579885669800}
   - component: {fileID: 8795905254839876720}
   - component: {fileID: 8805655940708688264}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Card_01 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8820592579885669800
 Transform:
@@ -21623,12 +21713,12 @@ GameObject:
   - component: {fileID: 6313301798492364872}
   - component: {fileID: 2098587733308093568}
   - component: {fileID: 587290536453939789}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bench_01 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1431717209638725286
 Transform:
@@ -21760,12 +21850,12 @@ GameObject:
   - component: {fileID: 9000180352940430975}
   - component: {fileID: 1718884943048767942}
   - component: {fileID: 7787244137349197723}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Lantern_Lit_02 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &9000180352940430975
 Transform:
@@ -28359,12 +28449,12 @@ GameObject:
   - component: {fileID: 8523142012067367164}
   - component: {fileID: 1082076280046113571}
   - component: {fileID: 8123947730893739432}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Curtain_01 (23)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8523142012067367164
 Transform:
@@ -28441,12 +28531,12 @@ GameObject:
   - component: {fileID: 7218460284335805715}
   - component: {fileID: 8039359217606658100}
   - component: {fileID: 4607137612638006428}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Suitcase_02_Lid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &480512569988417468
 Transform:
@@ -28536,12 +28626,12 @@ GameObject:
   - component: {fileID: 4155231315728702263}
   - component: {fileID: 1835665778023253643}
   - component: {fileID: 5398987794331954050}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Lantern_02_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &4155231315728702263
 Transform:
@@ -28618,12 +28708,12 @@ GameObject:
   - component: {fileID: 7441697949677281143}
   - component: {fileID: 6352040130811614417}
   - component: {fileID: 8816695032620152496}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_02 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &7117745319966163703
 Transform:
@@ -28713,7 +28803,6 @@ GameObject:
   - component: {fileID: 6366155179806764966}
   - component: {fileID: 4776984064675628606}
   - component: {fileID: 1295466730299488678}
-  - component: {fileID: 4434069259584461638}
   - component: {fileID: 8492446302856443582}
   m_Layer: 0
   m_Name: SM_Prop_Chair_01 (8)
@@ -28785,20 +28874,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4434069259584461638
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9120981824683091954}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 43840572287429086, guid: ba6f2a32b2f4d18459dc0c9d50615416, type: 2}
 --- !u!64 &8492446302856443582
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -28825,12 +28900,12 @@ GameObject:
   - component: {fileID: 236264966961626851}
   - component: {fileID: 7314647481438914332}
   - component: {fileID: 913538763106031418}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Bottle_Broken_04 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &1564036953512904339
 Transform:
@@ -28844,7 +28919,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451405113618600603}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &236264966961626851
 MeshFilter:
@@ -28920,12 +28995,12 @@ GameObject:
   - component: {fileID: 6145718284611050780}
   - component: {fileID: 9124528950094425433}
   - component: {fileID: 7469141402993245405}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: SM_Prop_Lantern_02_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &6145718284611050780
 Transform:
@@ -30041,6 +30116,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Ladder_01 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1210439804110286, guid: 77c71902fab40354db75b533794d3b4b, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210439804110286, guid: 77c71902fab40354db75b533794d3b4b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4926098556394630, guid: 77c71902fab40354db75b533794d3b4b, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -31009,6 +31092,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Ladder_01 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1210439804110286, guid: 77c71902fab40354db75b533794d3b4b, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1210439804110286, guid: 77c71902fab40354db75b533794d3b4b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4926098556394630, guid: 77c71902fab40354db75b533794d3b4b, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -31211,6 +31302,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Stool_Round_01 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1129877470084354, guid: 67ad500920d899f4a8b4ac0b7cab9eee, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129877470084354, guid: 67ad500920d899f4a8b4ac0b7cab9eee, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4241630982343140, guid: 67ad500920d899f4a8b4ac0b7cab9eee, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -31305,6 +31404,14 @@ PrefabInstance:
     - target: {fileID: 1129877470084354, guid: 67ad500920d899f4a8b4ac0b7cab9eee, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Stool_Round_01 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129877470084354, guid: 67ad500920d899f4a8b4ac0b7cab9eee, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129877470084354, guid: 67ad500920d899f4a8b4ac0b7cab9eee, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4241630982343140, guid: 67ad500920d899f4a8b4ac0b7cab9eee, type: 3}
       propertyPath: m_RootOrder
@@ -32135,6 +32242,22 @@ PrefabInstance:
     - target: {fileID: 1493000582585652, guid: 02c3b7988f756aa4990d3c18a4ac7a5f, type: 3}
       propertyPath: m_Name
       value: SM_Prop_Suitcase_01 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493000582585652, guid: 02c3b7988f756aa4990d3c18a4ac7a5f, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493000582585652, guid: 02c3b7988f756aa4990d3c18a4ac7a5f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502948385925920, guid: 02c3b7988f756aa4990d3c18a4ac7a5f, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502948385925920, guid: 02c3b7988f756aa4990d3c18a4ac7a5f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4625245937817906, guid: 02c3b7988f756aa4990d3c18a4ac7a5f, type: 3}
       propertyPath: m_RootOrder
@@ -33911,6 +34034,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 94975022796752043}
     m_Modifications:
+    - target: {fileID: 1241686575910930, guid: 1350dd70f27499541959df34091e5e47, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1241686575910930, guid: 1350dd70f27499541959df34091e5e47, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4354594096784598, guid: 1350dd70f27499541959df34091e5e47, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -34093,6 +34224,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 741853643370539010}
     m_Modifications:
+    - target: {fileID: 1493000582585652, guid: 02c3b7988f756aa4990d3c18a4ac7a5f, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1493000582585652, guid: 02c3b7988f756aa4990d3c18a4ac7a5f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502948385925920, guid: 02c3b7988f756aa4990d3c18a4ac7a5f, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1502948385925920, guid: 02c3b7988f756aa4990d3c18a4ac7a5f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4625245937817906, guid: 02c3b7988f756aa4990d3c18a4ac7a5f, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -34295,6 +34442,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8402557813530555998}
     m_Modifications:
+    - target: {fileID: 1969672616318970, guid: faa463506ac0dcc48818b180dd502858, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1969672616318970, guid: faa463506ac0dcc48818b180dd502858, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4582245119272648, guid: faa463506ac0dcc48818b180dd502858, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -34635,6 +34790,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_Stool_Round_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1129877470084354, guid: 67ad500920d899f4a8b4ac0b7cab9eee, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129877470084354, guid: 67ad500920d899f4a8b4ac0b7cab9eee, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4241630982343140, guid: 67ad500920d899f4a8b4ac0b7cab9eee, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -34681,6 +34844,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7986665890208381547}
     m_Modifications:
+    - target: {fileID: 1129877470084354, guid: 67ad500920d899f4a8b4ac0b7cab9eee, type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1129877470084354, guid: 67ad500920d899f4a8b4ac0b7cab9eee, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4241630982343140, guid: 67ad500920d899f4a8b4ac0b7cab9eee, type: 3}
       propertyPath: m_RootOrder
       value: 0
