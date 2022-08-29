@@ -2591,7 +2591,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 0
+  m_BaseOffset: 0.05
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
 --- !u!114 &1699740346841986243
@@ -2662,7 +2662,7 @@ MonoBehaviour:
   prefixField: -1
   Synchronization: 3
   OwnershipTransfer: 0
-  observableSearch: 0
+  observableSearch: 2
   ObservedComponents:
   - {fileID: -4418329257488199166}
   - {fileID: 2719692665000175813}
@@ -2720,6 +2720,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: EquipedNone
+  - Type: 4
+    SynchronizeType: 2
+    Name: isSit
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0

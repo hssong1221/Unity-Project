@@ -561,6 +561,7 @@ namespace com.ThreeCS.McCree
             Debug.Log("sit이 작동됨");
             animator.SetBool("isSit", true);
             agent.enabled = false;
+            
 
             // 의자에 앉으면 의자 하이라이트 꺼짐
             Material mat = mr.material;
@@ -570,13 +571,17 @@ namespace com.ThreeCS.McCree
             transform.position = other.position;
             playerAutoMove.targetedEnemy = null;
             transform.rotation = other.rotation;
+            // 앉는 위치 보정
+            transform.position += new Vector3(0, 0.1f, 0);
 
-            Invoke("navonoff", 0.15f);
+            //Invoke("navonoff", 0.15f);
         }
         public void StandUp(Transform other)
         {
+            agent.enabled = true;
             animator.SetBool("isSit", false);
             isSit = false;
+
         }
 
         // 네비게이션 메쉬가 꺼져있어야 순간이동이 가능하므로 잠시 꺼졌다 켜진는 기능
