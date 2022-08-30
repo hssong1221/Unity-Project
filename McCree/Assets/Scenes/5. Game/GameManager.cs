@@ -324,9 +324,6 @@ namespace com.ThreeCS.McCree
             yield return new WaitForEndOfFrame();
         }
 
-
-
-
         // 애니메이션 스타트
         IEnumerator AnimPlay()
         {
@@ -340,6 +337,7 @@ namespace com.ThreeCS.McCree
             yield return new WaitForEndOfFrame();
         }
 
+        // 게임 동작 시작
         public IEnumerator GameStart()
         {
             // 직업 선택 텍스트랑 애니메이션 재생
@@ -369,6 +367,24 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.leftTopPanel.SetActive(true);
             MineUI.Instance.rightBottomPanel.SetActive(true);
             MineUI.Instance.rightTop.SetActive(true);
+
+            bool checkflag = true;
+            Debug.Log("시작 측정!");
+            while (checkflag)
+            {
+                for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+                {
+                    if(playerList[i].GetComponent<PlayerManager>().isSit == false)
+                    {
+                        checkflag = true;
+                        Debug.Log("시작불가능!");
+                        break;
+                    }
+                    checkflag = false;
+                }
+                yield return null;
+            }
+            Debug.Log("시작 가능!");
         }
 
         // 게임 종료 조건 만족하는지 확인함 

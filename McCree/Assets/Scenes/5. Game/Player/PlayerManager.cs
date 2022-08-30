@@ -557,9 +557,13 @@ namespace com.ThreeCS.McCree
         // 의자에 앉고 일어나기
         public void Sit(Transform other, MeshRenderer mr)
         {
+            // 플레이어 상태 동기화
+            photonView.RPC("SitnumSync", RpcTarget.All); 
+
             isSit = true;
             Debug.Log("sit이 작동됨");
             animator.SetBool("isSit", true);
+            // 네비게이션 메쉬가 꺼져있어야 순간이동이 가능. 그리고 덜덜 떨림 방지
             agent.enabled = false;
             
 
@@ -574,22 +578,28 @@ namespace com.ThreeCS.McCree
             // 앉는 위치 보정
             transform.position += new Vector3(0, 0.1f, 0);
 
-            //Invoke("navonoff", 0.15f);
         }
         public void StandUp(Transform other)
         {
+            // 플레이어 상태 동기화
+            photonView.RPC("StandnumSync", RpcTarget.All);
+            // 네비메쉬 다시 켜주기
             agent.enabled = true;
             animator.SetBool("isSit", false);
             isSit = false;
-
         }
 
-        // 네비게이션 메쉬가 꺼져있어야 순간이동이 가능하므로 잠시 꺼졌다 켜진는 기능
-        void navonoff()
+        [PunRPC]
+        public void SitnumSync()
         {
-            agent.enabled = true;
+            isSit = true;
         }
 
+        [PunRPC]
+        public void StandnumSync()
+        {
+            isSit = false;
+        }
 
         void Inventory()
         {
