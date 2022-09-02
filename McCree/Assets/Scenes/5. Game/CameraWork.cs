@@ -37,7 +37,7 @@ namespace com.ThreeCS.McCree
         void FixedUpdate()
         {
             // 처음 진입
-            if(player == null)
+            if (player == null)
             {
                 // 플레이어 리스트에서 내 거 찾아서 가상 카메라 붙이기
                 foreach (GameObject player in GameManager.Instance.playerList)
@@ -77,6 +77,16 @@ namespace com.ThreeCS.McCree
                 ccam.ChildCameras[0].gameObject.SetActive(false);
                 ccam.ChildCameras[1].gameObject.SetActive(false);
             }
+        }
+
+        #endregion
+
+        #region methods
+
+        public void PortalIn()
+        {
+            ccam.ChildCameras[1].gameObject.SetActive(true);
+            ccam.ChildCameras[0].gameObject.SetActive(false);
         }
 
         #endregion

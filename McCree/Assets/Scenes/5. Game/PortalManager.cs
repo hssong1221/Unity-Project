@@ -17,7 +17,7 @@ namespace com.ThreeCS.McCree
         #region Public Fields
 
         // 포탈 사용자 매니저
-        private PlayerManager playerManager;
+        protected PlayerManager playerManager;
 
         // 플레이어 네비메쉬에이전트
         protected NavMeshAgent nav;
@@ -34,41 +34,47 @@ namespace com.ThreeCS.McCree
         public GameObject target;
         #endregion
 
-
         #region Trigger Methods
 
         // 포탈에 플레이어가 닿앗을 때
         void OnTriggerStay(Collider other)
         {
-            if(other.gameObject.tag == "Player")
+            if(other.gameObject.CompareTag("Player"))
             {
                 ui.SetActive(true);
                 playerManager = other.GetComponent<PlayerManager>();
-                nav = other.GetComponent<NavMeshAgent>();
+                //nav = other.GetComponent<NavMeshAgent>();
+
 
                 Debug.Log("플레이어 진입!!!");
 
                 switch (gameObject.name)
                 {
                     case "SaloonIN":
-                        Debug.Log("주점 내부");
-                        cam.ChildCameras[1].gameObject.SetActive(true);
-                        cam.ChildCameras[0].gameObject.SetActive(false);
+                        if (other.GetComponent<PhotonView>().IsMine)
+                        {
+                            Debug.Log("주점 내부");
+                            cam.ChildCameras[1].gameObject.SetActive(true);
+                            cam.ChildCameras[0].gameObject.SetActive(false);
+                        }
                         break;
                     case "SaloonOUT":
-                        Debug.Log("주점 외부");
-                        cam.ChildCameras[0].gameObject.SetActive(true);
-                        cam.ChildCameras[1].gameObject.SetActive(false);
+                        if (other.GetComponent<PhotonView>().IsMine)
+                        {
+                            Debug.Log("주점 외부");
+                            cam.ChildCameras[0].gameObject.SetActive(true);
+                            cam.ChildCameras[1].gameObject.SetActive(false);
+                        }
                         break;
                     default:
-                        Debug.Log("일반 포탈");
+                        /*Debug.Log("일반 포탈");
                         if (Input.GetKey(KeyCode.E))
                         {
                             // 트랜스폼 순간이동을 위해서 잠깐 네비메쉬를 꺼야함
                             nav.enabled = false;
                             playerManager.Move(target.transform);
                             Invoke("NavOFF", 0.1f);
-                        }
+                        }*/
                         break;
                 }
             }
@@ -88,10 +94,10 @@ namespace com.ThreeCS.McCree
 
         #region
         // 꺼진거 다시 켜줌
-        void NavOFF()
+        /*void NavOFF()
         {
             nav.enabled = true;
-        }
+        }*/
         #endregion
 
 

@@ -28,7 +28,7 @@ namespace com.ThreeCS.McCree
         }
 
         // 내 카메라
-        private CameraWork cameraWork;
+        public CameraWork cameraWork;
 
         // 플레이어 리스트
         public GameObject[] playerList;
@@ -639,7 +639,14 @@ namespace com.ThreeCS.McCree
         }
 
         // --------------------------- 앉아있는 인원 체크 --------------------------------
+
+
+        public void temp()
+        {
+            Debug.Log("나오나 체크");
+        }
         #endregion
+
 
 
 
