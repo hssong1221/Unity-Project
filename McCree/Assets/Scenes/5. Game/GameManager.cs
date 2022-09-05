@@ -33,6 +33,14 @@ namespace com.ThreeCS.McCree
         // 플레이어 리스트
         public GameObject[] playerList;
 
+        [Header("의자에 앉은 플레이어 위치 표시")]
+        public GameObject[] sitList = new GameObject[7];
+        [Header(" 자리에 비교를 위한 임시 오브젝트 생성")]
+        public GameObject tempsit; 
+        [Header("플레이어 턴 표시기")]
+        public List<GameObject> turnList = new List<GameObject>();
+
+
         // 자기 자신(자기 포톤 뷰) 찾아서 Player관련 저장
         private PhotonView photonView;
         private PlayerManager playerManager;
@@ -91,6 +99,7 @@ namespace com.ThreeCS.McCree
         public Canvas startCanvas;
         public Text pnumText; // 플레이어 앉은 숫자
         public int sitNum = 0; // 앉아 있는 숫자
+        public Button bangBtn;
 
 
         [Header("게임 종료 관련 UI")]
@@ -170,6 +179,10 @@ namespace com.ThreeCS.McCree
         {
             PhotonNetwork.IsMessageQueueRunning = true;
 
+            //자리 리스트 초기화
+            for (int i = 0; i < 7; i++)
+                sitList[i] = tempsit;
+
             if (PlayerManager.LocalPlayerInstance == null)
             {
                 StartCoroutine(InstantiateResource()); 
@@ -182,7 +195,7 @@ namespace com.ThreeCS.McCree
 
         private void Update()
         {
-            // UI가 계속 정면을 보게 만듬
+            // 인원 체크 UI가 계속 정면을 보게 만듬
             startCanvas.transform.LookAt(startCanvas.transform.position + Camera.main.transform.forward);
         }
 
@@ -368,8 +381,9 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.rightBottomPanel.SetActive(true);
             MineUI.Instance.rightTop.SetActive(true);
 
+            // 전부 테이블에 앉으면 시작 준비 끝
+            bangBtn.gameObject.SetActive(false);
             bool checkflag = true;
-            Debug.Log("시작 측정!");
             while (checkflag)
             {
                 for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
@@ -377,14 +391,55 @@ namespace com.ThreeCS.McCree
                     if(playerList[i].GetComponent<PlayerManager>().isSit == false)
                     {
                         checkflag = true;
-                        Debug.Log("시작불가능!");
                         break;
                     }
                     checkflag = false;
                 }
                 yield return null;
             }
+            
             Debug.Log("시작 가능!");
+
+            bangBtn.gameObject.SetActive(true);
+        }
+
+        IEnumerator GameLoop()
+        {
+            Debug.Log("진짜 시작");
+            
+            // 보안관을 시작으로 순서 정하기 
+            // 보안관 앉은 위치찾기
+            int sheriffIdx = 0;
+            for(int i = 0; i < sitList.Length; i++)
+            {
+                if (sitList[i].name == "tempsit")
+                    continue;
+
+                if (sitList[i].GetComponent<PlayerManager>().playerType == jType.Sheriff)
+                {
+                    sheriffIdx = i;
+                    Debug.Log("she idx : " + sheriffIdx);
+                    break;
+                }
+            }
+            // 보안관부터 시작하므로 시계방향으로 쭉 재정렬
+            for (int k = 0; k < playerList.Length; k++)
+            {
+                if (sitList[sheriffIdx].name == "tempsit")
+                {
+                    sheriffIdx++;
+                    continue;
+                }
+
+                if (turnList.Count == playerList.Length)
+                    break;
+
+                turnList.Add(sitList[sheriffIdx++]);
+                if (sheriffIdx == sitList.Length)
+                    sheriffIdx = 0;
+            }
+
+            yield return new WaitForEndOfFrame();
         }
 
         // 게임 종료 조건 만족하는지 확인함 
@@ -640,11 +695,12 @@ namespace com.ThreeCS.McCree
 
         // --------------------------- 앉아있는 인원 체크 --------------------------------
 
-
-        public void temp()
+        // 인스펙터 창에다 직접 넣어놨음
+        public void BangBtnClick()
         {
-            Debug.Log("나오나 체크");
+            StartCoroutine("GameLoop");
         }
+    
         #endregion
 
 

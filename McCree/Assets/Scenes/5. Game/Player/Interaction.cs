@@ -32,8 +32,11 @@ namespace com.ThreeCS.McCree
         }
 
         // 의자 접촉 시 하이라이트 관련
+        [HideInInspector]
         public MeshRenderer mr;
+        [HideInInspector]
         public Material mat;
+
         // 의자에 앉기
         public bool isSit = false;
         // 의자에 닿기
@@ -146,6 +149,8 @@ namespace com.ThreeCS.McCree
 
                     sitNum++;
                     GameManager.Instance.NumCheckSit();
+                    // 플레이어 턴을 정함
+                    photonView.RPC("TurnSync", RpcTarget.All, other.name);
                 }
             }
         }
@@ -164,6 +169,7 @@ namespace com.ThreeCS.McCree
                 if (isSit)
                 {
                     playerManager.Sit(other.GetComponent<Transform>().transform, other.GetComponent<MeshRenderer>());
+                    MineUI.Instance.interactionPanel.SetActive(false);
                 }
                 else 
                 {
@@ -211,6 +217,22 @@ namespace com.ThreeCS.McCree
             sitNum = n;
             // 앉은 인원 / 전체 인원
             GameManager.Instance.pnumText.text = sitNum + " / " + GameManager.Instance.playerList.Length;
+        }
+
+        [PunRPC]
+        public void TurnSync(string chairname)
+        {
+            //의자 앉은 위치
+            int temp = int.Parse(chairname);
+            
+            // turnList에 의자 위치대로 플레이어를 넣어줌
+            foreach(GameObject player in GameManager.Instance.playerList)
+            {
+                if(player.GetComponent<PhotonView>().ViewID == photonView.ViewID)
+                {
+                    GameManager.Instance.sitList[temp] = player;
+                }
+            }
         }
 
         #endregion
