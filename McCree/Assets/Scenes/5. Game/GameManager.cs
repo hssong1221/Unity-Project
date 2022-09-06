@@ -440,6 +440,8 @@ namespace com.ThreeCS.McCree
             }
 
             yield return new WaitForEndOfFrame();
+            // turnlist에 턴 순서대로 플레이어들이 들어가 있음
+            
         }
 
         // 게임 종료 조건 만족하는지 확인함 
