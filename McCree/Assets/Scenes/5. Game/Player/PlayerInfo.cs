@@ -54,6 +54,10 @@ namespace com.ThreeCS.McCree
         // 1번째 Avoid
         // 2번째 Heal
 
+        // ----------------------카드셋 부활 중-------------------
+        public List<Card> mycards = new List<Card>();
+        // --------------------------------------------------
+
         public List<SubQuestList> myQuestList;
 
         protected Transform content;

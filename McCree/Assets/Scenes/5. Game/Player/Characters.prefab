@@ -2558,6 +2558,7 @@ MonoBehaviour:
   _objectTransPos: {fileID: 4608065460106329307}
   bulletAttackedPos: {fileID: 6755281479944650918}
   maxAttackDistance: 5
+  cardObject: {fileID: 2643383449535095578, guid: 25721e9ab19bfd1409d58b81e2fc801e, type: 3}
 --- !u!114 &6215404349552739545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2655,6 +2656,7 @@ MonoBehaviour:
   - {fileID: 1259370552536998253, guid: 8fb6c8635acda5a4bb62306c85127bad, type: 3}
   - {fileID: 1259370552536998253, guid: dc3b98c0e389f9947860d262a56285d3, type: 3}
   - {fileID: 1259370552536998253, guid: dffb9ce01884a18428fa80b796f7a28f, type: 3}
+  mycards: []
   myQuestList: []
   pistolPos: {fileID: 7054863257368476639}
   riflePos: {fileID: 7578049222411756460}

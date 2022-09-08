@@ -83,6 +83,13 @@ namespace com.ThreeCS.McCree
         [HideInInspector]
         public float range_y;
 
+        // -------------------- 카드 기능 부활 중
+        public Transform pos_CardSpwan;
+        public Transform pos_CardParent;
+        public Transform pos_CardLeft;
+        public Transform pos_CardRight;
+        // -------------------------------------------------------
+
 
         void Awake()
         {
@@ -110,6 +117,59 @@ namespace com.ThreeCS.McCree
                 isquestDetailopen = false;
             }
         }
+
+
+        // ----------------------------------------카드 기능 부활중 -----------------------
+
+        public void CardAlignment()
+        {
+
+            List<Preset> originMyCards = new List<Preset>();
+            originMyCards = RoundAlignment(pos_CardLeft, pos_CardRight, playerInfo.mycards.Count, 0.5f, Vector3.one * 1.0f);
+
+            for (int i = 0; i < playerInfo.mycards.Count; i++)
+            {
+                var targetCard = playerInfo.mycards[i];
+
+                targetCard.originPRS = originMyCards[i];
+                targetCard.MoveTransform(targetCard.originPRS, true, 0.9f);
+            }
+
+        }
+
+        List<Preset> RoundAlignment(Transform leftTr, Transform rightTr, int objCount, float height, Vector3 scale)
+        {
+            float[] objLerps = new float[objCount];
+            List<Preset> results = new List<Preset>(objCount);
+
+            switch (objCount)
+            {
+                case 1: objLerps = new float[] { 0.5f }; break;
+                case 2: objLerps = new float[] { 0.27f, 0.73f }; break;
+                case 3: objLerps = new float[] { 0.1f, 0.5f, 0.9f }; break;
+                default:
+                    float interval = 1f / (objCount - 1);
+                    for (int i = 0; i < objCount; i++)
+                        objLerps[i] = interval * i;
+                    break;
+            }
+
+            for (int i = 0; i < objCount; i++)
+            {
+                var targetPos = Vector3.Lerp(leftTr.position, rightTr.position, objLerps[i]);
+                var targetRot = Quaternion.identity;
+                if (objCount >= 4)
+                {
+                    float curve = Mathf.Sqrt(Mathf.Pow(height, 2) - Mathf.Pow(objLerps[i] - 0.5f, 2));
+                    curve = height >= 0 ? curve : -curve;
+                    targetPos.y += curve;
+                    targetRot = Quaternion.Slerp(leftTr.rotation, rightTr.rotation, objLerps[i]);
+                }
+                results.Add(new Preset(targetPos, targetRot, scale));
+            }
+            return results;
+        }
+        // ----------------------------------------------------------------------------------
 
     }
 }

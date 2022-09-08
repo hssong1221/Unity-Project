@@ -10,7 +10,7 @@ namespace com.ThreeCS.McCree
 {
     public class ObjectEvent : MonoBehaviour
     {
-        public Item.iType pickItem;
+        //public Item.iType pickItem;
 
         private void Update()
         {
@@ -18,7 +18,7 @@ namespace com.ThreeCS.McCree
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "Player")
+            /*if (other.tag == "Player")
             {
                 var json = JsonConvert.SerializeObject(pickItem);
 
@@ -26,6 +26,15 @@ namespace com.ThreeCS.McCree
                 {
                     other.GetComponent<PhotonView>().RPC("GiveItems", RpcTarget.AllViaServer, json, other.GetComponent<PhotonView>().ViewID);
                 }
+            }*/
+
+            // ---------------------------카드 기능 부활 중--------------
+            if (other.tag == "Player")
+            {
+                int num = 1; // 아이템 부딪히면 나눠줄 카드 개수
+
+                if (other.GetComponent<PhotonView>().IsMine)
+                    other.GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, num, transform.position);
             }
         }
     }

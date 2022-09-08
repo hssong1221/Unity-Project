@@ -257,6 +257,10 @@ namespace com.ThreeCS.McCree
 
         float moveSpeed = 5f; // 캐릭터 이동 속도
 
+        // --------------------------- 카드 기능 부활 중 -----------------------
+        public Card cardObject;
+        //-----------------------------------------------
+
 
         #endregion
 
@@ -716,6 +720,54 @@ namespace com.ThreeCS.McCree
             }
             Character_Notice_Text("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
         }
+
+        // -----------------------카드 기능 부활 중------------------------
+        [PunRPC]
+        public void GiveCardSet(string jsonData)
+        {
+            GameManager.Instance.cardSet = gameObject.AddComponent<CardSet>();
+
+            Card.cType[] startCards = JsonConvert.DeserializeObject<Card.cType[]>(jsonData);
+
+            for (int i = 0; i < startCards.Length; i++)
+            {
+                Card card = new Card(startCards[i]);
+                GameManager.Instance.cardSet.cardList.Add(card);
+            }
+        }
+
+        [PunRPC]
+        public void GiveCards(int num, Vector3 objPos) // 카드 나눠주기
+        {
+            Debug.Log("num: " + num);
+            for (int i = 0; i < num; i++)
+            {
+                Card DrawCard = GameManager.Instance.cardSet.cardList[0];
+
+                cardObject.ability = DrawCard.ability;
+                cardObject.matchImg();
+
+
+                if (photonView.IsMine) // 내 개인 UI에 내껏만 추가 
+                {
+                    var card = Instantiate(cardObject, MineUI.Instance.pos_CardSpwan.position, Quaternion.identity, MineUI.Instance.pos_CardParent);
+                    var card2 = card.GetComponent<Card>();
+                    playerInfo.mycards.Add(card2);
+
+                    MineUI.Instance.CardAlignment();
+                }
+                else
+                {
+                    playerInfo.mycards.Add(cardObject); // 내가 가지고있는 카드셋 mycards에 추가 
+                }
+
+                GameManager.Instance.cardSet.cardList.RemoveAt(0);
+            }
+
+        }
+
+        // ---------------------------------------------------------------
+
 
         [PunRPC]
         public void GetQuest(string questTitle)

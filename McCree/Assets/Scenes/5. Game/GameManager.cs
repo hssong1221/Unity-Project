@@ -141,6 +141,18 @@ namespace com.ThreeCS.McCree
         public ItemSet entireItemSet;
 
         private Button setButton;
+
+
+        // ----------------------카드 기능 부활중 ----------------------
+        public CardSet cardSet;
+        [Header("카드 개수")]
+        [SerializeField]
+        private int bang_c;
+        [SerializeField]
+        private int heal_c;
+        [SerializeField]
+        private int avoid_c;
+        //----------------------------------------------
         #endregion
 
 
@@ -293,10 +305,61 @@ namespace com.ThreeCS.McCree
                 // 카드 나눠주는것
                 //StartCoroutine(Cards());
 
-
-                //StartCoroutine(GiveCardSet());
+                // ------------------------------------카드 기능 부활 중------------------------------------
+                StartCoroutine(GiveCardSet());
 
             }
+        }
+
+        // --------------------------------카드 기능 부활 중------------------------------------
+        IEnumerator GiveCardSet()
+        {
+            // 임시 카드셋
+            //cardSet = gameObject.AddComponent<CardSet>();
+
+
+            Card.cType[] startCards = new Card.cType[
+                bang_c + heal_c + avoid_c
+            ];
+
+            int k = 0;
+            for (int i = 0; i < bang_c; i++, k++)
+                startCards[k] = Card.cType.Bang;
+            for (int i = 0; i < heal_c; i++, k++)
+                startCards[k] = Card.cType.Heal;
+            for (int i = 0; i < avoid_c; i++, k++)
+                startCards[k] = Card.cType.Avoid;
+
+            // 섞기
+            int random1;
+            int random2;
+            Card.cType temp;
+            for (int i = 0; i < startCards.Length; i++)
+            {
+                random1 = UnityEngine.Random.Range(0, startCards.Length);
+                random2 = UnityEngine.Random.Range(0, startCards.Length);
+
+                temp = startCards[random1];
+                startCards[random1] = startCards[random2];
+                startCards[random2] = temp;
+            }
+
+
+            for (int i = 0; i < startCards.Length; i++)
+            {
+                Debug.Log("card: "+startCards[i]);
+            }
+
+
+            var json = JsonConvert.SerializeObject(startCards);
+
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                playerList[i].GetComponent<PhotonView>().RPC("GiveCardSet", RpcTarget.All, json);
+            }
+
+
+            yield return new WaitForEndOfFrame();
         }
 
         IEnumerator JobandAbility()
