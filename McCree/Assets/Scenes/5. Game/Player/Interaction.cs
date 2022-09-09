@@ -149,8 +149,8 @@ namespace com.ThreeCS.McCree
 
                     sitNum++;
                     GameManager.Instance.NumCheckSit();
-                    // 플레이어 턴을 정함
-                    photonView.RPC("TurnSync", RpcTarget.All, other.name);
+                    // 앉는 위치에 따라서 플레이어 턴을 정함
+                    photonView.RPC("TurnSync", RpcTarget.All, other.name, "sit");
                 }
             }
         }
@@ -201,6 +201,9 @@ namespace com.ThreeCS.McCree
 
                     sitNum--;
                     GameManager.Instance.NumCheckStand();
+
+                    // 일어서서 나가면 그 위치에 저장된 플레이어 정보 삭제
+                    photonView.RPC("TurnSync", RpcTarget.All, other.name, "stand");
                 }
 
                 if (coroutine_Chat != null)
@@ -220,17 +223,32 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public void TurnSync(string chairname)
+        public void TurnSync(string chairname, string state)
         {
-            //의자 앉은 위치
-            int temp = int.Parse(chairname);
-            
-            // turnList에 의자 위치대로 플레이어를 넣어줌
-            foreach(GameObject player in GameManager.Instance.playerList)
+            if (state == "stand")
             {
-                if(player.GetComponent<PhotonView>().ViewID == photonView.ViewID)
+                //의자 앉은 위치
+                int temp = int.Parse(chairname);
+                // turnList에 의자 위치대로 플레이어를 넣어줌
+                foreach (GameObject player in GameManager.Instance.playerList)
                 {
-                    GameManager.Instance.sitList[temp] = player;
+                    if (player.GetComponent<PhotonView>().ViewID == photonView.ViewID)
+                    {
+                        GameManager.Instance.sitList[temp] = GameManager.Instance.tempsit;
+                    }
+                }
+            }
+            else if(state == "sit")
+            {
+                //의자 앉은 위치
+                int temp = int.Parse(chairname);
+                // turnList에 의자 위치대로 플레이어를 넣어줌
+                foreach (GameObject player in GameManager.Instance.playerList)
+                {
+                    if (player.GetComponent<PhotonView>().ViewID == photonView.ViewID)
+                    {
+                        GameManager.Instance.sitList[temp] = player;
+                    }
                 }
             }
         }

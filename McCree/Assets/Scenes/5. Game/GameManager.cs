@@ -97,6 +97,7 @@ namespace com.ThreeCS.McCree
 
         [Header("게임 시작 관련 UI(의자 주변)")]
         public Canvas startCanvas;
+        public GameObject startPanel;
         public Text pnumText; // 플레이어 앉은 숫자
         public int sitNum = 0; // 앉아 있는 숫자
         public Button bangBtn;
@@ -481,7 +482,7 @@ namespace com.ThreeCS.McCree
                 if (sitList[i].GetComponent<PlayerManager>().playerType == jType.Sheriff)
                 {
                     sheriffIdx = i;
-                    Debug.Log("she idx : " + sheriffIdx);
+                    //Debug.Log("she idx : " + sheriffIdx);
                     break;
                 }
             }
@@ -504,7 +505,14 @@ namespace com.ThreeCS.McCree
 
             yield return new WaitForEndOfFrame();
             // turnlist에 턴 순서대로 플레이어들이 들어가 있음
-            
+
+            foreach(GameObject player in playerList)
+            {
+                if (player.GetComponent<PhotonView>().IsMine)
+                {
+                    player.GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, 5, transform.position);
+                }
+            }
         }
 
         // 게임 종료 조건 만족하는지 확인함 
@@ -764,6 +772,7 @@ namespace com.ThreeCS.McCree
         public void BangBtnClick()
         {
             StartCoroutine("GameLoop");
+            startPanel.SetActive(false);
         }
     
         #endregion
