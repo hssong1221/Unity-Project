@@ -36,10 +36,9 @@ namespace com.ThreeCS.McCree
         [Header("의자에 앉은 플레이어 위치 표시")]
         public GameObject[] sitList = new GameObject[7];
         [Header(" 자리에 비교를 위한 임시 오브젝트 생성")]
-        public GameObject tempsit; 
+        public GameObject tempsit;
         [Header("플레이어 턴 표시기")]
         public List<GameObject> turnList = new List<GameObject>();
-
 
         // 자기 자신(자기 포톤 뷰) 찾아서 Player관련 저장
         private PhotonView photonView;
@@ -57,7 +56,7 @@ namespace com.ThreeCS.McCree
 
         [Header("게임 승리 변수")]
         public bool isVitory = false;
-        
+
 
         public enum jType
         {
@@ -178,6 +177,8 @@ namespace com.ThreeCS.McCree
             setButton = GameObject.Find("SetButton").GetComponent<Button>();
             setButton.gameObject.SetActive(false);
 
+
+
             // 접속 못하면 초기화면으로 쫓아냄
             if (!PhotonNetwork.IsConnected)
             {
@@ -198,11 +199,12 @@ namespace com.ThreeCS.McCree
 
             if (PlayerManager.LocalPlayerInstance == null)
             {
-                StartCoroutine(InstantiateResource()); 
+                StartCoroutine(InstantiateResource());
 
                 cameraWork = GetComponent<CameraWork>(); // 본인 카메라 가져오기
             }
             StartCoroutine(WaitAllPlayers()); // 다른 플레이어 기다리기
+
 
         }
 
@@ -348,7 +350,7 @@ namespace com.ThreeCS.McCree
 
             for (int i = 0; i < startCards.Length; i++)
             {
-                Debug.Log("card: "+startCards[i]);
+                Debug.Log("card: " + startCards[i]);
             }
 
 
@@ -423,12 +425,12 @@ namespace com.ThreeCS.McCree
             jobPanel.SetActive(true);
             jobText.text = JobText();
 
-            yield return new WaitForSeconds(6f);
+            //yield return new WaitForSeconds(6f);
             jobPanel.SetActive(false);
             abilPanel.SetActive(true);
 
-            yield return new WaitForSeconds(0.5f);
-            abilUIAnimator.SetTrigger("Abil");
+            //yield return new WaitForSeconds(0.5f);
+            //abilUIAnimator.SetTrigger("Abil");
             abilText.text += AblityText();
             abilText.text += "\n3. 당신의 능력을 잘 활용하십시오";
 
@@ -452,7 +454,7 @@ namespace com.ThreeCS.McCree
             {
                 for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
                 {
-                    if(playerList[i].GetComponent<PlayerManager>().isSit == false)
+                    if (playerList[i].GetComponent<PlayerManager>().isSit == false)
                     {
                         checkflag = true;
                         break;
@@ -461,20 +463,33 @@ namespace com.ThreeCS.McCree
                 }
                 yield return null;
             }
-            
-            Debug.Log("시작 가능!");
 
-            bangBtn.gameObject.SetActive(true);
+            Debug.Log("시작 가능!");
+            int t = 0;
+            foreach (GameObject player in playerList)
+            {
+                if (player.GetComponent<PhotonView>().IsMine)
+                {
+                    if (player.GetComponent<PlayerManager>().playerType == jType.Sheriff)
+                    {
+                        bangBtn.gameObject.SetActive(true);
+                        //Player p1 = PhotonNetwork.PlayerList[t];
+                        //PhotonNetwork.SetMasterClient(p1);
+                    }
+                }
+                t++;
+            }
         }
 
-        IEnumerator GameLoop()
+        // 현재 보안관으로 당첨된 사람만 gameloop 코루틴이 돌아가기 때문에 이점을 염두에 두고 코딩해야함
+        // 나머지는 보안관 컴퓨터가 보내준 정보만 얻을 뿐임
+        IEnumerator GameLoop1()
         {
             Debug.Log("진짜 시작");
-            
             // 보안관을 시작으로 순서 정하기 
             // 보안관 앉은 위치찾기
             int sheriffIdx = 0;
-            for(int i = 0; i < sitList.Length; i++)
+            for (int i = 0; i < sitList.Length; i++)
             {
                 if (sitList[i].name == "tempsit")
                     continue;
@@ -487,33 +502,39 @@ namespace com.ThreeCS.McCree
                 }
             }
             // 보안관부터 시작하므로 시계방향으로 쭉 재정렬
-            for (int k = 0; k < playerList.Length; k++)
+            for (int k = 0; k < 7; k++)
             {
+                // 모든 플레이어가 앉으면 끝
+                if (turnList.Count == playerList.Length)
+                    break;
+                // 리스트 끝까지 가면 다시 앞으로 돌려
+                if (sheriffIdx == 7)
+                    sheriffIdx = 0;
+                // 의자에 앉은 놈이 없으면 통과
                 if (sitList[sheriffIdx].name == "tempsit")
                 {
                     sheriffIdx++;
                     continue;
                 }
-
-                if (turnList.Count == playerList.Length)
-                    break;
-
+                // 보안관부터 차례대로 저장
                 turnList.Add(sitList[sheriffIdx++]);
-                if (sheriffIdx == sitList.Length)
-                    sheriffIdx = 0;
             }
-
             yield return new WaitForEndOfFrame();
+
             // turnlist에 턴 순서대로 플레이어들이 들어가 있음
 
-            foreach(GameObject player in playerList)
+            // 맨 처음에 5장씩 뿌림
+            for (int i = 0; i < turnList.Count; i++)
             {
-                if (player.GetComponent<PhotonView>().IsMine)
-                {
-                    player.GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, 5, transform.position);
-                }
+                turnList[i].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, 5, transform.position);
             }
+            yield return new WaitForEndOfFrame();
         }
+
+        /*IEnumerator CardSetting()
+        {
+            
+        }*/
 
         // 게임 종료 조건 만족하는지 확인함 
         IEnumerator EndGame()
@@ -588,6 +609,7 @@ namespace com.ThreeCS.McCree
             yield return null;
         }
 
+        
         #endregion
 
         #region Public Methods
@@ -771,9 +793,17 @@ namespace com.ThreeCS.McCree
         // 인스펙터 창에다 직접 넣어놨음
         public void BangBtnClick()
         {
-            StartCoroutine("GameLoop");
-            startPanel.SetActive(false);
+            foreach(GameObject player in playerList)
+            {
+                // gameloop 코루틴을 돌리는 함수가 포함되었음 - 모든 client의 turnlist에 정보 저장을 위함
+                player.GetComponent<PhotonView>().RPC("StartUIOff", RpcTarget.All);
+            }
+            StartCoroutine("GameLoop1");
         }
+        /*public void GLStart()
+        {
+            StartCoroutine("GameLoop1");
+        }*/
     
         #endregion
 

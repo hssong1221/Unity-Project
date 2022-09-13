@@ -624,7 +624,7 @@ namespace com.ThreeCS.McCree
         #endregion
 
 
-        #region 마스터로 부터 받은 정보 로컬과 동기화
+        #region GameMaster 로 부터 받은 정보 로컬과 동기화
 
         [PunRPC]
         public void JobSelect(int num) // 내 직업 동기화 
@@ -768,6 +768,29 @@ namespace com.ThreeCS.McCree
 
         // ---------------------------------------------------------------
 
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // ------------------------------------ 퀘스트는 나중에 싹다 없애버릴 것 -------------------------------------------------------
 
         [PunRPC]
         public void GetQuest(string questTitle)

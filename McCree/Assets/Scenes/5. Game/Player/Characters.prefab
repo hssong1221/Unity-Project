@@ -2438,8 +2438,9 @@ GameObject:
   - component: {fileID: 6215404349545427383}
   - component: {fileID: 66666005648540013}
   - component: {fileID: 6215404349552739522}
-  - component: {fileID: 6215404349552739551}
   - component: {fileID: 6215404349552739545}
+  - component: {fileID: 6215404349552739551}
+  - component: {fileID: 3280754104980646606}
   - component: {fileID: 6215404349552739547}
   - component: {fileID: 1461397012469081908}
   - component: {fileID: 3042995828838473885}
@@ -2530,6 +2531,18 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6215404349552739545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6215404349552837223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f231d72ae3e815c4f92971d7101778e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6215404349552739551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2559,7 +2572,7 @@ MonoBehaviour:
   bulletAttackedPos: {fileID: 6755281479944650918}
   maxAttackDistance: 5
   cardObject: {fileID: 2643383449535095578, guid: 25721e9ab19bfd1409d58b81e2fc801e, type: 3}
---- !u!114 &6215404349552739545
+--- !u!114 &3280754104980646606
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2568,7 +2581,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6215404349552837223}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f231d72ae3e815c4f92971d7101778e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8293cec9455754f42a0461200c9840ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &6215404349552739547
