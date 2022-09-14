@@ -32,6 +32,9 @@ namespace com.ThreeCS.McCree
 
         // 플레이어 리스트
         public GameObject[] playerList;
+        // 본인 
+        [HideInInspector]
+        public GameObject player1;
 
         [Header("의자에 앉은 플레이어 위치 표시")]
         public GameObject[] sitList = new GameObject[7];
@@ -270,6 +273,8 @@ namespace com.ThreeCS.McCree
                     photonView = player.GetComponent<PhotonView>();
                     playerManager = player.GetComponent<PlayerManager>();
                     playerInfo = player.GetComponent<PlayerInfo>();
+
+                    player1 = player;
 
                     MineUI.Instance.FindMinePv(player);
                     RaiseEventManager.Instance.FindMinePv(player);
@@ -519,22 +524,22 @@ namespace com.ThreeCS.McCree
                 // 보안관부터 차례대로 저장
                 turnList.Add(sitList[sheriffIdx++]);
             }
-            yield return new WaitForEndOfFrame();
-
             // turnlist에 턴 순서대로 플레이어들이 들어가 있음
-
-            // 맨 처음에 5장씩 뿌림
-            for (int i = 0; i < turnList.Count; i++)
-            {
-                turnList[i].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.All, 5, transform.position);
-            }
             yield return new WaitForEndOfFrame();
-        }
 
-        /*IEnumerator CardSetting()
-        {
             
-        }*/
+            // 카드 나눠주기 중복 방지를 위해 본인이 보안관일때 rpc를 작동하게 됨
+            if(player1.GetComponent<PhotonView>().IsMine && player1.GetComponent<PlayerManager>().playerType == jType.Sheriff)
+            {
+                // 맨 처음에 5장씩 뿌림
+                for (int i = 0; i < turnList.Count; i++)
+                {
+                    // 동시에
+                    turnList[i].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 5, transform.position);
+                }
+                yield return new WaitForEndOfFrame();
+            }
+        }
 
         // 게임 종료 조건 만족하는지 확인함 
         IEnumerator EndGame()
@@ -795,15 +800,16 @@ namespace com.ThreeCS.McCree
         {
             foreach(GameObject player in playerList)
             {
-                // gameloop 코루틴을 돌리는 함수가 포함되었음 - 모든 client의 turnlist에 정보 저장을 위함
+                // 모든 사람의 turnlist에 정보 저장을 위함
                 player.GetComponent<PhotonView>().RPC("StartUIOff", RpcTarget.All);
+                // 모든 사람의 gameloop 진입을 위함
+                player.GetComponent<PhotonView>().RPC("Gameloop", RpcTarget.All);
             }
-            StartCoroutine("GameLoop1");
         }
-        /*public void GLStart()
+        public void GLStart()
         {
             StartCoroutine("GameLoop1");
-        }*/
+        }
     
         #endregion
 
