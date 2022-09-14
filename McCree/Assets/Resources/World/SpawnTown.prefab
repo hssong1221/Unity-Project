@@ -212,6 +212,7 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: bang
+<<<<<<< HEAD
 --- !u!1 &1175509781
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,6 +309,8 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 43285729512179378, guid: ba6f2a32b2f4d18459dc0c9d50615416, type: 2}
+=======
+>>>>>>> c079990981394b875e20cfc12adbf2b23b2b9454
 --- !u!1 &21987115248001592
 GameObject:
   m_ObjectHideFlags: 0
@@ -2439,7 +2442,7 @@ GameObject:
   - component: {fileID: 805782337597796062}
   - component: {fileID: 837253788025061616}
   m_Layer: 0
-  m_Name: Chair3
+  m_Name: 2
   m_TagString: chair
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2823,7 +2826,7 @@ GameObject:
   - component: {fileID: 5073631842728373889}
   - component: {fileID: 8196206431926756739}
   m_Layer: 0
-  m_Name: Chair6
+  m_Name: 5
   m_TagString: chair
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4794,7 +4797,7 @@ GameObject:
   - component: {fileID: 1443660296870033883}
   - component: {fileID: 1823266759147922086}
   m_Layer: 0
-  m_Name: Chair5
+  m_Name: 4
   m_TagString: chair
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14994,7 +14997,7 @@ GameObject:
   - component: {fileID: 8553427667867190374}
   - component: {fileID: 3534324897101289591}
   m_Layer: 0
-  m_Name: Chair4
+  m_Name: 3
   m_TagString: chair
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16558,7 +16561,10 @@ Transform:
   - {fileID: 498650903926470030}
   - {fileID: 6706402714343618925}
   - {fileID: 7807764430537874610}
+<<<<<<< HEAD
   - {fileID: 1175509782}
+=======
+>>>>>>> c079990981394b875e20cfc12adbf2b23b2b9454
   m_Father: {fileID: 451405113618600603}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17089,7 +17095,7 @@ GameObject:
   - component: {fileID: 6722272740091488395}
   - component: {fileID: 6771861702618678949}
   m_Layer: 0
-  m_Name: Chair7
+  m_Name: 6
   m_TagString: chair
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18438,7 +18444,7 @@ GameObject:
   - component: {fileID: 7598572381005389382}
   - component: {fileID: 7621144400960352360}
   m_Layer: 0
-  m_Name: Chair1
+  m_Name: 0
   m_TagString: chair
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29191,7 +29197,7 @@ GameObject:
   - component: {fileID: 1295466730299488678}
   - component: {fileID: 8492446302856443582}
   m_Layer: 0
-  m_Name: Chair2
+  m_Name: 1
   m_TagString: chair
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -562,7 +562,8 @@ namespace com.ThreeCS.McCree
         public void Sit(Transform other, MeshRenderer mr)
         {
             // 앉은 플레이어 상태 동기화
-            photonView.RPC("SitnumSync", RpcTarget.All); 
+            if(isSit == false)
+                photonView.RPC("SitnumSync", RpcTarget.All); 
 
             isSit = true;
             Debug.Log("sit이 작동됨");
@@ -579,14 +580,15 @@ namespace com.ThreeCS.McCree
             transform.position = other.position;
             playerAutoMove.targetedEnemy = null;
             transform.rotation = other.rotation;
-            // 앉는 위치 보정
+            // 앉는 위치 보정sd
             transform.position += new Vector3(0, 0.1f, 0);
 
         }
         public void StandUp(Transform other)
         {
             // 플레이어 상태 동기화
-            photonView.RPC("StandnumSync", RpcTarget.All);
+            if(isSit == true)
+                photonView.RPC("StandnumSync", RpcTarget.All);
             // 네비메쉬 다시 켜주기
             agent.enabled = true;
             animator.SetBool("isSit", false);

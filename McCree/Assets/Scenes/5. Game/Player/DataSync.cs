@@ -11,12 +11,18 @@ namespace com.ThreeCS.McCree
     public class DataSync : Controller
     {
 
-        // 보안관이 뱅 버튼 눌렀을 때 전부 인구수ui가 꺼져야함
+        // 보안관이 뱅 버튼 눌렀을 때 모든 사람의 인구수ui가 꺼져야함
         [PunRPC]
         public void StartUIOff()
         {
             GameManager.Instance.startPanel.SetActive(false);
-            //GameManager.Instance.GLStart();                         // GameLoop1 코루틴에 진입함 
+        }
+        [PunRPC]
+        public void Gameloop()
+        {
+            // 본인만 진입시켜서 중복을 막음
+            if (photonView.IsMine)
+                GameManager.Instance.GLStart();
         }
     }
 }
