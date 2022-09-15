@@ -11,6 +11,7 @@ using UnityEngine.Audio;
 using Photon.Pun;
 using Photon.Realtime;
 
+using Cinemachine;
 using Newtonsoft.Json;
 
 namespace com.ThreeCS.McCree
@@ -29,7 +30,8 @@ namespace com.ThreeCS.McCree
 
         // 내 카메라
         public CameraWork cameraWork;
-
+        public CinemachineClearShot cam;
+         
         // 플레이어 리스트
         public GameObject[] playerList;
         // 본인 
@@ -58,7 +60,7 @@ namespace com.ThreeCS.McCree
         private int viceNum;
 
         [Header("게임 승리 변수")]
-        public bool isVitory = false;
+        public bool isVictory = false;
 
 
         public enum jType
@@ -147,7 +149,9 @@ namespace com.ThreeCS.McCree
 
 
         // ----------------------카드 기능 부활중 ----------------------
-        public CardSet cardSet;
+        [HideInInspector] // <- 카드 리스트 직접 확인하려면 삭제
+        public List<Card> cardList = new List<Card>();
+
         [Header("카드 개수")]
         [SerializeField]
         private int bang_c;
@@ -156,6 +160,10 @@ namespace com.ThreeCS.McCree
         [SerializeField]
         private int avoid_c;
         //----------------------------------------------
+
+        [HideInInspector]
+        public bool nextSignal = false;
+        public int tidx;
         #endregion
 
 
@@ -169,6 +177,8 @@ namespace com.ThreeCS.McCree
             jobUIAnimator = jobPanel.GetComponent<Animator>();
             abilUIAnimator = abilPanel.GetComponent<Animator>();
 
+            // 카드 덱 
+
             // 로비브금 끄기 
             BGMLobby = GameObject.Find("BGMLobby");
             Destroy(BGMLobby);
@@ -180,16 +190,12 @@ namespace com.ThreeCS.McCree
             setButton = GameObject.Find("SetButton").GetComponent<Button>();
             setButton.gameObject.SetActive(false);
 
-
-
             // 접속 못하면 초기화면으로 쫓아냄
             if (!PhotonNetwork.IsConnected)
             {
                 SceneManager.LoadScene("Launcher");
                 return;
             }
-
-
         }
 
         void Start()
@@ -207,8 +213,6 @@ namespace com.ThreeCS.McCree
                 cameraWork = GetComponent<CameraWork>(); // 본인 카메라 가져오기
             }
             StartCoroutine(WaitAllPlayers()); // 다른 플레이어 기다리기
-
-
         }
 
         private void Update()
@@ -325,47 +329,43 @@ namespace com.ThreeCS.McCree
             // 임시 카드셋
             //cardSet = gameObject.AddComponent<CardSet>();
 
-
-            Card.cType[] startCards = new Card.cType[
+            // 초기 카드 세팅
+            Card.cType[] initialDeck = new Card.cType[
                 bang_c + heal_c + avoid_c
             ];
 
             int k = 0;
             for (int i = 0; i < bang_c; i++, k++)
-                startCards[k] = Card.cType.Bang;
+                initialDeck[k] = Card.cType.Bang;
             for (int i = 0; i < heal_c; i++, k++)
-                startCards[k] = Card.cType.Heal;
+                initialDeck[k] = Card.cType.Heal;
             for (int i = 0; i < avoid_c; i++, k++)
-                startCards[k] = Card.cType.Avoid;
+                initialDeck[k] = Card.cType.Avoid;
 
             // 섞기
             int random1;
             int random2;
             Card.cType temp;
-            for (int i = 0; i < startCards.Length; i++)
+            for (int i = 0; i < initialDeck.Length; i++)
             {
-                random1 = UnityEngine.Random.Range(0, startCards.Length);
-                random2 = UnityEngine.Random.Range(0, startCards.Length);
+                random1 = UnityEngine.Random.Range(0, initialDeck.Length);
+                random2 = UnityEngine.Random.Range(0, initialDeck.Length);
 
-                temp = startCards[random1];
-                startCards[random1] = startCards[random2];
-                startCards[random2] = temp;
+                temp = initialDeck[random1];
+                initialDeck[random1] = initialDeck[random2];
+                initialDeck[random2] = temp;
             }
 
-
-            for (int i = 0; i < startCards.Length; i++)
+            //카드 섞인거 확인
+            for (int i = 0; i < initialDeck.Length; i++)
             {
-                Debug.Log("card: " + startCards[i]);
+                Debug.Log("card: " + initialDeck[i]);
             }
 
+            // rpc가 리스트를 넘길수 없으므로 json으로 바꿔서 보냄
+            var json = JsonConvert.SerializeObject(initialDeck);
 
-            var json = JsonConvert.SerializeObject(startCards);
-
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                playerList[i].GetComponent<PhotonView>().RPC("GiveCardSet", RpcTarget.All, json);
-            }
-
+            player1.GetComponent<PhotonView>().RPC("GiveCardSet", RpcTarget.All, json);
 
             yield return new WaitForEndOfFrame();
         }
@@ -470,7 +470,6 @@ namespace com.ThreeCS.McCree
             }
 
             Debug.Log("시작 가능!");
-            int t = 0;
             foreach (GameObject player in playerList)
             {
                 if (player.GetComponent<PhotonView>().IsMine)
@@ -478,16 +477,11 @@ namespace com.ThreeCS.McCree
                     if (player.GetComponent<PlayerManager>().playerType == jType.Sheriff)
                     {
                         bangBtn.gameObject.SetActive(true);
-                        //Player p1 = PhotonNetwork.PlayerList[t];
-                        //PhotonNetwork.SetMasterClient(p1);
                     }
                 }
-                t++;
             }
         }
 
-        // 현재 보안관으로 당첨된 사람만 gameloop 코루틴이 돌아가기 때문에 이점을 염두에 두고 코딩해야함
-        // 나머지는 보안관 컴퓨터가 보내준 정보만 얻을 뿐임
         IEnumerator GameLoop1()
         {
             Debug.Log("진짜 시작");
@@ -523,13 +517,13 @@ namespace com.ThreeCS.McCree
                 }
                 // 보안관부터 차례대로 저장
                 turnList.Add(sitList[sheriffIdx++]);
+                // turnlist에 턴 순서대로 플레이어들이 들어가 있음
             }
-            // turnlist에 턴 순서대로 플레이어들이 들어가 있음
+
             yield return new WaitForEndOfFrame();
 
-            
-            // 카드 나눠주기 중복 방지를 위해 본인이 보안관일때 rpc를 작동하게 됨
-            if(player1.GetComponent<PhotonView>().IsMine && player1.GetComponent<PlayerManager>().playerType == jType.Sheriff)
+            // 카드 나눠주기 중복 방지를 위해 마스터클라이언트 혼자만 작동(1번만 해야하는 동작임)
+            if(PhotonNetwork.IsMasterClient)
             {
                 // 맨 처음에 5장씩 뿌림
                 for (int i = 0; i < turnList.Count; i++)
@@ -539,15 +533,60 @@ namespace com.ThreeCS.McCree
                 }
                 yield return new WaitForEndOfFrame();
             }
+            // 시점을 1인칭으로 바꿈
+            cam.ChildCameras[2].gameObject.SetActive(true);
+            cam.ChildCameras[1].gameObject.SetActive(false);
+
+            tidx = 0;
+            nextSignal = false;
+
+            // 턴 진행
+            Debug.Log("현재 턴 진행 진입");
+            while (!isVictory)
+            {
+                if (tidx == turnList.Count)
+                    tidx = 0;
+
+                if (player1.GetComponent<PhotonView>().ViewID == turnList[tidx].GetComponent<PhotonView>().ViewID)
+                    turnList[tidx].GetComponent<PhotonView>().RPC("MyTurn", RpcTarget.All, tidx);
+                else
+                {
+                    Debug.Log("자기 턴 아님");
+                    yield return new WaitForSeconds(0.1f);
+                    continue;
+                }
+
+                yield return new WaitForEndOfFrame();
+
+                while (true)
+                {
+                    if (nextSignal)
+                    {
+                        Debug.Log("턴 넘어감");
+                        turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
+                        nextSignal = false;
+                        break;
+                    }
+                    Debug.Log("턴 소요 중~~~~~~~~");
+                    yield return new WaitForSeconds(0.1f);
+                }
+                yield return null;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        public void TempClick()
+        {
+            Debug.Log("턴 버튼 누름!");
+            nextSignal = true;
         }
 
         // 게임 종료 조건 만족하는지 확인함 
         IEnumerator EndGame()
         {
             // 너무 빨리 측정하면 hp 동기화 전이라 전부 사망처리됨
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(10f);
 
-            while (!isVitory)
+            while (!isVictory)
             {
                 outlawNum = 0;
                 renegadeNum = 0;
@@ -560,7 +599,7 @@ namespace com.ThreeCS.McCree
                     {
                         // 보안관 사망시 무법자 승리
                         Victory("outlaw");
-                        isVitory = true;
+                        isVictory = true;
                     }
                     else if(player.GetComponent<PlayerManager>().playerType == jType.Outlaw)
                     {
@@ -599,14 +638,14 @@ namespace com.ThreeCS.McCree
                 if (viceNum == 0 && outlawNum == 0)
                 {
                     Victory("renegade");
-                    isVitory = true;
+                    isVictory = true;
                 }
 
                 // 무법자 배신자 모두 사망하면 보안관 승리
                 if (outlawNum == 0 && renegadeNum == 0)
                 {
                     Victory("sherrif");
-                    isVitory = true;
+                    isVictory = true;
                 }
 
                 yield return new WaitForSeconds(1f);
@@ -806,11 +845,12 @@ namespace com.ThreeCS.McCree
                 player.GetComponent<PhotonView>().RPC("Gameloop", RpcTarget.All);
             }
         }
+
         public void GLStart()
         {
             StartCoroutine("GameLoop1");
         }
-    
+
         #endregion
 
 

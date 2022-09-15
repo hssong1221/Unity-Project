@@ -65,17 +65,25 @@ namespace com.ThreeCS.McCree
                         target = player.transform;
                         Cam.LookAt = target;
                     }
+                    else if (Cam.name == "CM Game")
+                    {
+                        target = player.transform;
+                        Cam.Follow = target;
+                        Cam.LookAt = target;
+                    }
                 }
             }
 
-            Debug.Log("현재 승리 상태 : " + GameManager.Instance.isVitory);
+            Debug.Log("현재 승리 상태 : " + GameManager.Instance.isVictory);
 
 
-            if (GameManager.Instance.isVitory)
+            if (GameManager.Instance.isVictory)
             {
-                ccam.ChildCameras[2].gameObject.SetActive(true);
+                ccam.ChildCameras[3].gameObject.SetActive(true);
                 ccam.ChildCameras[0].gameObject.SetActive(false);
                 ccam.ChildCameras[1].gameObject.SetActive(false);
+                ccam.ChildCameras[2].gameObject.SetActive(false);
+
             }
         }
 

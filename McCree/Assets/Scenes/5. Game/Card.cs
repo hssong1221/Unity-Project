@@ -18,8 +18,7 @@ namespace com.ThreeCS.McCree
         public Image cardInImg;
         public GameObject cardBorder;
 
-        cType content;
-        Sprite contentImg;
+        
 
         Transform cardPos;
         public Preset originPRS;
@@ -27,23 +26,9 @@ namespace com.ThreeCS.McCree
         //public float cpos_y;
         //public float cpos_z;
 
-
-
         public Card(cType content)
         {
             ability = content;
-        }
-
-        public cType ability
-        {
-            get => content;
-            set => content = value;
-        }
-
-        public Sprite cardImg
-        {
-            get => contentImg;
-            set => contentImg = value;
         }
 
         public enum cType
@@ -52,6 +37,14 @@ namespace com.ThreeCS.McCree
             Avoid,
             Heal
         }
+
+        cType content;
+
+        public cType ability
+        {
+            get => content;
+            set => content = value;
+        }        
 
 
         public void posValue(Vector3 myCardPos)
@@ -62,21 +55,21 @@ namespace com.ThreeCS.McCree
             //cpos_z = myCardPos.position.z;
         }
 
+        // 카드 이미지와 타입을 맞추는 함수
         public void matchImg()
         {
             if (this.content == cType.Bang)
             {
-                this.cardImg = bangImg;
+                cardInImg.sprite = bangImg;
             }
             else if (this.content == cType.Avoid)
             {
-                this.cardImg = avoidImg;
+                cardInImg.sprite = avoidImg;
             }
             else if (this.content == cType.Heal)
             {
-                this.cardImg = healImg;
+                cardInImg.sprite = healImg;
             }
-            cardInImg.sprite = this.cardImg;
         }
 
         public void MoveTransform (Preset prs, bool useDotween, float dotweenTime = 0)

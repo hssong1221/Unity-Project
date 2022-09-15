@@ -9,6 +9,8 @@ namespace com.ThreeCS.McCree
 {
     public class MineUI : MonoBehaviour
     {
+        #region 개인UI패널 변수
+
         // 로컬 플레이어의 UI 어디서든 사용가능 (로컬 한정)  
         private static MineUI pInstance;
 
@@ -89,6 +91,10 @@ namespace com.ThreeCS.McCree
         public Transform pos_CardLeft;
         public Transform pos_CardRight;
         // -------------------------------------------------------
+
+        public GameObject TempButton;
+
+        #endregion
 
 
         void Awake()

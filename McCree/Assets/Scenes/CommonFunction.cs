@@ -9,12 +9,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace com.ThreeCS.McCree
 {
-    public class Preset
+    public class Preset // 카드 오브젝트 생성 프리셋
     {
         public Vector3 pos;
         public Quaternion rot;
         public Vector3 scale;
-
+        
         public Preset(Vector3 pos, Quaternion rot, Vector3 scale)
         {
             this.pos = pos;

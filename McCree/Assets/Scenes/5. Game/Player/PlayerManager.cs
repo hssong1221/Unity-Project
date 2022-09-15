@@ -258,6 +258,7 @@ namespace com.ThreeCS.McCree
         float moveSpeed = 5f; // 캐릭터 이동 속도
 
         // --------------------------- 카드 기능 부활 중 -----------------------
+        [Header("카드 프리팹")]
         public Card cardObject;
         //-----------------------------------------------
 
@@ -725,31 +726,38 @@ namespace com.ThreeCS.McCree
 
         // -----------------------카드 기능 부활 중------------------------
         [PunRPC]
-        public void GiveCardSet(string jsonData)
+        public void GiveCardSet(string jsonData) // 카드덱을 나눠주기(카드 순서 동기화)
         {
-            GameManager.Instance.cardSet = gameObject.AddComponent<CardSet>();
+            //GameManager.Instance.cardSet = gameObject.AddComponent<CardSet>();
 
-            Card.cType[] startCards = JsonConvert.DeserializeObject<Card.cType[]>(jsonData);
+            // json으로 넘어온거 다시 풀어놓기
+            Card.cType[] initialDeck = JsonConvert.DeserializeObject<Card.cType[]>(jsonData);
 
-            for (int i = 0; i < startCards.Length; i++)
+            // 모든 사람 카드리스트에 카드 섞은거 넣기
+            for (int i = 0; i < initialDeck.Length; i++)
             {
-                Card card = new Card(startCards[i]);
-                GameManager.Instance.cardSet.cardList.Add(card);
+                //Card card = new Card(initialDeck[i]);
+                Card card = cardObject.gameObject.AddComponent<Card>();
+                card.ability = initialDeck[i];
+
+                GameManager.Instance.cardList.Add(card);
             }
         }
 
         [PunRPC]
-        public void GiveCards(int num, Vector3 objPos) // 카드 나눠주기
+        public void GiveCards(int num, Vector3 objPos) // 카드 나눠주기(카드 덱을 동기화)
         {
             Debug.Log("num: " + num);
             for (int i = 0; i < num; i++)
             {
-                Card DrawCard = GameManager.Instance.cardSet.cardList[0];
+                // 리스트 맨 앞에서 뽑은 카드
+                Card DrawCard = GameManager.Instance.cardList[0];
 
+                // 카드 타입과 그림 매칭
                 cardObject.ability = DrawCard.ability;
                 cardObject.matchImg();
 
-
+                // 카드를 뽑은게 본인이면 UI에 카드를 생성하고 본인 playerinfo에 카드 리스트에 저장
                 if (photonView.IsMine) // 내 개인 UI에 내껏만 추가 
                 {
                     var card = Instantiate(cardObject, MineUI.Instance.pos_CardSpwan.position, Quaternion.identity, MineUI.Instance.pos_CardParent);
@@ -758,12 +766,14 @@ namespace com.ThreeCS.McCree
 
                     MineUI.Instance.CardAlignment();
                 }
+                // 남의 카드는 보이지 않고 정보만 playerinfo에 저장해놓음
                 else
                 {
-                    playerInfo.mycards.Add(cardObject); // 내가 가지고있는 카드셋 mycards에 추가 
+                    playerInfo.mycards.Add(cardObject); 
                 }
 
-                GameManager.Instance.cardSet.cardList.RemoveAt(0);
+                // 덱에서 뽑힌 카드는 사라짐
+                GameManager.Instance.cardList.RemoveAt(0);
             }
 
         }
