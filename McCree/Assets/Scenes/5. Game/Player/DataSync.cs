@@ -12,9 +12,6 @@ namespace com.ThreeCS.McCree
 {
     public class DataSync : Controller
     {
-        public bool nextSignal = false;
-
-
         // 보안관이 뱅 버튼 눌렀을 때 모든 사람의 인구수ui가 꺼져야함
         [PunRPC]
         public void StartUIOff()
@@ -33,14 +30,10 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         public void MyTurn(int idx)
         {
-            if (photonView.IsMine)
+            if (photonView.IsMine)//(혹시 몰라서 추가)
             {
                 Debug.Log("현재 순서 : " + idx);
-                MineUI.Instance.TempButton.SetActive(true);
-            }
-            else
-            {
-                MineUI.Instance.TempButton.SetActive(false);
+                MineUI.Instance.NextButton.SetActive(true);
             }
         }
         [PunRPC]

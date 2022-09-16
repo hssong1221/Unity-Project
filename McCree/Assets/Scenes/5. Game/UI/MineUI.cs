@@ -92,7 +92,7 @@ namespace com.ThreeCS.McCree
         public Transform pos_CardRight;
         // -------------------------------------------------------
 
-        public GameObject TempButton;
+        public GameObject NextButton;
 
         #endregion
 

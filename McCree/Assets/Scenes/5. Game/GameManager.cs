@@ -162,8 +162,9 @@ namespace com.ThreeCS.McCree
         //----------------------------------------------
 
         [HideInInspector]
-        public bool nextSignal = false;
-        public int tidx;
+        public bool nextSignal = false; // 턴을 다음사람에게 넘기라는 변수
+        [HideInInspector]   
+        public int tidx;                // 현재 턴을 가지고 있는 사람의 turnList index
         #endregion
 
 
@@ -547,7 +548,8 @@ namespace com.ThreeCS.McCree
                 if (tidx == turnList.Count)
                     tidx = 0;
 
-                if (player1.GetComponent<PhotonView>().ViewID == turnList[tidx].GetComponent<PhotonView>().ViewID)
+                // 본인이 턴리스트 순서와 같아야 본인 턴 (중복 rpc 방지위해 본인 것만)
+                if (player1.GetComponent<PhotonView>().ViewID == turnList[tidx].GetComponent<PhotonView>().ViewID && player1.GetComponent<PhotonView>().IsMine)
                     turnList[tidx].GetComponent<PhotonView>().RPC("MyTurn", RpcTarget.All, tidx);
                 else
                 {
@@ -574,10 +576,11 @@ namespace com.ThreeCS.McCree
             }
             yield return new WaitForEndOfFrame();
         }
-        public void TempClick()
+        public void NextBtnClick()
         {
             Debug.Log("턴 버튼 누름!");
             nextSignal = true;
+            MineUI.Instance.NextButton.SetActive(false);
         }
 
         // 게임 종료 조건 만족하는지 확인함 

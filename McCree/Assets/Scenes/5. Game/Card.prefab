@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1cbeae1b263965e489a9110d974dbec3, type: 3}
+  m_Sprite: {fileID: 3828012792148720785, guid: a0837315b28dfc44b9ec9a46e66e92a5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -208,6 +208,96 @@ GameObject:
   - component: {fileID: -8908296093703670588}
   - component: {fileID: 6776333858831727315}
   - component: {fileID: 3326644405000257138}
+  - component: {fileID: -955128514955940320}
+  - component: {fileID: 8003873634264254812}
+  - component: {fileID: 6493611009910604090}
+  - component: {fileID: -9052540118912466372}
+  - component: {fileID: 8814314846839703869}
+  - component: {fileID: 5504318701835537505}
+  - component: {fileID: 558616226073065840}
+  - component: {fileID: 7705069904418925632}
+  - component: {fileID: 5375840192650322102}
+  - component: {fileID: -2614389715722322915}
+  - component: {fileID: -4977099431989412769}
+  - component: {fileID: 563627249761253422}
+  - component: {fileID: 2753290363669188574}
+  - component: {fileID: -4172596582831856845}
+  - component: {fileID: 5397255344999630556}
+  - component: {fileID: -2333654776858578367}
+  - component: {fileID: 6903140026653652473}
+  - component: {fileID: 6996946831348552960}
+  - component: {fileID: -7145194022204032521}
+  - component: {fileID: -4609580408850000376}
+  - component: {fileID: 6039899705919949121}
+  - component: {fileID: -7472618625102187326}
+  - component: {fileID: 7701010823972939323}
+  - component: {fileID: -8969944700510452064}
+  - component: {fileID: -7845684532462782142}
+  - component: {fileID: -2662440874043862620}
+  - component: {fileID: 3682792956059681803}
+  - component: {fileID: 8843891922399655613}
+  - component: {fileID: 2562179499962287404}
+  - component: {fileID: -6440852406436235427}
+  - component: {fileID: -2605526173476290628}
+  - component: {fileID: 616830902408647188}
+  - component: {fileID: 2509577560552584347}
+  - component: {fileID: 2484900784485544661}
+  - component: {fileID: -8063388127375782966}
+  - component: {fileID: 4853463186676350768}
+  - component: {fileID: 991602906589679437}
+  - component: {fileID: -7569007575359649510}
+  - component: {fileID: -8464004362081776295}
+  - component: {fileID: -854612922645152302}
+  - component: {fileID: -2345386651923121073}
+  - component: {fileID: -3669543791179540805}
+  - component: {fileID: 5900518724965169473}
+  - component: {fileID: 8340478134080016842}
+  - component: {fileID: -7278480337171217271}
+  - component: {fileID: 2315553466780993500}
+  - component: {fileID: 3801624527839915475}
+  - component: {fileID: 8366738914259692062}
+  - component: {fileID: 4539304158520980297}
+  - component: {fileID: 5842831741357828088}
+  - component: {fileID: 8206376230478299255}
+  - component: {fileID: 2779517548994855753}
+  - component: {fileID: 502651433807655952}
+  - component: {fileID: -1712756847147851778}
+  - component: {fileID: -4409208525925298477}
+  - component: {fileID: -1684966174757072055}
+  - component: {fileID: 1037334510706515628}
+  - component: {fileID: -2460037131067832413}
+  - component: {fileID: -995896848359949559}
+  - component: {fileID: 5853409943200875369}
+  - component: {fileID: -401780469917360925}
+  - component: {fileID: 934253413803094942}
+  - component: {fileID: 2515932342163791062}
+  - component: {fileID: -4122517118169710296}
+  - component: {fileID: 1040451805171956444}
+  - component: {fileID: -3386971722808009972}
+  - component: {fileID: -8673362832802657828}
+  - component: {fileID: 4383938129012717709}
+  - component: {fileID: -498672760865183725}
+  - component: {fileID: 1430961974042857501}
+  - component: {fileID: 2232499726062618698}
+  - component: {fileID: 3998360107023944224}
+  - component: {fileID: -542955310544493525}
+  - component: {fileID: -8587750183361540329}
+  - component: {fileID: 4302213243694664552}
+  - component: {fileID: -2358516919479057317}
+  - component: {fileID: 625883200792581227}
+  - component: {fileID: 5856974357248806203}
+  - component: {fileID: 7197321979326270976}
+  - component: {fileID: -3161734534613698075}
+  - component: {fileID: -7804086006223164751}
+  - component: {fileID: -1549819158149767373}
+  - component: {fileID: 9209111620554798793}
+  - component: {fileID: -8743023627687495899}
+  - component: {fileID: 3476818207862573652}
+  - component: {fileID: 1914338511946353636}
+  - component: {fileID: -8794848434697403593}
+  - component: {fileID: -7680429156602939336}
+  - component: {fileID: 7504119433624092715}
+  - component: {fileID: -7632919244352785136}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -803,6 +893,1536 @@ MonoBehaviour:
   cardInImg: {fileID: 0}
   cardBorder: {fileID: 0}
 --- !u!114 &3326644405000257138
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-955128514955940320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &8003873634264254812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &6493611009910604090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-9052540118912466372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &8814314846839703869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &5504318701835537505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &558616226073065840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &7705069904418925632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &5375840192650322102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-2614389715722322915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-4977099431989412769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &563627249761253422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &2753290363669188574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-4172596582831856845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &5397255344999630556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-2333654776858578367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &6903140026653652473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &6996946831348552960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-7145194022204032521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-4609580408850000376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &6039899705919949121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-7472618625102187326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &7701010823972939323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-8969944700510452064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-7845684532462782142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-2662440874043862620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &3682792956059681803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &8843891922399655613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &2562179499962287404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-6440852406436235427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-2605526173476290628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &616830902408647188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &2509577560552584347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &2484900784485544661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-8063388127375782966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &4853463186676350768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &991602906589679437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-7569007575359649510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-8464004362081776295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-854612922645152302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-2345386651923121073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-3669543791179540805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &5900518724965169473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &8340478134080016842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-7278480337171217271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &2315553466780993500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &3801624527839915475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &8366738914259692062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &4539304158520980297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &5842831741357828088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &8206376230478299255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &2779517548994855753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &502651433807655952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-1712756847147851778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-4409208525925298477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-1684966174757072055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &1037334510706515628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-2460037131067832413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-995896848359949559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &5853409943200875369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-401780469917360925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &934253413803094942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &2515932342163791062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-4122517118169710296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &1040451805171956444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-3386971722808009972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-8673362832802657828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &4383938129012717709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-498672760865183725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &1430961974042857501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &2232499726062618698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &3998360107023944224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-542955310544493525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-8587750183361540329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &4302213243694664552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-2358516919479057317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &625883200792581227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &5856974357248806203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &7197321979326270976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-3161734534613698075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-7804086006223164751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-1549819158149767373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &9209111620554798793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-8743023627687495899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &3476818207862573652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &1914338511946353636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-8794848434697403593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-7680429156602939336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &7504119433624092715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2643383449535095574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bangImg: {fileID: 0}
+  avoidImg: {fileID: 0}
+  healImg: {fileID: 0}
+  cardInImg: {fileID: 0}
+  cardBorder: {fileID: 0}
+--- !u!114 &-7632919244352785136
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
