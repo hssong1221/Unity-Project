@@ -26,11 +26,6 @@ namespace com.ThreeCS.McCree
         //public float cpos_y;
         //public float cpos_z;
 
-        public Card(cType content)
-        {
-            ability = content;
-        }
-
         public enum cType
         {
             Bang,
@@ -38,13 +33,7 @@ namespace com.ThreeCS.McCree
             Heal
         }
 
-        cType content;
-
-        public cType ability
-        {
-            get => content;
-            set => content = value;
-        }        
+        public cType cardContent;
 
 
         public void posValue(Vector3 myCardPos)
@@ -58,15 +47,15 @@ namespace com.ThreeCS.McCree
         // 카드 이미지와 타입을 맞추는 함수
         public void matchImg()
         {
-            if (this.content == cType.Bang)
+            if (this.cardContent == cType.Bang)
             {
                 cardInImg.sprite = bangImg;
             }
-            else if (this.content == cType.Avoid)
+            else if (this.cardContent == cType.Avoid)
             {
                 cardInImg.sprite = avoidImg;
             }
-            else if (this.content == cType.Heal)
+            else if (this.cardContent == cType.Heal)
             {
                 cardInImg.sprite = healImg;
             }

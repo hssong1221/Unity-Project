@@ -735,9 +735,8 @@ namespace com.ThreeCS.McCree
             // 모든 사람 카드리스트에 카드 섞은거 넣기
             for (int i = 0; i < initialDeck.Length; i++)
             {
-                //Card card = new Card(initialDeck[i]);
-                Card card = cardObject.gameObject.AddComponent<Card>();
-                card.ability = initialDeck[i];
+                Card card = new Card();
+                card.cardContent = initialDeck[i];
 
                 GameManager.Instance.cardList.Add(card);
             }
@@ -753,7 +752,7 @@ namespace com.ThreeCS.McCree
                 Card DrawCard = GameManager.Instance.cardList[0];
 
                 // 카드 타입과 그림 매칭
-                cardObject.ability = DrawCard.ability;
+                cardObject.cardContent = DrawCard.cardContent;
                 cardObject.matchImg();
 
                 // 카드를 뽑은게 본인이면 UI에 카드를 생성하고 본인 playerinfo에 카드 리스트에 저장
