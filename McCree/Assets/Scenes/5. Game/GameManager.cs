@@ -538,6 +538,8 @@ namespace com.ThreeCS.McCree
             cam.ChildCameras[2].gameObject.SetActive(true);
             cam.ChildCameras[1].gameObject.SetActive(false);
 
+            yield return new WaitForSeconds(1f);
+
             tidx = 0;
             nextSignal = false;
 
@@ -569,8 +571,11 @@ namespace com.ThreeCS.McCree
                         nextSignal = false;
                         break;
                     }
+                    // -------------------------------------------  본인 턴 때 실행할 것들 여기에 쓰면 됨-------------------------------------------------------
+
                     Debug.Log("턴 소요 중~~~~~~~~");
                     yield return new WaitForSeconds(0.1f);
+                    // ------------------------------------------------------------------------------------------------------------------------------------------
                 }
                 yield return null;
             }

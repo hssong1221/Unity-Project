@@ -262,7 +262,6 @@ namespace com.ThreeCS.McCree
         public Card cardObject;
         //-----------------------------------------------
 
-
         #endregion
 
         #region MonoBehaviour CallBacks
@@ -316,12 +315,10 @@ namespace com.ThreeCS.McCree
 
         void Update()
         {
-            if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
-            {
-                return;
-            }
-
-
+            //if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            //{
+            //    return;
+            //}
             if (photonView.IsMine) // 자기자신 캐릭터만 제어해야함
             {
                 if (Input.GetKeyDown(KeyCode.Tab))
@@ -370,8 +367,10 @@ namespace com.ThreeCS.McCree
 
         private void FixedUpdate() // move
         {
+            
             if (photonView.IsMine && !isSit)
             {
+                
                 h = Input.GetAxis("Horizontal");
                 v = Input.GetAxis("Vertical");
 
@@ -689,13 +688,13 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        [PunRPC]
+        [PunRPC]    // Data sync 이동 예정
         public void SyncHp() // 내 체력 동기화
         {
             playerInfo.Show_Hp();
         }
 
-        [PunRPC]
+        [PunRPC]    // Data sync 이동 예정
         public void AnimStart() // 애니메이션 플레이
         {
             if (photonView.IsMine)

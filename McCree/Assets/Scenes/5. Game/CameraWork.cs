@@ -22,6 +22,7 @@ namespace com.ThreeCS.McCree
         public Transform target;
         public GameObject player;
 
+        public Vector3 vec;
         #endregion
 
         #region MonoBehaviour CallBacks
@@ -31,60 +32,8 @@ namespace com.ThreeCS.McCree
             Cam = GetComponent<CinemachineVirtualCamera>();
             ccam = GetComponentInParent<CinemachineClearShot>();
             player = null;
-        }
 
-
-        void FixedUpdate()
-        {
-            // 처음 진입
-            if (player == null)
-            {
-                // 플레이어 리스트에서 내 거 찾아서 가상 카메라 붙이기
-                foreach (GameObject player in GameManager.Instance.playerList)
-                {
-                    if (player.GetComponent<PhotonView>().IsMine)
-                    {
-                        this.player = player;
-                        break;
-                    }
-                }
-
-                // 카메라 마다 기능 부여
-                if (player != null)
-                {
-                    // 메인 카메라
-                    if(Cam.name == "CM vcam1")
-                    {
-                        target = player.transform;
-                        Cam.Follow = target;
-                        Cam.LookAt = target;
-                    }
-                    // 주점 CCTV
-                    else if (Cam.name == "CM Saloon")
-                    {
-                        target = player.transform;
-                        Cam.LookAt = target;
-                    }
-                    else if (Cam.name == "CM Game")
-                    {
-                        target = player.transform;
-                        Cam.Follow = target;
-                        Cam.LookAt = target;
-                    }
-                }
-            }
-
-            Debug.Log("현재 승리 상태 : " + GameManager.Instance.isVictory);
-
-
-            if (GameManager.Instance.isVictory)
-            {
-                ccam.ChildCameras[3].gameObject.SetActive(true);
-                ccam.ChildCameras[0].gameObject.SetActive(false);
-                ccam.ChildCameras[1].gameObject.SetActive(false);
-                ccam.ChildCameras[2].gameObject.SetActive(false);
-
-            }
+            StartCoroutine("CamWork");
         }
 
         #endregion
@@ -97,6 +46,81 @@ namespace com.ThreeCS.McCree
             ccam.ChildCameras[0].gameObject.SetActive(false);
         }
 
+        IEnumerator CamWork()
+        {
+            while (player == null)
+            {
+                // 플레이어 리스트에서 내 거 찾아서 가상 카메라 붙이기
+                foreach (GameObject player in GameManager.Instance.playerList)
+                {
+                    if (player.GetComponent<PhotonView>().IsMine)
+                    {
+                        this.player = player;
+                        break;
+                    }
+                }
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            yield return new WaitForEndOfFrame();
+
+            // 카메라 마다 기능 부여
+            while (player != null)
+            {
+                // 각도
+                vec = player.transform.localEulerAngles;
+
+                if (Cam.name == "CM Game")
+                {
+                    
+                }
+                // 메인 카메라
+                if (Cam.name == "CM vcam1")
+                {
+                    target = player.transform;
+                    Cam.Follow = target;
+                    Cam.LookAt = target;
+
+                }
+                // 주점 CCTV
+                else if (Cam.name == "CM Saloon")
+                {
+                    target = player.transform;
+                    Cam.LookAt = target;
+                }
+                // 게임진행 1인칭 
+                else if (Cam.name == "CM Game")
+                {
+                    target = player.transform;
+                    Cam.Follow = target;
+                    Cam.LookAt = target;
+
+                    // 앉으면 1인칭이되고 고개 돌릴수 있는 각도 제한
+                    if (0 <= vec.y && vec.y <= 180)
+                    {
+                        Cam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MinValue = vec.y + 20;
+                        Cam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxValue = vec.y + 170;
+                    }
+                    else
+                    {
+                        Cam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MinValue = (vec.y - 180) - 160;
+                        Cam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxValue = (vec.y - 180) - 10;
+                    }
+
+                }
+                yield return new WaitForEndOfFrame();
+
+                Debug.Log("현재 승리 상태 : " + GameManager.Instance.isVictory);
+                if (GameManager.Instance.isVictory)
+                {
+                    ccam.ChildCameras[3].gameObject.SetActive(true);
+                    ccam.ChildCameras[0].gameObject.SetActive(false);
+                    ccam.ChildCameras[1].gameObject.SetActive(false);
+                    ccam.ChildCameras[2].gameObject.SetActive(false);
+                }
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
         #endregion
     }
 
