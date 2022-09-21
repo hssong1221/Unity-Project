@@ -165,6 +165,7 @@ namespace com.ThreeCS.McCree
         public bool nextSignal = false; // 턴을 다음사람에게 넘기라는 변수
         [HideInInspector]   
         public int tidx;                // 현재 턴을 가지고 있는 사람의 turnList index
+
         #endregion
 
 
@@ -178,8 +179,6 @@ namespace com.ThreeCS.McCree
             jobUIAnimator = jobPanel.GetComponent<Animator>();
             abilUIAnimator = abilPanel.GetComponent<Animator>();
 
-            // 카드 덱 
-
             // 로비브금 끄기 
             BGMLobby = GameObject.Find("BGMLobby");
             Destroy(BGMLobby);
@@ -190,6 +189,9 @@ namespace com.ThreeCS.McCree
             // 게임 들어오면 환경설정 버튼 숨기기 (임시)
             setButton = GameObject.Find("SetButton").GetComponent<Button>();
             setButton.gameObject.SetActive(false);
+
+            // -----------  마우스가 화면 밖으로 나가지 못하게 함---------------
+            //Cursor.lockState = CursorLockMode.Confined;
 
             // 접속 못하면 초기화면으로 쫓아냄
             if (!PhotonNetwork.IsConnected)
@@ -220,6 +222,8 @@ namespace com.ThreeCS.McCree
         {
             // 인원 체크 UI가 계속 정면을 보게 만듬
             startCanvas.transform.LookAt(startCanvas.transform.position + Camera.main.transform.forward);
+
+
         }
 
         #endregion
@@ -538,6 +542,8 @@ namespace com.ThreeCS.McCree
             cam.ChildCameras[2].gameObject.SetActive(true);
             cam.ChildCameras[1].gameObject.SetActive(false);
 
+            
+
             yield return new WaitForSeconds(1f);
 
             tidx = 0;
@@ -549,6 +555,7 @@ namespace com.ThreeCS.McCree
             {
                 if (tidx == turnList.Count)
                     tidx = 0;
+
 
                 // 본인이 턴리스트 순서와 같아야 본인 턴 (중복 rpc 방지위해 본인 것만)
                 if (player1.GetComponent<PhotonView>().ViewID == turnList[tidx].GetComponent<PhotonView>().ViewID && player1.GetComponent<PhotonView>().IsMine)

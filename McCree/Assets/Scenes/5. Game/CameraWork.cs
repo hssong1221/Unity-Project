@@ -1,5 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
+using System;
+
 using UnityEngine;
 using Cinemachine;
 
@@ -23,6 +24,12 @@ namespace com.ThreeCS.McCree
         public GameObject player;
 
         public Vector3 vec;
+
+        // 마우스 입력값
+        protected float mouseX;
+        protected float mouseY;
+        protected float mouseLeftClick = 0f;
+
         #endregion
 
         #region MonoBehaviour CallBacks
@@ -34,6 +41,28 @@ namespace com.ThreeCS.McCree
             player = null;
 
             StartCoroutine("CamWork");
+        }
+
+        void Update()
+        {
+            if (Input.GetMouseButton(1))
+                mouseLeftClick = 1f;
+            else if (Input.GetMouseButtonUp(1))
+                mouseLeftClick = 0f;
+
+            try
+            {
+                // 화면은 돌리려면 마우스 우클릭을 해야 돌아감
+                mouseX = Input.GetAxis("Mouse X");
+                mouseY = Input.GetAxis("Mouse Y");
+                
+                Cam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_InputAxisValue = mouseY * mouseLeftClick;
+                Cam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_InputAxisValue = mouseX * mouseLeftClick;
+            }
+            catch(Exception e)
+            {
+                Debug.Log(e);
+            }
         }
 
         #endregion
@@ -70,10 +99,6 @@ namespace com.ThreeCS.McCree
                 // 각도
                 vec = player.transform.localEulerAngles;
 
-                if (Cam.name == "CM Game")
-                {
-                    
-                }
                 // 메인 카메라
                 if (Cam.name == "CM vcam1")
                 {

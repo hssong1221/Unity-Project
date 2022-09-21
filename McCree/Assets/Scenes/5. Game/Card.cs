@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+
 using DG.Tweening;
 
 namespace com.ThreeCS.McCree
 {
-    public class Card : MonoBehaviour  // 카드 하나하나의 내용
+    public class Card : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndDragHandler
     {
+        #region variable
 
         [Header("카드 그림")]
         public Sprite bangImg;
@@ -17,8 +20,6 @@ namespace com.ThreeCS.McCree
         [Header("카드 테두리, 내용")]
         public Image cardInImg;
         public GameObject cardBorder;
-
-        
 
         Transform cardPos;
         public Preset originPRS;
@@ -35,6 +36,12 @@ namespace com.ThreeCS.McCree
 
         public cType cardContent;
 
+        public Transform targetUI;
+        public Vector2 startPnt;
+        public Vector2 moveBegin;
+        public Vector2 moveoffset;
+
+        #endregion
 
         public void posValue(Vector3 myCardPos)
         {
@@ -78,5 +85,23 @@ namespace com.ThreeCS.McCree
             }
         }
 
+
+        // 드래그 기능 구현 중
+        void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
+        {
+            startPnt = targetUI.position;
+            moveBegin = eventData.position;
+        }
+
+        void IDragHandler.OnDrag(PointerEventData eventData)
+        {
+            moveoffset = eventData.position - moveBegin;
+            targetUI.position = startPnt + moveoffset;
+        }
+
+        void IEndDragHandler.OnEndDrag(PointerEventData eventData)
+        {
+            targetUI.position = startPnt;
+        }
     }
 }
