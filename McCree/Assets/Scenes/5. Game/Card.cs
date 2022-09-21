@@ -8,7 +8,7 @@ using DG.Tweening;
 
 namespace com.ThreeCS.McCree
 {
-    public class Card : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndDragHandler
+    public class Card : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndDragHandler, IPointerUpHandler
     {
         #region variable
 
@@ -36,12 +36,26 @@ namespace com.ThreeCS.McCree
 
         public cType cardContent;
 
+        [Header("이동할 카드UI object")]
         public Transform targetUI;
-        public Vector2 startPnt;
-        public Vector2 moveBegin;
-        public Vector2 moveoffset;
+        protected Vector2 startPnt;
+        protected Vector2 moveBegin;
+        protected Vector2 moveoffset;
+
+        // 카드를 사용한다 안한다
+        public bool useCard;
+
+        // 카드 사용 판정 패널
+        public UseCardPanelUI ucpui;
+        protected GameObject usecardPanel;
 
         #endregion
+
+        void Awake()
+        {
+            usecardPanel = GameObject.Find("UseCardPanel");
+            ucpui = usecardPanel.GetComponent<UseCardPanelUI>();
+        }
 
         public void posValue(Vector3 myCardPos)
         {
@@ -91,6 +105,18 @@ namespace com.ThreeCS.McCree
         {
             startPnt = targetUI.position;
             moveBegin = eventData.position;
+            Debug.Log("현재카드 : " + targetUI.GetComponent<Card>().cardContent);
+            GameManager.Instance.usecardPanel.SetActive(true);
+            useCard = false;
+
+            // 사용 패널에 정보 넘기기
+            ucpui.TargetMatch(targetUI);
+        }
+
+        void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
+        {
+            Debug.Log("마우스 뗴기");
+            Invoke("Delay", 1f);
         }
 
         void IDragHandler.OnDrag(PointerEventData eventData)
@@ -101,7 +127,24 @@ namespace com.ThreeCS.McCree
 
         void IEndDragHandler.OnEndDrag(PointerEventData eventData)
         {
-            targetUI.position = startPnt;
+            Debug.Log("드래그 뗴기" + useCard);
+
+            // 카드 사용 위치에 올려놔서 카드를 사용함
+            if (useCard == true) 
+            {
+                Debug.Log("카드 사용함");
+            }
+            // 카드를 사용하지 않고 다시 덱으로 
+            if (useCard == false)
+            {
+                targetUI.position = startPnt;
+                Invoke("Delay", 0.4f);
+            }
+            
+        }
+        public void Delay()
+        {
+            GameManager.Instance.usecardPanel.SetActive(false);
         }
     }
 }

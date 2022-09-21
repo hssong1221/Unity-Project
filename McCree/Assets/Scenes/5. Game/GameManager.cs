@@ -166,6 +166,8 @@ namespace com.ThreeCS.McCree
         [HideInInspector]   
         public int tidx;                // 현재 턴을 가지고 있는 사람의 turnList index
 
+        public GameObject usecardPanel;
+
         #endregion
 
 
@@ -490,6 +492,11 @@ namespace com.ThreeCS.McCree
         IEnumerator GameLoop1()
         {
             Debug.Log("진짜 시작");
+            // 카드 초기화를 위해 켜야함
+            usecardPanel.SetActive(true);
+            Color color = usecardPanel.GetComponent<Image>().color;
+            color.a = 0f;
+
             // 보안관을 시작으로 순서 정하기 
             // 보안관 앉은 위치찾기
             int sheriffIdx = 0;
@@ -542,8 +549,6 @@ namespace com.ThreeCS.McCree
             cam.ChildCameras[2].gameObject.SetActive(true);
             cam.ChildCameras[1].gameObject.SetActive(false);
 
-            
-
             yield return new WaitForSeconds(1f);
 
             tidx = 0;
@@ -556,6 +561,7 @@ namespace com.ThreeCS.McCree
                 if (tidx == turnList.Count)
                     tidx = 0;
 
+                usecardPanel.SetActive(false);
 
                 // 본인이 턴리스트 순서와 같아야 본인 턴 (중복 rpc 방지위해 본인 것만)
                 if (player1.GetComponent<PhotonView>().ViewID == turnList[tidx].GetComponent<PhotonView>().ViewID && player1.GetComponent<PhotonView>().IsMine)
@@ -568,6 +574,8 @@ namespace com.ThreeCS.McCree
                 }
 
                 yield return new WaitForEndOfFrame();
+
+                
 
                 while (true)
                 {
@@ -852,7 +860,7 @@ namespace com.ThreeCS.McCree
         // 인스펙터 창에다 직접 넣어놨음
         public void BangBtnClick()
         {
-            foreach(GameObject player in playerList)
+            foreach (GameObject player in playerList)
             {
                 // 모든 사람의 turnlist에 정보 저장을 위함
                 player.GetComponent<PhotonView>().RPC("StartUIOff", RpcTarget.All);
