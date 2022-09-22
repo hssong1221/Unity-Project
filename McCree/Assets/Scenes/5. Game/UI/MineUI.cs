@@ -85,13 +85,13 @@ namespace com.ThreeCS.McCree
         [HideInInspector]
         public float range_y;
 
-        // -------------------- 카드 기능 부활 중
+        [Header("카드 뽑혀서 나오는 위치랑 덱 위치")]
         public Transform pos_CardSpwan;
         public Transform pos_CardParent;
         public Transform pos_CardLeft;
         public Transform pos_CardRight;
-        // -------------------------------------------------------
 
+        [Header("다음턴 버튼")]
         public GameObject NextButton;
 
         #endregion

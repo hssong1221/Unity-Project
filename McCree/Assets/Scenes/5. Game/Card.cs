@@ -99,8 +99,18 @@ namespace com.ThreeCS.McCree
             }
         }
 
+        // 벡터로 이동하는 거고 화면 중앙으로 부드럽게 이동하는 것을 만들면 될거 같음 
+        // 중앙 프리셋을 만들던지 그렇게 하고
+        // 두트윈 사용법을 좀 배워야 하고
+        public void MoveCenter()
+        {
+            float dtime = 0f;
+            Vector3 temp = new Vector3(0, 0, 0);
+            this.transform.DOMove(temp, dtime);
+        }
 
-        // 드래그 기능 구현 중
+
+        // 카드 드래그 기능 
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
         {
             startPnt = targetUI.position;
@@ -116,7 +126,7 @@ namespace com.ThreeCS.McCree
         void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
         {
             Debug.Log("마우스 뗴기");
-            Invoke("Delay", 1f);
+            GameManager.Instance.usecardPanel.SetActive(false);
         }
 
         void IDragHandler.OnDrag(PointerEventData eventData)
@@ -133,18 +143,20 @@ namespace com.ThreeCS.McCree
             if (useCard == true) 
             {
                 Debug.Log("카드 사용함");
+                MoveCenter();
             }
             // 카드를 사용하지 않고 다시 덱으로 
-            if (useCard == false)
+            else if (useCard == false)
             {
                 targetUI.position = startPnt;
-                Invoke("Delay", 0.4f);
+                GameManager.Instance.usecardPanel.SetActive(false);
             }
             
         }
-        public void Delay()
+
+        public void CardUse()
         {
-            GameManager.Instance.usecardPanel.SetActive(false);
+
         }
     }
 }

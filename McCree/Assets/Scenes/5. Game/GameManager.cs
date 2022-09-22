@@ -496,6 +496,7 @@ namespace com.ThreeCS.McCree
             usecardPanel.SetActive(true);
             Color color = usecardPanel.GetComponent<Image>().color;
             color.a = 0f;
+            usecardPanel.GetComponent<Image>().color = color;
 
             // 보안관을 시작으로 순서 정하기 
             // 보안관 앉은 위치찾기
@@ -545,6 +546,7 @@ namespace com.ThreeCS.McCree
                 }
                 yield return new WaitForEndOfFrame();
             }
+            
             // 시점을 1인칭으로 바꿈
             cam.ChildCameras[2].gameObject.SetActive(true);
             cam.ChildCameras[1].gameObject.SetActive(false);
@@ -561,11 +563,15 @@ namespace com.ThreeCS.McCree
                 if (tidx == turnList.Count)
                     tidx = 0;
 
+                
                 usecardPanel.SetActive(false);
+                color.a = 0.4f;
+                usecardPanel.GetComponent<Image>().color = color;
 
                 // 본인이 턴리스트 순서와 같아야 본인 턴 (중복 rpc 방지위해 본인 것만)
                 if (player1.GetComponent<PhotonView>().ViewID == turnList[tidx].GetComponent<PhotonView>().ViewID && player1.GetComponent<PhotonView>().IsMine)
                     turnList[tidx].GetComponent<PhotonView>().RPC("MyTurn", RpcTarget.All, tidx);
+                // 본인턴이 아니라면 반복문 통과 못하고 대기중
                 else
                 {
                     Debug.Log("자기 턴 아님");
@@ -581,7 +587,7 @@ namespace com.ThreeCS.McCree
                 {
                     if (nextSignal)
                     {
-                        Debug.Log("턴 넘어감");
+                        Debug.Log("턴 넘김");
                         turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
                         nextSignal = false;
                         break;

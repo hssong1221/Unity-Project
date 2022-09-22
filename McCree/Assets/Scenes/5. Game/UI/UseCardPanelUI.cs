@@ -31,12 +31,12 @@ namespace com.ThreeCS.McCree
         {
             try
             {
-                Debug.Log("Pointer Enter");
+                //Debug.Log("Pointer Enter");
                 target.GetComponent<Card>().useCard = true;
             }
             catch(Exception e)
             {
-                Debug.LogError(e);
+                Debug.Log(e);
             }
         }
 
@@ -44,15 +44,16 @@ namespace com.ThreeCS.McCree
         {
             try
             {
-                Debug.Log("Pointer Exit");
+                //Debug.Log("Pointer Exit");
                 target.GetComponent<Card>().useCard = false;
             }
             catch(Exception e)
             {
-                Debug.LogError(e);
+                Debug.Log(e);
             }
         }
 
+        // 마우스로 선택한 카드를 의미
         public void TargetMatch(Transform receive)
         {
             target = receive;
