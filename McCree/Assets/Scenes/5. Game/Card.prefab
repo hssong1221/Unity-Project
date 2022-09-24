@@ -261,3 +261,6 @@ MonoBehaviour:
   cardBorder: {fileID: 2643383449535095574}
   cardContent: 0
   targetUI: {fileID: 2643383449535095575}
+  useCard: 0
+  ucpui: {fileID: 0}
+  center: {fileID: 9193295740387423320, guid: d04f38b40f5176540812cb53023d1382, type: 3}

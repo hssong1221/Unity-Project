@@ -10,6 +10,13 @@ namespace com.ThreeCS.McCree
 {
     public class PlayerInfo : Controller
     {
+        private static PlayerInfo pInstance;
+
+        public static PlayerInfo Instance
+        {
+            get { return pInstance; }
+        }
+
         private int _hp;
 
         public int hp
@@ -54,9 +61,8 @@ namespace com.ThreeCS.McCree
         // 1번째 Avoid
         // 2번째 Heal
 
-        // ----------------------카드셋 부활 중-------------------
+        [Header("내가 지금 가지고 있는 카드리스트")]
         public List<Card> mycards = new List<Card>();
-        // --------------------------------------------------
 
         public List<SubQuestList> myQuestList;
 
@@ -114,6 +120,8 @@ namespace com.ThreeCS.McCree
         void Awake()
         {
             base.Awake();  // Controller Awake 함수 그대로 사용
+            pInstance = this;
+
             isDeath = false;
 
             MineUI.Instance.statusPanel.gameObject.SetActive(true);

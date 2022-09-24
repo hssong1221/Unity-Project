@@ -148,8 +148,7 @@ namespace com.ThreeCS.McCree
         private Button setButton;
 
 
-        // ----------------------카드 기능 부활중 ----------------------
-        [HideInInspector] // <- 카드 리스트 직접 확인하려면 삭제
+        //[HideInInspector] // <- 카드 리스트 직접 확인하려면 삭제
         public List<Card> cardList = new List<Card>();
 
         [Header("카드 개수")]
@@ -167,6 +166,8 @@ namespace com.ThreeCS.McCree
         public int tidx;                // 현재 턴을 가지고 있는 사람의 turnList index
 
         public GameObject usecardPanel;
+
+        public bool isCard;
 
         #endregion
 
@@ -194,6 +195,8 @@ namespace com.ThreeCS.McCree
 
             // -----------  마우스가 화면 밖으로 나가지 못하게 함---------------
             //Cursor.lockState = CursorLockMode.Confined;
+
+            isCard = false;
 
             // 접속 못하면 초기화면으로 쫓아냄
             if (!PhotonNetwork.IsConnected)
@@ -494,9 +497,6 @@ namespace com.ThreeCS.McCree
             Debug.Log("진짜 시작");
             // 카드 초기화를 위해 켜야함
             usecardPanel.SetActive(true);
-            Color color = usecardPanel.GetComponent<Image>().color;
-            color.a = 0f;
-            usecardPanel.GetComponent<Image>().color = color;
 
             // 보안관을 시작으로 순서 정하기 
             // 보안관 앉은 위치찾기
@@ -563,11 +563,6 @@ namespace com.ThreeCS.McCree
                 if (tidx == turnList.Count)
                     tidx = 0;
 
-                
-                usecardPanel.SetActive(false);
-                color.a = 0.4f;
-                usecardPanel.GetComponent<Image>().color = color;
-
                 // 본인이 턴리스트 순서와 같아야 본인 턴 (중복 rpc 방지위해 본인 것만)
                 if (player1.GetComponent<PhotonView>().ViewID == turnList[tidx].GetComponent<PhotonView>().ViewID && player1.GetComponent<PhotonView>().IsMine)
                     turnList[tidx].GetComponent<PhotonView>().RPC("MyTurn", RpcTarget.All, tidx);
@@ -581,7 +576,8 @@ namespace com.ThreeCS.McCree
 
                 yield return new WaitForEndOfFrame();
 
-                
+                // 본인턴에 카드 2장 뽑으면서 시작
+                turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 1, transform.position);
 
                 while (true)
                 {
@@ -600,6 +596,9 @@ namespace com.ThreeCS.McCree
                 }
                 yield return null;
             }
+
+            //------------ 게임이 끝남 -------------
+
             yield return new WaitForEndOfFrame();
         }
         public void NextBtnClick()
@@ -880,6 +879,15 @@ namespace com.ThreeCS.McCree
             StartCoroutine("GameLoop1");
         }
 
+        // -------------- 카드 사용한 거 다시 카드 셋으로 넣는 기능
+        public void AfterCardUse(Card.cType content)
+        {
+            Debug.Log("use card content : " + content);
+
+            Card card = new Card();
+            card.cardContent = content;
+            cardList.Add(card);
+        }   
         #endregion
 
 

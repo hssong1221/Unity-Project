@@ -44,8 +44,10 @@ namespace com.ThreeCS.McCree
 
         // 카드를 사용한다 안한다
         public bool useCard;
+        // mycards 에서의 카드 인덱스
+        int idx = 0;
 
-        // 카드 사용 판정 패널
+        [Header("카드 사용 판정 패널")]
         public UseCardPanelUI ucpui;
         protected GameObject usecardPanel;
 
@@ -99,14 +101,21 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        // 벡터로 이동하는 거고 화면 중앙으로 부드럽게 이동하는 것을 만들면 될거 같음 
-        // 중앙 프리셋을 만들던지 그렇게 하고
-        // 두트윈 사용법을 좀 배워야 하고
-        public void MoveCenter()
+
+        public void PanelOnOFF(int num)
         {
-            float dtime = 0f;
-            Vector3 temp = new Vector3(0, 0, 0);
-            this.transform.DOMove(temp, dtime);
+            if(num == 0) // 투명
+            {
+                Color color = usecardPanel.GetComponent<Image>().color;
+                color.a = 0f;
+                usecardPanel.GetComponent<Image>().color = color;
+            }
+            else if(num == 1) // 불투명
+            {
+                Color color = usecardPanel.GetComponent<Image>().color;
+                color.a = 0.4f;
+                usecardPanel.GetComponent<Image>().color = color;
+            }
         }
 
 
@@ -116,17 +125,21 @@ namespace com.ThreeCS.McCree
             startPnt = targetUI.position;
             moveBegin = eventData.position;
             Debug.Log("현재카드 : " + targetUI.GetComponent<Card>().cardContent);
-            GameManager.Instance.usecardPanel.SetActive(true);
+
+            PanelOnOFF(1);
             useCard = false;
 
-            // 사용 패널에 정보 넘기기
-            ucpui.TargetMatch(targetUI);
+            if(GameManager.Instance.isCard == false)
+            {
+                // 사용 패널에 정보 넘기기
+                ucpui.TargetMatch(targetUI);
+            }
         }
 
         void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
         {
             Debug.Log("마우스 뗴기");
-            GameManager.Instance.usecardPanel.SetActive(false);
+            PanelOnOFF(0);
         }
 
         void IDragHandler.OnDrag(PointerEventData eventData)
@@ -142,21 +155,62 @@ namespace com.ThreeCS.McCree
             // 카드 사용 위치에 올려놔서 카드를 사용함
             if (useCard == true) 
             {
+                GameManager.Instance.isCard = true;
                 Debug.Log("카드 사용함");
-                MoveCenter();
+                StartCoroutine("CardUse");
             }
             // 카드를 사용하지 않고 다시 덱으로 
             else if (useCard == false)
             {
                 targetUI.position = startPnt;
-                GameManager.Instance.usecardPanel.SetActive(false);
             }
-            
         }
 
-        public void CardUse()
+        IEnumerator CardUse()  
         {
+            idx = 0;
+            // 현재 카드가 내 카드리스트에서 몇번쨰인지
+            for (int i = 0; i < PlayerInfo.Instance.mycards.Count; i++)
+            {
+                if (PlayerInfo.Instance.mycards[i].useCard == true)
+                    idx = i;
+            }
+            StartCoroutine("CardUse1");
+            yield return new WaitForEndOfFrame();
+        }
 
+        IEnumerator CardUse1() //카드 사용 애니메이션 
+        {
+            //카드 사용시 중앙으로 이동
+            float dtime = 0.5f;
+            int width = Screen.width;
+            int height = Screen.height;
+            Vector3 vec = new Vector3(width / 2, height / 2, 0);
+            this.transform.DOMove(vec, dtime);
+            yield return new WaitForSeconds(1f);
+
+            StartCoroutine("CardUse2");
+        }
+
+        // 본인 리스트에서 카드 삭제 및 전체 카드 셋 맨뒤에 다시 추가 그리고 카드셋 상태 동기화
+        IEnumerator CardUse2()
+        {
+            // 전체 카드셋 맨 뒤에 다시 추가
+            GameManager.Instance.AfterCardUse(cardContent);
+
+            // 내 리스트에서 사용한 카드 삭제
+            PlayerInfo.Instance.mycards.RemoveAt(idx);
+
+            // 카드 재정렬
+            MineUI.Instance.CardAlignment();
+
+            yield return new WaitForSeconds(1f);
+
+            GameManager.Instance.isCard = false;
+
+            ucpui.Des();
         }
     }
+
+    
 }

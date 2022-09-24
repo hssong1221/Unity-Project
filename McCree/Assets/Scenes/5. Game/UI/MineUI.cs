@@ -107,6 +107,7 @@ namespace com.ThreeCS.McCree
             isquestDetailopen = false;
         }
 
+        //----------------------- 중복 인지 확인 필요------
         public void FindMinePv(GameObject player)
         {
             photonView = player.GetComponent<PhotonView>();
@@ -114,6 +115,7 @@ namespace com.ThreeCS.McCree
             playerInfo = player.GetComponent<PlayerInfo>();
             ui = player.GetComponent<UI>();
         }
+        //---------------------------------------
 
         public void Close_Quest_Detail_Panel()
         {
@@ -125,7 +127,6 @@ namespace com.ThreeCS.McCree
         }
 
 
-        // ----------------------------------------카드 기능 부활중 -----------------------
 
         public void CardAlignment()
         {
@@ -175,7 +176,6 @@ namespace com.ThreeCS.McCree
             }
             return results;
         }
-        // ----------------------------------------------------------------------------------
 
     }
 }

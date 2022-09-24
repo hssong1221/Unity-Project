@@ -10,6 +10,9 @@ namespace com.ThreeCS.McCree
     {
         public Transform target;
 
+        [Header("중앙")]
+        public GameObject center;
+
         void Start()
         {
 
@@ -57,6 +60,11 @@ namespace com.ThreeCS.McCree
         public void TargetMatch(Transform receive)
         {
             target = receive;
+        }
+
+        public void Des()
+        {
+            Destroy(target.gameObject);
         }
     }
 
