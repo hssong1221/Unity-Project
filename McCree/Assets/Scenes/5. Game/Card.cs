@@ -51,6 +51,8 @@ namespace com.ThreeCS.McCree
         public UseCardPanelUI ucpui;
         protected GameObject usecardPanel;
 
+        protected GameObject player;
+
         #endregion
 
         void Awake()
@@ -169,10 +171,13 @@ namespace com.ThreeCS.McCree
         IEnumerator CardUse()  
         {
             idx = 0;
+
+            player = GameManager.Instance.CallMyPlayer();
+
             // 현재 카드가 내 카드리스트에서 몇번쨰인지
-            for (int i = 0; i < PlayerInfo.Instance.mycards.Count; i++)
+            for (int i = 0; i < player.GetComponent<PlayerInfo>().mycards.Count; i++)
             {
-                if (PlayerInfo.Instance.mycards[i].useCard == true)
+                if (player.GetComponent<PlayerInfo>().mycards[i].useCard == true)
                     idx = i;
             }
             StartCoroutine("CardUse1");
@@ -198,11 +203,24 @@ namespace com.ThreeCS.McCree
             // 전체 카드셋 맨 뒤에 다시 추가
             GameManager.Instance.AfterCardUse(cardContent);
 
+            while (true)
+            {
+                if (GameManager.Instance.temp == true)
+                {
+                    GameManager.Instance.temp = false;
+                    break;
+                }
+            }
+
+            yield return new WaitForSeconds(1f);
+
             // 내 리스트에서 사용한 카드 삭제
-            PlayerInfo.Instance.mycards.RemoveAt(idx);
+            player.GetComponent<PlayerInfo>().mycards.RemoveAt(idx);
 
             // 카드 재정렬
             MineUI.Instance.CardAlignment();
+
+            
 
             yield return new WaitForSeconds(1f);
 

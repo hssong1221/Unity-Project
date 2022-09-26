@@ -566,7 +566,7 @@ namespace com.ThreeCS.McCree
                 photonView.RPC("SitnumSync", RpcTarget.All); 
 
             isSit = true;
-            Debug.Log("sit이 작동됨");
+            //Debug.Log("sit이 작동됨");
             animator.SetBool("isSit", true);
             // 네비게이션 메쉬가 꺼져있어야 순간이동이 가능. 그리고 덜덜 떨림 방지
             agent.enabled = false;
@@ -765,10 +765,10 @@ namespace com.ThreeCS.McCree
                     MineUI.Instance.CardAlignment();
                 }
                 // 남의 카드는 보이지 않고 정보만 playerinfo에 저장해놓음
-                else
+                /*else
                 {
                     playerInfo.mycards.Add(cardObject); 
-                }
+                }*/
 
                 // 덱에서 뽑힌 카드는 사라짐
                 GameManager.Instance.cardList.RemoveAt(0);

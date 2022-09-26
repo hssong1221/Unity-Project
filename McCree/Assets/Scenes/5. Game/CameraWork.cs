@@ -135,7 +135,7 @@ namespace com.ThreeCS.McCree
                 }
                 yield return new WaitForEndOfFrame();
 
-                Debug.Log("현재 승리 상태 : " + GameManager.Instance.isVictory);
+                //Debug.Log("현재 승리 상태 : " + GameManager.Instance.isVictory);
                 if (GameManager.Instance.isVictory)
                 {
                     ccam.ChildCameras[3].gameObject.SetActive(true);

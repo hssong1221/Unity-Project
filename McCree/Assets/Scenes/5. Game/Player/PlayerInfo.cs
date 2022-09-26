@@ -168,7 +168,7 @@ namespace com.ThreeCS.McCree
             yield return new WaitForSeconds(5f);
             while (true)
             {
-                Debug.Log("현재 체력 : " + hp);
+                //Debug.Log("현재 체력 : " + hp);
                 if (hp <= 0)
                 {
                     isDeath = true;

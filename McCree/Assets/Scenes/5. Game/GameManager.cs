@@ -167,8 +167,10 @@ namespace com.ThreeCS.McCree
 
         public GameObject usecardPanel;
 
-        public bool isCard;
+        [HideInInspector]
+        public bool isCard;             // 현재 선택한 카드가 있다는 의미
 
+        public bool temp = false;
         #endregion
 
 
@@ -193,7 +195,7 @@ namespace com.ThreeCS.McCree
             setButton = GameObject.Find("SetButton").GetComponent<Button>();
             setButton.gameObject.SetActive(false);
 
-            // -----------  마우스가 화면 밖으로 나가지 못하게 함---------------
+            // ------------------------  마우스가 화면 밖으로 나가지 못하게 함---------------
             //Cursor.lockState = CursorLockMode.Confined;
 
             isCard = false;
@@ -385,7 +387,9 @@ namespace com.ThreeCS.McCree
             yield return new WaitForEndOfFrame();
 
             // (인구수에 맞게 하는 거 추가하기)
-            List<int> jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
+            //List<int> jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 }; ----- 실험을 위해 보안관 확률을 높였음-----
+            List<int> jobList = new List<int>() { 1, 2 };
+
 
             // 능력 갯수에 맞게 해야함
             List<int> abilityList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
@@ -882,12 +886,15 @@ namespace com.ThreeCS.McCree
         // -------------- 카드 사용한 거 다시 카드 셋으로 넣는 기능
         public void AfterCardUse(Card.cType content)
         {
-            Debug.Log("use card content : " + content);
-
-            Card card = new Card();
-            card.cardContent = content;
-            cardList.Add(card);
+            //Debug.Log("use card content : " + content);
+            player1.GetComponent<PhotonView>().RPC("CardDeckSync", RpcTarget.All, content);
         }   
+
+        public GameObject CallMyPlayer()
+        {
+            return player1;
+        }
+
         #endregion
 
 
