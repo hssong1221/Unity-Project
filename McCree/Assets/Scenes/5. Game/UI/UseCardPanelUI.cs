@@ -8,14 +8,12 @@ namespace com.ThreeCS.McCree
 {
     public class UseCardPanelUI : MonoBehaviour
     {
-        public Transform target;
-
-        [Header("중앙")]
-        public GameObject center;
+        [HideInInspector]
+        public Transform target; // 판정 패널위로 올라온 카드
 
         void Start()
         {
-
+            // 이벤트 트리거 수동 구현
             EventTrigger eventTrigger = gameObject.AddComponent<EventTrigger>();
 
             EventTrigger.Entry entry_PointerEnter = new EventTrigger.Entry();
@@ -39,7 +37,7 @@ namespace com.ThreeCS.McCree
             }
             catch(Exception e)
             {
-                Debug.Log(e);
+                //Debug.Log(e);
             }
         }
 
@@ -52,7 +50,7 @@ namespace com.ThreeCS.McCree
             }
             catch(Exception e)
             {
-                Debug.Log(e);
+                //Debug.Log(e);
             }
         }
 
@@ -62,6 +60,7 @@ namespace com.ThreeCS.McCree
             target = receive;
         }
 
+        // 사용 후 파괴
         public void Des()
         {
             Destroy(target.gameObject);

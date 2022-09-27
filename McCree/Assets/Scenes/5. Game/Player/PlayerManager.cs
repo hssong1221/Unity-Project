@@ -490,7 +490,6 @@ namespace com.ThreeCS.McCree
             for (int i=0; i < hits.Length; i++)
             {
                 RaycastHit hit = hits[i];
-
                 if (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player")
                 { // 클릭한 오브젝트가 자기 자신이 아닌 다른 플레이어 일때
 
@@ -510,34 +509,34 @@ namespace com.ThreeCS.McCree
                     playerAutoMove.targetedEnemy = null;
                 }
             }
+            #region
+            /*if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
+            {
+
+                Debug.Log("레이캐스트");
+                Debug.Log(hit.collider.name + "  " + (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player"));
+                if (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player")
+                {
+                    클릭한 오브젝트가 자기 자신이 아닌 다른 플레이어 일때
+
+                    // 클릭한 물체의 위치와 내 위치의 거리 
+                    float distance = Vector3.Distance(hit.collider.transform.position, transform.position);
 
 
-            //if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
-            //{
+                    if (distance <= maxAttackDistance)
+                        Debug.Log("캐릭터 선택 닿음  " + "거리: " + distance);
+                    else
+                        Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
 
-            //    Debug.Log("레이캐스트");
-            //    Debug.Log(hit.collider.name + "  " + (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player"));
-            //    if (hit.collider.gameObject != character && hit.collider.gameObject.tag == "Player")
-            //    { // 클릭한 오브젝트가 자기 자신이 아닌 다른 플레이어 일때
-
-            //        // 클릭한 물체의 위치와 내 위치의 거리 
-            //        float distance = Vector3.Distance(hit.collider.transform.position, transform.position);
-
-
-            //        if (distance <= maxAttackDistance)
-            //            Debug.Log("캐릭터 선택 닿음  " + "거리: " + distance);
-            //        else
-            //            Debug.Log("캐릭터 선택 그러나 닿지않음   " + "거리: " + distance);
-
-            //        playerAutoMove.targetedEnemy = hit.collider.gameObject;
-            //        Debug.Log("타겟 설정");
-            //    }
-            //    else
-            //    {
-            //        playerAutoMove.targetedEnemy = null;
-            //    }
-            //}
-
+                    playerAutoMove.targetedEnemy = hit.collider.gameObject;
+                    Debug.Log("타겟 설정");
+                }
+                else
+                {
+                    playerAutoMove.targetedEnemy = null;
+                }
+            }*/
+            #endregion 별거없음 열지말기
         }
 
 
@@ -723,7 +722,6 @@ namespace com.ThreeCS.McCree
             Character_Notice_Text("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
         }
 
-        // -----------------------카드 기능 부활 중------------------------
         [PunRPC]
         public void GiveCardSet(string jsonData) // 카드덱을 나눠주기(카드 순서 동기화)
         {
@@ -775,30 +773,6 @@ namespace com.ThreeCS.McCree
             }
 
         }
-
-        // ---------------------------------------------------------------
-
-       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         // ------------------------------------ 퀘스트는 나중에 싹다 없애버릴 것 -------------------------------------------------------
 

@@ -116,8 +116,6 @@ namespace com.ThreeCS.McCree
         public GameObject[] player;
 
 
-
-
         [Header("직업 일러스트")]
         public Sprite sheriff1;  // 보안관 일러스트
         public Sprite sheriff2;
@@ -158,19 +156,25 @@ namespace com.ThreeCS.McCree
         private int heal_c;
         [SerializeField]
         private int avoid_c;
-        //----------------------------------------------
 
+        // 턴 관련 변수들
         [HideInInspector]
         public bool nextSignal = false; // 턴을 다음사람에게 넘기라는 변수
         [HideInInspector]   
         public int tidx;                // 현재 턴을 가지고 있는 사람의 turnList index
 
-        public GameObject usecardPanel;
+        public GameObject usecardPanel; // 카드 사용 판정 패널
 
+        // ----------------------------------- 카드 컨텐츠 구현 -------------------------------
         [HideInInspector]
         public bool isCard;             // 현재 선택한 카드가 있다는 의미
+        // 뱅 상태인지 아닌지
+        [HideInInspector]
+        public bool isBang = false;
+        // 뱅 상태에서 클릭을 했는지 안했는지
+        [HideInInspector]
+        public bool bangClick = false;
 
-        public bool temp = false;
         #endregion
 
 
@@ -230,7 +234,11 @@ namespace com.ThreeCS.McCree
             // 인원 체크 UI가 계속 정면을 보게 만듬
             startCanvas.transform.LookAt(startCanvas.transform.position + Camera.main.transform.forward);
 
-
+            // 뱅 카드 사용 중
+            if (isBang && Input.GetMouseButtonDown(0))
+            {
+                bangClick = true;
+            }
         }
 
         #endregion
@@ -605,12 +613,7 @@ namespace com.ThreeCS.McCree
 
             yield return new WaitForEndOfFrame();
         }
-        public void NextBtnClick()
-        {
-            Debug.Log("턴 버튼 누름!");
-            nextSignal = true;
-            MineUI.Instance.NextButton.SetActive(false);
-        }
+       
 
         // 게임 종료 조건 만족하는지 확인함 
         IEnumerator EndGame()
@@ -866,7 +869,13 @@ namespace com.ThreeCS.McCree
 
         // --------------------------- 앉아있는 인원 체크 --------------------------------
 
-        // 인스펙터 창에다 직접 넣어놨음
+        public void NextBtnClick()
+        {
+            //Debug.Log("턴 버튼 누름!");
+            nextSignal = true;
+            MineUI.Instance.NextButton.SetActive(false);
+        }
+
         public void BangBtnClick()
         {
             foreach (GameObject player in playerList)
@@ -883,17 +892,67 @@ namespace com.ThreeCS.McCree
             StartCoroutine("GameLoop1");
         }
 
-        // -------------- 카드 사용한 거 다시 카드 셋으로 넣는 기능
-        public void AfterCardUse(Card.cType content)
-        {
-            //Debug.Log("use card content : " + content);
-            player1.GetComponent<PhotonView>().RPC("CardDeckSync", RpcTarget.All, content);
-        }   
-
+        // 본인 카드덱 찾게 도와줌
         public GameObject CallMyPlayer()
         {
             return player1;
         }
+
+        // 카드 사용한 거 다시 카드 셋으로 넣는 기능
+        public void AfterCardUse(Card.cType content)
+        {
+            Debug.Log("use card content : " + content);
+
+
+            // 카드 종류에 따라 실행이 달라진다
+            string t = content.ToString();
+            switch (t)
+            {
+                case "Bang":
+                    StartCoroutine("Bang");
+                    break;
+                default:
+                    break;
+            }
+            
+            // 카드더미 동기화 시켜주기 - DataSync로
+            player1.GetComponent<PhotonView>().RPC("CardDeckSync", RpcTarget.All, content);
+        }   
+
+
+        //----------------------------- 카드 기능 구현 중 --------------------------------
+        
+
+        IEnumerator Bang()
+        {
+            isBang = true;
+
+            while (true)
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if(Physics.Raycast(ray, out hit))
+                {
+                    //Debug.DrawRay(ray.origin, ray.direction * 10f, Color.green);
+                    //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
+
+                    if(hit.transform.gameObject.CompareTag("Player") && bangClick)
+                    {
+                        Debug.Log("플레이어 선택 : " + hit.transform.gameObject);
+                        hit.transform.gameObject.GetComponent<PlayerInfo>().hp--;
+                        hit.transform.gameObject.GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All);
+                        break;
+                    }
+                }
+                yield return new WaitForEndOfFrame();
+            }
+
+            bangClick = false;
+            isBang = false;
+            yield return new WaitForEndOfFrame();
+        }
+
 
         #endregion
 

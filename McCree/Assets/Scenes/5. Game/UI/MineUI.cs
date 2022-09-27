@@ -107,7 +107,6 @@ namespace com.ThreeCS.McCree
             isquestDetailopen = false;
         }
 
-        //----------------------- 중복 인지 확인 필요------
         public void FindMinePv(GameObject player)
         {
             photonView = player.GetComponent<PhotonView>();
@@ -115,8 +114,6 @@ namespace com.ThreeCS.McCree
             playerInfo = player.GetComponent<PlayerInfo>();
             ui = player.GetComponent<UI>();
         }
-        //---------------------------------------
-
         public void Close_Quest_Detail_Panel()
         {
             if (isquestDetailopen)
@@ -127,12 +124,12 @@ namespace com.ThreeCS.McCree
         }
 
 
-
+        // 카드 UI 정렬 함수
         public void CardAlignment()
         {
 
             List<Preset> originMyCards = new List<Preset>();
-            originMyCards = RoundAlignment(pos_CardLeft, pos_CardRight, playerInfo.mycards.Count, 0.5f, Vector3.one * 1.0f);
+            originMyCards = RoundAlignment(pos_CardLeft, pos_CardRight, playerInfo.mycards.Count, 0.5f, Vector3.one * 1.0f); // playerinfo를 본인 거로 확정 지어야 할 수도 있음 현재는 안해도 돌아가긴함
 
             for (int i = 0; i < playerInfo.mycards.Count; i++)
             {
@@ -143,7 +140,6 @@ namespace com.ThreeCS.McCree
             }
 
         }
-
         List<Preset> RoundAlignment(Transform leftTr, Transform rightTr, int objCount, float height, Vector3 scale)
         {
             float[] objLerps = new float[objCount];
