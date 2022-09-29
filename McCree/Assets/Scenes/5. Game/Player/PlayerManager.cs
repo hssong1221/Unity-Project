@@ -688,9 +688,16 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]    // Data sync 이동 예정
-        public void SyncHp() // 내 체력 동기화
+        public void SyncHp(int myhp) // 내 체력 동기화
         {
-            playerInfo.Show_Hp();
+            if(myhp == -10)
+                playerInfo.Show_Hp();
+            else
+            {
+                playerInfo.hp = myhp;
+                playerInfo.Show_Hp();
+            }
+                
         }
 
         [PunRPC]    // Data sync 이동 예정

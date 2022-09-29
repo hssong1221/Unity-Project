@@ -177,6 +177,8 @@ namespace com.ThreeCS.McCree
 
         #endregion
 
+        IEnumerator Temp;
+
 
         #region MonoBehaviour CallBacks
 
@@ -425,7 +427,7 @@ namespace com.ThreeCS.McCree
             for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
             {
                 Debug.Log("체력 동기화 : " + playerList[i]);
-                playerList[i].GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All);
+                playerList[i].GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All, -10);
             }
             yield return new WaitForEndOfFrame();
         }
@@ -927,21 +929,36 @@ namespace com.ThreeCS.McCree
         {
             isBang = true;
 
+            Material mat;
+
             while (true)
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
-                if(Physics.Raycast(ray, out hit))
+
+                if (Physics.Raycast(ray, out hit))
                 {
                     //Debug.DrawRay(ray.origin, ray.direction * 10f, Color.green);
                     //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
 
-                    if(hit.transform.gameObject.CompareTag("Player") && bangClick)
+
+                    // 마우스 닿은 캐릭터 하이라이트 (플레이어에서 마우스 벗어나면 다시 꺼지게 변경해야함)
+                    if (hit.transform.gameObject.CompareTag("Player"))
+                    {
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.red * 0.5f);
+                    }
+
+                    if (hit.transform.gameObject.CompareTag("Player") && bangClick)
                     {
                         Debug.Log("플레이어 선택 : " + hit.transform.gameObject);
+
+                        int targethp;
                         hit.transform.gameObject.GetComponent<PlayerInfo>().hp--;
-                        hit.transform.gameObject.GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All);
+                        targethp = hit.transform.gameObject.GetComponent<PlayerInfo>().hp;
+                        hit.transform.gameObject.GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All, targethp);
                         break;
                     }
                 }
