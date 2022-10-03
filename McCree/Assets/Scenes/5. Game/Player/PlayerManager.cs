@@ -687,27 +687,6 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        [PunRPC]    // Data sync 이동 예정
-        public void SyncHp(int myhp) // 내 체력 동기화
-        {
-            if(myhp == -10)
-                playerInfo.Show_Hp();
-            else
-            {
-                playerInfo.hp = myhp;
-                playerInfo.Show_Hp();
-            }
-                
-        }
-
-        [PunRPC]    // Data sync 이동 예정
-        public void AnimStart() // 애니메이션 플레이
-        {
-            if (photonView.IsMine)
-            {
-                StartCoroutine(GameManager.Instance.GameStart());
-            }
-        }
 
         [PunRPC]
         public void GiveItems(string jsonData, int photonViewId)

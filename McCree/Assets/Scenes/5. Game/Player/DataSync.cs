@@ -12,6 +12,30 @@ namespace com.ThreeCS.McCree
 {
     public class DataSync : Controller
     {
+        // 게임 시작 애니메이션 플레이
+        [PunRPC]    
+        public void AnimStart() 
+        {
+            if (photonView.IsMine)
+            {
+                StartCoroutine(GameManager.Instance.GameStart());
+            }
+        }
+
+        // 내 체력 동기화
+        [PunRPC]    
+        public void SyncHp(int myhp) 
+        {
+            if (myhp == -10)
+                playerInfo.Show_Hp();
+            else
+            {
+                playerInfo.hp = myhp;
+                playerInfo.Show_Hp();
+            }
+
+        }
+
         // 보안관이 뱅 버튼 눌렀을 때 모든 사람의 인구수ui가 꺼져야함
         [PunRPC]
         public void StartUIOff()
@@ -27,6 +51,7 @@ namespace com.ThreeCS.McCree
             if (photonView.IsMine)
                 GameManager.Instance.GLStart();
         }
+
 
         // 본인 턴에 작동해서 턴 종료버튼이 본인에게만 보임
         [PunRPC]
@@ -55,6 +80,47 @@ namespace com.ThreeCS.McCree
             card.cardContent = content;
             GameManager.Instance.cardList.Add(card);
         }
-       
+
+        // 뱅 카드의 타겟이 되었을 때
+        [PunRPC]
+        public void BangTargeted()
+        {
+            playerInfo.isTarget = true;
+            GameManager.Instance.TargetedPanelOn();
+        }
+
+        // 뱅 카드를 내고 회피를 기다리는 상태라는 것을 알림
+        [PunRPC]
+        public void WaitAvoid()
+        {
+            playerInfo.waitAvoid = true;
+        }
+
+
+        // 뱅 카드 타겟일 때 회피 했다는 것을 알림
+        [PunRPC]
+        public void SendAvoid(int ccase)
+        {
+            // 0 : 공격자가 회피를 받았을 때
+            // 1 : 공격자가 그냥 맞기를 받았을 때
+            // 2 : 타겟이 0 or 1 행동 한 후에 자신의 상태를 변경할 때
+            if (ccase == 0)
+            {
+                // 공격자의 상태를 변경하는 것
+                playerInfo.waitAvoid = false;
+                GameManager.Instance.willDamage = false;
+            }
+            else if(ccase == 1)
+            {
+                playerInfo.waitAvoid = false;
+                GameManager.Instance.willDamage = true;
+
+            }
+            else if (ccase == 2)
+            {
+                // 본인 상태를 변경해서 알리는 것
+                playerInfo.isTarget = false;
+            }
+        }
     }
 }

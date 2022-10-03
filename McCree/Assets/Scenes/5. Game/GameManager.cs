@@ -175,10 +175,20 @@ namespace com.ThreeCS.McCree
         [HideInInspector]
         public bool bangClick = false;
 
+
+        // sendAvoid에 들어가는 파라미터
+        // 0 : 공격자가 회피를 받았을 때
+        // 1 : 공격자가 그냥 맞기를 받았을 때
+        // 2 : 타겟이 0 or 1 행동 한 후에 자신의 상태를 변경할 때
+        public int avoidFlag = 0;
+
+        // 회피카드가 아닌 그냥 맞기 버튼의 상태
+        public bool avoidBtnFlag = false;
+
+        // avoid카드를 냈으면 안맞고 안 내면 맞고
+        public bool willDamage = false;
+
         #endregion
-
-        IEnumerator Temp;
-
 
         #region MonoBehaviour CallBacks
 
@@ -584,6 +594,15 @@ namespace com.ThreeCS.McCree
                 else
                 {
                     Debug.Log("자기 턴 아님");
+
+                    // 뱅 카드에 의해 타겟팅이 되었을 때
+                    if(playerInfo.isTarget == true)
+                    {
+                        Debug.Log("뱅 맞는 중 : " + playerInfo.isTarget);
+                        StartCoroutine("Avoid");
+                        playerInfo.isTarget = false;
+                    }
+
                     yield return new WaitForSeconds(0.1f);
                     continue;
                 }
@@ -900,6 +919,17 @@ namespace com.ThreeCS.McCree
             return player1;
         }
 
+
+        // 본인이 뱅 타겟되었다는 UI on
+        public void TargetedPanelOn()
+        {
+            //if(player1.GetComponent<PlayerInfo>().isTarget == true)
+            if (playerInfo.isTarget == true)
+            {
+                MineUI.Instance.targetedPanel.SetActive(true);
+            }
+        }
+
         // 카드 사용한 거 다시 카드 셋으로 넣는 기능
         public void AfterCardUse(Card.cType content)
         {
@@ -912,6 +942,9 @@ namespace com.ThreeCS.McCree
             {
                 case "Bang":
                     StartCoroutine("Bang");
+                    break;
+                case "Avoid":
+                    playerInfo.sendAvoid = true;
                     break;
                 default:
                     break;
@@ -928,49 +961,137 @@ namespace com.ThreeCS.McCree
         IEnumerator Bang()
         {
             isBang = true;
-
             Material mat;
+            GameObject temp = null;
 
             while (true)
             {
+                // 빔 
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
 
                 if (Physics.Raycast(ray, out hit))
                 {
-                    //Debug.DrawRay(ray.origin, ray.direction * 10f, Color.green);
                     //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
-
+                    GameObject go = hit.transform.gameObject;
 
                     // 마우스 닿은 캐릭터 하이라이트 (플레이어에서 마우스 벗어나면 다시 꺼지게 변경해야함)
-                    if (hit.transform.gameObject.CompareTag("Player"))
+                    if (go.CompareTag("Player"))
                     {
                         mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
                         mat.EnableKeyword("_EMISSION");
                         mat.SetColor("_EmissionColor", Color.red * 0.5f);
+                        temp = go;
+                    }
+                    else if(temp != null)
+                    {
+                        mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
                     }
 
-                    if (hit.transform.gameObject.CompareTag("Player") && bangClick)
+                    if (go.CompareTag("Player") && bangClick)
                     {
-                        Debug.Log("플레이어 선택 : " + hit.transform.gameObject);
+                        Debug.Log("플레이어 선택 : " + go);
 
-                        int targethp;
-                        hit.transform.gameObject.GetComponent<PlayerInfo>().hp--;
-                        targethp = hit.transform.gameObject.GetComponent<PlayerInfo>().hp;
-                        hit.transform.gameObject.GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All, targethp);
-                        break;
+                        // 맞았으니까 하이라이트 꺼야함
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+
+                        // 타겟 선언 및 상대편 화면에 UI 띄움
+                        go.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All);
+
+                        // 나의 waitAvoid 상태를 전체에게 동기화
+                        playerInfo.waitAvoid = true;
+                        photonView.RPC("WaitAvoid", RpcTarget.All);
+
+                        // 상대방의 avoid 기다림
+                        while (playerInfo.waitAvoid == true)
+                        {
+                            Debug.Log("상대방의 회피를 기다리는 중 ");
+                            
+                            yield return new WaitForSeconds(0.1f);
+                        }
+
+                        Debug.Log("상대방의 회피를 기다리는 상태를 빠져나옴 ");
+
+                        // avoid 하면 그냥 넘어가고 못하면 hp 달게함
+                        if (willDamage == false)
+                            break;
+                        else if(willDamage == true)
+                        {
+                            go.GetComponent<PlayerInfo>().hp--;
+                            int targethp = go.GetComponent<PlayerInfo>().hp;
+                            go.GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All, targethp);
+                            break;
+                        }
                     }
                 }
                 yield return new WaitForEndOfFrame();
             }
-
+             
+            // 뱅 관련 플래그 초기화
             bangClick = false;
             isBang = false;
             yield return new WaitForEndOfFrame();
         }
 
+        IEnumerator Avoid()
+        {
+            avoidFlag = 0;
+            
 
+            // 회피카드를 낼 건지 그냥 맞을 건지 선택 대기
+            while (playerInfo.sendAvoid == false)
+            {
+                Debug.Log("회피 카드 내기 대기중");
+
+                // 그냥 맞기를 선택함
+                if (avoidBtnFlag == true)
+                {
+                    avoidFlag = 1;
+                    break;
+                }
+
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            if(avoidFlag == 0)
+                Debug.Log("회피 카드 내서 빠져나옴");
+            else
+                Debug.Log("맞고 빠져나옴");
+
+            foreach (GameObject player in turnList)
+            {
+                // 공격자의 회피 대기 상태를 바꿔야함
+                if (player.GetComponent<PlayerInfo>().waitAvoid == true)
+                {
+                    Debug.Log("상대편 waitavoid 상태 변경중");
+                    player.GetComponent<PhotonView>().RPC("SendAvoid", RpcTarget.All, avoidFlag);
+                }
+                    
+            }
+
+            // 타겟 상태에서 벗어남
+            playerInfo.isTarget = false;
+            photonView.RPC("SendAvoid", RpcTarget.All, 2);
+
+            // 타겟 화면 UI 끔
+            MineUI.Instance.targetedPanel.SetActive(false);
+
+            // 회피관련 플래그 초기화
+            avoidBtnFlag = false;
+            playerInfo.sendAvoid = false;
+            yield return new WaitForEndOfFrame();
+        }
+
+        public void DamageBtn()
+        {
+            playerInfo.sendAvoid = false;
+            avoidBtnFlag = true;
+        }
         #endregion
 
 

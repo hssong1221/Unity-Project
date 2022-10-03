@@ -56,19 +56,24 @@ namespace com.ThreeCS.McCree
         }
         public int maxHp;
 
-        public List<ItemList> myItemList;
-        // 0번째 Bang
-        // 1번째 Avoid
-        // 2번째 Heal
 
         [Header("내가 지금 가지고 있는 카드리스트")]
         public List<Card> mycards = new List<Card>();
 
+        // 공격자 상태
+        public bool waitAvoid = false; // 본인이 지금 상대방의 avoid를 기다리고 있는 중인지
+
+        // 방어자 상태
+        public bool isTarget = false; // 본인이 상대편 카드에 의해 타겟팅이 되었는지
+        public bool sendAvoid = false;// 본인이 avoid카드를 냈는지 안냈는지
+
+        public List<ItemList> myItemList;
+        // 0번째 Bang
+        // 1번째 Avoid
+        // 2번째 Heal
         public List<SubQuestList> myQuestList;
 
         protected Transform content;
-
-
 
         public Transform pistolPos;
         //public Transform shotgunPos;

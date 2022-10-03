@@ -24,7 +24,7 @@ namespace com.ThreeCS.McCree
         protected MineUI mineUI;
         protected AnimSync animSync;
 
-        protected DataSync dataSync; // 나중에 지워야함
+        protected DataSync dataSync; 
 
         protected bool trigger;
 

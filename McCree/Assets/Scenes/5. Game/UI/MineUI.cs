@@ -94,6 +94,9 @@ namespace com.ThreeCS.McCree
         [Header("다음턴 버튼")]
         public GameObject NextButton;
 
+        public GameObject targetedPanel;
+        public Text ttext;
+
         #endregion
 
 
