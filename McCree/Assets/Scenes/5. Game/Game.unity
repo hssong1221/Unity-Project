@@ -702,6 +702,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: beer_c
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: heal_c
       value: 4
       objectReference: {fileID: 0}
@@ -30188,7 +30192,7 @@ GameObject:
   - component: {fileID: 1699757987}
   - component: {fileID: 1699757986}
   m_Layer: 5
-  m_Name: PortalText
+  m_Name: PortalText(TEMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33523,6 +33527,10 @@ PrefabInstance:
     - target: {fileID: 356811134052853647, guid: 60b90a79742a7f843bd24881a5256d28, type: 3}
       propertyPath: m_Name
       value: SpawnTown
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521093078134316218, guid: 60b90a79742a7f843bd24881a5256d28, type: 3}
+      propertyPath: m_Intensity
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60b90a79742a7f843bd24881a5256d28, type: 3}

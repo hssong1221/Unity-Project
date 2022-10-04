@@ -153,15 +153,18 @@ namespace com.ThreeCS.McCree
         [SerializeField]
         private int bang_c;
         [SerializeField]
-        private int heal_c;
-        [SerializeField]
         private int avoid_c;
+        [SerializeField]
+        private int beer_c;
+        
 
         // 턴 관련 변수들
         [HideInInspector]
         public bool nextSignal = false; // 턴을 다음사람에게 넘기라는 변수
         [HideInInspector]   
         public int tidx;                // 현재 턴을 가지고 있는 사람의 turnList index
+        [HideInInspector]
+        public bool myTurn = false;    // 내 턴이면 true
 
         public GameObject usecardPanel; // 카드 사용 판정 패널
 
@@ -180,12 +183,15 @@ namespace com.ThreeCS.McCree
         // 0 : 공격자가 회피를 받았을 때
         // 1 : 공격자가 그냥 맞기를 받았을 때
         // 2 : 타겟이 0 or 1 행동 한 후에 자신의 상태를 변경할 때
+        [HideInInspector]
         public int avoidFlag = 0;
 
         // 회피카드가 아닌 그냥 맞기 버튼의 상태
+        [HideInInspector]
         public bool avoidBtnFlag = false;
 
         // avoid카드를 냈으면 안맞고 안 내면 맞고
+        [HideInInspector]
         public bool willDamage = false;
 
         #endregion
@@ -363,16 +369,16 @@ namespace com.ThreeCS.McCree
 
             // 초기 카드 세팅
             Card.cType[] initialDeck = new Card.cType[
-                bang_c + heal_c + avoid_c
+                bang_c + avoid_c + beer_c
             ];
 
             int k = 0;
             for (int i = 0; i < bang_c; i++, k++)
                 initialDeck[k] = Card.cType.Bang;
-            for (int i = 0; i < heal_c; i++, k++)
-                initialDeck[k] = Card.cType.Heal;
             for (int i = 0; i < avoid_c; i++, k++)
                 initialDeck[k] = Card.cType.Avoid;
+            for (int i = 0; i < beer_c; i++, k++)
+                initialDeck[k] = Card.cType.Beer;
 
             // 섞기
             int random1;
@@ -516,9 +522,9 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        IEnumerator GameLoop1()
+        
+        IEnumerator GameLoop1() // 게임 시작후 덱 나눠주기 
         {
-            Debug.Log("진짜 시작");
             // 카드 초기화를 위해 켜야함
             usecardPanel.SetActive(true);
 
@@ -560,7 +566,7 @@ namespace com.ThreeCS.McCree
             yield return new WaitForEndOfFrame();
 
             // 카드 나눠주기 중복 방지를 위해 마스터클라이언트 혼자만 작동(1번만 해야하는 동작임)
-            if(PhotonNetwork.IsMasterClient)
+            if (PhotonNetwork.IsMasterClient)
             {
                 // 맨 처음에 5장씩 뿌림
                 for (int i = 0; i < turnList.Count; i++)
@@ -570,13 +576,17 @@ namespace com.ThreeCS.McCree
                 }
                 yield return new WaitForEndOfFrame();
             }
-            
+
             // 시점을 1인칭으로 바꿈
             cam.ChildCameras[2].gameObject.SetActive(true);
             cam.ChildCameras[1].gameObject.SetActive(false);
 
+            StartCoroutine("GameLoop2");
             yield return new WaitForSeconds(1f);
+        }
 
+        IEnumerator GameLoop2() // 턴이 돌아가는 곳
+        { 
             tidx = 0;
             nextSignal = false;
 
@@ -589,18 +599,22 @@ namespace com.ThreeCS.McCree
 
                 // 본인이 턴리스트 순서와 같아야 본인 턴 (중복 rpc 방지위해 본인 것만)
                 if (player1.GetComponent<PhotonView>().ViewID == turnList[tidx].GetComponent<PhotonView>().ViewID && player1.GetComponent<PhotonView>().IsMine)
+                {
                     turnList[tidx].GetComponent<PhotonView>().RPC("MyTurn", RpcTarget.All, tidx);
+                    myTurn = true;
+                }
                 // 본인턴이 아니라면 반복문 통과 못하고 대기중
                 else
                 {
                     Debug.Log("자기 턴 아님");
 
                     // 뱅 카드에 의해 타겟팅이 되었을 때
-                    if(playerInfo.isTarget == true)
+                    if(playerInfo.isTarget == 1)
                     {
+                        myTurn = true;
                         Debug.Log("뱅 맞는 중 : " + playerInfo.isTarget);
                         StartCoroutine("Avoid");
-                        playerInfo.isTarget = false;
+                        playerInfo.isTarget = 2;
                     }
 
                     yield return new WaitForSeconds(0.1f);
@@ -619,6 +633,7 @@ namespace com.ThreeCS.McCree
                         Debug.Log("턴 넘김");
                         turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
                         nextSignal = false;
+                        myTurn = false;
                         break;
                     }
                     // -------------------------------------------  본인 턴 때 실행할 것들 여기에 쓰면 됨-------------------------------------------------------
@@ -924,7 +939,7 @@ namespace com.ThreeCS.McCree
         public void TargetedPanelOn()
         {
             //if(player1.GetComponent<PlayerInfo>().isTarget == true)
-            if (playerInfo.isTarget == true)
+            if (playerInfo.isTarget == 1)
             {
                 MineUI.Instance.targetedPanel.SetActive(true);
             }
@@ -945,6 +960,9 @@ namespace com.ThreeCS.McCree
                     break;
                 case "Avoid":
                     playerInfo.sendAvoid = true;
+                    break;
+                case "Beer":
+                    StartCoroutine("Beer");
                     break;
                 default:
                     break;
@@ -1074,8 +1092,9 @@ namespace com.ThreeCS.McCree
                     
             }
 
+            myTurn = false;
             // 타겟 상태에서 벗어남
-            playerInfo.isTarget = false;
+            playerInfo.isTarget = 0;
             photonView.RPC("SendAvoid", RpcTarget.All, 2);
 
             // 타겟 화면 UI 끔
@@ -1091,6 +1110,18 @@ namespace com.ThreeCS.McCree
         {
             playerInfo.sendAvoid = false;
             avoidBtnFlag = true;
+        }
+
+        IEnumerator Beer()
+        {
+            int temp = 0;
+            if (playerInfo.hp == playerInfo.maxHp)
+                temp = playerInfo.hp;
+            else if (playerInfo.hp < playerInfo.maxHp)
+                temp = ++playerInfo.hp;
+
+            photonView.RPC("SyncHp", RpcTarget.All, temp);
+            yield return new WaitForEndOfFrame();
         }
         #endregion
 

@@ -15,7 +15,7 @@ namespace com.ThreeCS.McCree
         [Header("카드 그림")]
         public Sprite bangImg;
         public Sprite avoidImg;
-        public Sprite healImg;
+        public Sprite beerImg;
 
         [Header("카드 테두리, 내용")]
         public Image cardInImg;
@@ -31,7 +31,7 @@ namespace com.ThreeCS.McCree
         {
             Bang,
             Avoid,
-            Heal
+            Beer
         }
 
         public cType cardContent;
@@ -80,9 +80,9 @@ namespace com.ThreeCS.McCree
             {
                 cardInImg.sprite = avoidImg;
             }
-            else if (this.cardContent == cType.Heal)
+            else if (this.cardContent == cType.Beer)
             {
-                cardInImg.sprite = healImg;
+                cardInImg.sprite = beerImg;
             }
         }
 
@@ -126,42 +126,62 @@ namespace com.ThreeCS.McCree
         // ----------- 카드 드래그 기능 --------------
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
         {
+            
             startPnt = targetUI.position;
             moveBegin = eventData.position;
             Debug.Log("현재카드 : " + targetUI.GetComponent<Card>().cardContent);
 
-            PanelOnOFF(1);
-            useCard = false;
-
-            // 현재 카드 사용 중에는 다른거 취급 못하게 함 
-            if(GameManager.Instance.isCard == false)
+            if (GameManager.Instance.myTurn == true)
             {
-                // 사용 패널에 정보 넘기기
-                ucpui.TargetMatch(targetUI);
+                PanelOnOFF(1);
+                useCard = false;
+
+                // 현재 카드 사용 중에는 다른거 취급 못하게 함 
+                if (GameManager.Instance.isCard == false)
+                {
+                    // 사용 패널에 정보 넘기기
+                    ucpui.TargetMatch(targetUI);
+                }
             }
+            
         }
 
         void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
         {
-            Debug.Log("마우스 뗴기");
+            //Debug.Log("마우스 뗴기");
             PanelOnOFF(0);
         }
 
         void IDragHandler.OnDrag(PointerEventData eventData)
         {
-            moveoffset = eventData.position - moveBegin;
-            targetUI.position = startPnt + moveoffset;
+            if (GameManager.Instance.myTurn == true)
+            {
+                // 타겟이여서 회피카드를 내야할 때
+                if (GameManager.Instance.player1.GetComponent<PlayerInfo>().isTarget == 2)
+                {
+                    if (targetUI.GetComponent<Card>().cardContent != cType.Avoid)
+                        return;
+                }
+
+                // 일반적인 상황
+                moveoffset = eventData.position - moveBegin;
+                targetUI.position = startPnt + moveoffset;
+            }
         }
 
         void IEndDragHandler.OnEndDrag(PointerEventData eventData)
         {
-            //Debug.Log("드래그 뗴기" + useCard);
-
             // 카드 사용 위치에 올려놔서 카드를 사용함
             if (useCard == true) 
             {
+                // 회피카드를 내야할 때 다른 카드가 판정 패널로 들어가는 것을 막음
+                if (GameManager.Instance.player1.GetComponent<PlayerInfo>().isTarget == 2)
+                {
+                    if (targetUI.GetComponent<Card>().cardContent != cType.Avoid)
+                        return;
+                }
+
                 GameManager.Instance.isCard = true;
-                //Debug.Log("카드 사용함");
                 StartCoroutine("CardUse");
             }
             // 카드를 사용하지 않고 다시 덱으로 

@@ -25,6 +25,7 @@ McCree/[Aa]ssets/PolygonWestern
 McCree/[Aa]ssets/PolygonWesternFrontier
 McCree/[Aa]ssets/POLYGONHorse
 McCree/[Aa]ssets/Malbers Animations
+McCree/[Aa]ssets/Scenes/5. Game/Game/Music
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !QuaterView3D/[Aa]ssets/**/*.meta

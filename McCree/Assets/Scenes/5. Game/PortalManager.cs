@@ -41,12 +41,11 @@ namespace com.ThreeCS.McCree
         {
             if(other.gameObject.CompareTag("Player"))
             {
-                ui.SetActive(true);
+                //ui.SetActive(true);
                 playerManager = other.GetComponent<PlayerManager>();
                 //nav = other.GetComponent<NavMeshAgent>();
 
-
-                Debug.Log("플레이어 진입!!!");
+                //Debug.Log("플레이어 진입!!!");
 
                 switch (gameObject.name)
                 {
@@ -81,14 +80,14 @@ namespace com.ThreeCS.McCree
         }
 
         // 포탈에서 플레이어가 벗어났을 때
-        void OnTriggerExit(Collider other)
+        /*void OnTriggerExit(Collider other)
         {
             if (other.gameObject.tag == "Player")
             {
                 Debug.Log("플레이어 나감!!!");
                 ui.SetActive(false);
             }
-        }
+        }*/
 
         #endregion
 

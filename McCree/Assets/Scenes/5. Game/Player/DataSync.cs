@@ -85,7 +85,7 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         public void BangTargeted()
         {
-            playerInfo.isTarget = true;
+            playerInfo.isTarget = 1;
             GameManager.Instance.TargetedPanelOn();
         }
 
@@ -119,7 +119,7 @@ namespace com.ThreeCS.McCree
             else if (ccase == 2)
             {
                 // 본인 상태를 변경해서 알리는 것
-                playerInfo.isTarget = false;
+                playerInfo.isTarget = 0;
             }
         }
     }

@@ -41,12 +41,12 @@ namespace com.ThreeCS.McCree
                 }
                 else if (prehp + 1 == _hp) // hp가 1업했을때 
                 {
-                    Image tempImg = ui.hpImgs[playerInfo.hp].GetComponent<Image>();
+                    Image tempImg = ui.hpImgs[playerInfo.hp - 1].GetComponent<Image>();
                     tempImg.sprite = ui.fullBullet;
 
                     if (photonView.IsMine) // MineUI 체력 이미지 바꿈
                     {
-                        Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp].GetComponent<Image>();
+                        Image tempImg2 = MineUI.Instance.mineUIhpImgs[playerInfo.hp - 1].GetComponent<Image>();
                         tempImg2.sprite = MineUI.Instance.fullHealth;
                     }
                 }
@@ -61,16 +61,23 @@ namespace com.ThreeCS.McCree
         public List<Card> mycards = new List<Card>();
 
         // 공격자 상태
-        public bool waitAvoid = false; // 본인이 지금 상대방의 avoid를 기다리고 있는 중인지
+        [HideInInspector]
+        public bool waitAvoid = false;  // 본인이 지금 상대방의 avoid를 기다리고 있는 중인지
 
         // 방어자 상태
-        public bool isTarget = false; // 본인이 상대편 카드에 의해 타겟팅이 되었는지
-        public bool sendAvoid = false;// 본인이 avoid카드를 냈는지 안냈는지
+        public int isTarget = 0; // 본인이 상대편 카드에 의해 타겟팅이 되었는지
+                                // 0 : 타겟 아님
+                                // 1 : 타겟 상태 들어감(enter)
+                                // 2 : 타겟 상태 지속 중(stay)
+
+        [HideInInspector]
+        public bool sendAvoid = false;  // 본인이 avoid카드를 냈는지 안냈는지
+
 
         public List<ItemList> myItemList;
         // 0번째 Bang
         // 1번째 Avoid
-        // 2번째 Heal
+        // 2번째 Beer
         public List<SubQuestList> myQuestList;
 
         protected Transform content;
@@ -122,6 +129,7 @@ namespace com.ThreeCS.McCree
 
         public bool isDeath;
 
+        public int temp;
         void Awake()
         {
             base.Awake();  // Controller Awake 함수 그대로 사용
@@ -146,6 +154,10 @@ namespace com.ThreeCS.McCree
             StartCoroutine(CurrentHP());
         }
 
+        private void Update()
+        {
+            temp = hp;
+        }
         public void Show_Hp()
         {
             for (int i = 0; i < ui.hpImgs.Length; i++)
