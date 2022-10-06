@@ -43,6 +43,8 @@ namespace com.ThreeCS.McCree
         public bool triggerStay = false;
         public int sitNum = 0;   // 본인
 
+        public GameObject chairTemp; // 현재 닿은 의자
+
 
         //private IEnumerator _coroutine;
         //public IEnumerator coroutine
@@ -75,8 +77,6 @@ namespace com.ThreeCS.McCree
         {
             if (photonView.IsMine && playerManager.canBehave)
             {
-                //의자관련
-                triggerStay = true;
                 if (other.tag == "NPC")
                 {
                     if (!other.GetComponent<NPC>().isComplete)
@@ -133,24 +133,32 @@ namespace com.ThreeCS.McCree
                 // 의자와 상호작용해서 의자에 앉기
                 else if(other.tag == "chair")
                 {
-                    // F 상호작용
-                    MineUI.Instance.range_x = Random.Range(-50, 50);
-                    MineUI.Instance.range_y = Random.Range(-100, 100);
-                    MineUI.Instance.interactionRect.anchoredPosition = new Vector2(MineUI.Instance.range_x, MineUI.Instance.range_y);
-                    MineUI.Instance.interactionPanel.SetActive(true);
-                    MineUI.Instance.interactionText.text = "앉기";
-                    Debug.Log("의자");
+                    if (other.GetComponent<ChairManager>().isPlayer == false)
+                    {
+                        // 의자 선착순 구현
+                        photonView.RPC("ChairCheck", RpcTarget.All, other.name, 0);
 
-                    //의자 하이라이트
-                    mr = other.GetComponent<MeshRenderer>();
-                    mat = mr.material;
-                    mat.EnableKeyword("_EMISSION");
-                    mat.SetColor("_EmissionColor", Color.white * 0.5f);
+                        triggerStay = true; //의자에 닿아있나 여부
 
-                    sitNum++;
-                    GameManager.Instance.NumCheckSit();
-                    // 앉는 위치에 따라서 플레이어 턴을 정함
-                    photonView.RPC("TurnSync", RpcTarget.All, other.name, "sit");
+                        // F 상호작용
+                        MineUI.Instance.range_x = Random.Range(-50, 50);
+                        MineUI.Instance.range_y = Random.Range(-100, 100);
+                        MineUI.Instance.interactionRect.anchoredPosition = new Vector2(MineUI.Instance.range_x, MineUI.Instance.range_y);
+                        MineUI.Instance.interactionPanel.SetActive(true);
+                        MineUI.Instance.interactionText.text = "앉기";
+                        Debug.Log("의자");
+
+                        //의자 하이라이트
+                        mr = other.GetComponent<MeshRenderer>();
+                        mat = mr.material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.white * 0.5f);
+
+                        sitNum++;
+                        GameManager.Instance.NumCheckSit();
+                        // 앉는 위치에 따라서 플레이어 턴을 정함
+                        photonView.RPC("TurnSync", RpcTarget.All, other.name, "sit");
+                    }
                 }
             }
         }
@@ -165,15 +173,18 @@ namespace com.ThreeCS.McCree
             }
             if (photonView.IsMine && other.CompareTag("chair"))
             {
-                // 전체 인원 체크
-                if (isSit)
+                if (other.GetComponent<ChairManager>().isPlayer == true && triggerStay)
                 {
-                    playerManager.Sit(other.GetComponent<Transform>().transform, other.GetComponent<MeshRenderer>());
-                    MineUI.Instance.interactionPanel.SetActive(false);
-                }
-                else 
-                {
-                    playerManager.StandUp(other.GetComponent<Transform>().transform);
+                    // 전체 인원 체크
+                    if (isSit)
+                    {
+                        playerManager.Sit(other.GetComponent<Transform>().transform, other.GetComponent<MeshRenderer>());
+                        MineUI.Instance.interactionPanel.SetActive(false);
+                    }
+                    else
+                    {
+                        playerManager.StandUp(other.GetComponent<Transform>().transform);
+                    }
                 }
             }
         }
@@ -182,8 +193,6 @@ namespace com.ThreeCS.McCree
         {
             if (photonView.IsMine)
             {
-                // 의자관련
-                triggerStay = false;
                 if (other.tag == "NPC")
                 {
                     MineUI.Instance.interactionPanel.SetActive(false);
@@ -196,14 +205,22 @@ namespace com.ThreeCS.McCree
                 }
                 else if (other.tag == "chair")
                 {
-                    MineUI.Instance.interactionPanel.SetActive(false);
-                    mat.SetColor("_EmissionColor", Color.black);
+                    if (other.GetComponent<ChairManager>().isPlayer == true && triggerStay)
+                    {
+                        // 의자에 앉은 사람이 없다고 알려줌
+                        photonView.RPC("ChairCheck", RpcTarget.All, other.name, 1);
 
-                    sitNum--;
-                    GameManager.Instance.NumCheckStand();
+                        triggerStay = false; // 의자에 계속 닿아있나 여부
 
-                    // 일어서서 나가면 그 위치에 저장된 플레이어 정보 삭제
-                    photonView.RPC("TurnSync", RpcTarget.All, other.name, "stand");
+                        MineUI.Instance.interactionPanel.SetActive(false);
+                        mat.SetColor("_EmissionColor", Color.black);
+
+                        sitNum--;
+                        GameManager.Instance.NumCheckStand();
+
+                        // 일어서서 나가면 그 위치에 저장된 플레이어 정보 삭제
+                        photonView.RPC("TurnSync", RpcTarget.All, other.name, "stand");
+                    }
                 }
 
                 if (coroutine_Chat != null)
@@ -213,17 +230,16 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        #region methods
         [PunRPC]
-        public void NumCheck(int n)
+        public void NumCheck(int n) // 탁자 위 인원수 UI
         {
             sitNum = n;
             // 앉은 인원 / 전체 인원
             GameManager.Instance.pnumText.text = sitNum + " / " + GameManager.Instance.playerList.Length;
         }
 
-        [PunRPC]
-        public void TurnSync(string chairname, string state)
+        [PunRPC]    
+        public void TurnSync(string chairname, string state) // 앉은 사람을 list에 넣어주고 동기화 
         {
             if (state == "stand")
             {
@@ -253,7 +269,23 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        #endregion
+        [PunRPC]
+        public void ChairCheck(string chairname, int num)   // 의자에 중복으로 앉는거 방지 
+        {
+            GameObject playerchair = null;
+            GameObject[] chairs = GameObject.FindGameObjectsWithTag("chair");
+            foreach(GameObject chair in chairs)
+            {
+                if (chair.name.Equals(chairname))
+                    playerchair = chair;
+            }
+
+            if(num == 0)
+                playerchair.GetComponent<ChairManager>().isPlayer = true;
+            else if(num == 1)
+                playerchair.GetComponent<ChairManager>().isPlayer = false;
+        }
+
 
 
         #region npc대화 관련

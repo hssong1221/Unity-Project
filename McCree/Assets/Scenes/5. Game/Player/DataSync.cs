@@ -22,19 +22,7 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        // 내 체력 동기화
-        [PunRPC]    
-        public void SyncHp(int myhp) 
-        {
-            if (myhp == -10)
-                playerInfo.Show_Hp();
-            else
-            {
-                playerInfo.hp = myhp;
-                playerInfo.Show_Hp();
-            }
-
-        }
+        #region 앉은 후 게임 시작
 
         // 보안관이 뱅 버튼 눌렀을 때 모든 사람의 인구수ui가 꺼져야함
         [PunRPC]
@@ -52,7 +40,23 @@ namespace com.ThreeCS.McCree
                 GameManager.Instance.GLStart();
         }
 
+        #endregion
 
+        // 내 체력 동기화
+        [PunRPC]
+        public void SyncHp(int myhp)
+        {
+            if (myhp == -10)
+                playerInfo.Show_Hp();
+            else
+            {
+                playerInfo.hp = myhp;
+                playerInfo.Show_Hp();
+            }
+
+        }
+
+        #region 턴 관련
         // 본인 턴에 작동해서 턴 종료버튼이 본인에게만 보임
         [PunRPC]
         public void MyTurn(int idx)
@@ -70,6 +74,8 @@ namespace com.ThreeCS.McCree
         {
             GameManager.Instance.tidx++;
         }
+
+        #endregion
 
         // 사용한 카드를 카드더미에 넣고 전체에게 동기화
         [PunRPC]
@@ -95,7 +101,6 @@ namespace com.ThreeCS.McCree
         {
             playerInfo.waitAvoid = true;
         }
-
 
         // 뱅 카드 타겟일 때 회피 했다는 것을 알림
         [PunRPC]

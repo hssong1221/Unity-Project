@@ -61,7 +61,8 @@ namespace com.ThreeCS.McCree
             }
             catch(Exception e)
             {
-                Debug.Log(e);
+                e.ToString();
+                //Debug.Log(e);
             }
         }
 

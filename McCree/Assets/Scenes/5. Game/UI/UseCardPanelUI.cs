@@ -37,6 +37,7 @@ namespace com.ThreeCS.McCree
             }
             catch(Exception e)
             {
+                e.ToString();
                 //Debug.Log(e);
             }
         }
@@ -50,6 +51,7 @@ namespace com.ThreeCS.McCree
             }
             catch(Exception e)
             {
+                e.ToString();
                 //Debug.Log(e);
             }
         }
