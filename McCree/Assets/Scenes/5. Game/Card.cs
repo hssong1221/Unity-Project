@@ -44,6 +44,9 @@ namespace com.ThreeCS.McCree
 
         // 카드를 사용한다 안한다
         public bool useCard;
+        // 카드를 삭제한다
+        public bool delCard;
+
         // mycards 에서의 카드 인덱스
         int idx = 0;
 
@@ -51,6 +54,12 @@ namespace com.ThreeCS.McCree
         public UseCardPanelUI ucpui;
         protected GameObject usecardPanel;
 
+        [Header("카드 삭제 판정 패널")]
+        public DelCardPanelUI dcpui;
+        protected GameObject delcardPanel;
+
+
+        // 카드를 들고 있는 플레이어를 의미함(본인)
         protected GameObject player;
 
         #endregion
@@ -59,6 +68,9 @@ namespace com.ThreeCS.McCree
         {
             usecardPanel = GameObject.Find("UseCardPanel");
             ucpui = usecardPanel.GetComponent<UseCardPanelUI>();
+
+            delcardPanel = GameObject.Find("DelCardPanel");
+            dcpui = delcardPanel.GetComponent<DelCardPanelUI>();
         }
 
         public void posValue(Vector3 myCardPos)
@@ -113,12 +125,20 @@ namespace com.ThreeCS.McCree
                 Color color = usecardPanel.GetComponent<Image>().color;
                 color.a = 0f;
                 usecardPanel.GetComponent<Image>().color = color;
+
+                Color color_d = delcardPanel.GetComponent<Image>().color;
+                color_d.a = 0f;
+                delcardPanel.GetComponent<Image>().color = color_d;
             }
             else if(num == 1) // 불투명
             {
                 Color color = usecardPanel.GetComponent<Image>().color;
                 color.a = 0.4f;
                 usecardPanel.GetComponent<Image>().color = color;
+
+                Color color_d = delcardPanel.GetComponent<Image>().color;
+                color_d.a = 0.4f;
+                delcardPanel.GetComponent<Image>().color = color_d;
             }
         }
 
@@ -139,8 +159,9 @@ namespace com.ThreeCS.McCree
                 // 현재 카드 사용 중에는 다른거 취급 못하게 함 
                 if (GameManager.Instance.isCard == false)
                 {
-                    // 사용 패널에 정보 넘기기
+                    // 패널에 정보 넘기기
                     ucpui.TargetMatch(targetUI);
+                    dcpui.TargetMatch(targetUI);
                 }
             }
             
@@ -184,8 +205,14 @@ namespace com.ThreeCS.McCree
                 GameManager.Instance.isCard = true;
                 StartCoroutine("CardUse");
             }
+            // 카드 삭제 위치에 올려놔서 카드를 삭제함
+            else if(delCard == true)
+            {
+                GameManager.Instance.isCard = true;
+                StartCoroutine("CardUse");
+            }
             // 카드를 사용하지 않고 다시 덱으로 
-            else if (useCard == false)
+            else
             {
                 targetUI.position = startPnt;
             }
@@ -203,11 +230,22 @@ namespace com.ThreeCS.McCree
             idx = 0;
             for (int i = 0; i < player.GetComponent<PlayerInfo>().mycards.Count; i++)
             {
-                if (player.GetComponent<PlayerInfo>().mycards[i].useCard == true)
-                    idx = i;
+                if (useCard)
+                {
+                    if (player.GetComponent<PlayerInfo>().mycards[i].useCard == true)
+                        idx = i;
+                }
+                else if(delCard)
+                {
+                    if (player.GetComponent<PlayerInfo>().mycards[i].delCard == true)
+                        idx = i;
+                }
             }
 
-            StartCoroutine("CardUse1");
+            if (useCard)
+                StartCoroutine("CardUse1");
+            else if (delCard)
+                StartCoroutine("CardUse2");
 
             yield return new WaitForEndOfFrame();
         }
@@ -246,12 +284,15 @@ namespace com.ThreeCS.McCree
             GameManager.Instance.isCard = false;
 
             StartCoroutine("CardUse3");
+
+            yield return new WaitForEndOfFrame();
         }
 
         IEnumerator CardUse3()
         {
             // 카드 사용 후 파괴 지시
             ucpui.Des();
+
             yield return null;
         }
     }

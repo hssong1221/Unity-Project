@@ -129,7 +129,6 @@ namespace com.ThreeCS.McCree
 
         public bool isDeath;
 
-        public int temp;
         void Awake()
         {
             base.Awake();  // Controller Awake 함수 그대로 사용
@@ -154,10 +153,6 @@ namespace com.ThreeCS.McCree
             StartCoroutine(CurrentHP());
         }
 
-        private void Update()
-        {
-            temp = hp;
-        }
         public void Show_Hp()
         {
             for (int i = 0; i < ui.hpImgs.Length; i++)

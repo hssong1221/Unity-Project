@@ -168,6 +168,8 @@ namespace com.ThreeCS.McCree
 
         public GameObject usecardPanel; // 카드 사용 판정 패널
 
+        public GameObject delcardPanel; // 카드 삭제 판정 패널
+
         // ----------------------------------- 카드 컨텐츠 구현 -------------------------------
         [HideInInspector]
         public bool isCard;             // 현재 선택한 카드가 있다는 의미
@@ -527,6 +529,7 @@ namespace com.ThreeCS.McCree
         {
             // 카드 초기화를 위해 켜야함
             usecardPanel.SetActive(true);
+            delcardPanel.SetActive(true);
 
             // 보안관을 시작으로 순서 정하기 
             // 보안관 앉은 위치찾기
