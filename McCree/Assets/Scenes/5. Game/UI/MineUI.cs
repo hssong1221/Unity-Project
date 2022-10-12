@@ -94,8 +94,13 @@ namespace com.ThreeCS.McCree
         [Header("다음턴 버튼")]
         public GameObject NextButton;
 
+        [Header("뱅 맞았다는 UI")]
         public GameObject targetedPanel;
         public Text ttext;
+
+        [Header("마우스 입력 블락 패널")]
+        public GameObject blockingPanel;
+
 
         #endregion
 

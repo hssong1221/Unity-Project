@@ -110,7 +110,7 @@ namespace com.ThreeCS.McCree
         public void SendAvoid(int state)
         {
             // 0 : 공격자에게 뱅을 맞고 회피나 맞기를 했다고 알림
-            // 1 : 공격자에게 기관총을 맞고 --
+            // 1 : 공격자에게 기관총을 맞고 ~
             // 2 : 타겟이 0번 행동 한 후에 자신의 상태를 변경할 때
             if (state == 0 )
             {

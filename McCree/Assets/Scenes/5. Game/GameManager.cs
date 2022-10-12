@@ -184,9 +184,9 @@ namespace com.ThreeCS.McCree
 
 
         // sendAvoid에 들어가는 파라미터
-        // 0 : 공격자가 회피를 받았을 때
-        // 1 : 공격자가 그냥 맞기를 받았을 때
-        // 2 : 타겟이 0 or 1 행동 한 후에 자신의 상태를 변경할 때
+        // 0 : 공격자에게 뱅을 맞고 회피나 맞기를 했다고 알림
+        // 1 : 공격자에게 기관총을 맞고 ~
+        // 2 : 타겟이 0번 행동 한 후에 자신의 상태를 변경할 때
         [HideInInspector]
         public int avoidFlag = 0;
 
@@ -256,9 +256,9 @@ namespace com.ThreeCS.McCree
 
             // 뱅 카드 사용 중
             if (isBang && Input.GetMouseButtonDown(0))
-            {
                 bangClick = true;
-            }
+            else if (isBang && Input.GetMouseButtonUp(0)) 
+                bangClick = false;
         }
 
         #endregion
@@ -993,42 +993,8 @@ namespace com.ThreeCS.McCree
 
 
         //----------------------------- 카드 기능 구현 중 --------------------------------
-        
-        IEnumerator MachineGun()
+        IEnumerator Bang()
         {
-            photonView.RPC("MgSync", RpcTarget.All, 0);
-
-            // 타겟 선언 및 상대편 화면에 UI 띄움
-            foreach (GameObject player in playerList)
-            {
-                // 본인 제외 전체 공격
-                if (player.GetComponent<PhotonView>().ViewID != player1.GetComponent<PhotonView>().ViewID)
-                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All);
-            }
-
-            // 나의 waitAvoids 상태를 전체에게 동기화
-            photonView.RPC("WaitAvoid", RpcTarget.All, 1);
-
-            // 상대방의 avoid 갯수
-            while (playerInfo.waitAvoids < (playerList.Length - 1))
-            {
-                Debug.Log(playerInfo.waitAvoids);
-                Debug.Log("상대방의 회피를 기다리는 중 ");
-
-                yield return new WaitForSeconds(0.1f);
-            }
-            Debug.Log("상대방의 회피를 기다리는 상태를 빠져나옴 ");
-
-            photonView.RPC("MgSync", RpcTarget.All, 1);
-
-            // 기관총 관련 플래그 초기화
-            playerInfo.waitAvoids = -1;
-            yield return null;
-        }
-
-        IEnumerator Bang(string state)
-        {
-            Debug.Log(state);
             isBang = true;
             Material mat;
             GameObject temp = null;
@@ -1080,11 +1046,14 @@ namespace com.ThreeCS.McCree
                         while (playerInfo.waitAvoid == true)
                         {
                             Debug.Log("상대방의 회피를 기다리는 중 ");
+
+                            // 투명 패널 켜서 기다리는 동안 입력 막기
+                            MineUI.Instance.blockingPanel.SetActive(true);
                             yield return new WaitForSeconds(0.1f);
                         }
-
                         Debug.Log("상대방의 회피를 기다리는 상태를 빠져나옴 ");
-                            
+                        MineUI.Instance.blockingPanel.SetActive(false);
+
                         // 끝나면 루프 종료
                         break;
                     }
@@ -1096,6 +1065,40 @@ namespace com.ThreeCS.McCree
             isBang = false;
             
             yield return new WaitForEndOfFrame();
+        }
+
+        IEnumerator MachineGun()
+        {
+            photonView.RPC("MgSync", RpcTarget.All, 0);
+
+            // 타겟 선언 및 상대편 화면에 UI 띄움
+            foreach (GameObject player in playerList)
+            {
+                // 본인 제외 전체 공격
+                if (player.GetComponent<PhotonView>().ViewID != player1.GetComponent<PhotonView>().ViewID)
+                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All);
+            }
+
+            // 나의 waitAvoids 상태를 전체에게 동기화
+            photonView.RPC("WaitAvoid", RpcTarget.All, 1);
+
+            // 상대방의 avoid 갯수
+            while (playerInfo.waitAvoids < (playerList.Length - 1))
+            {
+                Debug.Log(playerInfo.waitAvoids);
+                Debug.Log("상대방의 회피를 기다리는 중 ");
+                // 투명 패널 켜서 기다리는 동안 입력 막기
+                MineUI.Instance.blockingPanel.SetActive(true);
+                yield return new WaitForSeconds(0.1f);
+            }
+            Debug.Log("상대방의 회피를 기다리는 상태를 빠져나옴 ");
+            MineUI.Instance.blockingPanel.SetActive(false);
+
+            photonView.RPC("MgSync", RpcTarget.All, 1);
+
+            // 기관총 관련 플래그 초기화
+            playerInfo.waitAvoids = -1;
+            yield return null;
         }
 
         IEnumerator Avoid()
