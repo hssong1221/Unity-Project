@@ -44,13 +44,13 @@ namespace com.ThreeCS.McCree
 
         // 내 체력 동기화
         [PunRPC]
-        public void SyncHp(int myhp)
+        public void SyncHp(int hp)
         {
-            if (myhp == -10)
+            if (hp == -10)
                 playerInfo.Show_Hp();
             else
             {
-                playerInfo.hp = myhp;
+                playerInfo.hp = hp;
                 playerInfo.Show_Hp();
             }
 
@@ -97,34 +97,49 @@ namespace com.ThreeCS.McCree
 
         // 뱅 카드를 내고 회피를 기다리는 상태라는 것을 알림
         [PunRPC]
-        public void WaitAvoid()
+        public void WaitAvoid(int state)
         {
-            playerInfo.waitAvoid = true;
+            if (state == 0)  // 일반 뱅
+                playerInfo.waitAvoid = true;
+            else if (state == 1)    // 머신건 뱅
+                playerInfo.waitAvoids = 0;
         }
 
         // 뱅 카드 타겟일 때 회피 했다는 것을 알림
         [PunRPC]
-        public void SendAvoid(int ccase)
+        public void SendAvoid(int state)
         {
-            // 0 : 공격자가 회피를 받았을 때
-            // 1 : 공격자가 그냥 맞기를 받았을 때
-            // 2 : 타겟이 0 or 1 행동 한 후에 자신의 상태를 변경할 때
-            if (ccase == 0)
+            // 0 : 공격자에게 뱅을 맞고 회피나 맞기를 했다고 알림
+            // 1 : 공격자에게 기관총을 맞고 --
+            // 2 : 타겟이 0번 행동 한 후에 자신의 상태를 변경할 때
+            if (state == 0 )
             {
                 // 공격자의 상태를 변경하는 것
                 playerInfo.waitAvoid = false;
-                GameManager.Instance.willDamage = false;
             }
-            else if(ccase == 1)
+            else if(state == 1)
             {
-                playerInfo.waitAvoid = false;
-                GameManager.Instance.willDamage = true;
-
+                // 공격자의 상태를 변경하는 것
+                playerInfo.waitAvoids += 1;
             }
-            else if (ccase == 2)
+            else if (state == 2)
             {
                 // 본인 상태를 변경해서 알리는 것
                 playerInfo.isTarget = 0;
+            }
+        }
+
+        [PunRPC]
+        public void MgSync(int state)
+        {
+            // 기관총 사용중
+            if (state == 0)
+                playerInfo.isMG = true;
+            // 사용 끝
+            else
+            {
+                playerInfo.isMG = false;
+                playerInfo.waitAvoids = -1;
             }
         }
     }

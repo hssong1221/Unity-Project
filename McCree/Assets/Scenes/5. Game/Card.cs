@@ -16,9 +16,12 @@ namespace com.ThreeCS.McCree
         public Sprite bangImg;
         public Sprite avoidImg;
         public Sprite beerImg;
+        public Sprite IndianImg;
+        public Sprite MGImg;
 
         [Header("카드 테두리, 내용")]
         public Image cardInImg;
+        public Text cardText;
         public GameObject cardBorder;
 
         Transform cardPos;
@@ -31,7 +34,9 @@ namespace com.ThreeCS.McCree
         {
             Bang,
             Avoid,
-            Beer
+            Beer,
+            Indian,
+            MachineGun
         }
 
         public cType cardContent;
@@ -43,9 +48,9 @@ namespace com.ThreeCS.McCree
         protected Vector2 moveoffset;
 
         // 카드를 사용한다 안한다
-        public bool useCard;
+        public bool useCard = false;
         // 카드를 삭제한다
-        public bool delCard;
+        public bool delCard = false;
 
         // mycards 에서의 카드 인덱스
         int idx = 0;
@@ -81,20 +86,33 @@ namespace com.ThreeCS.McCree
             //cpos_z = myCardPos.position.z;
         }
 
-        // 카드 이미지와 타입을 맞추는 함수
+        // 카드 이미지와 타입을 맞추는 함수(글자도)
         public void matchImg()
         {
             if (this.cardContent == cType.Bang)
             {
                 cardInImg.sprite = bangImg;
+                cardText.text = "BANG";
             }
             else if (this.cardContent == cType.Avoid)
             {
                 cardInImg.sprite = avoidImg;
+                cardText.text = "DODGE";
             }
             else if (this.cardContent == cType.Beer)
             {
                 cardInImg.sprite = beerImg;
+                cardText.text = "BEER";
+            }
+            else if (this.cardContent == cType.Indian)
+            {
+                cardInImg.sprite = beerImg;
+                cardText.text = "INDIAN";
+            }
+            else if (this.cardContent == cType.MachineGun)
+            {
+                cardInImg.sprite = MGImg;
+                cardText.text = "MG";
             }
         }
 
@@ -143,7 +161,7 @@ namespace com.ThreeCS.McCree
         }
 
 
-        // ----------- 카드 드래그 기능 --------------
+        #region 카드 드래그 기능
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
         {
             
@@ -193,7 +211,7 @@ namespace com.ThreeCS.McCree
         void IEndDragHandler.OnEndDrag(PointerEventData eventData)
         {
             // 카드 사용 위치에 올려놔서 카드를 사용함
-            if (useCard == true) 
+            if (useCard) 
             {
                 // 회피카드를 내야할 때 다른 카드가 판정 패널로 들어가는 것을 막음
                 if (GameManager.Instance.player1.GetComponent<PlayerInfo>().isTarget == 2)
@@ -206,7 +224,7 @@ namespace com.ThreeCS.McCree
                 StartCoroutine("CardUse");
             }
             // 카드 삭제 위치에 올려놔서 카드를 삭제함
-            else if(delCard == true)
+            else if(delCard)
             {
                 GameManager.Instance.isCard = true;
                 StartCoroutine("CardUse");
@@ -218,9 +236,9 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        // --------------------------------------------
+        #endregion
 
-        // 카드 사용 후 동작 
+        #region 카드 사용 후 동작
         IEnumerator CardUse()  
         {
             // 본인 카드 덱을 찾으려면 본인이 누군지 알아야함
@@ -268,8 +286,12 @@ namespace com.ThreeCS.McCree
         // 본인 덱에서 카드 삭제 및 전체 카드더미 맨뒤에 다시 추가 그리고 카드더미 상태 동기화
         IEnumerator CardUse2()
         {
-            // 전체 카드셋 맨 뒤에 다시 추가후 동기화
-            GameManager.Instance.AfterCardUse(cardContent);
+            // 카드 사용 후 
+            if(useCard)
+                GameManager.Instance.AfterCardUse(cardContent, 0);
+            // 카드 삭제 후 
+            else if (delCard)
+                GameManager.Instance.AfterCardUse(cardContent, 1);
 
             // 내 리스트에서 사용한 카드 삭제
             player.GetComponent<PlayerInfo>().mycards.RemoveAt(idx);
@@ -296,6 +318,7 @@ namespace com.ThreeCS.McCree
             yield return null;
         }
     }
+    #endregion
 
-    
+
 }

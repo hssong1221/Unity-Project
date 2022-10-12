@@ -47,7 +47,10 @@ namespace com.ThreeCS.McCree
             try
             {
                 //Debug.Log("Pointer Exit");
-                target.GetComponent<Card>().useCard = false;
+
+                // 카드 사용중에는 도중에 false로 바뀌면 CardUse 코루틴이 안돌아감
+                if(GameManager.Instance.isCard == false)
+                    target.GetComponent<Card>().useCard = false;
             }
             catch(Exception e)
             {

@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3828012792148720785, guid: a0837315b28dfc44b9ec9a46e66e92a5, type: 3}
+  m_Sprite: {fileID: 6779204642115704726, guid: 648966ca3b9d0ca4b9926b7be34be646, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -106,6 +106,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2643383447711097964}
+  - {fileID: 2584846846739287148}
   m_Father: {fileID: 2643383449535095575}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -254,12 +255,96 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19f17270574e0c4a92470043e869677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bangImg: {fileID: 3828012792148720785, guid: a0837315b28dfc44b9ec9a46e66e92a5, type: 3}
-  avoidImg: {fileID: 21300000, guid: 1cbeae1b263965e489a9110d974dbec3, type: 3}
+  bangImg: {fileID: 3168146235967358472, guid: 7a01100218b66fc4691d540499f2e8b1, type: 3}
+  avoidImg: {fileID: 3753566385559023373, guid: 624e638d73df0b24bbf007d113f341c8, type: 3}
   beerImg: {fileID: 6779204642115704726, guid: 648966ca3b9d0ca4b9926b7be34be646, type: 3}
+  IndianImg: {fileID: -1097421992513990583, guid: a0837315b28dfc44b9ec9a46e66e92a5, type: 3}
+  MGImg: {fileID: -4079613985380519430, guid: a0837315b28dfc44b9ec9a46e66e92a5, type: 3}
   cardInImg: {fileID: 2643383447711097965}
+  cardText: {fileID: 1951396915861156421}
   cardBorder: {fileID: 2643383449535095574}
-  cardContent: 0
+  cardContent: 2
   targetUI: {fileID: 2643383449535095575}
   useCard: 0
+  delCard: 0
   ucpui: {fileID: 0}
+  dcpui: {fileID: 0}
+--- !u!1 &6587918107849886729
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2584846846739287148}
+  - component: {fileID: 3322410435832312510}
+  - component: {fileID: 1951396915861156421}
+  m_Layer: 5
+  m_Name: CardText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2584846846739287148
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6587918107849886729}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_Children: []
+  m_Father: {fileID: 2643383448196087941}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 96.43405}
+  m_SizeDelta: {x: 360, y: 131.8269}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &3322410435832312510
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6587918107849886729}
+  m_CullTransparentMesh: 1
+--- !u!114 &1951396915861156421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6587918107849886729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 07e0d4782f92a844ea77afd16af8b883, type: 3}
+    m_FontSize: 90
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 0
+    m_MaxSize: 100
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: BEER

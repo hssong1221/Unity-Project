@@ -61,8 +61,9 @@ namespace com.ThreeCS.McCree
         public List<Card> mycards = new List<Card>();
 
         // 공격자 상태
-        [HideInInspector]
+        
         public bool waitAvoid = false;  // 본인이 지금 상대방의 avoid를 기다리고 있는 중인지
+        public int waitAvoids = -1;      // 본인이 전체avoid를 기다리고 있음(-1이 기본 MG사용자만 0으로 바뀜)
 
         // 방어자 상태
         public int isTarget = 0; // 본인이 상대편 카드에 의해 타겟팅이 되었는지
@@ -72,6 +73,9 @@ namespace com.ThreeCS.McCree
 
         [HideInInspector]
         public bool sendAvoid = false;  // 본인이 avoid카드를 냈는지 안냈는지
+
+        // 기관총 상태인지 아닌지
+        public bool isMG = false;
 
 
         public List<ItemList> myItemList;

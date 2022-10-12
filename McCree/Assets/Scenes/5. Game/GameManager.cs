@@ -156,14 +156,16 @@ namespace com.ThreeCS.McCree
         private int avoid_c;
         [SerializeField]
         private int beer_c;
-        
+        [SerializeField]
+        private int machinegun_c;
+
 
         // 턴 관련 변수들
         [HideInInspector]
         public bool nextSignal = false; // 턴을 다음사람에게 넘기라는 변수
         [HideInInspector]   
         public int tidx;                // 현재 턴을 가지고 있는 사람의 turnList index
-        [HideInInspector]
+
         public bool myTurn = false;    // 내 턴이면 true
 
         public GameObject usecardPanel; // 카드 사용 판정 패널
@@ -192,9 +194,7 @@ namespace com.ThreeCS.McCree
         [HideInInspector]
         public bool avoidBtnFlag = false;
 
-        // avoid카드를 냈으면 안맞고 안 내면 맞고
-        [HideInInspector]
-        public bool willDamage = false;
+        
 
         #endregion
 
@@ -371,7 +371,7 @@ namespace com.ThreeCS.McCree
 
             // 초기 카드 세팅
             Card.cType[] initialDeck = new Card.cType[
-                bang_c + avoid_c + beer_c
+                bang_c + avoid_c + beer_c + machinegun_c
             ];
 
             int k = 0;
@@ -381,6 +381,8 @@ namespace com.ThreeCS.McCree
                 initialDeck[k] = Card.cType.Avoid;
             for (int i = 0; i < beer_c; i++, k++)
                 initialDeck[k] = Card.cType.Beer;
+            for (int i = 0; i < machinegun_c; i++, k++)
+                initialDeck[k] = Card.cType.MachineGun;
 
             // 섞기
             int random1;
@@ -416,7 +418,7 @@ namespace com.ThreeCS.McCree
 
             // (인구수에 맞게 하는 거 추가하기)
             //List<int> jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 }; ----- 실험을 위해 보안관 확률을 높였음-----
-            List<int> jobList = new List<int>() { 1, 2 };
+            List<int> jobList = new List<int>() { 1, 2 ,2 };
 
 
             // 능력 갯수에 맞게 해야함
@@ -949,11 +951,19 @@ namespace com.ThreeCS.McCree
         }
 
         // 카드 사용한 거 다시 카드 셋으로 넣는 기능
-        public void AfterCardUse(Card.cType content)
+        public void AfterCardUse(Card.cType content, int state) // 0: 카드사용 1: 카드 삭제
         {
-            Debug.Log("use card content : " + content);
+            //Debug.Log("use card content : " + content);
 
+            // 카드 삭제일 때
+            if(state == 1)
+            {
+                // 카드더미 동기화 시켜주기 - DataSync로
+                player1.GetComponent<PhotonView>().RPC("CardDeckSync", RpcTarget.All, content);
+                return;
+            }
 
+            // 카드 사용 일 때
             // 카드 종류에 따라 실행이 달라진다
             string t = content.ToString();
             switch (t)
@@ -967,6 +977,12 @@ namespace com.ThreeCS.McCree
                 case "Beer":
                     StartCoroutine("Beer");
                     break;
+                case "Indian":
+                    //StartCoroutine("Beer");
+                    break;
+                case "MachineGun":
+                    StartCoroutine("MachineGun");
+                    break;
                 default:
                     break;
             }
@@ -978,9 +994,41 @@ namespace com.ThreeCS.McCree
 
         //----------------------------- 카드 기능 구현 중 --------------------------------
         
-
-        IEnumerator Bang()
+        IEnumerator MachineGun()
         {
+            photonView.RPC("MgSync", RpcTarget.All, 0);
+
+            // 타겟 선언 및 상대편 화면에 UI 띄움
+            foreach (GameObject player in playerList)
+            {
+                // 본인 제외 전체 공격
+                if (player.GetComponent<PhotonView>().ViewID != player1.GetComponent<PhotonView>().ViewID)
+                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All);
+            }
+
+            // 나의 waitAvoids 상태를 전체에게 동기화
+            photonView.RPC("WaitAvoid", RpcTarget.All, 1);
+
+            // 상대방의 avoid 갯수
+            while (playerInfo.waitAvoids < (playerList.Length - 1))
+            {
+                Debug.Log(playerInfo.waitAvoids);
+                Debug.Log("상대방의 회피를 기다리는 중 ");
+
+                yield return new WaitForSeconds(0.1f);
+            }
+            Debug.Log("상대방의 회피를 기다리는 상태를 빠져나옴 ");
+
+            photonView.RPC("MgSync", RpcTarget.All, 1);
+
+            // 기관총 관련 플래그 초기화
+            playerInfo.waitAvoids = -1;
+            yield return null;
+        }
+
+        IEnumerator Bang(string state)
+        {
+            Debug.Log(state);
             isBang = true;
             Material mat;
             GameObject temp = null;
@@ -1005,7 +1053,7 @@ namespace com.ThreeCS.McCree
                         mat.SetColor("_EmissionColor", Color.red * 0.5f);
                         temp = go;
                     }
-                    else if(temp != null)
+                    else if (temp != null)
                     {
                         mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
                         mat.EnableKeyword("_EMISSION");
@@ -1016,7 +1064,7 @@ namespace com.ThreeCS.McCree
                     {
                         Debug.Log("플레이어 선택 : " + go);
 
-                        // 맞았으니까 하이라이트 꺼야함
+                        // 클릭했으니까 하이라이트 꺼야함
                         mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
                         mat.EnableKeyword("_EMISSION");
                         mat.SetColor("_EmissionColor", Color.black);
@@ -1026,36 +1074,27 @@ namespace com.ThreeCS.McCree
 
                         // 나의 waitAvoid 상태를 전체에게 동기화
                         playerInfo.waitAvoid = true;
-                        photonView.RPC("WaitAvoid", RpcTarget.All);
+                        photonView.RPC("WaitAvoid", RpcTarget.All, 0);
 
                         // 상대방의 avoid 기다림
                         while (playerInfo.waitAvoid == true)
                         {
                             Debug.Log("상대방의 회피를 기다리는 중 ");
-                            
                             yield return new WaitForSeconds(0.1f);
                         }
 
                         Debug.Log("상대방의 회피를 기다리는 상태를 빠져나옴 ");
-
-                        // avoid 하면 그냥 넘어가고 못하면 hp 달게함
-                        if (willDamage == false)
-                            break;
-                        else if(willDamage == true)
-                        {
-                            go.GetComponent<PlayerInfo>().hp--;
-                            int targethp = go.GetComponent<PlayerInfo>().hp;
-                            go.GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All, targethp);
-                            break;
-                        }
+                            
+                        // 끝나면 루프 종료
+                        break;
                     }
                 }
                 yield return new WaitForEndOfFrame();
             }
-             
             // 뱅 관련 플래그 초기화
             bangClick = false;
             isBang = false;
+            
             yield return new WaitForEndOfFrame();
         }
 
@@ -1079,20 +1118,36 @@ namespace com.ThreeCS.McCree
                 yield return new WaitForSeconds(0.1f);
             }
 
+            // 상황에 따른 HP 상태
             if(avoidFlag == 0)
+            {
                 Debug.Log("회피 카드 내서 빠져나옴");
-            else
+            }
+            else if(avoidFlag == 1)
+            {
+                playerInfo.hp--;
+                photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
                 Debug.Log("맞고 빠져나옴");
+            }
+
 
             foreach (GameObject player in turnList)
             {
                 // 공격자의 회피 대기 상태를 바꿔야함
-                if (player.GetComponent<PlayerInfo>().waitAvoid == true)
+                // 기관총
+                if (player.GetComponent<PlayerInfo>().isMG == true)
+                {
+                    Debug.Log("상대편 waitavoids 상태 변경중");
+                    player.GetComponent<PhotonView>().RPC("SendAvoid", RpcTarget.All, 1);
+                    break;
+                }
+                // 뱅
+                if(player.GetComponent<PlayerInfo>().waitAvoid == true)
                 {
                     Debug.Log("상대편 waitavoid 상태 변경중");
-                    player.GetComponent<PhotonView>().RPC("SendAvoid", RpcTarget.All, avoidFlag);
+                    player.GetComponent<PhotonView>().RPC("SendAvoid", RpcTarget.All, 0);
+                    break;
                 }
-                    
             }
 
             myTurn = false;
