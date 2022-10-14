@@ -18,6 +18,8 @@ namespace com.ThreeCS.McCree
         public Sprite beerImg;
         public Sprite IndianImg;
         public Sprite MGImg;
+        public Sprite StageCoachImg;
+        public Sprite WellsFargoImg;
 
         [Header("카드 테두리, 내용")]
         public Image cardInImg;
@@ -36,7 +38,9 @@ namespace com.ThreeCS.McCree
             Avoid,
             Beer,
             Indian,
-            MachineGun
+            MachineGun,
+            StageCoach,
+            WellsFargo
         }
 
         public cType cardContent;
@@ -116,6 +120,16 @@ namespace com.ThreeCS.McCree
             {
                 cardInImg.sprite = MGImg;
                 cardText.text = "MG";
+            }
+            else if (this.cardContent == cType.StageCoach)
+            {
+                cardInImg.sprite = StageCoachImg;
+                cardText.text = "STAGECOACH";
+            }
+            else if (this.cardContent == cType.WellsFargo)
+            {
+                cardInImg.sprite = WellsFargoImg;
+                cardText.text = "WELLS FARGO";
             }
         }
 

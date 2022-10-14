@@ -160,6 +160,10 @@ namespace com.ThreeCS.McCree
         private int machinegun_c;
         [SerializeField]
         private int indian_c;
+        [SerializeField]
+        private int stagecoach_c;
+        [SerializeField]
+        private int wellsfargo_c;
 
 
         // 턴 관련 변수들
@@ -373,7 +377,7 @@ namespace com.ThreeCS.McCree
 
             // 초기 카드 세팅
             Card.cType[] initialDeck = new Card.cType[
-                bang_c + avoid_c + beer_c + machinegun_c + indian_c
+                bang_c + avoid_c + beer_c + machinegun_c + indian_c + stagecoach_c + wellsfargo_c
             ];
 
             int k = 0;
@@ -387,6 +391,10 @@ namespace com.ThreeCS.McCree
                 initialDeck[k] = Card.cType.MachineGun;
             for (int i = 0; i < indian_c; i++, k++)
                 initialDeck[k] = Card.cType.Indian;
+            for (int i = 0; i < stagecoach_c; i++, k++)
+                initialDeck[k] = Card.cType.StageCoach;
+            for (int i = 0; i < wellsfargo_c; i++, k++)
+                initialDeck[k] = Card.cType.WellsFargo;
 
             // 섞기
             int random1;
@@ -1004,6 +1012,12 @@ namespace com.ThreeCS.McCree
                 case "MachineGun":
                     StartCoroutine("MachineGun");
                     break;
+                case "StageCoach":
+                    StartCoroutine("StageCoach");
+                    break;
+                case "WellsFargo":
+                    StartCoroutine("WellsFargo");
+                    break;
                 default:
                     break;
             }
@@ -1016,40 +1030,7 @@ namespace com.ThreeCS.McCree
 
         // 만드는 중
 
-        IEnumerator Indian()
-        {
-            photonView.RPC("IndianSync", RpcTarget.All, 0);
-
-            // 타겟 선언 및 상대편 화면에 UI 띄움
-            foreach (GameObject player in playerList)
-            {
-                // 본인 제외 전체 공격
-                if (player.GetComponent<PhotonView>().ViewID != player1.GetComponent<PhotonView>().ViewID)
-                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 2);
-            }
-
-            // 나의 waitBangs 상태를 전체에게 동기화(함수 돌려쓰기)
-            photonView.RPC("WaitAvoid", RpcTarget.All, 2);
-
-            // 상대방의 bang 갯수
-            while (playerInfo.waitBangs < (playerList.Length - 1))
-            {
-                Debug.Log("상대방의 반격을 기다리는 중 ");
-
-                // 투명 패널 켜서 기다리는 동안 입력 막기
-                MineUI.Instance.blockingPanel.SetActive(true);
-                yield return new WaitForSeconds(0.1f);
-            }
-            Debug.Log("상대방의 반격을 기다리는 상태를 빠져나옴 ");
-            MineUI.Instance.blockingPanel.SetActive(false);
-
-            photonView.RPC("IndianSync", RpcTarget.All, 1);
-
-            // 인디언 관련 플래그 초기화
-            playerInfo.waitBangs = -1;
-            yield return new WaitForEndOfFrame();
-        }
-
+        
         #region 완성된 카드 기능 
 
         IEnumerator Bang()
@@ -1158,6 +1139,40 @@ namespace com.ThreeCS.McCree
             // 기관총 관련 플래그 초기화
             playerInfo.waitAvoids = -1;
 
+            yield return new WaitForEndOfFrame();
+        }
+
+        IEnumerator Indian()
+        {
+            photonView.RPC("IndianSync", RpcTarget.All, 0);
+
+            // 타겟 선언 및 상대편 화면에 UI 띄움
+            foreach (GameObject player in playerList)
+            {
+                // 본인 제외 전체 공격
+                if (player.GetComponent<PhotonView>().ViewID != player1.GetComponent<PhotonView>().ViewID)
+                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 2);
+            }
+
+            // 나의 waitBangs 상태를 전체에게 동기화(함수 돌려쓰기)
+            photonView.RPC("WaitAvoid", RpcTarget.All, 2);
+
+            // 상대방의 bang 갯수
+            while (playerInfo.waitBangs < (playerList.Length - 1))
+            {
+                Debug.Log("상대방의 반격을 기다리는 중 ");
+
+                // 투명 패널 켜서 기다리는 동안 입력 막기
+                MineUI.Instance.blockingPanel.SetActive(true);
+                yield return new WaitForSeconds(0.1f);
+            }
+            Debug.Log("상대방의 반격을 기다리는 상태를 빠져나옴 ");
+            MineUI.Instance.blockingPanel.SetActive(false);
+
+            photonView.RPC("IndianSync", RpcTarget.All, 1);
+
+            // 인디언 관련 플래그 초기화
+            playerInfo.waitBangs = -1;
             yield return new WaitForEndOfFrame();
         }
 
@@ -1295,6 +1310,17 @@ namespace com.ThreeCS.McCree
             yield return new WaitForEndOfFrame();
         }
 
+        IEnumerator StageCoach()
+        {
+            turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 2, transform.position);
+            yield return null;
+        }
+
+        IEnumerator WellsFargo()
+        {
+            turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 3, transform.position);
+            yield return null;
+        }
         #endregion
 
 

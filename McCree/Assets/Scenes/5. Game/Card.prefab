@@ -260,6 +260,8 @@ MonoBehaviour:
   beerImg: {fileID: 6779204642115704726, guid: 648966ca3b9d0ca4b9926b7be34be646, type: 3}
   IndianImg: {fileID: -3533566811458544659, guid: 767be31f305d1a140ad9b0fc6f4f06c6, type: 3}
   MGImg: {fileID: -2960138565115590475, guid: 404485551c319ee459c94811f4dd23cb, type: 3}
+  StageCoachImg: {fileID: -2030728350012769313, guid: a0837315b28dfc44b9ec9a46e66e92a5, type: 3}
+  WellsFargoImg: {fileID: -6911760716467845484, guid: a0837315b28dfc44b9ec9a46e66e92a5, type: 3}
   cardInImg: {fileID: 2643383447711097965}
   cardText: {fileID: 1951396915861156421}
   cardBorder: {fileID: 2643383449535095574}
