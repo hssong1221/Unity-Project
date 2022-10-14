@@ -89,9 +89,12 @@ namespace com.ThreeCS.McCree
 
         // 뱅 카드의 타겟이 되었을 때
         [PunRPC]
-        public void BangTargeted()
+        public void BangTargeted(int state)
         {
-            playerInfo.isTarget = 1;
+            // state
+            // 1 : bang, MG
+            // 2 : indian
+            playerInfo.isTarget = state;
             GameManager.Instance.TargetedPanelOn();
         }
 
@@ -103,6 +106,9 @@ namespace com.ThreeCS.McCree
                 playerInfo.waitAvoid = true;
             else if (state == 1)    // 머신건 뱅
                 playerInfo.waitAvoids = 0;
+            else if (state == 2)    // 인디언 뱅
+                playerInfo.waitBangs = 0;
+                
         }
 
         // 뱅 카드 타겟일 때 회피 했다는 것을 알림
@@ -111,7 +117,8 @@ namespace com.ThreeCS.McCree
         {
             // 0 : 공격자에게 뱅을 맞고 회피나 맞기를 했다고 알림
             // 1 : 공격자에게 기관총을 맞고 ~
-            // 2 : 타겟이 0번 행동 한 후에 자신의 상태를 변경할 때
+            // 2 : 공격자에게 인디언을 맞고 ~
+            // 3 : 타겟이 0번 행동 한 후에 자신의 상태를 변경할 때
             if (state == 0 )
             {
                 // 공격자의 상태를 변경하는 것
@@ -123,6 +130,11 @@ namespace com.ThreeCS.McCree
                 playerInfo.waitAvoids += 1;
             }
             else if (state == 2)
+            {
+                // 공격자의 상태를 변경하는 것
+                playerInfo.waitBangs += 1;
+            }
+            else if (state == 3)
             {
                 // 본인 상태를 변경해서 알리는 것
                 playerInfo.isTarget = 0;
@@ -140,6 +152,19 @@ namespace com.ThreeCS.McCree
             {
                 playerInfo.isMG = false;
                 playerInfo.waitAvoids = -1;
+            }
+        }
+
+        [PunRPC]
+        public void IndianSync(int state)
+        {
+            // 인디언 사용중
+            if (state == 0)
+                playerInfo.isIndian = true;
+            else
+            {
+                playerInfo.isIndian = false;
+                playerInfo.waitBangs = -1;
             }
         }
     }

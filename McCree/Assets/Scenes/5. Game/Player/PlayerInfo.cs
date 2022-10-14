@@ -61,21 +61,30 @@ namespace com.ThreeCS.McCree
         public List<Card> mycards = new List<Card>();
 
         // 공격자 상태
-        
         public bool waitAvoid = false;  // 본인이 지금 상대방의 avoid를 기다리고 있는 중인지
         public int waitAvoids = -1;      // 본인이 전체avoid를 기다리고 있음(-1이 기본 MG사용자만 0으로 바뀜)
+        public int waitBangs = -1;      // 본인이 전체 bang을 기다리고 잇음(인디언 사용 시)
 
         // 방어자 상태
         public int isTarget = 0; // 본인이 상대편 카드에 의해 타겟팅이 되었는지
-                                // 0 : 타겟 아님
-                                // 1 : 타겟 상태 들어감(enter)
-                                // 2 : 타겟 상태 지속 중(stay)
+                                 // 0 : 타겟 아님
+                                 // 1 : 타겟 상태 들어감(enter) - bang MG
+                                 // 2 : 타겟 상태 들어감(enter) - indian
+                                 // 3 : 타겟 상태 지속 중(stay)
+
+        public bool targetedBang = false; // bang MG에의해 타겟팅
+        public bool targetedIndian = false; // indian에 의해 타겟팅
 
         [HideInInspector]
         public bool sendAvoid = false;  // 본인이 avoid카드를 냈는지 안냈는지
 
+        public bool sendBang = false; // 본인이 bang카드를 냈는지 안냈는지(인디언 회피용)
+
         // 기관총 상태인지 아닌지
         public bool isMG = false;
+
+        // 인디언 상태인지 아닌지
+        public bool isIndian = false;
 
 
         public List<ItemList> myItemList;

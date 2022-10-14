@@ -748,6 +748,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1840329491}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: indian_c
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: jobBoard
       value: 
       objectReference: {fileID: 1710986271}
@@ -805,7 +809,7 @@ PrefabInstance:
       objectReference: {fileID: 188952174}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: machinegun_c
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: usecardPanel

@@ -158,6 +158,8 @@ namespace com.ThreeCS.McCree
         private int beer_c;
         [SerializeField]
         private int machinegun_c;
+        [SerializeField]
+        private int indian_c;
 
 
         // 턴 관련 변수들
@@ -371,7 +373,7 @@ namespace com.ThreeCS.McCree
 
             // 초기 카드 세팅
             Card.cType[] initialDeck = new Card.cType[
-                bang_c + avoid_c + beer_c + machinegun_c
+                bang_c + avoid_c + beer_c + machinegun_c + indian_c
             ];
 
             int k = 0;
@@ -383,6 +385,8 @@ namespace com.ThreeCS.McCree
                 initialDeck[k] = Card.cType.Beer;
             for (int i = 0; i < machinegun_c; i++, k++)
                 initialDeck[k] = Card.cType.MachineGun;
+            for (int i = 0; i < indian_c; i++, k++)
+                initialDeck[k] = Card.cType.Indian;
 
             // 섞기
             int random1;
@@ -613,13 +617,23 @@ namespace com.ThreeCS.McCree
                 {
                     Debug.Log("자기 턴 아님");
 
-                    // 뱅 카드에 의해 타겟팅이 되었을 때
+                    // 뱅(기관총) 카드에 의해 타겟팅이 되었을 때
                     if(playerInfo.isTarget == 1)
                     {
                         myTurn = true;
-                        Debug.Log("뱅 맞는 중 : " + playerInfo.isTarget);
-                        StartCoroutine("Avoid");
-                        playerInfo.isTarget = 2;
+                        Debug.Log("뱅(기관총) 맞는 중 : " + playerInfo.isTarget);
+                        playerInfo.isTarget = 3;
+                        playerInfo.targetedBang = true;
+                        StartCoroutine("Avoid", 0);
+                    }
+                    // 인디언 카드에 타겟팅 됨
+                    else if(playerInfo.isTarget == 2)
+                    {
+                        myTurn = true;
+                        Debug.Log("인디언 맞는 중 : " + playerInfo.isTarget);
+                        playerInfo.isTarget = 3;
+                        playerInfo.targetedIndian = true;
+                        StartCoroutine("Avoid", 1);
                     }
 
                     yield return new WaitForSeconds(0.1f);
@@ -944,19 +958,20 @@ namespace com.ThreeCS.McCree
         public void TargetedPanelOn()
         {
             //if(player1.GetComponent<PlayerInfo>().isTarget == true)
-            if (playerInfo.isTarget == 1)
+            if (playerInfo.isTarget == 1 || playerInfo.isTarget == 2)
             {
                 MineUI.Instance.targetedPanel.SetActive(true);
             }
         }
 
         // 카드 사용한 거 다시 카드 셋으로 넣는 기능
-        public void AfterCardUse(Card.cType content, int state) // 0: 카드사용 1: 카드 삭제
+        public void AfterCardUse(Card.cType content, int state) 
         {
             //Debug.Log("use card content : " + content);
+            // 0: 카드사용 1: 카드 삭제 2: 인디언 사용
 
             // 카드 삭제일 때
-            if(state == 1)
+            if (state == 1)
             {
                 // 카드더미 동기화 시켜주기 - DataSync로
                 player1.GetComponent<PhotonView>().RPC("CardDeckSync", RpcTarget.All, content);
@@ -969,7 +984,13 @@ namespace com.ThreeCS.McCree
             switch (t)
             {
                 case "Bang":
-                    StartCoroutine("Bang");
+                    // 인디언 회피 
+                    if (playerInfo.isTarget == 3)
+                        playerInfo.sendBang = true;
+                    // 공격
+                    else
+                        StartCoroutine("Bang");
+
                     break;
                 case "Avoid":
                     playerInfo.sendAvoid = true;
@@ -978,7 +999,7 @@ namespace com.ThreeCS.McCree
                     StartCoroutine("Beer");
                     break;
                 case "Indian":
-                    //StartCoroutine("Beer");
+                    StartCoroutine("Indian");
                     break;
                 case "MachineGun":
                     StartCoroutine("MachineGun");
@@ -989,10 +1010,48 @@ namespace com.ThreeCS.McCree
             
             // 카드더미 동기화 시켜주기 - DataSync로
             player1.GetComponent<PhotonView>().RPC("CardDeckSync", RpcTarget.All, content);
-        }   
+        }
 
+        #endregion
 
-        //----------------------------- 카드 기능 구현 중 --------------------------------
+        // 만드는 중
+
+        IEnumerator Indian()
+        {
+            photonView.RPC("IndianSync", RpcTarget.All, 0);
+
+            // 타겟 선언 및 상대편 화면에 UI 띄움
+            foreach (GameObject player in playerList)
+            {
+                // 본인 제외 전체 공격
+                if (player.GetComponent<PhotonView>().ViewID != player1.GetComponent<PhotonView>().ViewID)
+                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 2);
+            }
+
+            // 나의 waitBangs 상태를 전체에게 동기화(함수 돌려쓰기)
+            photonView.RPC("WaitAvoid", RpcTarget.All, 2);
+
+            // 상대방의 bang 갯수
+            while (playerInfo.waitBangs < (playerList.Length - 1))
+            {
+                Debug.Log("상대방의 반격을 기다리는 중 ");
+
+                // 투명 패널 켜서 기다리는 동안 입력 막기
+                MineUI.Instance.blockingPanel.SetActive(true);
+                yield return new WaitForSeconds(0.1f);
+            }
+            Debug.Log("상대방의 반격을 기다리는 상태를 빠져나옴 ");
+            MineUI.Instance.blockingPanel.SetActive(false);
+
+            photonView.RPC("IndianSync", RpcTarget.All, 1);
+
+            // 인디언 관련 플래그 초기화
+            playerInfo.waitBangs = -1;
+            yield return new WaitForEndOfFrame();
+        }
+
+        #region 완성된 카드 기능 
+
         IEnumerator Bang()
         {
             isBang = true;
@@ -1036,7 +1095,7 @@ namespace com.ThreeCS.McCree
                         mat.SetColor("_EmissionColor", Color.black);
 
                         // 타겟 선언 및 상대편 화면에 UI 띄움
-                        go.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All);
+                        go.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 1);
 
                         // 나의 waitAvoid 상태를 전체에게 동기화
                         playerInfo.waitAvoid = true;
@@ -1076,7 +1135,7 @@ namespace com.ThreeCS.McCree
             {
                 // 본인 제외 전체 공격
                 if (player.GetComponent<PhotonView>().ViewID != player1.GetComponent<PhotonView>().ViewID)
-                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All);
+                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 1);
             }
 
             // 나의 waitAvoids 상태를 전체에게 동기화
@@ -1098,65 +1157,111 @@ namespace com.ThreeCS.McCree
 
             // 기관총 관련 플래그 초기화
             playerInfo.waitAvoids = -1;
-            yield return null;
+
+            yield return new WaitForEndOfFrame();
         }
 
-        IEnumerator Avoid()
+        IEnumerator Avoid(int state)
         {
+            // 0 : bang MG Avoid
+            // 1 : indian Avoid
+
             avoidFlag = 0;
             
-
-            // 회피카드를 낼 건지 그냥 맞을 건지 선택 대기
-            while (playerInfo.sendAvoid == false)
+            if(state == 0)
             {
-                Debug.Log("회피 카드 내기 대기중");
-
-                // 그냥 맞기를 선택함
-                if (avoidBtnFlag == true)
+                // 회피카드를 낼 건지 그냥 맞을 건지 선택 대기
+                while (playerInfo.sendAvoid == false)
                 {
-                    avoidFlag = 1;
-                    break;
+                    Debug.Log("회피 카드 내기 대기중");
+
+                    // 그냥 맞기를 선택함
+                    if (avoidBtnFlag == true)
+                    {
+                        avoidFlag = 1;
+                        break;
+                    }
+
+                    yield return new WaitForSeconds(0.1f);
                 }
 
-                yield return new WaitForSeconds(0.1f);
-            }
-
-            // 상황에 따른 HP 상태
-            if(avoidFlag == 0)
-            {
-                Debug.Log("회피 카드 내서 빠져나옴");
-            }
-            else if(avoidFlag == 1)
-            {
-                playerInfo.hp--;
-                photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
-                Debug.Log("맞고 빠져나옴");
-            }
-
-
-            foreach (GameObject player in turnList)
-            {
-                // 공격자의 회피 대기 상태를 바꿔야함
-                // 기관총
-                if (player.GetComponent<PlayerInfo>().isMG == true)
+                // 상황에 따른 HP 상태
+                if (avoidFlag == 0)
                 {
-                    Debug.Log("상대편 waitavoids 상태 변경중");
-                    player.GetComponent<PhotonView>().RPC("SendAvoid", RpcTarget.All, 1);
-                    break;
+                    Debug.Log("회피 카드 내서 빠져나옴");
                 }
-                // 뱅
-                if(player.GetComponent<PlayerInfo>().waitAvoid == true)
+                else if (avoidFlag == 1)
                 {
-                    Debug.Log("상대편 waitavoid 상태 변경중");
-                    player.GetComponent<PhotonView>().RPC("SendAvoid", RpcTarget.All, 0);
-                    break;
+                    playerInfo.hp--;
+                    photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
+                    Debug.Log("맞고 빠져나옴");
                 }
+
+                foreach (GameObject player in turnList)
+                {
+                    // 공격자의 회피 대기 상태를 바꿔야함
+                    // 기관총
+                    if (player.GetComponent<PlayerInfo>().isMG == true)
+                    {
+                        Debug.Log("상대편 waitavoids 상태 변경중");
+                        player.GetComponent<PhotonView>().RPC("SendAvoid", RpcTarget.All, 1);
+                        break;
+                    }
+                    // 뱅
+                    if (player.GetComponent<PlayerInfo>().waitAvoid == true)
+                    {
+                        Debug.Log("상대편 waitavoid 상태 변경중");
+                        player.GetComponent<PhotonView>().RPC("SendAvoid", RpcTarget.All, 0);
+                        break;
+                    }
+                }
+            }
+            else if(state == 1)
+            {
+                // 회피카드를 낼 건지 그냥 맞을 건지 선택 대기
+                while (playerInfo.sendBang == false)
+                {
+                    Debug.Log("뱅(반격) 카드 내기 대기중");
+
+                    // 그냥 맞기를 선택함
+                    if (avoidBtnFlag == true)
+                    {
+                        avoidFlag = 1;
+                        break;
+                    }
+                    yield return new WaitForSeconds(0.1f);
+                }
+
+                // 상황에 따른 HP 상태
+                if (avoidFlag == 0)
+                {
+                    Debug.Log("반격 카드 내서 빠져나옴");
+                }
+                else if (avoidFlag == 1)
+                {
+                    playerInfo.hp--;
+                    photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
+                    Debug.Log("맞고 빠져나옴");
+                }
+
+                foreach (GameObject player in turnList)
+                {
+                    // 공격자의 회피 대기 상태를 바꿔야함
+                    // 인디언
+                    if (player.GetComponent<PlayerInfo>().isIndian == true)
+                    {
+                        Debug.Log("상대편 waitBangs 상태 변경중");
+                        player.GetComponent<PhotonView>().RPC("SendAvoid", RpcTarget.All, 2);
+                        break;
+                    }
+                }
+
             }
 
             myTurn = false;
             // 타겟 상태에서 벗어남
             playerInfo.isTarget = 0;
-            photonView.RPC("SendAvoid", RpcTarget.All, 2);
+            photonView.RPC("SendAvoid", RpcTarget.All, 3);
 
             // 타겟 화면 UI 끔
             MineUI.Instance.targetedPanel.SetActive(false);
@@ -1164,12 +1269,17 @@ namespace com.ThreeCS.McCree
             // 회피관련 플래그 초기화
             avoidBtnFlag = false;
             playerInfo.sendAvoid = false;
+            playerInfo.sendBang = false;
+            playerInfo.targetedBang = false;
+            playerInfo.targetedIndian = false;
+
             yield return new WaitForEndOfFrame();
         }
 
         public void DamageBtn()
         {
             playerInfo.sendAvoid = false;
+            playerInfo.sendBang = false;
             avoidBtnFlag = true;
         }
 
@@ -1184,6 +1294,7 @@ namespace com.ThreeCS.McCree
             photonView.RPC("SyncHp", RpcTarget.All, temp);
             yield return new WaitForEndOfFrame();
         }
+
         #endregion
 
 

@@ -76,6 +76,9 @@ namespace com.ThreeCS.McCree
 
             delcardPanel = GameObject.Find("DelCardPanel");
             dcpui = delcardPanel.GetComponent<DelCardPanelUI>();
+
+            // 본인 카드 덱을 찾으려면 본인이 누군지 알아야함
+            player = GameManager.Instance.CallMyPlayer();
         }
 
         public void posValue(Vector3 myCardPos)
@@ -106,7 +109,7 @@ namespace com.ThreeCS.McCree
             }
             else if (this.cardContent == cType.Indian)
             {
-                cardInImg.sprite = beerImg;
+                cardInImg.sprite = IndianImg;
                 cardText.text = "INDIAN";
             }
             else if (this.cardContent == cType.MachineGun)
@@ -164,7 +167,6 @@ namespace com.ThreeCS.McCree
         #region 카드 드래그 기능
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
         {
-            
             startPnt = targetUI.position;
             moveBegin = eventData.position;
             Debug.Log("현재카드 : " + targetUI.GetComponent<Card>().cardContent);
@@ -195,11 +197,20 @@ namespace com.ThreeCS.McCree
         {
             if (GameManager.Instance.myTurn == true)
             {
-                // 타겟이여서 회피카드를 내야할 때
-                if (GameManager.Instance.player1.GetComponent<PlayerInfo>().isTarget == 2)
+                if (player.GetComponent<PlayerInfo>().isTarget == 3)
                 {
-                    if (targetUI.GetComponent<Card>().cardContent != cType.Avoid)
-                        return;
+                    // 타겟이여서 회피카드를 내야할 때
+                    if (player.GetComponent<PlayerInfo>().targetedBang)
+                    {
+                        if (targetUI.GetComponent<Card>().cardContent != cType.Avoid)
+                            return;
+                    }
+                    // 타겟이여서 반격카드를 내야할 때
+                    else if (player.GetComponent<PlayerInfo>().targetedIndian)
+                    {
+                        if (targetUI.GetComponent<Card>().cardContent != cType.Bang)
+                            return;
+                    }
                 }
 
                 // 일반적인 상황
@@ -213,11 +224,20 @@ namespace com.ThreeCS.McCree
             // 카드 사용 위치에 올려놔서 카드를 사용함
             if (useCard) 
             {
-                // 회피카드를 내야할 때 다른 카드가 판정 패널로 들어가는 것을 막음
-                if (GameManager.Instance.player1.GetComponent<PlayerInfo>().isTarget == 2)
+                if (player.GetComponent<PlayerInfo>().isTarget == 3)
                 {
-                    if (targetUI.GetComponent<Card>().cardContent != cType.Avoid)
-                        return;
+                    // 타겟이여서 회피카드를 내야할 때
+                    if (player.GetComponent<PlayerInfo>().targetedBang)
+                    {
+                        if (targetUI.GetComponent<Card>().cardContent != cType.Avoid)
+                            return;
+                    }
+                    // 타겟이여서 반격카드를 내야할 때
+                    else if (player.GetComponent<PlayerInfo>().targetedIndian)
+                    {
+                        if (targetUI.GetComponent<Card>().cardContent != cType.Bang)
+                            return;
+                    }
                 }
 
                 GameManager.Instance.isCard = true;
@@ -241,9 +261,6 @@ namespace com.ThreeCS.McCree
         #region 카드 사용 후 동작
         IEnumerator CardUse()  
         {
-            // 본인 카드 덱을 찾으려면 본인이 누군지 알아야함
-            player = GameManager.Instance.CallMyPlayer();
-
             // 현재 카드가 내 카드리스트에서 몇번쨰인지
             idx = 0;
             for (int i = 0; i < player.GetComponent<PlayerInfo>().mycards.Count; i++)
@@ -287,7 +304,7 @@ namespace com.ThreeCS.McCree
         IEnumerator CardUse2()
         {
             // 카드 사용 후 
-            if(useCard)
+            if (useCard)
                 GameManager.Instance.AfterCardUse(cardContent, 0);
             // 카드 삭제 후 
             else if (delCard)

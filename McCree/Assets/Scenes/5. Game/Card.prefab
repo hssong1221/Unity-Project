@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 6779204642115704726, guid: 648966ca3b9d0ca4b9926b7be34be646, type: 3}
+  m_Sprite: {fileID: -2960138565115590475, guid: 404485551c319ee459c94811f4dd23cb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -259,7 +259,7 @@ MonoBehaviour:
   avoidImg: {fileID: 3753566385559023373, guid: 624e638d73df0b24bbf007d113f341c8, type: 3}
   beerImg: {fileID: 6779204642115704726, guid: 648966ca3b9d0ca4b9926b7be34be646, type: 3}
   IndianImg: {fileID: -1097421992513990583, guid: a0837315b28dfc44b9ec9a46e66e92a5, type: 3}
-  MGImg: {fileID: -4079613985380519430, guid: a0837315b28dfc44b9ec9a46e66e92a5, type: 3}
+  MGImg: {fileID: -2960138565115590475, guid: 404485551c319ee459c94811f4dd23cb, type: 3}
   cardInImg: {fileID: 2643383447711097965}
   cardText: {fileID: 1951396915861156421}
   cardBorder: {fileID: 2643383449535095574}
