@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3533566811458544659, guid: 767be31f305d1a140ad9b0fc6f4f06c6, type: 3}
+  m_Sprite: {fileID: 5164789247783130309, guid: 5f64f635ffac66b46942286b71430f30, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -260,8 +260,9 @@ MonoBehaviour:
   beerImg: {fileID: 6779204642115704726, guid: 648966ca3b9d0ca4b9926b7be34be646, type: 3}
   IndianImg: {fileID: -3533566811458544659, guid: 767be31f305d1a140ad9b0fc6f4f06c6, type: 3}
   MGImg: {fileID: -2960138565115590475, guid: 404485551c319ee459c94811f4dd23cb, type: 3}
-  StageCoachImg: {fileID: -2030728350012769313, guid: a0837315b28dfc44b9ec9a46e66e92a5, type: 3}
-  WellsFargoImg: {fileID: -6911760716467845484, guid: a0837315b28dfc44b9ec9a46e66e92a5, type: 3}
+  StageCoachImg: {fileID: 5164789247783130309, guid: 5f64f635ffac66b46942286b71430f30, type: 3}
+  WellsFargoImg: {fileID: 6714369015438526544, guid: 2fea87413dfbccb438335faf4434f4a6, type: 3}
+  SaloonImg: {fileID: 0}
   cardInImg: {fileID: 2643383447711097965}
   cardText: {fileID: 1951396915861156421}
   cardBorder: {fileID: 2643383449535095574}
@@ -344,9 +345,9 @@ MonoBehaviour:
     m_MinSize: 0
     m_MaxSize: 100
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: INDIAN
+  m_Text: Bang

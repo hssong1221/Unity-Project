@@ -20,6 +20,7 @@ namespace com.ThreeCS.McCree
         public Sprite MGImg;
         public Sprite StageCoachImg;
         public Sprite WellsFargoImg;
+        public Sprite SaloonImg;
 
         [Header("카드 테두리, 내용")]
         public Image cardInImg;
@@ -40,7 +41,8 @@ namespace com.ThreeCS.McCree
             Indian,
             MachineGun,
             StageCoach,
-            WellsFargo
+            WellsFargo,
+            Saloon
         }
 
         public cType cardContent;
@@ -96,6 +98,7 @@ namespace com.ThreeCS.McCree
         // 카드 이미지와 타입을 맞추는 함수(글자도)
         public void matchImg()
         {
+            cardText.fontSize = 90;
             if (this.cardContent == cType.Bang)
             {
                 cardInImg.sprite = bangImg;
@@ -125,11 +128,18 @@ namespace com.ThreeCS.McCree
             {
                 cardInImg.sprite = StageCoachImg;
                 cardText.text = "STAGECOACH";
+                cardText.fontSize = 63;
             }
             else if (this.cardContent == cType.WellsFargo)
             {
                 cardInImg.sprite = WellsFargoImg;
                 cardText.text = "WELLS FARGO";
+                cardText.fontSize = 58;
+            }
+            else if (this.cardContent == cType.Saloon)
+            {
+                cardInImg.sprite = SaloonImg;
+                cardText.text = "SALOON";
             }
         }
 
@@ -181,9 +191,12 @@ namespace com.ThreeCS.McCree
         #region 카드 드래그 기능
         void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
         {
+            Debug.Log("현재카드 : " + targetUI.GetComponent<Card>().cardContent);
+
             startPnt = targetUI.position;
             moveBegin = eventData.position;
-            Debug.Log("현재카드 : " + targetUI.GetComponent<Card>().cardContent);
+            // 누르면 커져서 잘 보이게 만듬
+            transform.DOScale(transform.localScale * 1.5f, 0.1f);
 
             if (GameManager.Instance.myTurn == true)
             {
@@ -205,6 +218,8 @@ namespace com.ThreeCS.McCree
         {
             //Debug.Log("마우스 뗴기");
             PanelOnOFF(0);
+            Vector3 vec = new Vector3(1, 1, 1);
+            transform.DOScale(vec, 0.1f);
         }
 
         void IDragHandler.OnDrag(PointerEventData eventData)

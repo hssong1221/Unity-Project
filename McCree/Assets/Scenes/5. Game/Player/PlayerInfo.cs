@@ -55,6 +55,7 @@ namespace com.ThreeCS.McCree
             }
         }
         public int maxHp;
+        public int curhp;
 
 
         [Header("내가 지금 가지고 있는 카드리스트")]
@@ -165,7 +166,10 @@ namespace com.ThreeCS.McCree
 
             StartCoroutine(CurrentHP());
         }
-
+        void Update()
+        {
+            curhp = hp;
+        }
         public void Show_Hp()
         {
             for (int i = 0; i < ui.hpImgs.Length; i++)

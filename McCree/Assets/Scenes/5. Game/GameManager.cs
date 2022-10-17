@@ -164,6 +164,8 @@ namespace com.ThreeCS.McCree
         private int stagecoach_c;
         [SerializeField]
         private int wellsfargo_c;
+        [SerializeField]
+        private int saloon_c;
 
 
         // 턴 관련 변수들
@@ -377,7 +379,7 @@ namespace com.ThreeCS.McCree
 
             // 초기 카드 세팅
             Card.cType[] initialDeck = new Card.cType[
-                bang_c + avoid_c + beer_c + machinegun_c + indian_c + stagecoach_c + wellsfargo_c
+                bang_c + avoid_c + beer_c + machinegun_c + indian_c + stagecoach_c + wellsfargo_c + saloon_c
             ];
 
             int k = 0;
@@ -395,6 +397,8 @@ namespace com.ThreeCS.McCree
                 initialDeck[k] = Card.cType.StageCoach;
             for (int i = 0; i < wellsfargo_c; i++, k++)
                 initialDeck[k] = Card.cType.WellsFargo;
+            for (int i = 0; i < saloon_c; i++, k++)
+                initialDeck[k] = Card.cType.Saloon;
 
             // 섞기
             int random1;
@@ -898,7 +902,7 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        // --------------------------- 앉아있는 인원 체크 --------------------------------
+        // 앉아있는 또는 서있는 인원 체크 
         public void NumCheckSit()
         {
             int max = 0;
@@ -929,16 +933,11 @@ namespace com.ThreeCS.McCree
                 playerList[i].GetComponent<PhotonView>().RPC("NumCheck", RpcTarget.All, sitNum);
             }
         }
+        
+        //------
 
-        // --------------------------- 앉아있는 인원 체크 --------------------------------
 
-        public void NextBtnClick()
-        {
-            //Debug.Log("턴 버튼 누름!");
-            nextSignal = true;
-            MineUI.Instance.NextButton.SetActive(false);
-        }
-
+        // 게임 시작하기 위한 버튼
         public void BangBtnClick()
         {
             foreach (GameObject player in playerList)
@@ -950,6 +949,22 @@ namespace com.ThreeCS.McCree
             }
         }
 
+        // 게임 중 턴 넘기는 버튼
+        public void NextBtnClick() 
+        {
+            //Debug.Log("턴 버튼 누름!");
+            nextSignal = true;
+            MineUI.Instance.NextButton.SetActive(false);
+        }
+        
+        // 게임 중 회피를 못할 때 그냥 맞는 버튼
+        public void DamageBtn()
+        {
+            playerInfo.sendAvoid = false;
+            playerInfo.sendBang = false;
+            avoidBtnFlag = true;
+        }
+        // gameloop1 실행 명령
         public void GLStart()
         {
             StartCoroutine("GameLoop1");
@@ -1018,6 +1033,9 @@ namespace com.ThreeCS.McCree
                 case "WellsFargo":
                     StartCoroutine("WellsFargo");
                     break;
+                case "Saloon":
+                    StartCoroutine("Saloon");
+                    break;
                 default:
                     break;
             }
@@ -1028,8 +1046,8 @@ namespace com.ThreeCS.McCree
 
         #endregion
 
-        // 만드는 중
-
+        // 카드  만드는 중
+        
         
         #region 완성된 카드 기능 
 
@@ -1291,12 +1309,7 @@ namespace com.ThreeCS.McCree
             yield return new WaitForEndOfFrame();
         }
 
-        public void DamageBtn()
-        {
-            playerInfo.sendAvoid = false;
-            playerInfo.sendBang = false;
-            avoidBtnFlag = true;
-        }
+        
 
         IEnumerator Beer()
         {
@@ -1307,6 +1320,21 @@ namespace com.ThreeCS.McCree
                 temp = ++playerInfo.hp;
 
             photonView.RPC("SyncHp", RpcTarget.All, temp);
+            yield return new WaitForEndOfFrame();
+        }
+
+        IEnumerator Saloon()
+        {
+            // 모든 사람 hp1 회복
+            foreach (GameObject player in turnList)
+            {
+                int temp = 0;
+                if (player.GetComponent<PlayerInfo>().hp == player.GetComponent<PlayerInfo>().maxHp)
+                    temp = player.GetComponent<PlayerInfo>().hp;
+                else if (player.GetComponent<PlayerInfo>().hp < player.GetComponent<PlayerInfo>().maxHp)
+                    temp = ++player.GetComponent<PlayerInfo>().hp;
+                player.GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All, temp);
+            }
             yield return new WaitForEndOfFrame();
         }
 
