@@ -49,6 +49,7 @@ namespace com.ThreeCS.McCree
         private PhotonView photonView;
         private PlayerManager playerManager;
         private PlayerInfo playerInfo;
+        private UI ui;
 
         // 게임 배경 음악
         private GameObject BGMLobby;
@@ -148,6 +149,7 @@ namespace com.ThreeCS.McCree
 
         //[HideInInspector] // <- 카드 리스트 직접 확인하려면 삭제
         public List<Card> cardList = new List<Card>();
+        public List<Card> storecardList = new List<Card>();
 
         [Header("카드 개수")]
         [SerializeField]
@@ -166,6 +168,8 @@ namespace com.ThreeCS.McCree
         private int wellsfargo_c;
         [SerializeField]
         private int saloon_c;
+        [SerializeField]
+        private int generalstore_c;
 
 
         // 턴 관련 변수들
@@ -202,7 +206,8 @@ namespace com.ThreeCS.McCree
         [HideInInspector]
         public bool avoidBtnFlag = false;
 
-        
+        // 잡화점 주인
+        public bool storeMaster = false;
 
         #endregion
 
@@ -325,8 +330,9 @@ namespace com.ThreeCS.McCree
                     photonView = player.GetComponent<PhotonView>();
                     playerManager = player.GetComponent<PlayerManager>();
                     playerInfo = player.GetComponent<PlayerInfo>();
-
                     player1 = player;
+
+                    ui = player.GetComponent<UI>();
 
                     MineUI.Instance.FindMinePv(player);
                     RaiseEventManager.Instance.FindMinePv(player);
@@ -380,6 +386,7 @@ namespace com.ThreeCS.McCree
             // 초기 카드 세팅
             Card.cType[] initialDeck = new Card.cType[
                 bang_c + avoid_c + beer_c + machinegun_c + indian_c + stagecoach_c + wellsfargo_c + saloon_c
+                + generalstore_c
             ];
 
             int k = 0;
@@ -399,6 +406,8 @@ namespace com.ThreeCS.McCree
                 initialDeck[k] = Card.cType.WellsFargo;
             for (int i = 0; i < saloon_c; i++, k++)
                 initialDeck[k] = Card.cType.Saloon;
+            for (int i = 0; i < generalstore_c; i++, k++)
+                initialDeck[k] = Card.cType.GeneralStore;
 
             // 섞기
             int random1;
@@ -630,7 +639,7 @@ namespace com.ThreeCS.McCree
                     Debug.Log("자기 턴 아님");
 
                     // 뱅(기관총) 카드에 의해 타겟팅이 되었을 때
-                    if(playerInfo.isTarget == 1)
+                    if (playerInfo.isTarget == 1)
                     {
                         myTurn = true;
                         Debug.Log("뱅(기관총) 맞는 중 : " + playerInfo.isTarget);
@@ -654,9 +663,20 @@ namespace com.ThreeCS.McCree
 
                 yield return new WaitForEndOfFrame();
 
-                // 본인턴에 카드 2장 뽑으면서 시작
-                turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 1, transform.position);
-
+                if(playerInfo.isStore == false && storeMaster == false)
+                {
+                    // 일반 턴
+                    // 본인턴에 카드 2장 뽑으면서 시작
+                    turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 1, transform.position);
+                }
+                else
+                {
+                    // 잡화점 턴은 카드 안뽑음
+                    // 잡화점 본인 턴이 오면 블록 패널 꺼줘서 클릭가능 
+                    MineUI.Instance.blockingPanel.SetActive(false);
+                    storeMaster = false;
+                }
+                
                 while (true)
                 {
                     if (nextSignal)
@@ -976,6 +996,7 @@ namespace com.ThreeCS.McCree
             return player1;
         }
 
+        
 
         // 본인이 뱅 타겟되었다는 UI on
         public void TargetedPanelOn()
@@ -1036,6 +1057,9 @@ namespace com.ThreeCS.McCree
                 case "Saloon":
                     StartCoroutine("Saloon");
                     break;
+                case "GeneralStore":
+                    StartCoroutine("GeneralStore");
+                    break;
                 default:
                     break;
             }
@@ -1048,6 +1072,18 @@ namespace com.ThreeCS.McCree
 
         // 카드  만드는 중
         
+        IEnumerator GeneralStore()
+        {
+            // 카드를 인원수에 맞게 중앙에 펼침
+            photonView.GetComponent<PhotonView>().RPC("GiveStoreCard", RpcTarget.All, turnList.Count);
+
+            // 모든 사람의 isStore true로 만듬
+            photonView.GetComponent<PhotonView>().RPC("StoreSync", RpcTarget.All, 0);
+
+            storeMaster = true;
+
+            yield return null;
+        }
         
         #region 완성된 카드 기능 
 
@@ -1309,7 +1345,6 @@ namespace com.ThreeCS.McCree
             yield return new WaitForEndOfFrame();
         }
 
-        
 
         IEnumerator Beer()
         {

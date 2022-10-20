@@ -21,6 +21,8 @@ TagManager:
   - Animal
   - Water
   - chair
+  - CardsPos
+  - Card
   layers:
   - Default
   - TransparentFX

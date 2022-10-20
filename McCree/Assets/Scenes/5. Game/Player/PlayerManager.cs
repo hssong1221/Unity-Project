@@ -257,10 +257,8 @@ namespace com.ThreeCS.McCree
 
         float moveSpeed = 5f; // 캐릭터 이동 속도
 
-        // --------------------------- 카드 기능 부활 중 -----------------------
         [Header("카드 프리팹")]
         public Card cardObject;
-        //-----------------------------------------------
 
         #endregion
 
@@ -733,11 +731,12 @@ namespace com.ThreeCS.McCree
             for (int i = 0; i < num; i++)
             {
                 // 리스트 맨 앞에서 뽑은 카드
-                Card DrawCard = GameManager.Instance.cardList[0];
+                Card drawCard = GameManager.Instance.cardList[0];
 
                 // 카드 타입과 그림 매칭
-                cardObject.cardContent = DrawCard.cardContent;
+                cardObject.cardContent = drawCard.cardContent;
                 cardObject.matchImg();
+                cardObject.storeIdx = 1000;
 
                 // 카드를 뽑은게 본인이면 UI에 카드를 생성하고 본인 playerinfo에 카드 리스트에 저장
                 if (photonView.IsMine) // 내 개인 UI에 내껏만 추가 

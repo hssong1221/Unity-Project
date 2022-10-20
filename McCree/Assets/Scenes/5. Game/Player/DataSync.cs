@@ -12,6 +12,9 @@ namespace com.ThreeCS.McCree
 {
     public class DataSync : Controller
     {
+        // 잡화점 카드 동시삭제를 위해 필요
+        public GameObject StoreCard;
+
         // 게임 시작 애니메이션 플레이
         [PunRPC]    
         public void AnimStart() 
@@ -165,6 +168,54 @@ namespace com.ThreeCS.McCree
             {
                 playerInfo.isIndian = false;
                 playerInfo.waitBangs = -1;
+            }
+        }
+
+        [PunRPC]
+        public void StoreSync(int state)
+        {
+            // 0 : true 바꿈
+            if(state == 0)
+            {
+                foreach (GameObject player in GameManager.Instance.turnList)
+                {
+                    player.GetComponent<PlayerInfo>().isStore = true;
+                    MineUI.Instance.cardblockingPanel.SetActive(true);
+                    // 본인 제외 전부 화면 클릭 막음
+                    if(!photonView.IsMine)
+                        MineUI.Instance.blockingPanel.SetActive(true);
+                }
+            }
+            // 1: 한명 씩 선택하고 false로 돌아옴
+            else if(state == 1)
+            {
+                playerInfo.isStore = false;
+                MineUI.Instance.cardblockingPanel.SetActive(false);
+                //카드 하나 먹고 자동으로 다음사람으로 넘어감 그렇게 한바퀴 돌고 다시 돌아옴
+                if (photonView.IsMine)
+                    GameManager.Instance.NextBtnClick();
+            }
+        }
+
+        [PunRPC]
+        public void StoreListSync(int idx)
+        {
+            GameManager.Instance.storecardList.RemoveAt(idx);
+        }
+
+        [PunRPC]
+        public void StoreCardDel(int idx)
+        {
+            Debug.Log("idx : " + idx);
+            GameObject[] obj = GameObject.FindGameObjectsWithTag("Card");
+            foreach(GameObject card in obj)
+            {
+                Debug.Log("card.GetComponent<Card>().storeIdx : " + card.GetComponent<Card>().storeIdx);
+                if(card.GetComponent<Card>().storeIdx == idx)
+                {
+                    Destroy(card.gameObject);
+                    break;
+                }
             }
         }
     }

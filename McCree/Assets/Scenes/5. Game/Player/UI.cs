@@ -12,9 +12,11 @@ namespace com.ThreeCS.McCree
     {
         #region Variable Field
 
+        [Header("카드관련 UI")]
+        public Card cardObject;
+
         [Header("체력관련 UI")]
         public Canvas hpCanvas;
-
         public GameObject[] hpImgs;
 
         public Sprite fullBullet;
@@ -49,6 +51,7 @@ namespace com.ThreeCS.McCree
         Vector3 bangOffset;
         Vector3 itemOffset;
         Vector3 progressOffset;
+
 
         #endregion
 
@@ -116,6 +119,94 @@ namespace com.ThreeCS.McCree
         }
 
 
+
+        [PunRPC]
+        public void GiveStoreCard(int num)
+        {
+            Debug.Log("잡화점 진입");
+            for(int i = 0; i < num; i++)
+            {
+                // 리스트 맨 앞에서 뽑은 카드
+                Card drawCard = GameManager.Instance.cardList[0];
+
+                cardObject.cardContent = drawCard.cardContent;
+                cardObject.matchImg();
+                cardObject.storeIdx = i;
+
+                var card = Instantiate(cardObject, MineUI.Instance.pos_CardSpwan.position, Quaternion.identity, MineUI.Instance.pos_StoreCardParent);
+                var card2 = card.GetComponent<Card>();
+                GameManager.Instance.storecardList.Add(card2);
+
+                StoreCardAlignment();
+
+                GameManager.Instance.cardList.RemoveAt(0);
+            }
+        }
+
+        public void StoreCardAlignment()
+        {
+            List<Preset> originMyCards = new List<Preset>();
+            originMyCards = LineAlignment(MineUI.Instance.pos_StoreLeft, MineUI.Instance.pos_StoreRight, GameManager.Instance.storecardList.Count, Vector3.one * 1.0f);
+
+            for (int i = 0; i < GameManager.Instance.storecardList.Count; i++)
+            {
+                var targetCard = GameManager.Instance.storecardList[i];
+
+                targetCard.originPRS = originMyCards[i];
+                targetCard.MoveTransform(targetCard.originPRS, true, 0.9f);
+            }
+        }
+
+        List<Preset> LineAlignment(Transform leftTr, Transform rightTr, int objCount, Vector3 scale)
+        {
+            float[] objLerps = new float[objCount];
+            List<Preset> results = new List<Preset>(objCount);
+
+            switch (objCount)
+            {
+                case 1: objLerps = new float[] { 0.5f }; break;
+                case 2: objLerps = new float[] { 0.27f, 0.73f }; break;
+                case 3: objLerps = new float[] { 0.1f, 0.5f, 0.9f }; break;
+                default:
+                    float interval = 1f / (objCount - 1);
+                    for (int i = 0; i < objCount; i++)
+                        objLerps[i] = interval * i;
+                    break;
+            }
+
+            for (int i = 0; i < objCount; i++)
+            {
+                var targetPos = Vector3.Lerp(leftTr.position, rightTr.position, objLerps[i]);
+                var targetRot = Quaternion.identity;
+
+                results.Add(new Preset(targetPos, targetRot, scale));
+            }
+            return results;
+        }
+
+
+
+        // 잡화점 리스트에서 내 리스트로 카드 복제
+        public void StoreToMy(Card card)
+        {
+            cardObject.cardContent = card.cardContent;
+            cardObject.matchImg();
+
+            var temp = Instantiate(cardObject, card.transform.position, Quaternion.identity, MineUI.Instance.pos_CardParent);
+            var temp2 = temp.GetComponent<Card>();
+            playerInfo.mycards.Add(temp2);
+
+            MineUI.Instance.CardAlignment();
+        }
+
+
+
+
+
+
+
+
+        // 삭제 예정
         public void InterAction(float time, GameObject interactObj)
         {
             if (interactObj.tag == "QItem_PickUp")

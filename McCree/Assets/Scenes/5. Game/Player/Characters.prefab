@@ -2596,6 +2596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6702f66510b2e949bc390e82afde596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardObject: {fileID: 2643383449535095578, guid: 25721e9ab19bfd1409d58b81e2fc801e, type: 3}
   hpCanvas: {fileID: 6215404348508757469}
   hpImgs:
   - {fileID: 6215404348413605809}
@@ -2665,11 +2666,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 0
+  curhp: 0
+  mycards: []
+  waitAvoid: 0
+  waitAvoids: -1
+  waitBangs: -1
+  isTarget: 0
+  targetedBang: 0
+  targetedIndian: 0
+  sendAvoid: 0
+  sendBang: 0
+  isMG: 0
+  isIndian: 0
   myItemList:
   - {fileID: 1259370552536998253, guid: 8fb6c8635acda5a4bb62306c85127bad, type: 3}
   - {fileID: 1259370552536998253, guid: dc3b98c0e389f9947860d262a56285d3, type: 3}
   - {fileID: 1259370552536998253, guid: dffb9ce01884a18428fa80b796f7a28f, type: 3}
-  mycards: []
   myQuestList: []
   pistolPos: {fileID: 7054863257368476639}
   riflePos: {fileID: 7578049222411756460}
@@ -2692,6 +2704,7 @@ MonoBehaviour:
   isSit: 0
   triggerStay: 0
   sitNum: 0
+  chairTemp: {fileID: 0}
 --- !u!114 &9115706970723543485
 MonoBehaviour:
   m_ObjectHideFlags: 0

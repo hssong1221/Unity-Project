@@ -24,8 +24,6 @@ namespace com.ThreeCS.McCree
         private PlayerInfo playerInfo;
         private UI ui;
 
-
-
         public Text bangCount;
         public Text avoidCount;
 
@@ -91,6 +89,11 @@ namespace com.ThreeCS.McCree
         public Transform pos_CardLeft;
         public Transform pos_CardRight;
 
+        [Header("잡화점카드 위치 ")]
+        public Transform pos_StoreCardParent;
+        public Transform pos_StoreLeft;
+        public Transform pos_StoreRight;
+
         [Header("다음턴 버튼")]
         public GameObject NextButton;
 
@@ -100,6 +103,7 @@ namespace com.ThreeCS.McCree
 
         [Header("마우스 입력 블락 패널")]
         public GameObject blockingPanel;
+        public GameObject cardblockingPanel;
 
 
         #endregion
@@ -135,7 +139,6 @@ namespace com.ThreeCS.McCree
         // 카드 UI 정렬 함수
         public void CardAlignment()
         {
-
             List<Preset> originMyCards = new List<Preset>();
             originMyCards = RoundAlignment(pos_CardLeft, pos_CardRight, playerInfo.mycards.Count, 0.5f, Vector3.one * 1.0f); // playerinfo를 본인 거로 확정 지어야 할 수도 있음 현재는 안해도 돌아가긴함
 

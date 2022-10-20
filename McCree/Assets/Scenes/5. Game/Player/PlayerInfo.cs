@@ -87,6 +87,8 @@ namespace com.ThreeCS.McCree
         // 인디언 상태인지 아닌지
         public bool isIndian = false;
 
+        // 잡화점 상태인지 아닌지
+        public bool isStore = false;
 
         public List<ItemList> myItemList;
         // 0번째 Bang

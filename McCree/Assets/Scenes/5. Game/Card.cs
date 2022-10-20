@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+using Photon.Pun;
 using DG.Tweening;
 
 namespace com.ThreeCS.McCree
@@ -16,11 +17,12 @@ namespace com.ThreeCS.McCree
         public Sprite bangImg;
         public Sprite avoidImg;
         public Sprite beerImg;
-        public Sprite IndianImg;
+        public Sprite indianImg;
         public Sprite MGImg;
-        public Sprite StageCoachImg;
-        public Sprite WellsFargoImg;
-        public Sprite SaloonImg;
+        public Sprite stagecoachImg;
+        public Sprite wellsfargoImg;
+        public Sprite saloonImg;
+        public Sprite generalstoreImg;
 
         [Header("카드 테두리, 내용")]
         public Image cardInImg;
@@ -42,7 +44,8 @@ namespace com.ThreeCS.McCree
             MachineGun,
             StageCoach,
             WellsFargo,
-            Saloon
+            Saloon,
+            GeneralStore
         }
 
         public cType cardContent;
@@ -60,6 +63,9 @@ namespace com.ThreeCS.McCree
 
         // mycards 에서의 카드 인덱스
         int idx = 0;
+
+        // storeList에서의 인덱스(잡화점때 삭제 카드 인식에 필요)
+        public int storeIdx;
 
         [Header("카드 사용 판정 패널")]
         public UseCardPanelUI ucpui;
@@ -116,7 +122,7 @@ namespace com.ThreeCS.McCree
             }
             else if (this.cardContent == cType.Indian)
             {
-                cardInImg.sprite = IndianImg;
+                cardInImg.sprite = indianImg;
                 cardText.text = "INDIAN";
             }
             else if (this.cardContent == cType.MachineGun)
@@ -126,20 +132,25 @@ namespace com.ThreeCS.McCree
             }
             else if (this.cardContent == cType.StageCoach)
             {
-                cardInImg.sprite = StageCoachImg;
+                cardInImg.sprite = stagecoachImg;
                 cardText.text = "STAGECOACH";
                 cardText.fontSize = 63;
             }
             else if (this.cardContent == cType.WellsFargo)
             {
-                cardInImg.sprite = WellsFargoImg;
+                cardInImg.sprite = wellsfargoImg;
                 cardText.text = "WELLS FARGO";
                 cardText.fontSize = 58;
             }
             else if (this.cardContent == cType.Saloon)
             {
-                cardInImg.sprite = SaloonImg;
+                cardInImg.sprite = saloonImg;
                 cardText.text = "SALOON";
+            }
+            else if (this.cardContent == cType.GeneralStore)
+            {
+                cardInImg.sprite = generalstoreImg;
+                cardText.text = "STORE";
             }
         }
 
@@ -211,7 +222,6 @@ namespace com.ThreeCS.McCree
                     dcpui.TargetMatch(targetUI);
                 }
             }
-            
         }
 
         void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
@@ -220,6 +230,34 @@ namespace com.ThreeCS.McCree
             PanelOnOFF(0);
             Vector3 vec = new Vector3(1, 1, 1);
             transform.DOScale(vec, 0.1f);
+
+            // 잡화점이 켜져있을 때
+            if (player.GetComponent<PlayerInfo>().isStore == true)
+            {
+                // storelist에 속한 index 찾기
+                var item = targetUI.GetComponent<Card>();
+                int idx = GameManager.Instance.storecardList.FindIndex(a => a == item);
+
+                Debug.Log("storlist : " + idx);
+
+                // 스토어 리스트에서 본인 리스트로 카드 복제
+                player.GetComponent<UI>().StoreToMy(item);
+
+                // 스토어리스트에 정보 삭제
+                player.GetComponent<PhotonView>().RPC("StoreListSync", RpcTarget.All, idx);
+
+                // 내 상태 변경(잡화점 끝)
+                player.GetComponent<PhotonView>().RPC("StoreSync", RpcTarget.All, 1);
+
+
+                // 스토어 리스트에 카드 오브젝트 destroy(모든 사람)
+                foreach (GameObject player in GameManager.Instance.turnList)
+                {
+                    player.GetComponent<PhotonView>().RPC("StoreCardDel", RpcTarget.All, storeIdx);
+                }
+
+                //Destroy(targetUI.gameObject);
+            }
         }
 
         void IDragHandler.OnDrag(PointerEventData eventData)
@@ -351,7 +389,7 @@ namespace com.ThreeCS.McCree
             // 다른 카드 선택 가능하게 풀어줌
             GameManager.Instance.isCard = false;
 
-            StartCoroutine("CardUse3");
+            StartCoroutine("CardUse3", 0);
 
             yield return new WaitForEndOfFrame();
         }
@@ -360,7 +398,6 @@ namespace com.ThreeCS.McCree
         {
             // 카드 사용 후 파괴 지시
             ucpui.Des();
-
             yield return null;
         }
     }
