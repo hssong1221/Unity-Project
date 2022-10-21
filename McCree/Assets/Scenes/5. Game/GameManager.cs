@@ -194,6 +194,8 @@ namespace com.ThreeCS.McCree
         [HideInInspector]
         public bool bangClick = false;
 
+        // 타겟과의 거리측정 결과
+        public int targetDistance;
 
         // sendAvoid에 들어가는 파라미터
         // 0 : 공격자에게 뱅을 맞고 회피나 맞기를 했다고 알림
@@ -996,8 +998,6 @@ namespace com.ThreeCS.McCree
             return player1;
         }
 
-        
-
         // 본인이 뱅 타겟되었다는 UI on
         public void TargetedPanelOn()
         {
@@ -1072,17 +1072,15 @@ namespace com.ThreeCS.McCree
 
         // 카드  만드는 중
         
-        IEnumerator GeneralStore()
+        // 본인과 타겟사이의 거리를 측정함
+        public int MeasureDistance(int targetIdx)
         {
-            // 카드를 인원수에 맞게 중앙에 펼침
-            photonView.GetComponent<PhotonView>().RPC("GiveStoreCard", RpcTarget.All, turnList.Count);
+            int result;
+            result = Math.Abs(tidx - targetIdx);
+            if (result > turnList.Count / 2)
+                result = turnList.Count - result;
 
-            // 모든 사람의 isStore true로 만듬
-            photonView.GetComponent<PhotonView>().RPC("StoreSync", RpcTarget.All, 0);
-
-            storeMaster = true;
-
-            yield return null;
+            return result;
         }
         
         #region 완성된 카드 기능 
@@ -1129,27 +1127,41 @@ namespace com.ThreeCS.McCree
                         mat.EnableKeyword("_EMISSION");
                         mat.SetColor("_EmissionColor", Color.black);
 
-                        // 타겟 선언 및 상대편 화면에 UI 띄움
-                        go.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 1);
+                        // 타겟과 내 사이 거리를 구함
+                        int targetIdx = turnList.FindIndex(a => a == go);
+                        targetDistance = MeasureDistance(targetIdx);
+                        Debug.Log("Target Dis : " + targetDistance);
 
-                        // 나의 waitAvoid 상태를 전체에게 동기화
-                        playerInfo.waitAvoid = true;
-                        photonView.RPC("WaitAvoid", RpcTarget.All, 0);
-
-                        // 상대방의 avoid 기다림
-                        while (playerInfo.waitAvoid == true)
+                        // 측정 거리 > 본인 최대 사거리 (뱅 불가)
+                        if (targetDistance > playerInfo.maximumRange)
                         {
-                            Debug.Log("상대방의 회피를 기다리는 중 ");
-
-                            // 투명 패널 켜서 기다리는 동안 입력 막기
-                            MineUI.Instance.blockingPanel.SetActive(true);
-                            yield return new WaitForSeconds(0.1f);
+                            // --------------------------------------사거리가 벗어났다고 알려주는 패널 만들기----------------------------------
+                            Debug.Log("뱅 불가함");
                         }
-                        Debug.Log("상대방의 회피를 기다리는 상태를 빠져나옴 ");
-                        MineUI.Instance.blockingPanel.SetActive(false);
+                        else
+                        {
+                            // 타겟 선언 및 상대편 화면에 UI 띄움
+                            go.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 1);
 
-                        // 끝나면 루프 종료
-                        break;
+                            // 나의 waitAvoid 상태를 전체에게 동기화
+                            playerInfo.waitAvoid = true;
+                            photonView.RPC("WaitAvoid", RpcTarget.All, 0);
+
+                            // 상대방의 avoid 기다림
+                            while (playerInfo.waitAvoid == true)
+                            {
+                                Debug.Log("상대방의 회피를 기다리는 중 ");
+
+                                // 투명 패널 켜서 기다리는 동안 입력 막기
+                                MineUI.Instance.blockingPanel.SetActive(true);
+                                yield return new WaitForSeconds(0.1f);
+                            }
+                            Debug.Log("상대방의 회피를 기다리는 상태를 빠져나옴 ");
+                            MineUI.Instance.blockingPanel.SetActive(false);
+
+                            // 끝나면 루프 종료
+                            break;
+                        }
                     }
                 }
                 yield return new WaitForEndOfFrame();
@@ -1384,9 +1396,22 @@ namespace com.ThreeCS.McCree
             turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 3, transform.position);
             yield return null;
         }
+        
+        IEnumerator GeneralStore()
+        {
+            // 카드를 인원수에 맞게 중앙에 펼침
+            photonView.GetComponent<PhotonView>().RPC("GiveStoreCard", RpcTarget.All, turnList.Count);
+
+            // 모든 사람의 isStore true로 만듬
+            photonView.GetComponent<PhotonView>().RPC("StoreSync", RpcTarget.All, 0);
+
+            storeMaster = true;
+
+            yield return null;
+        }
+
+
         #endregion
-
-
 
 
         #region Photon Callback

@@ -55,8 +55,7 @@ namespace com.ThreeCS.McCree
             }
         }
         public int maxHp;
-        public int curhp;
-
+        //public int curhp; // 현재 체력 알고 싶으면 update랑 같이 켜
 
         [Header("내가 지금 가지고 있는 카드리스트")]
         public List<Card> mycards = new List<Card>();
@@ -90,6 +89,10 @@ namespace com.ThreeCS.McCree
         // 잡화점 상태인지 아닌지
         public bool isStore = false;
 
+        // 본인의 최대 사거리
+        public int maximumRange;
+
+        // ------------------ 삭제 예정
         public List<ItemList> myItemList;
         // 0번째 Bang
         // 1번째 Avoid
@@ -152,6 +155,9 @@ namespace com.ThreeCS.McCree
 
             isDeath = false;
 
+            // 뱅 최대사거리
+            maximumRange = 0;
+
             MineUI.Instance.statusPanel.gameObject.SetActive(true);
 
             content = GameObject.FindGameObjectWithTag("Content").transform;
@@ -168,10 +174,10 @@ namespace com.ThreeCS.McCree
 
             StartCoroutine(CurrentHP());
         }
-        void Update()
+        /*void Update()
         {
             curhp = hp;
-        }
+        }*/
         public void Show_Hp()
         {
             for (int i = 0; i < ui.hpImgs.Length; i++)
