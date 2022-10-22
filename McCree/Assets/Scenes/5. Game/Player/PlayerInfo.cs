@@ -155,7 +155,7 @@ namespace com.ThreeCS.McCree
 
             isDeath = false;
 
-            // 뱅 최대사거리
+            // ------------------------ 뱅 최대사거리 ------------------
             maximumRange = 0;
 
             MineUI.Instance.statusPanel.gameObject.SetActive(true);

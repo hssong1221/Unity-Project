@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 6779204642115704726, guid: 648966ca3b9d0ca4b9926b7be34be646, type: 3}
+  m_Sprite: {fileID: 5164789247783130309, guid: 5f64f635ffac66b46942286b71430f30, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -258,12 +258,12 @@ MonoBehaviour:
   bangImg: {fileID: 3168146235967358472, guid: 7a01100218b66fc4691d540499f2e8b1, type: 3}
   avoidImg: {fileID: 3753566385559023373, guid: 624e638d73df0b24bbf007d113f341c8, type: 3}
   beerImg: {fileID: 6779204642115704726, guid: 648966ca3b9d0ca4b9926b7be34be646, type: 3}
-  indianImg: {fileID: 0}
+  indianImg: {fileID: -3533566811458544659, guid: 767be31f305d1a140ad9b0fc6f4f06c6, type: 3}
   MGImg: {fileID: -2960138565115590475, guid: 404485551c319ee459c94811f4dd23cb, type: 3}
-  stagecoachImg: {fileID: 0}
-  wellsfargoImg: {fileID: 0}
-  saloonImg: {fileID: 0}
-  generalstoreImg: {fileID: 0}
+  stagecoachImg: {fileID: 5164789247783130309, guid: 5f64f635ffac66b46942286b71430f30, type: 3}
+  wellsfargoImg: {fileID: 21300000, guid: 26d3aee62efa3aa41933b0d68953b8c7, type: 3}
+  saloonImg: {fileID: 21300000, guid: ba3dd0c0e080ecc40a718f27fed16e50, type: 3}
+  generalstoreImg: {fileID: 21300000, guid: 58404cf41433fc14a8db6acbbf6bbf0d, type: 3}
   cardInImg: {fileID: 2643383447711097965}
   cardText: {fileID: 1951396915861156421}
   cardBorder: {fileID: 2643383449535095574}

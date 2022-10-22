@@ -23,6 +23,11 @@ namespace com.ThreeCS.McCree
         public Sprite wellsfargoImg;
         public Sprite saloonImg;
         public Sprite generalstoreImg;
+        public Sprite coltsaaImg;
+        public Sprite russianRevolverImg;
+        public Sprite navyRevolverImg;
+        public Sprite carbineImg;
+        public Sprite winchesterImg;
 
         [Header("카드 테두리, 내용")]
         public Image cardInImg;
@@ -45,7 +50,12 @@ namespace com.ThreeCS.McCree
             StageCoach,
             WellsFargo,
             Saloon,
-            GeneralStore
+            GeneralStore,
+            Colt,
+            Russian,
+            Navy,
+            Carbine,
+            Winchester
         }
 
         public cType cardContent;
@@ -151,6 +161,32 @@ namespace com.ThreeCS.McCree
             {
                 cardInImg.sprite = generalstoreImg;
                 cardText.text = "STORE";
+            }
+            else if (this.cardContent == cType.Colt)
+            {
+                cardInImg.sprite = coltsaaImg;
+                cardText.text = "COLT";
+            }
+            else if (this.cardContent == cType.Russian)
+            {
+                cardInImg.sprite = russianRevolverImg;
+                cardText.text = "RUSSIAN";
+            }
+            else if (this.cardContent == cType.Navy)
+            {
+                cardInImg.sprite = navyRevolverImg;
+                cardText.text = "NAVY";
+            }
+            else if (this.cardContent == cType.Carbine)
+            {
+                cardInImg.sprite = carbineImg;
+                cardText.text = "CARBINE";
+            }
+            else if (this.cardContent == cType.Winchester)
+            {
+                cardInImg.sprite = winchesterImg;
+                cardText.text = "WINCHESTER";
+                cardText.fontSize = 63;
             }
         }
 

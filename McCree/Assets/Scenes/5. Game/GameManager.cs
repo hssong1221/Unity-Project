@@ -170,6 +170,14 @@ namespace com.ThreeCS.McCree
         private int saloon_c;
         [SerializeField]
         private int generalstore_c;
+        [SerializeField]
+        private int russian_c;
+        [SerializeField]
+        private int navy_c;
+        [SerializeField]
+        private int carbine_c;
+        [SerializeField]
+        private int winchester_c;
 
 
         // 턴 관련 변수들
@@ -388,7 +396,7 @@ namespace com.ThreeCS.McCree
             // 초기 카드 세팅
             Card.cType[] initialDeck = new Card.cType[
                 bang_c + avoid_c + beer_c + machinegun_c + indian_c + stagecoach_c + wellsfargo_c + saloon_c
-                + generalstore_c
+                + generalstore_c + russian_c + navy_c + carbine_c + winchester_c
             ];
 
             int k = 0;
@@ -410,6 +418,14 @@ namespace com.ThreeCS.McCree
                 initialDeck[k] = Card.cType.Saloon;
             for (int i = 0; i < generalstore_c; i++, k++)
                 initialDeck[k] = Card.cType.GeneralStore;
+            for (int i = 0; i < russian_c; i++, k++)
+                initialDeck[k] = Card.cType.Russian;
+            for (int i = 0; i < navy_c; i++, k++)
+                initialDeck[k] = Card.cType.Navy;
+            for (int i = 0; i < carbine_c; i++, k++)
+                initialDeck[k] = Card.cType.Carbine;
+            for (int i = 0; i < winchester_c; i++, k++)
+                initialDeck[k] = Card.cType.Winchester;
 
             // 섞기
             int random1;
@@ -956,9 +972,6 @@ namespace com.ThreeCS.McCree
             }
         }
         
-        //------
-
-
         // 게임 시작하기 위한 버튼
         public void BangBtnClick()
         {
@@ -998,6 +1011,17 @@ namespace com.ThreeCS.McCree
             return player1;
         }
 
+        // 본인과 타겟사이의 거리를 측정함
+        public int MeasureDistance(int targetIdx)
+        {
+            int result;
+            result = Math.Abs(tidx - targetIdx);
+            if (result > turnList.Count / 2)
+                result = turnList.Count - result;
+
+            return result;
+        }
+
         // 본인이 뱅 타겟되었다는 UI on
         public void TargetedPanelOn()
         {
@@ -1008,6 +1032,14 @@ namespace com.ThreeCS.McCree
             }
         }
 
+        // 사거리 부족 UI ONOFF
+        public void DistancePanelOnOff(int state)
+        {
+            if (state == 0)
+                MineUI.Instance.distancePanel.SetActive(true);
+            else
+                MineUI.Instance.distancePanel.SetActive(false);
+        }
         // 카드 사용한 거 다시 카드 셋으로 넣는 기능
         public void AfterCardUse(Card.cType content, int state) 
         {
@@ -1060,6 +1092,19 @@ namespace com.ThreeCS.McCree
                 case "GeneralStore":
                     StartCoroutine("GeneralStore");
                     break;
+                case "Russian":
+                    // 무기 사거리 증가
+                    playerInfo.maximumRange = 2;
+                    break;
+                case "Navy":
+                    playerInfo.maximumRange = 3;
+                    break;
+                case "Carbine":
+                    playerInfo.maximumRange = 4;
+                    break;
+                case "Winchester":
+                    playerInfo.maximumRange = 5;
+                    break;
                 default:
                     break;
             }
@@ -1072,16 +1117,6 @@ namespace com.ThreeCS.McCree
 
         // 카드  만드는 중
         
-        // 본인과 타겟사이의 거리를 측정함
-        public int MeasureDistance(int targetIdx)
-        {
-            int result;
-            result = Math.Abs(tidx - targetIdx);
-            if (result > turnList.Count / 2)
-                result = turnList.Count - result;
-
-            return result;
-        }
         
         #region 완성된 카드 기능 
 
@@ -1093,6 +1128,7 @@ namespace com.ThreeCS.McCree
 
             while (true)
             {
+                Debug.Log("Bang 동작 중");
                 // 빔 
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -1130,13 +1166,15 @@ namespace com.ThreeCS.McCree
                         // 타겟과 내 사이 거리를 구함
                         int targetIdx = turnList.FindIndex(a => a == go);
                         targetDistance = MeasureDistance(targetIdx);
-                        Debug.Log("Target Dis : " + targetDistance);
+                        //Debug.Log("Target Dis : " + targetDistance);
 
                         // 측정 거리 > 본인 최대 사거리 (뱅 불가)
                         if (targetDistance > playerInfo.maximumRange)
                         {
-                            // --------------------------------------사거리가 벗어났다고 알려주는 패널 만들기----------------------------------
-                            Debug.Log("뱅 불가함");
+                            //Debug.Log("뱅 불가함");
+                            DistancePanelOnOff(0);
+                            yield return new WaitForSeconds(1f);
+                            DistancePanelOnOff(1);
                         }
                         else
                         {
