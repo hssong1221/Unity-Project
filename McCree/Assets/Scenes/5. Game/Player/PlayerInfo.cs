@@ -92,6 +92,30 @@ namespace com.ThreeCS.McCree
         // 본인의 최대 사거리
         public int maximumRange;
 
+        public bool scp;
+        // 스코프 장착 상태
+        public bool isScope
+        {
+            get { return scp; } 
+            set {
+                scp = value;
+    
+                if (isScope)
+                    maximumRange += 1;
+                else
+                {
+                    if (maximumRange > 1)
+                        maximumRange -= 1;
+                    else if (maximumRange == 1)
+                        maximumRange = 1;
+                }
+            }
+        }
+
+        // 야생마 장착 상태(다른 사람에게 알려야함)
+        public bool isMustang = false;
+
+
         // ------------------ 삭제 예정
         public List<ItemList> myItemList;
         // 0번째 Bang
@@ -156,7 +180,7 @@ namespace com.ThreeCS.McCree
             isDeath = false;
 
             // ------------------------ 뱅 최대사거리 ------------------
-            maximumRange = 0;
+            maximumRange = 1;
 
             MineUI.Instance.statusPanel.gameObject.SetActive(true);
 

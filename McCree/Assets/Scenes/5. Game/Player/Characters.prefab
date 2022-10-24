@@ -2584,6 +2584,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8293cec9455754f42a0461200c9840ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StoreCard: {fileID: 0}
 --- !u!114 &6215404349552739547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2666,7 +2667,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 0
-  curhp: 0
   mycards: []
   waitAvoid: 0
   waitAvoids: -1
@@ -2678,6 +2678,10 @@ MonoBehaviour:
   sendBang: 0
   isMG: 0
   isIndian: 0
+  isStore: 0
+  maximumRange: 0
+  scp: 0
+  isMustang: 0
   myItemList:
   - {fileID: 1259370552536998253, guid: 8fb6c8635acda5a4bb62306c85127bad, type: 3}
   - {fileID: 1259370552536998253, guid: dc3b98c0e389f9947860d262a56285d3, type: 3}

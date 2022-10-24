@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5164789247783130309, guid: 5f64f635ffac66b46942286b71430f30, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0738a4fb47cd25740934be916331f49d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -264,6 +264,13 @@ MonoBehaviour:
   wellsfargoImg: {fileID: 21300000, guid: 26d3aee62efa3aa41933b0d68953b8c7, type: 3}
   saloonImg: {fileID: 21300000, guid: ba3dd0c0e080ecc40a718f27fed16e50, type: 3}
   generalstoreImg: {fileID: 21300000, guid: 58404cf41433fc14a8db6acbbf6bbf0d, type: 3}
+  coltsaaImg: {fileID: 21300000, guid: f228ac5df305eff4da8c981cb6e103ba, type: 3}
+  russianRevolverImg: {fileID: 21300000, guid: 2b923d3c1060cb04aa913d463517f40a, type: 3}
+  navyRevolverImg: {fileID: 21300000, guid: 8687fe3e1f0ab294284fd27a2f422e67, type: 3}
+  carbineImg: {fileID: 21300000, guid: 2543abf181a6a1541a1ac7ab3c031f43, type: 3}
+  winchesterImg: {fileID: 21300000, guid: f844e1ce17e18d947a9e5ab9956cfffa, type: 3}
+  scopeImg: {fileID: 21300000, guid: d1439a810e1daa64fb204a5c49362dc0, type: 3}
+  mustangImg: {fileID: 21300000, guid: 0738a4fb47cd25740934be916331f49d, type: 3}
   cardInImg: {fileID: 2643383447711097965}
   cardText: {fileID: 1951396915861156421}
   cardBorder: {fileID: 2643383449535095574}

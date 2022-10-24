@@ -28,6 +28,9 @@ namespace com.ThreeCS.McCree
         public Sprite navyRevolverImg;
         public Sprite carbineImg;
         public Sprite winchesterImg;
+        public Sprite scopeImg;
+        public Sprite mustangImg;
+
 
         [Header("카드 테두리, 내용")]
         public Image cardInImg;
@@ -55,7 +58,9 @@ namespace com.ThreeCS.McCree
             Russian,
             Navy,
             Carbine,
-            Winchester
+            Winchester,
+            Scope,
+            Mustang
         }
 
         public cType cardContent;
@@ -187,6 +192,16 @@ namespace com.ThreeCS.McCree
                 cardInImg.sprite = winchesterImg;
                 cardText.text = "WINCHESTER";
                 cardText.fontSize = 63;
+            }
+            else if (this.cardContent == cType.Scope)
+            {
+                cardInImg.sprite = scopeImg;
+                cardText.text = "SCOPE";
+            }
+            else if (this.cardContent == cType.Mustang)
+            {
+                cardInImg.sprite = mustangImg;
+                cardText.text = "MUSTANG";
             }
         }
 

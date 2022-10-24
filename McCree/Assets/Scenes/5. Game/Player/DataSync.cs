@@ -218,5 +218,11 @@ namespace com.ThreeCS.McCree
                 }
             }
         }
+
+        [PunRPC]
+        public void MustangSync()
+        {
+            playerInfo.isMustang = true;
+        }
     }
 }

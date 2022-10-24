@@ -178,6 +178,10 @@ namespace com.ThreeCS.McCree
         private int carbine_c;
         [SerializeField]
         private int winchester_c;
+        [SerializeField]
+        private int scope_c;
+        [SerializeField]
+        private int mustang_c;
 
 
         // 턴 관련 변수들
@@ -396,7 +400,7 @@ namespace com.ThreeCS.McCree
             // 초기 카드 세팅
             Card.cType[] initialDeck = new Card.cType[
                 bang_c + avoid_c + beer_c + machinegun_c + indian_c + stagecoach_c + wellsfargo_c + saloon_c
-                + generalstore_c + russian_c + navy_c + carbine_c + winchester_c
+                + generalstore_c + russian_c + navy_c + carbine_c + winchester_c + scope_c + mustang_c
             ];
 
             int k = 0;
@@ -426,6 +430,10 @@ namespace com.ThreeCS.McCree
                 initialDeck[k] = Card.cType.Carbine;
             for (int i = 0; i < winchester_c; i++, k++)
                 initialDeck[k] = Card.cType.Winchester;
+            for (int i = 0; i < scope_c; i++, k++)
+                initialDeck[k] = Card.cType.Scope;
+            for (int i = 0; i < mustang_c; i++, k++)
+                initialDeck[k] = Card.cType.Mustang;
 
             // 섞기
             int random1;
@@ -1105,6 +1113,12 @@ namespace com.ThreeCS.McCree
                 case "Winchester":
                     playerInfo.maximumRange = 5;
                     break;
+                case "Scope":
+                    playerInfo.isScope = true;
+                    break;
+                case "Mustang":
+                    photonView.RPC("MustangSync", RpcTarget.All);
+                    break;
                 default:
                     break;
             }
@@ -1116,7 +1130,8 @@ namespace com.ThreeCS.McCree
         #endregion
 
         // 카드  만드는 중
-        
+
+
         
         #region 완성된 카드 기능 
 
@@ -1166,6 +1181,9 @@ namespace com.ThreeCS.McCree
                         // 타겟과 내 사이 거리를 구함
                         int targetIdx = turnList.FindIndex(a => a == go);
                         targetDistance = MeasureDistance(targetIdx);
+                        // 타겟의 야생마가 있으면 거리 +1
+                        if (go.GetComponent<PlayerInfo>().isMustang)
+                            targetDistance++;
                         //Debug.Log("Target Dis : " + targetDistance);
 
                         // 측정 거리 > 본인 최대 사거리 (뱅 불가)
