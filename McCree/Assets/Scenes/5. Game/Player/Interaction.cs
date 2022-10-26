@@ -177,11 +177,10 @@ namespace com.ThreeCS.McCree
                     // 전체 인원 체크
                     if (isSit)
                     {
-                        playerManager.Sit(other.GetComponent<Transform>().transform, other.GetComponent<MeshRenderer>());
-                        MineUI.Instance.interactionPanel.SetActive(false);
                         // 내가 앉은 의자
                         chairName = other.name;
-                        photonView.RPC("ChairSync", RpcTarget.All, chairName);
+                        playerManager.Sit(other.GetComponent<Transform>().transform, other.GetComponent<MeshRenderer>(), chairName);
+                        MineUI.Instance.interactionPanel.SetActive(false);
                     }
                     else
                     {

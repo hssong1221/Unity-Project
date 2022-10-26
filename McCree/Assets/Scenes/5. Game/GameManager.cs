@@ -1143,7 +1143,7 @@ namespace com.ThreeCS.McCree
                     photonView.RPC("DynamiteSync", RpcTarget.All);
                     break;
                 case "Jail":
-                    photonView.RPC("JailSync", RpcTarget.All);
+                    StartCoroutine("Jail");
                     break;
                 default:
                     break;
@@ -1157,7 +1157,62 @@ namespace com.ThreeCS.McCree
 
         // 카드  만드는 중
 
+        IEnumerator Jail()
+        {
+            isBang = true;
+            Material mat;
+            GameObject temp = null;
 
+            while (true)
+            {
+                Debug.Log("Bang 동작 중");
+                // 빔 
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
+                    GameObject go = hit.transform.gameObject;
+
+                    // 마우스 닿은 캐릭터 하이라이트 (플레이어에서 마우스 벗어나면 다시 꺼지게 변경해야함)
+                    if (go.CompareTag("Player"))
+                    {
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.red * 0.5f);
+                        temp = go;
+                    }
+                    else if (temp != null)
+                    {
+                        mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+                    }
+
+                    if (go.CompareTag("Player") && bangClick)
+                    {
+                        Debug.Log("플레이어 선택 : " + go);
+
+                        // 클릭했으니까 하이라이트 꺼야함
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+
+                        go.GetComponent<PhotonView>().RPC("JailSync", RpcTarget.All);
+
+                        break;
+                    }
+                }
+                yield return new WaitForEndOfFrame();
+            }
+            // 뱅 관련 플래그 초기화
+            bangClick = false;
+            isBang = false;
+
+            yield return new WaitForEndOfFrame();
+        }
         
         #region 완성된 카드 기능 
 

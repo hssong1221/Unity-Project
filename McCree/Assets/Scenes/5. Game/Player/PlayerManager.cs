@@ -553,12 +553,13 @@ namespace com.ThreeCS.McCree
         }
 
         // 의자에 앉고 일어나기
-        public void Sit(Transform other, MeshRenderer mr)
+        public void Sit(Transform other, MeshRenderer mr, string chairName)
         {
             // 앉은 플레이어 상태 동기화
             if(isSit == false)
             {
                 photonView.RPC("SitnumSync", RpcTarget.All);
+                photonView.RPC("ChairSync", RpcTarget.All, chairName);
             }
 
             isSit = true;
