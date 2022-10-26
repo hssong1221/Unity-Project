@@ -5,19 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/0. Launcher/Launcher.unity
     guid: 4fd4ad7aeeb110145962dfda260ccc5c
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/1. Login/Login.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/3. Lobby/Lobby.unity
     guid: ddd8c699f02a12741a1ba9ffa8497c97
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/4. Room/Room.unity
     guid: 9dabc0299df5217479d3ba73075d9fda
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/5. Game/Game.unity
     guid: 9f9484b10a766f14dae9404f45eeef3f
   - enabled: 0
@@ -26,7 +26,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Photon/PhotonChat/Demos/DemoChat/DemoChat-Scene.unity
     guid: ec07267f6a28fb044ac89845274e79af
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/5. Game/PhotoScene/test.unity
     guid: 28eb883e12352cf458d9303c99006f4e
   m_configObjects: {}

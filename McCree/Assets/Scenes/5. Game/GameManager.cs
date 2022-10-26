@@ -182,6 +182,8 @@ namespace com.ThreeCS.McCree
         private int scope_c;
         [SerializeField]
         private int mustang_c;
+        [SerializeField]
+        private int barrel_c;
 
 
         // 턴 관련 변수들
@@ -221,7 +223,10 @@ namespace com.ThreeCS.McCree
         public bool avoidBtnFlag = false;
 
         // 잡화점 주인
+        [HideInInspector]
         public bool storeMaster = false;
+
+        
 
         #endregion
 
@@ -400,7 +405,7 @@ namespace com.ThreeCS.McCree
             // 초기 카드 세팅
             Card.cType[] initialDeck = new Card.cType[
                 bang_c + avoid_c + beer_c + machinegun_c + indian_c + stagecoach_c + wellsfargo_c + saloon_c
-                + generalstore_c + russian_c + navy_c + carbine_c + winchester_c + scope_c + mustang_c
+                + generalstore_c + russian_c + navy_c + carbine_c + winchester_c + scope_c + mustang_c + barrel_c
             ];
 
             int k = 0;
@@ -434,6 +439,8 @@ namespace com.ThreeCS.McCree
                 initialDeck[k] = Card.cType.Scope;
             for (int i = 0; i < mustang_c; i++, k++)
                 initialDeck[k] = Card.cType.Mustang;
+            for (int i = 0; i < barrel_c; i++, k++)
+                initialDeck[k] = Card.cType.Barrel;
 
             // 섞기
             int random1;
@@ -1048,6 +1055,7 @@ namespace com.ThreeCS.McCree
             else
                 MineUI.Instance.distancePanel.SetActive(false);
         }
+
         // 카드 사용한 거 다시 카드 셋으로 넣는 기능
         public void AfterCardUse(Card.cType content, int state) 
         {
@@ -1114,10 +1122,13 @@ namespace com.ThreeCS.McCree
                     playerInfo.maximumRange = 5;
                     break;
                 case "Scope":
-                    playerInfo.isScope = true;
+                    photonView.RPC("ScopeSync", RpcTarget.All);
                     break;
                 case "Mustang":
                     photonView.RPC("MustangSync", RpcTarget.All);
+                    break;
+                case "Barrel":
+                    photonView.RPC("BarrelSync", RpcTarget.All);
                     break;
                 default:
                     break;

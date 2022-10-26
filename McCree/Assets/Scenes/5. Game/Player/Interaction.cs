@@ -43,8 +43,7 @@ namespace com.ThreeCS.McCree
         public bool triggerStay = false;
         public int sitNum = 0;   // 본인
 
-        public GameObject chairTemp; // 현재 닿은 의자
-
+        public string chairName; // 앉은 의자 이름
 
         //private IEnumerator _coroutine;
         //public IEnumerator coroutine
@@ -180,6 +179,9 @@ namespace com.ThreeCS.McCree
                     {
                         playerManager.Sit(other.GetComponent<Transform>().transform, other.GetComponent<MeshRenderer>());
                         MineUI.Instance.interactionPanel.SetActive(false);
+                        // 내가 앉은 의자
+                        chairName = other.name;
+                        photonView.RPC("ChairSync", RpcTarget.All, chairName);
                     }
                     else
                     {
@@ -286,6 +288,7 @@ namespace com.ThreeCS.McCree
                 playerchair.GetComponent<ChairManager>().isPlayer = false;
         }
 
+        
 
 
         #region npc대화 관련

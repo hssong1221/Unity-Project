@@ -92,13 +92,14 @@ namespace com.ThreeCS.McCree
         // 본인의 최대 사거리
         public int maximumRange;
 
-        public bool scp;
+
         // 스코프 장착 상태
+        protected bool scope;
         public bool isScope
         {
-            get { return scp; } 
+            get { return scope; } 
             set {
-                scp = value;
+                scope = value;
     
                 if (isScope)
                     maximumRange += 1;
@@ -112,8 +113,11 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        // 야생마 장착 상태(다른 사람에게 알려야함)
+        // 야생마 장착 상태
         public bool isMustang = false;
+
+        // 술통 장착 상태
+        public bool isBarrel = false;
 
 
         // ------------------ 삭제 예정

@@ -30,6 +30,7 @@ namespace com.ThreeCS.McCree
         public Sprite winchesterImg;
         public Sprite scopeImg;
         public Sprite mustangImg;
+        public Sprite barrelImg;
 
 
         [Header("카드 테두리, 내용")]
@@ -60,7 +61,8 @@ namespace com.ThreeCS.McCree
             Carbine,
             Winchester,
             Scope,
-            Mustang
+            Mustang,
+            Barrel,
         }
 
         public cType cardContent;
@@ -202,6 +204,11 @@ namespace com.ThreeCS.McCree
             {
                 cardInImg.sprite = mustangImg;
                 cardText.text = "MUSTANG";
+            }
+            else if (this.cardContent == cType.Barrel)
+            {
+                cardInImg.sprite = barrelImg;
+                cardText.text = "BARREL";
             }
         }
 

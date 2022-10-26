@@ -126,8 +126,6 @@ namespace com.ThreeCS.McCree
             }
         }
 
-
-
         public bool isDeath;
 
         public bool isSit = false; // 의자에 앉는 동작 관련
@@ -135,6 +133,9 @@ namespace com.ThreeCS.McCree
         // 동작관련 플래그 true여야 동작 중 이동이 불가능함
         public bool canBehave;
 
+        [Header("본인이 앉은 의자랑 게임 판")]
+        public GameObject mygamePlate;
+        public GameObject myChair;
 
         // 장착무기상태--------------------------------------------------------------------------------
         private bool _EquipedNone;
@@ -199,11 +200,7 @@ namespace com.ThreeCS.McCree
             get { return _objectTransPos; }
         }
 
-
-
-
         public GameObject bulletAttackedPos;
-
 
         protected bool isCharacterPlayer;
         public float maxAttackDistance;
@@ -560,7 +557,9 @@ namespace com.ThreeCS.McCree
         {
             // 앉은 플레이어 상태 동기화
             if(isSit == false)
-                photonView.RPC("SitnumSync", RpcTarget.All); 
+            {
+                photonView.RPC("SitnumSync", RpcTarget.All);
+            }
 
             isSit = true;
             //Debug.Log("sit이 작동됨");
@@ -573,11 +572,12 @@ namespace com.ThreeCS.McCree
             Material mat = mr.material;
             mat.SetColor("_EmissionColor", Color.black);
 
+            
             // 의자에 앉는 모습으로 순간이동
             transform.position = other.position;
             playerAutoMove.targetedEnemy = null;
             transform.rotation = other.rotation;
-            // 앉는 위치 보정sd
+            // 앉는 위치 보정
             transform.position += new Vector3(0, 0.1f, 0);
 
         }
@@ -585,12 +585,17 @@ namespace com.ThreeCS.McCree
         {
             // 플레이어 상태 동기화
             if(isSit == true)
+            {
                 photonView.RPC("StandnumSync", RpcTarget.All);
+            }
+
             // 네비메쉬 다시 켜주기
             agent.enabled = true;
             animator.SetBool("isSit", false);
             isSit = false;
         }
+
+        
 
         [PunRPC]
         public void SitnumSync()
@@ -603,7 +608,23 @@ namespace com.ThreeCS.McCree
         {
             isSit = false;
         }
-        
+
+        // 본인이 앉은 의자 동기화
+        [PunRPC]
+        public void ChairSync(string cname)
+        {
+            // 의자 태그 찾아서 본인거 찾기
+            GameObject[] chair = GameObject.FindGameObjectsWithTag("chair");
+            foreach (GameObject c in chair)
+            {
+                if (c.name.Equals(cname))
+                {
+                    myChair = c;
+                    mygamePlate = c.GetComponent<ChairManager>().gamePlate;
+                    mygamePlate.gameObject.SetActive(true);
+                }
+            }
+        }
 
         void Inventory()
         {

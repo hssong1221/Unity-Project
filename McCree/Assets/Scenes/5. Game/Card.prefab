@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0738a4fb47cd25740934be916331f49d, type: 3}
+  m_Sprite: {fileID: 3753566385559023373, guid: 624e638d73df0b24bbf007d113f341c8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -271,6 +271,7 @@ MonoBehaviour:
   winchesterImg: {fileID: 21300000, guid: f844e1ce17e18d947a9e5ab9956cfffa, type: 3}
   scopeImg: {fileID: 21300000, guid: d1439a810e1daa64fb204a5c49362dc0, type: 3}
   mustangImg: {fileID: 21300000, guid: 0738a4fb47cd25740934be916331f49d, type: 3}
+  barrelImg: {fileID: 21300000, guid: d3a20a2fd4568184296203a47da65b4a, type: 3}
   cardInImg: {fileID: 2643383447711097965}
   cardText: {fileID: 1951396915861156421}
   cardBorder: {fileID: 2643383449535095574}

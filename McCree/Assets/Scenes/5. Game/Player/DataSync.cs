@@ -219,10 +219,29 @@ namespace com.ThreeCS.McCree
             }
         }
 
+
+        [PunRPC]
+        public void ScopeSync()
+        {
+            playerInfo.isScope = true;
+            GameObject scope = playerManager.mygamePlate.transform.Find("scope").gameObject;
+            scope.SetActive(true);
+        }
+
         [PunRPC]
         public void MustangSync()
         {
             playerInfo.isMustang = true;
+            GameObject mustang = playerManager.mygamePlate.transform.Find("mustang").gameObject;
+            mustang.SetActive(true);
+        }
+
+        [PunRPC]
+        public void BarrelSync()
+        {
+            playerInfo.isBarrel = true;
+            GameObject barrel = playerManager.mygamePlate.transform.Find("barrel").gameObject;
+            barrel.SetActive(true);
         }
     }
 }
