@@ -184,6 +184,10 @@ namespace com.ThreeCS.McCree
         private int mustang_c;
         [SerializeField]
         private int barrel_c;
+        [SerializeField]
+        private int dynamite_c;
+        [SerializeField]
+        private int jail_c;
 
 
         // 턴 관련 변수들
@@ -406,6 +410,7 @@ namespace com.ThreeCS.McCree
             Card.cType[] initialDeck = new Card.cType[
                 bang_c + avoid_c + beer_c + machinegun_c + indian_c + stagecoach_c + wellsfargo_c + saloon_c
                 + generalstore_c + russian_c + navy_c + carbine_c + winchester_c + scope_c + mustang_c + barrel_c
+                + dynamite_c + jail_c
             ];
 
             int k = 0;
@@ -441,6 +446,10 @@ namespace com.ThreeCS.McCree
                 initialDeck[k] = Card.cType.Mustang;
             for (int i = 0; i < barrel_c; i++, k++)
                 initialDeck[k] = Card.cType.Barrel;
+            for (int i = 0; i < dynamite_c; i++, k++)
+                initialDeck[k] = Card.cType.Dynamite;
+            for (int i = 0; i < jail_c; i++, k++)
+                initialDeck[k] = Card.cType.Jail;
 
             // 섞기
             int random1;
@@ -1129,6 +1138,12 @@ namespace com.ThreeCS.McCree
                     break;
                 case "Barrel":
                     photonView.RPC("BarrelSync", RpcTarget.All);
+                    break;
+                case "Dynamite":
+                    photonView.RPC("DynamiteSync", RpcTarget.All);
+                    break;
+                case "Jail":
+                    photonView.RPC("JailSync", RpcTarget.All);
                     break;
                 default:
                     break;

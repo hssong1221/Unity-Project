@@ -119,6 +119,11 @@ namespace com.ThreeCS.McCree
         // 술통 장착 상태
         public bool isBarrel = false;
 
+        // 다이너마이트 장착
+        public bool isDynamite = false;
+
+        // 감옥 장착
+        public bool isJail = false;
 
         // ------------------ 삭제 예정
         public List<ItemList> myItemList;

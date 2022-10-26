@@ -243,5 +243,21 @@ namespace com.ThreeCS.McCree
             GameObject barrel = playerManager.mygamePlate.transform.Find("barrel").gameObject;
             barrel.SetActive(true);
         }
+
+        [PunRPC]
+        public void DynamiteSync()
+        {
+            playerInfo.isDynamite = true;
+            GameObject dynamite = playerManager.mygamePlate.transform.Find("dynamite").gameObject;
+            dynamite.SetActive(true);
+        }
+
+        [PunRPC]
+        public void JailSync()
+        {
+            playerInfo.isJail = true;
+            GameObject jail = playerManager.mygamePlate.transform.Find("jail").gameObject;
+            jail.SetActive(true);
+        }
     }
 }

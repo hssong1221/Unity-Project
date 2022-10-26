@@ -31,6 +31,8 @@ namespace com.ThreeCS.McCree
         public Sprite scopeImg;
         public Sprite mustangImg;
         public Sprite barrelImg;
+        public Sprite dynamiteImg;
+        public Sprite jailImg;
 
 
         [Header("카드 테두리, 내용")]
@@ -63,6 +65,8 @@ namespace com.ThreeCS.McCree
             Scope,
             Mustang,
             Barrel,
+            Dynamite,
+            Jail,
         }
 
         public cType cardContent;
@@ -209,6 +213,17 @@ namespace com.ThreeCS.McCree
             {
                 cardInImg.sprite = barrelImg;
                 cardText.text = "BARREL";
+            }
+            else if (this.cardContent == cType.Dynamite)
+            {
+                cardInImg.sprite = dynamiteImg;
+                cardText.text = "DYNAMITE";
+                cardText.fontSize = 68;
+            }
+            else if (this.cardContent == cType.Jail)
+            {
+                cardInImg.sprite = jailImg;
+                cardText.text = "JAIL";
             }
         }
 
