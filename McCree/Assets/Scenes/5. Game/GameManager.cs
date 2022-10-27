@@ -771,7 +771,7 @@ namespace com.ThreeCS.McCree
                 }
 
 
-                // 카드 드로우
+                // -- 카드 드로우 --
                 if(playerInfo.isStore == false && storeMaster == false)
                 {
                     // 일반 턴
@@ -1150,6 +1150,15 @@ namespace com.ThreeCS.McCree
                 MineUI.Instance.dynamitePanel.SetActive(false);
         }
 
+        // 술통 UI ONOFF
+        public void BarrelPanelOnOff(int state)
+        {
+            if (state == 0)
+                MineUI.Instance.barrelPanel.SetActive(true);
+            else
+                MineUI.Instance.barrelPanel.SetActive(false);
+        }
+
         // 카드 사용한 거 다시 카드 셋으로 넣는 기능
         public void AfterCardUse(Card.cType content, int state) 
         {
@@ -1222,7 +1231,7 @@ namespace com.ThreeCS.McCree
                     photonView.RPC("MustangSync", RpcTarget.All);
                     break;
                 case "Barrel":
-                    photonView.RPC("BarrelSync", RpcTarget.All);
+                    photonView.RPC("BarrelSync", RpcTarget.All, 0);
                     break;
                 case "Dynamite":
                     StartCoroutine("Dynamite");
@@ -1416,13 +1425,30 @@ namespace com.ThreeCS.McCree
             // 1 : indian Avoid
 
             avoidFlag = 0;
-            
+            bool barrelTurn = true; // 회피중 술통 기회는 한번 뿐이어야함
+
             if(state == 0)
             {
+                System.Random rand = new System.Random();
                 // 회피카드를 낼 건지 그냥 맞을 건지 선택 대기
                 while (playerInfo.sendAvoid == false)
                 {
                     Debug.Log("회피 카드 내기 대기중");
+                    // 술통을 장착하고 1회 회피 기회 부여
+                    if (playerInfo.isBarrel && barrelTurn)
+                    {
+                        barrelTurn = false;
+                        // 25% 확률로 뱅 무효
+                        int a = rand.Next(1, 5);
+                        if (a == 1)
+                        {
+                            MineUI.Instance.barrelText.text = "술통에 맞음";
+                            BarrelPanelOnOff(0);
+                            yield return new WaitForSeconds(1.2f);
+                            BarrelPanelOnOff(1);
+                            break;
+                        }
+                    }
 
                     // 그냥 맞기를 선택함
                     if (avoidBtnFlag == true)
@@ -1465,7 +1491,7 @@ namespace com.ThreeCS.McCree
                     }
                 }
             }
-            else if(state == 1)
+            else if(state == 1) // indian
             {
                 // 회피카드를 낼 건지 그냥 맞을 건지 선택 대기
                 while (playerInfo.sendBang == false)

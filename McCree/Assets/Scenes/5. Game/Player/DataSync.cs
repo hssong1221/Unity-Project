@@ -237,11 +237,20 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public void BarrelSync()
+        public void BarrelSync(int state)
         {
-            playerInfo.isBarrel = true;
-            GameObject barrel = playerManager.mygamePlate.transform.Find("barrel").gameObject;
-            barrel.SetActive(true);
+            if(state == 0)
+            {
+                playerInfo.isBarrel = true;
+                GameObject barrel = playerManager.mygamePlate.transform.Find("barrel").gameObject;
+                barrel.SetActive(true);
+            }
+            else
+            {
+                playerInfo.isBarrel = false;
+                GameObject barrel = playerManager.mygamePlate.transform.Find("barrel").gameObject;
+                barrel.SetActive(false);
+            }
         }
 
         [PunRPC]
