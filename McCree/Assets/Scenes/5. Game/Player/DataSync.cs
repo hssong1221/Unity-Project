@@ -253,11 +253,21 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public void JailSync()
+        public void JailSync(int state)
         {
-            playerInfo.isJail = true;
-            GameObject jail = playerManager.mygamePlate.transform.Find("jail").gameObject;
-            jail.SetActive(true);
+            if(state == 0) // 감옥 수감
+            {
+                playerInfo.isJail = true;
+                GameObject jail = playerManager.mygamePlate.transform.Find("jail").gameObject;
+                jail.SetActive(true);
+            }
+            else // 탈옥 또는 기간이 끝남
+            {
+                playerInfo.isJail = false;
+                GameObject jail = playerManager.mygamePlate.transform.Find("jail").gameObject;
+                jail.SetActive(false);
+            }
+            
         }
     }
 }

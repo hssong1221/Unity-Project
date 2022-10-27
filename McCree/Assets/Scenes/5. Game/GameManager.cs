@@ -290,7 +290,7 @@ namespace com.ThreeCS.McCree
             // 인원 체크 UI가 계속 정면을 보게 만듬
             startCanvas.transform.LookAt(startCanvas.transform.position + Camera.main.transform.forward);
 
-            // 뱅 카드 사용 중
+            // 뱅 카드 사용 중(상대방을 눌러야하는 카드에는 다 적용된다.)
             if (isBang && Input.GetMouseButtonDown(0))
                 bangClick = true;
             else if (isBang && Input.GetMouseButtonUp(0)) 
@@ -705,6 +705,38 @@ namespace com.ThreeCS.McCree
 
                 yield return new WaitForEndOfFrame();
 
+                // 카드 드로우 하기 전 행동
+                // 감옥 확인
+                System.Random rand = new System.Random();
+                if (playerInfo.isJail)
+                {
+                    int a = rand.Next(1, 5);
+                    // 25% 확률로 탈출 가능 75% 확률로 턴 바로 종료
+                    if (a != 1)
+                    {
+                        MineUI.Instance.jailText.text = "탈옥 실패";
+                        JailPanelOnOff(0);
+                        turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
+                        MineUI.Instance.NextButton.SetActive(false);
+                        nextSignal = false;
+                        myTurn = false;
+                        yield return new WaitForSeconds(1.2f);
+                        photonView.RPC("JailSync", RpcTarget.All, 1);
+                        JailPanelOnOff(1);
+                        continue;
+                    }
+                    else // 탈옥
+                    {
+                        MineUI.Instance.jailText.text = "탈옥 성공";
+                        JailPanelOnOff(0);
+                        yield return new WaitForSeconds(1.2f);
+                        photonView.RPC("JailSync", RpcTarget.All, 1);
+                        JailPanelOnOff(1);
+                    }
+                }
+
+
+                // 카드 드로우
                 if(playerInfo.isStore == false && storeMaster == false)
                 {
                     // 일반 턴
@@ -1065,6 +1097,15 @@ namespace com.ThreeCS.McCree
                 MineUI.Instance.distancePanel.SetActive(false);
         }
 
+        // 탈옥 실패 UI ONOFF
+        public void JailPanelOnOff(int state)
+        {
+            if (state == 0)
+                MineUI.Instance.jailPanel.SetActive(true);
+            else
+                MineUI.Instance.jailPanel.SetActive(false);
+        }
+
         // 카드 사용한 거 다시 카드 셋으로 넣는 기능
         public void AfterCardUse(Card.cType content, int state) 
         {
@@ -1140,7 +1181,7 @@ namespace com.ThreeCS.McCree
                     photonView.RPC("BarrelSync", RpcTarget.All);
                     break;
                 case "Dynamite":
-                    photonView.RPC("DynamiteSync", RpcTarget.All);
+                    StartCoroutine("Dynamite");
                     break;
                 case "Jail":
                     StartCoroutine("Jail");
@@ -1157,62 +1198,8 @@ namespace com.ThreeCS.McCree
 
         // 카드  만드는 중
 
-        IEnumerator Jail()
-        {
-            isBang = true;
-            Material mat;
-            GameObject temp = null;
-
-            while (true)
-            {
-                Debug.Log("Bang 동작 중");
-                // 빔 
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
-                    GameObject go = hit.transform.gameObject;
-
-                    // 마우스 닿은 캐릭터 하이라이트 (플레이어에서 마우스 벗어나면 다시 꺼지게 변경해야함)
-                    if (go.CompareTag("Player"))
-                    {
-                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
-                        mat.EnableKeyword("_EMISSION");
-                        mat.SetColor("_EmissionColor", Color.red * 0.5f);
-                        temp = go;
-                    }
-                    else if (temp != null)
-                    {
-                        mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
-                        mat.EnableKeyword("_EMISSION");
-                        mat.SetColor("_EmissionColor", Color.black);
-                    }
-
-                    if (go.CompareTag("Player") && bangClick)
-                    {
-                        Debug.Log("플레이어 선택 : " + go);
-
-                        // 클릭했으니까 하이라이트 꺼야함
-                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
-                        mat.EnableKeyword("_EMISSION");
-                        mat.SetColor("_EmissionColor", Color.black);
-
-                        go.GetComponent<PhotonView>().RPC("JailSync", RpcTarget.All);
-
-                        break;
-                    }
-                }
-                yield return new WaitForEndOfFrame();
-            }
-            // 뱅 관련 플래그 초기화
-            bangClick = false;
-            isBang = false;
-
-            yield return new WaitForEndOfFrame();
-        }
+        
+        
         
         #region 완성된 카드 기능 
 
@@ -1547,6 +1534,119 @@ namespace com.ThreeCS.McCree
             yield return null;
         }
 
+        IEnumerator Jail()
+        {
+            isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
+            Material mat;
+            GameObject temp = null;
+
+            while (true)
+            {
+                Debug.Log("jail 동작 중");
+                // 빔 
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
+                    GameObject go = hit.transform.gameObject;
+
+                    // 마우스 닿은 캐릭터 하이라이트 (플레이어에서 마우스 벗어나면 다시 꺼지게 변경해야함)
+                    if (go.CompareTag("Player"))
+                    {
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.red * 0.5f);
+                        temp = go;
+                    }
+                    else if (temp != null)
+                    {
+                        mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+                    }
+
+                    if (go.CompareTag("Player") && bangClick)
+                    {
+                        Debug.Log("플레이어 선택 : " + go);
+
+                        // 클릭했으니까 하이라이트 꺼야함
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+
+                        // 감옥 동기화
+                        go.GetComponent<PhotonView>().RPC("JailSync", RpcTarget.All, 0);
+
+                        break;
+                    }
+                }
+                yield return new WaitForEndOfFrame();
+            }
+            // 뱅에서 쓰던거 재활용
+            bangClick = false;
+            isBang = false;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        IEnumerator Dynamite()
+        {
+            isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
+            Material mat;
+            GameObject temp = null;
+
+            while (true)
+            {
+                Debug.Log("dynamite 동작 중");
+                // 빔 
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
+                    GameObject go = hit.transform.gameObject;
+
+                    // 마우스 닿은 캐릭터 하이라이트 (플레이어에서 마우스 벗어나면 다시 꺼지게 변경해야함)
+                    if (go.CompareTag("Player"))
+                    {
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.red * 0.5f);
+                        temp = go;
+                    }
+                    else if (temp != null)
+                    {
+                        mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+                    }
+
+                    if (go.CompareTag("Player") && bangClick)
+                    {
+                        Debug.Log("플레이어 선택 : " + go);
+
+                        // 클릭했으니까 하이라이트 꺼야함
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+
+                        // 다이너마이트 동기화
+                        go.GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All);
+
+                        break;
+                    }
+                }
+                yield return new WaitForEndOfFrame();
+            }
+            // 뱅에서 쓰던거 재활용
+            bangClick = false;
+            isBang = false;
+
+            yield return new WaitForEndOfFrame();
+        }
 
         #endregion
 

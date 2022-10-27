@@ -105,6 +105,10 @@ namespace com.ThreeCS.McCree
         public GameObject distancePanel;
         public Text distanceText;
 
+        [Header("사거리 부족 알림 UI")]
+        public GameObject jailPanel;
+        public Text jailText;
+
         [Header("마우스 입력 블락 패널")]
         public GameObject blockingPanel;
         public GameObject cardblockingPanel;
