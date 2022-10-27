@@ -735,6 +735,41 @@ namespace com.ThreeCS.McCree
                     }
                 }
 
+                // 다이너 마이트 확인
+                if (playerInfo.isDynamite)
+                {
+                    int b = rand.Next(1, 3);
+                    //12.5% 확률로 터짐 데미지는 3
+                    if(b == 1) // 터짐
+                    {
+                        MineUI.Instance.dynamiteText.text = "터짐";
+                        DynamitePanelOnOff(0);
+                        // hp 변수 설계상 이렇게 해야함
+                        for(int i = 0; i < 3; i++)
+                        {
+                            playerInfo.hp--;
+                            photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
+                        }
+                        photonView.RPC("DynamiteSync", RpcTarget.All, 1);
+                        yield return new WaitForSeconds(1.2f);
+                        DynamitePanelOnOff(1);
+                    }
+                    // 안터지면 다음 사람한테 붙음
+                    else
+                    {
+                        MineUI.Instance.dynamiteText.text = "다음사람한테 던짐";
+                        DynamitePanelOnOff(0);
+                        photonView.RPC("DynamiteSync", RpcTarget.All, 1);
+                        yield return new WaitForSeconds(1.2f);
+                        DynamitePanelOnOff(1);
+                        // 다음 사람한테 다이너 마이트 적용
+                        if (tidx + 1 == turnList.Count)
+                            turnList[0].GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
+                        else
+                            turnList[tidx + 1].GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
+                    }
+                }
+
 
                 // 카드 드로우
                 if(playerInfo.isStore == false && storeMaster == false)
@@ -1097,13 +1132,22 @@ namespace com.ThreeCS.McCree
                 MineUI.Instance.distancePanel.SetActive(false);
         }
 
-        // 탈옥 실패 UI ONOFF
+        // 감옥 UI ONOFF
         public void JailPanelOnOff(int state)
         {
             if (state == 0)
                 MineUI.Instance.jailPanel.SetActive(true);
             else
                 MineUI.Instance.jailPanel.SetActive(false);
+        }
+
+        // 다이너마이트 UI ONOFF
+        public void DynamitePanelOnOff(int state)
+        {
+            if (state == 0)
+                MineUI.Instance.dynamitePanel.SetActive(true);
+            else
+                MineUI.Instance.dynamitePanel.SetActive(false);
         }
 
         // 카드 사용한 거 다시 카드 셋으로 넣는 기능
@@ -1634,7 +1678,7 @@ namespace com.ThreeCS.McCree
                         mat.SetColor("_EmissionColor", Color.black);
 
                         // 다이너마이트 동기화
-                        go.GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All);
+                        go.GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
 
                         break;
                     }

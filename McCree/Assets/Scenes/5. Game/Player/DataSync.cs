@@ -245,11 +245,20 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public void DynamiteSync()
+        public void DynamiteSync(int state)
         {
-            playerInfo.isDynamite = true;
-            GameObject dynamite = playerManager.mygamePlate.transform.Find("dynamite").gameObject;
-            dynamite.SetActive(true);
+            if(state == 0) // 다이너 마이트 장착
+            {
+                playerInfo.isDynamite = true;
+                GameObject dynamite = playerManager.mygamePlate.transform.Find("dynamite").gameObject;
+                dynamite.SetActive(true);
+            }
+            else // 터지거나 다음 사람한테 넘겨줌
+            {
+                playerInfo.isDynamite = false;
+                GameObject dynamite = playerManager.mygamePlate.transform.Find("dynamite").gameObject;
+                dynamite.SetActive(false);
+            }
         }
 
         [PunRPC]
@@ -267,7 +276,6 @@ namespace com.ThreeCS.McCree
                 GameObject jail = playerManager.mygamePlate.transform.Find("jail").gameObject;
                 jail.SetActive(false);
             }
-            
         }
     }
 }
