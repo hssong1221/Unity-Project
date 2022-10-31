@@ -1187,6 +1187,12 @@ namespace com.ThreeCS.McCree
                 MineUI.Instance.barrelPanel.SetActive(false);
         }
 
+        // string을 enum형태로 바꿔줌 
+        Card.cType StringtoEnum(string s)
+        {
+            return (Card.cType)Enum.Parse(typeof(Card.cType), s);
+        }
+
         // 카드 사용한 거 다시 카드 셋으로 넣는 기능
         public void AfterCardUse(Card.cType content, int state, bool equip) 
         {
@@ -1289,8 +1295,9 @@ namespace com.ThreeCS.McCree
         #endregion
 
         // 카드  만드는 중
-
-        IEnumerator Catbalou()
+        // 하이라이트 부분이 계속 반복 되므로 따로 함수로 빼는 것을 고려 해보기
+        
+        IEnumerator Panic()
         {
             isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
             Material mat;
@@ -1298,7 +1305,7 @@ namespace com.ThreeCS.McCree
 
             while (true)
             {
-                Debug.Log("캣벌로우 동작 중");
+                Debug.Log("강탈 동작 중");
                 // 빔 
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -1308,34 +1315,26 @@ namespace com.ThreeCS.McCree
                     //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
                     GameObject go = hit.transform.gameObject;
 
+                    // 강탈은 장착 카드를 훔치지 않기로 했다.
                     // 마우스 닿은 오브젝트 하이라이트 
-                    if (go.CompareTag("Player") || go.CompareTag("Item"))
+                    if (go.CompareTag("Player"))
                     {
-                        if (go.CompareTag("Player"))
-                            mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
-                        else
-                            mat = hit.transform.GetComponent<MeshRenderer>().material;
-
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
                         mat.EnableKeyword("_EMISSION");
                         mat.SetColor("_EmissionColor", Color.red * 0.5f);
                         temp = go;
                     }
                     else if (temp != null)
                     {
-                        if (temp.CompareTag("Player"))
-                            mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
-                        else if (temp.CompareTag("Item"))
-                            mat = temp.transform.GetComponent<MeshRenderer>().material;
-                        else
-                            mat = null;
-
+                        mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
                         mat.EnableKeyword("_EMISSION");
                         mat.SetColor("_EmissionColor", Color.black);
                     }
 
-                    // 1. 캐릭터 덱에 카드 한장 없애기
+                   
                     if (go.CompareTag("Player") && bangClick)
                     {
+                        // 타겟과의 거리가 1일 때만 선택 가능(조준경 시 2)
                         Debug.Log("플레이어 선택 : " + go);
                         playerInfo.useCat = true;
 
@@ -1368,39 +1367,6 @@ namespace com.ThreeCS.McCree
 
                         break;
                     }
-                    // 2. 캐릭터 아이템 중 하나 없애기
-                    else if (go.CompareTag("Item") && bangClick)
-                    {
-                        Debug.Log("아이템 선택 : " + go);
-                        playerInfo.useCat = true;
-                        // 클릭했으니까 하이라이트 꺼야함
-                        mat = hit.transform.GetComponent<MeshRenderer>().material;
-                        mat.EnableKeyword("_EMISSION");
-                        mat.SetColor("_EmissionColor", Color.black);
-
-                        // 아이템 클릭하면 부모는 게임플레이트고 그거의 부모가 의자(0 - 6 플레이어 idx)
-                        GameObject tmp = go.transform.parent.gameObject;
-                        GameObject chair = tmp.transform.parent.gameObject;
-
-                        foreach(GameObject itemMaster in turnList)
-                        {
-                            // 아이템의 주인 찾음
-                            if (itemMaster.GetComponent<PlayerManager>().myChair.name.Equals(chair.name))
-                            {
-                                // 아이템 장착 상태 해제
-                                string t = go.name + "Sync";
-                                itemMaster.GetComponent<PhotonView>().RPC(t, RpcTarget.All, 1);
-                            }
-                        }
-
-                        // 이름이랑 열거형 타입이랑 같아서 이렇게 해줌
-                        Card.cType type = StringtoEnum(go.name);
-
-                        // 장착 해제 된 아이템을 카드로 바꿔서 전체 덱 뒤에 다시 추가
-                        photonView.RPC("CardDeckSync", RpcTarget.All, type);
-
-                        break;
-                    }
                 }
                 yield return new WaitForEndOfFrame();
             }
@@ -1410,12 +1376,8 @@ namespace com.ThreeCS.McCree
 
             yield return new WaitForEndOfFrame();
         }
-
-        // string을 enum형태로 바꿔줌
-        Card.cType StringtoEnum(string s)
-        {
-            return (Card.cType)Enum.Parse(typeof(Card.cType), s);
-        }
+        
+        
 
         #region 완성된 카드 기능 
 
@@ -1867,6 +1829,127 @@ namespace com.ThreeCS.McCree
 
                         // 다이너마이트 동기화
                         go.GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
+
+                        break;
+                    }
+                }
+                yield return new WaitForEndOfFrame();
+            }
+            // 뱅에서 쓰던거 재활용
+            bangClick = false;
+            isBang = false;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        IEnumerator Catbalou()
+        {
+            isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
+            Material mat;
+            GameObject temp = null;
+
+            while (true)
+            {
+                Debug.Log("캣벌로우 동작 중");
+                // 빔 
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
+                    GameObject go = hit.transform.gameObject;
+
+                    // 마우스 닿은 오브젝트 하이라이트 
+                    if (go.CompareTag("Player") || go.CompareTag("Item"))
+                    {
+                        if (go.CompareTag("Player"))
+                            mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        else
+                            mat = hit.transform.GetComponent<MeshRenderer>().material;
+
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.red * 0.5f);
+                        temp = go;
+                    }
+                    else if (temp != null)
+                    {
+                        if (temp.CompareTag("Player"))
+                            mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        else if (temp.CompareTag("Item"))
+                            mat = temp.transform.GetComponent<MeshRenderer>().material;
+                        else
+                            mat = null;
+
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+                    }
+
+                    // 1. 캐릭터 덱에 카드 한장 없애기
+                    if (go.CompareTag("Player") && bangClick)
+                    {
+                        Debug.Log("플레이어 선택 : " + go);
+                        playerInfo.useCat = true;
+
+                        // 클릭했으니까 하이라이트 꺼야함
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+
+                        // 상대편 클릭하고 상대편 덱의 갯수를 가져옴
+                        go.GetComponent<PhotonView>().RPC("CatSync", RpcTarget.All);
+                        yield return new WaitForSeconds(1.5f);
+
+                        // 빈 카드를 덱 갯수 만큼 생성함 (상대편 카드를 뽑는 것처럼 눈속임 )
+                        MineUI.Instance.CatbalouCards(go.GetComponent<PlayerInfo>().mycardNum);
+
+                        // 카드 뽑기할때 방해되서 잠시 끔
+                        delcardPanel.gameObject.SetActive(false);
+
+                        while (playerInfo.useCat)
+                        {
+                            // 선택 대기
+                            Debug.Log("캣벌로우 선택 대기");
+                            yield return null;
+                        }
+                        // 다시 켬
+                        delcardPanel.gameObject.SetActive(true);
+
+                        // 캣 벌로우에 의해 타겟 카드 중 랜덤으로 하나 삭제
+                        go.GetPhotonView().RPC("CatbalouDel", RpcTarget.All, go.GetComponent<PlayerInfo>().mycardNum);
+
+                        break;
+                    }
+                    // 2. 캐릭터 아이템 중 하나 없애기
+                    else if (go.CompareTag("Item") && bangClick)
+                    {
+                        Debug.Log("아이템 선택 : " + go);
+                        playerInfo.useCat = true;
+                        // 클릭했으니까 하이라이트 꺼야함
+                        mat = hit.transform.GetComponent<MeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+
+                        // 아이템 클릭하면 부모는 게임플레이트고 그거의 부모가 의자(0 - 6 플레이어 idx)
+                        GameObject tmp = go.transform.parent.gameObject;
+                        GameObject chair = tmp.transform.parent.gameObject;
+
+                        foreach (GameObject itemMaster in turnList)
+                        {
+                            // 아이템의 주인 찾음
+                            if (itemMaster.GetComponent<PlayerManager>().myChair.name.Equals(chair.name))
+                            {
+                                // 아이템 장착 상태 해제
+                                string t = go.name + "Sync";
+                                itemMaster.GetComponent<PhotonView>().RPC(t, RpcTarget.All, 1);
+                            }
+                        }
+
+                        // 아이템 이름이랑 열거형 타입이랑 같기 때문에 이름가지고 enum타입 만들기
+                        Card.cType type = StringtoEnum(go.name);
+
+                        // 장착 해제 된 아이템을 카드로 바꿔서 전체 덱 뒤에 다시 추가
+                        photonView.RPC("CardDeckSync", RpcTarget.All, type);
 
                         break;
                     }
