@@ -877,7 +877,7 @@ GameObject:
   - component: {fileID: 9204004173635643917}
   - component: {fileID: 9181396562656387907}
   m_Layer: 20
-  m_Name: mustang
+  m_Name: Mustang
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

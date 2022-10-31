@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 6585072366328186996}
   - component: {fileID: 6584776389780685626}
   m_Layer: 0
-  m_Name: colt
+  m_Name: Colt
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

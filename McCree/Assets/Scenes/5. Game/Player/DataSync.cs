@@ -234,7 +234,7 @@ namespace com.ThreeCS.McCree
         public void ScopeSync()
         {
             playerInfo.isScope = true;
-            GameObject scope = playerManager.mygamePlate.transform.Find("scope").gameObject;
+            GameObject scope = playerManager.mygamePlate.transform.Find("Scope").gameObject;
             scope.SetActive(true);
         }
 
@@ -242,7 +242,7 @@ namespace com.ThreeCS.McCree
         public void MustangSync()
         {
             playerInfo.isMustang = true;
-            GameObject mustang = playerManager.mygamePlate.transform.Find("mustang").gameObject;
+            GameObject mustang = playerManager.mygamePlate.transform.Find("Mustang").gameObject;
             mustang.SetActive(true);
         }
 
@@ -252,13 +252,13 @@ namespace com.ThreeCS.McCree
             if(state == 0)
             {
                 playerInfo.isBarrel = true;
-                GameObject barrel = playerManager.mygamePlate.transform.Find("barrel").gameObject;
+                GameObject barrel = playerManager.mygamePlate.transform.Find("Barrel").gameObject;
                 barrel.SetActive(true);
             }
             else
             {
                 playerInfo.isBarrel = false;
-                GameObject barrel = playerManager.mygamePlate.transform.Find("barrel").gameObject;
+                GameObject barrel = playerManager.mygamePlate.transform.Find("Barrel").gameObject;
                 barrel.SetActive(false);
             }
         }
@@ -269,13 +269,13 @@ namespace com.ThreeCS.McCree
             if(state == 0) // 다이너 마이트 장착
             {
                 playerInfo.isDynamite = true;
-                GameObject dynamite = playerManager.mygamePlate.transform.Find("dynamite").gameObject;
+                GameObject dynamite = playerManager.mygamePlate.transform.Find("Dynamite").gameObject;
                 dynamite.SetActive(true);
             }
             else // 터지거나 다음 사람한테 넘겨줌
             {
                 playerInfo.isDynamite = false;
-                GameObject dynamite = playerManager.mygamePlate.transform.Find("dynamite").gameObject;
+                GameObject dynamite = playerManager.mygamePlate.transform.Find("Dynamite").gameObject;
                 dynamite.SetActive(false);
             }
         }
@@ -286,13 +286,13 @@ namespace com.ThreeCS.McCree
             if(state == 0) // 감옥 수감
             {
                 playerInfo.isJail = true;
-                GameObject jail = playerManager.mygamePlate.transform.Find("jail").gameObject;
+                GameObject jail = playerManager.mygamePlate.transform.Find("Jail").gameObject;
                 jail.SetActive(true);
             }
             else // 탈옥 또는 기간이 끝남
             {
                 playerInfo.isJail = false;
-                GameObject jail = playerManager.mygamePlate.transform.Find("jail").gameObject;
+                GameObject jail = playerManager.mygamePlate.transform.Find("Jail").gameObject;
                 jail.SetActive(false);
             }
         }

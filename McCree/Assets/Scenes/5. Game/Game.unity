@@ -799,11 +799,11 @@ PrefabInstance:
       objectReference: {fileID: 154839047}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: bang_c
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: beer_c
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: heal_c
@@ -811,11 +811,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: jail_c
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: avoid_c
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: bangBtn
@@ -2128,8 +2128,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Jail
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Dynamite
       objectReference: {fileID: 0}
     - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
@@ -2140,12 +2148,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Mustang
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Scope
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9049210913133124656, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Colt
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f791785402835f249899ed3d2519874c, type: 3}
@@ -2506,8 +2526,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Jail
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Dynamite
       objectReference: {fileID: 0}
     - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
@@ -2518,12 +2546,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Mustang
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Scope
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9049210913133124656, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Colt
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f791785402835f249899ed3d2519874c, type: 3}
@@ -5957,8 +5997,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Jail
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Dynamite
       objectReference: {fileID: 0}
     - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
@@ -5969,12 +6017,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Mustang
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Scope
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9049210913133124656, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Colt
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f791785402835f249899ed3d2519874c, type: 3}
@@ -13338,8 +13398,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Jail
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Dynamite
       objectReference: {fileID: 0}
     - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
@@ -13350,12 +13418,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Mustang
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Scope
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9049210913133124656, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Colt
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f791785402835f249899ed3d2519874c, type: 3}
@@ -23500,8 +23580,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Jail
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Dynamite
       objectReference: {fileID: 0}
     - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
@@ -23512,12 +23600,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Mustang
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Scope
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9049210913133124656, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Colt
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f791785402835f249899ed3d2519874c, type: 3}
@@ -41239,8 +41339,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Jail
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Dynamite
       objectReference: {fileID: 0}
     - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
@@ -41251,12 +41359,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Mustang
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Scope
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9049210913133124656, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Colt
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f791785402835f249899ed3d2519874c, type: 3}
@@ -41457,8 +41577,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Jail
+      objectReference: {fileID: 0}
+    - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Dynamite
       objectReference: {fileID: 0}
     - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
@@ -41466,19 +41594,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6437277483268557723, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_Name
-      value: barrel
+      value: Barrel
       objectReference: {fileID: 0}
     - target: {fileID: 6437277483268557723, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Mustang
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Scope
+      objectReference: {fileID: 0}
+    - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9049210913133124656, guid: f791785402835f249899ed3d2519874c, type: 3}
+      propertyPath: m_Name
+      value: Colt
       objectReference: {fileID: 0}
     - target: {fileID: 9049210913133124656, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive

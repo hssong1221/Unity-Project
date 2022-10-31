@@ -103,6 +103,8 @@ namespace com.ThreeCS.McCree
         public DelCardPanelUI dcpui;
         protected GameObject delcardPanel;
 
+        [Header("장착 카드 ")]
+        public bool equipCard = false;
 
         // 카드를 들고 있는 플레이어를 의미함(본인)
         protected GameObject player;
@@ -133,6 +135,7 @@ namespace com.ThreeCS.McCree
         public void matchImg()
         {
             cardText.fontSize = 90;
+            equipCard = false;
             if (this.cardContent == cType.Bang)
             {
                 cardInImg.sprite = bangImg;
@@ -189,48 +192,57 @@ namespace com.ThreeCS.McCree
             {
                 cardInImg.sprite = russianRevolverImg;
                 cardText.text = "RUSSIAN";
+                equipCard = true;
             }
             else if (this.cardContent == cType.Navy)
             {
                 cardInImg.sprite = navyRevolverImg;
                 cardText.text = "NAVY";
+                equipCard = true;
             }
             else if (this.cardContent == cType.Carbine)
             {
                 cardInImg.sprite = carbineImg;
                 cardText.text = "CARBINE";
+                equipCard = true;
             }
             else if (this.cardContent == cType.Winchester)
             {
                 cardInImg.sprite = winchesterImg;
                 cardText.text = "WINCHESTER";
                 cardText.fontSize = 63;
+                equipCard = true;
             }
             else if (this.cardContent == cType.Scope)
             {
                 cardInImg.sprite = scopeImg;
                 cardText.text = "SCOPE";
+                equipCard = true;
             }
             else if (this.cardContent == cType.Mustang)
             {
                 cardInImg.sprite = mustangImg;
                 cardText.text = "MUSTANG";
+                equipCard = true;
             }
             else if (this.cardContent == cType.Barrel)
             {
                 cardInImg.sprite = barrelImg;
                 cardText.text = "BARREL";
+                equipCard = true;
             }
             else if (this.cardContent == cType.Dynamite)
             {
                 cardInImg.sprite = dynamiteImg;
                 cardText.text = "DYNAMITE";
                 cardText.fontSize = 68;
+                equipCard = true;
             }
             else if (this.cardContent == cType.Jail)
             {
                 cardInImg.sprite = jailImg;
                 cardText.text = "JAIL";
+                equipCard = true;
             }
             else if (this.cardContent == cType.Catbalou)
             {
@@ -480,12 +492,17 @@ namespace com.ThreeCS.McCree
         {
             // 카드 사용 후 
             if (useCard)
-                GameManager.Instance.AfterCardUse(cardContent, 0);
+            {
+                if(equipCard) // 장착 카드일 때
+                    GameManager.Instance.AfterCardUse(cardContent, 0, true);
+                else // 소비 카드 일 때
+                    GameManager.Instance.AfterCardUse(cardContent, 0, false);
+            }
             // 카드 삭제 후 
             else if (delCard)
-                GameManager.Instance.AfterCardUse(cardContent, 1);
+                GameManager.Instance.AfterCardUse(cardContent, 1, false);
 
-            // 내 리스트에서 사용한 카드 삭제
+            // 내 리스트에서 사용한 카드 삭제(장착 카드 제외)
             player.GetComponent<PlayerInfo>().mycards.RemoveAt(idx);
 
             // 카드 재정렬

@@ -756,6 +756,9 @@ namespace com.ThreeCS.McCree
                         photonView.RPC("JailSync", RpcTarget.All, 1);
                         JailPanelOnOff(1);
                     }
+
+                    // 감옥은 다시 덱에 추가
+                    photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Jail);
                 }
 
                 // 다이너 마이트 확인
@@ -775,6 +778,8 @@ namespace com.ThreeCS.McCree
                         }
                         photonView.RPC("DynamiteSync", RpcTarget.All, 1);
                         yield return new WaitForSeconds(1.2f);
+                        // 터졌으니까 다시 덱에 추가
+                        photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Dynamite);
                         DynamitePanelOnOff(1);
                     }
                     // 안터지면 다음 사람한테 붙음
@@ -1183,7 +1188,7 @@ namespace com.ThreeCS.McCree
         }
 
         // 카드 사용한 거 다시 카드 셋으로 넣는 기능
-        public void AfterCardUse(Card.cType content, int state) 
+        public void AfterCardUse(Card.cType content, int state, bool equip) 
         {
             //Debug.Log("use card content : " + content);
             // 0: 카드사용 1: 카드 삭제 2: 인디언 사용
@@ -1276,7 +1281,9 @@ namespace com.ThreeCS.McCree
             }
             
             // 카드더미 동기화 시켜주기 - DataSync로
-            player1.GetComponent<PhotonView>().RPC("CardDeckSync", RpcTarget.All, content);
+            if(!equip) // 장착카드 아니면 사용 후 바로 덱에 추가
+                player1.GetComponent<PhotonView>().RPC("CardDeckSync", RpcTarget.All, content);
+
         }
 
         #endregion
@@ -1359,21 +1366,41 @@ namespace com.ThreeCS.McCree
                         // 캣 벌로우에 의해 타겟 카드 중 랜덤으로 하나 삭제
                         go.GetPhotonView().RPC("CatbalouDel", RpcTarget.All, go.GetComponent<PlayerInfo>().mycardNum);
 
-
                         break;
                     }
-                    else if(go.CompareTag("Item") && bangClick)
+                    // 2. 캐릭터 아이템 중 하나 없애기
+                    else if (go.CompareTag("Item") && bangClick)
                     {
                         Debug.Log("아이템 선택 : " + go);
                         playerInfo.useCat = true;
                         // 클릭했으니까 하이라이트 꺼야함
-                        mat = mat = hit.transform.GetComponent<MeshRenderer>().material;
+                        mat = hit.transform.GetComponent<MeshRenderer>().material;
                         mat.EnableKeyword("_EMISSION");
                         mat.SetColor("_EmissionColor", Color.black);
 
+                        // 아이템 클릭하면 부모는 게임플레이트고 그거의 부모가 의자(0 - 6 플레이어 idx)
+                        GameObject tmp = go.transform.parent.gameObject;
+                        GameObject chair = tmp.transform.parent.gameObject;
+
+                        foreach(GameObject itemMaster in turnList)
+                        {
+                            // 아이템의 주인 찾음
+                            if (itemMaster.GetComponent<PlayerManager>().myChair.name.Equals(chair.name))
+                            {
+                                // 아이템 장착 상태 해제
+                                string t = go.name + "Sync";
+                                itemMaster.GetComponent<PhotonView>().RPC(t, RpcTarget.All, 1);
+                            }
+                        }
+
+                        // 이름이랑 열거형 타입이랑 같아서 이렇게 해줌
+                        Card.cType type = StringtoEnum(go.name);
+
+                        // 장착 해제 된 아이템을 카드로 바꿔서 전체 덱 뒤에 다시 추가
+                        photonView.RPC("CardDeckSync", RpcTarget.All, type);
+
                         break;
                     }
-                    // 2. 캐릭터 아이템 중 하나 없애기
                 }
                 yield return new WaitForEndOfFrame();
             }
@@ -1384,6 +1411,11 @@ namespace com.ThreeCS.McCree
             yield return new WaitForEndOfFrame();
         }
 
+        // string을 enum형태로 바꿔줌
+        Card.cType StringtoEnum(string s)
+        {
+            return (Card.cType)Enum.Parse(typeof(Card.cType), s);
+        }
 
         #region 완성된 카드 기능 
 
