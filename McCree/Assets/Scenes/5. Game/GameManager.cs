@@ -188,6 +188,12 @@ namespace com.ThreeCS.McCree
         private int dynamite_c;
         [SerializeField]
         private int jail_c;
+        [SerializeField]
+        private int carbalou_c;
+        [SerializeField]
+        private int panic_c;
+        [SerializeField]
+        private int duel_c;
 
 
         // 턴 관련 변수들
@@ -410,7 +416,7 @@ namespace com.ThreeCS.McCree
             Card.cType[] initialDeck = new Card.cType[
                 bang_c + avoid_c + beer_c + machinegun_c + indian_c + stagecoach_c + wellsfargo_c + saloon_c
                 + generalstore_c + russian_c + navy_c + carbine_c + winchester_c + scope_c + mustang_c + barrel_c
-                + dynamite_c + jail_c
+                + dynamite_c + jail_c + carbalou_c + panic_c + duel_c
             ];
 
             int k = 0;
@@ -450,6 +456,12 @@ namespace com.ThreeCS.McCree
                 initialDeck[k] = Card.cType.Dynamite;
             for (int i = 0; i < jail_c; i++, k++)
                 initialDeck[k] = Card.cType.Jail;
+            for (int i = 0; i < carbalou_c; i++, k++)
+                initialDeck[k] = Card.cType.Catbalou;
+            for (int i = 0; i < panic_c; i++, k++)
+                initialDeck[k] = Card.cType.Panic;
+            for (int i = 0; i < duel_c; i++, k++)
+                initialDeck[k] = Card.cType.Duel;
 
             // 섞기
             int random1;
@@ -652,6 +664,7 @@ namespace com.ThreeCS.McCree
             // 시점을 1인칭으로 바꿈
             cam.ChildCameras[2].gameObject.SetActive(true);
             cam.ChildCameras[1].gameObject.SetActive(false);
+            
 
             StartCoroutine("GameLoop2");
             yield return new WaitForSeconds(1f);
@@ -661,6 +674,9 @@ namespace com.ThreeCS.McCree
         { 
             tidx = 0;
             nextSignal = false;
+
+            // 시작 전 플레이어들의 카드 리스트를 동기화 시킴
+            photonView.RPC("MyCardSync", RpcTarget.All);
 
             // 턴 진행
             Debug.Log("현재 턴 진행 진입");
@@ -697,6 +713,13 @@ namespace com.ThreeCS.McCree
                         playerInfo.isTarget = 3;
                         playerInfo.targetedIndian = true;
                         StartCoroutine("Avoid", 1);
+                    }
+
+                    // 캣벌로우 타겟팅 됨
+                    if (playerInfo.isCat)
+                    {
+                        photonView.RPC("CardNumSync", RpcTarget.All, playerInfo.mycards.Count);
+                        playerInfo.isCat = false;
                     }
 
                     yield return new WaitForSeconds(0.1f);
@@ -1239,6 +1262,15 @@ namespace com.ThreeCS.McCree
                 case "Jail":
                     StartCoroutine("Jail");
                     break;
+                case "Catbalou":
+                    StartCoroutine("Catbalou");
+                    break;
+                case "Panic":
+                    StartCoroutine("Panic");
+                    break;
+                case "Duel":
+                    StartCoroutine("Duel");
+                    break;
                 default:
                     break;
             }
@@ -1251,9 +1283,108 @@ namespace com.ThreeCS.McCree
 
         // 카드  만드는 중
 
-        
-        
-        
+        IEnumerator Catbalou()
+        {
+            isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
+            Material mat;
+            GameObject temp = null;
+
+            while (true)
+            {
+                Debug.Log("캣벌로우 동작 중");
+                // 빔 
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
+                    GameObject go = hit.transform.gameObject;
+
+                    // 마우스 닿은 오브젝트 하이라이트 
+                    if (go.CompareTag("Player") || go.CompareTag("Item"))
+                    {
+                        if (go.CompareTag("Player"))
+                            mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        else
+                            mat = hit.transform.GetComponent<MeshRenderer>().material;
+
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.red * 0.5f);
+                        temp = go;
+                    }
+                    else if (temp != null)
+                    {
+                        if (temp.CompareTag("Player"))
+                            mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        else if (temp.CompareTag("Item"))
+                            mat = temp.transform.GetComponent<MeshRenderer>().material;
+                        else
+                            mat = null;
+
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+                    }
+
+                    // 1. 캐릭터 덱에 카드 한장 없애기
+                    if (go.CompareTag("Player") && bangClick)
+                    {
+                        Debug.Log("플레이어 선택 : " + go);
+                        playerInfo.useCat = true;
+
+                        // 클릭했으니까 하이라이트 꺼야함
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+
+                        // 상대편 클릭하고 상대편 덱의 갯수를 가져옴
+                        go.GetComponent<PhotonView>().RPC("CatSync", RpcTarget.All);
+                        yield return new WaitForSeconds(1.5f);
+
+                        // 빈 카드를 덱 갯수 만큼 생성함 (상대편 카드를 뽑는 것처럼 눈속임 )
+                        MineUI.Instance.CatbalouCards(go.GetComponent<PlayerInfo>().mycardNum);
+
+                        // 카드 뽑기할때 방해되서 잠시 끔
+                        delcardPanel.gameObject.SetActive(false);
+
+                        while (playerInfo.useCat)
+                        {
+                            // 선택 대기
+                            Debug.Log("캣벌로우 선택 대기");
+                            yield return null;
+                        }
+                        // 다시 켬
+                        delcardPanel.gameObject.SetActive(true);
+
+                        // 캣 벌로우에 의해 타겟 카드 중 랜덤으로 하나 삭제
+                        go.GetPhotonView().RPC("CatbalouDel", RpcTarget.All, go.GetComponent<PlayerInfo>().mycardNum);
+
+
+                        break;
+                    }
+                    else if(go.CompareTag("Item") && bangClick)
+                    {
+                        Debug.Log("아이템 선택 : " + go);
+                        playerInfo.useCat = true;
+                        // 클릭했으니까 하이라이트 꺼야함
+                        mat = mat = hit.transform.GetComponent<MeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+
+                        break;
+                    }
+                    // 2. 캐릭터 아이템 중 하나 없애기
+                }
+                yield return new WaitForEndOfFrame();
+            }
+            // 뱅에서 쓰던거 재활용
+            bangClick = false;
+            isBang = false;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+
         #region 완성된 카드 기능 
 
         IEnumerator Bang()
@@ -1550,7 +1681,6 @@ namespace com.ThreeCS.McCree
 
             yield return new WaitForEndOfFrame();
         }
-
 
         IEnumerator Beer()
         {

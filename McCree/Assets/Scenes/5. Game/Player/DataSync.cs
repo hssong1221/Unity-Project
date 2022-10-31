@@ -15,9 +15,12 @@ namespace com.ThreeCS.McCree
         // 잡화점 카드 동시삭제를 위해 필요
         public GameObject StoreCard;
 
+        // 내 카드덱 동기화하려고 
+        public List<Card> mycards = new List<Card>();
+
         // 게임 시작 애니메이션 플레이
-        [PunRPC]    
-        public void AnimStart() 
+        [PunRPC]
+        public void AnimStart()
         {
             if (photonView.IsMine)
             {
@@ -60,6 +63,7 @@ namespace com.ThreeCS.McCree
         }
 
         #region 턴 관련
+
         // 본인 턴에 작동해서 턴 종료버튼이 본인에게만 보임
         [PunRPC]
         public void MyTurn(int idx)
@@ -79,6 +83,12 @@ namespace com.ThreeCS.McCree
         }
 
         #endregion
+
+        [PunRPC]
+        public void MyCardSync()
+        {
+            mycards = playerInfo.mycards;
+        }
 
         // 사용한 카드를 카드더미에 넣고 전체에게 동기화
         [PunRPC]
@@ -285,6 +295,25 @@ namespace com.ThreeCS.McCree
                 GameObject jail = playerManager.mygamePlate.transform.Find("jail").gameObject;
                 jail.SetActive(false);
             }
+        }
+
+        [PunRPC]
+        public void CatSync()
+        {
+            playerInfo.isCat = true;
+        }
+
+        [PunRPC]
+        public void CardNumSync(int num)   // 본인 손 덱 갯수
+        {
+            playerInfo.mycardNum = num;
+        }
+
+        [PunRPC]
+        public void CatbalouDel(int num)
+        {
+            if(photonView.IsMine)
+                MineUI.Instance.CatTargetCardDel(num);
         }
     }
 }

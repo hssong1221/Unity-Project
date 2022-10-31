@@ -23,6 +23,7 @@ TagManager:
   - chair
   - CardsPos
   - Card
+  - Item
   layers:
   - Default
   - TransparentFX

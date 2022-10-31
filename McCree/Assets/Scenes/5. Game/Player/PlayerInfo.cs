@@ -60,6 +60,8 @@ namespace com.ThreeCS.McCree
         [Header("내가 지금 가지고 있는 카드리스트")]
         public List<Card> mycards = new List<Card>();
 
+        public int mycardNum;
+
         // 공격자 상태
         public bool waitAvoid = false;  // 본인이 지금 상대방의 avoid를 기다리고 있는 중인지
         public int waitAvoids = -1;      // 본인이 전체avoid를 기다리고 있음(-1이 기본 MG사용자만 0으로 바뀜)
@@ -124,6 +126,11 @@ namespace com.ThreeCS.McCree
 
         // 감옥 장착
         public bool isJail = false;
+
+        // 캣벌로우의 타겟
+        public bool isCat = false;
+        // 캣벌로우 사용한 사람
+        public bool useCat = false;
 
         // ------------------ 삭제 예정
         public List<ItemList> myItemList;

@@ -200,5 +200,74 @@ namespace com.ThreeCS.McCree
             return results;
         }
 
+
+        // 캣벌로우 시 타겟 대상 카드 갯수 만큼 화면에 빈카드 생성후 하나 클릭하면 원상복귀
+        public void CatbalouCards(int num)
+        {
+            for (int i = 0; i < num; i++)
+            {
+                // 빈카드 생성
+                playerManager.cardObject.cardContent = Card.cType.Blank;
+                playerManager.cardObject.matchImg();
+                playerManager.cardObject.storeIdx = i; // idx가 필요해서 있는거 가져다 쓰기
+
+                // 카드를 뽑은게 본인이면 UI에 카드를 생성하고 본인 playerinfo에 카드 리스트에 저장
+                var card = Instantiate(playerManager.cardObject, pos_CardSpwan.position, Quaternion.identity, pos_StoreCardParent); // 상점위치에다 소환
+                var card2 = card.GetComponent<Card>();
+                GameManager.Instance.storecardList.Add(card2); // 상점 리스트 활용
+
+                ui.StoreCardAlignment();    // 잡화점 카드 정리 함수 활용
+            }
+        }
+
+        public void CatbalouCardUIDel() // 캣벌루 사용자 화면 정상화
+        {
+            // 캣벌로우 하려고 스토어 리스트 채운거 정리
+            GameManager.Instance.storecardList.Clear();
+
+            // 화면에 보여주려고 생성한 카드 오브젝트 삭제
+            GameObject[] obj = GameObject.FindGameObjectsWithTag("Card");
+            foreach (GameObject card in obj)
+            {
+                if(card.GetComponent<Card>().storeIdx < 10)
+                    Destroy(card.gameObject);
+            }
+        }
+
+        public void CatTargetCardDel(int num)  // 캣벌로우 타겟의 카드 하나 랜덤 삭제
+        {
+            System.Random rand = new System.Random();
+            int n = rand.Next(0, num + 1);  // 내 카드 갯수
+
+            Debug.Log("카드 갯수 : " + num);
+
+            int i = 0;
+            foreach(Card card in playerInfo.mycards)
+            {
+                card.idx = i;
+                i++;
+            }
+
+            // 전체 리스트 맨 뒤에 다시 추가
+            photonView.RPC("CardDeckSync", RpcTarget.All, playerInfo.mycards[n].cardContent);
+
+            // 카드 리스트에서 정보 삭제
+            playerInfo.mycards.RemoveAt(n);
+
+            // 카드 정렬
+            CardAlignment();
+
+            // 실제 오브젝트 destroy
+            GameObject[] c = GameObject.FindGameObjectsWithTag("Card");
+            foreach(GameObject card in c)
+            {
+                if(card.GetComponent<Card>().idx == n)
+                {
+                    Destroy(card.gameObject);
+                    break;
+                }
+            }
+        }
+
     }
 }

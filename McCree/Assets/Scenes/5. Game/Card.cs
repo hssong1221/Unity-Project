@@ -33,7 +33,10 @@ namespace com.ThreeCS.McCree
         public Sprite barrelImg;
         public Sprite dynamiteImg;
         public Sprite jailImg;
-
+        public Sprite catbalouImg;
+        public Sprite panicImg;
+        public Sprite duelImg;
+        public Sprite blank;
 
         [Header("카드 테두리, 내용")]
         public Image cardInImg;
@@ -67,6 +70,10 @@ namespace com.ThreeCS.McCree
             Barrel,
             Dynamite,
             Jail,
+            Catbalou,
+            Panic,
+            Duel,
+            Blank
         }
 
         public cType cardContent;
@@ -83,7 +90,7 @@ namespace com.ThreeCS.McCree
         public bool delCard = false;
 
         // mycards 에서의 카드 인덱스
-        int idx = 0;
+        public int idx = 0;
 
         // storeList에서의 인덱스(잡화점때 삭제 카드 인식에 필요)
         public int storeIdx;
@@ -149,7 +156,7 @@ namespace com.ThreeCS.McCree
             else if (this.cardContent == cType.MachineGun)
             {
                 cardInImg.sprite = MGImg;
-                cardText.text = "MG";
+                cardText.text = "GATLING";
             }
             else if (this.cardContent == cType.StageCoach)
             {
@@ -224,6 +231,27 @@ namespace com.ThreeCS.McCree
             {
                 cardInImg.sprite = jailImg;
                 cardText.text = "JAIL";
+            }
+            else if (this.cardContent == cType.Catbalou)
+            {
+                cardInImg.sprite = catbalouImg;
+                cardText.text = "CAT BALOU";
+                cardText.fontSize = 65;
+            }
+            else if (this.cardContent == cType.Panic)
+            {
+                cardInImg.sprite = panicImg;
+                cardText.text = "PANIC!";
+            }
+            else if (this.cardContent == cType.Duel)
+            {
+                cardInImg.sprite = duelImg;
+                cardText.text = "DUEL";
+            }
+            else if (this.cardContent == cType.Blank)
+            {
+                cardInImg.sprite = blank;
+                cardText.text = "?";
             }
         }
 
@@ -330,6 +358,13 @@ namespace com.ThreeCS.McCree
                 }
 
                 //Destroy(targetUI.gameObject);
+            }
+            if (player.GetComponent<PlayerInfo>().useCat)
+            {
+                // (눈속임) 어떤 카드를 클릭하든 랜덤으로 상대편 카드 하나 삭제
+                Debug.Log("catcard 작동중 ");
+                player.GetComponent<PlayerInfo>().useCat = false;
+                MineUI.Instance.CatbalouCardUIDel();
             }
         }
 

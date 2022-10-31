@@ -726,7 +726,7 @@ namespace com.ThreeCS.McCree
                 }
             }
             Character_Notice_Text("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
-        }
+        } // --- 아이템 관련 코드 삭제 예정
 
         [PunRPC]
         public void GiveCardSet(string jsonData) // 카드덱을 나눠주기(카드 순서 동기화)
@@ -780,6 +780,8 @@ namespace com.ThreeCS.McCree
             }
 
         }
+
+        
 
         // ------------------------------------ 퀘스트는 나중에 싹다 없애버릴 것 -------------------------------------------------------
 

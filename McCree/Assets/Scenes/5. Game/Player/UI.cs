@@ -184,8 +184,6 @@ namespace com.ThreeCS.McCree
             return results;
         }
 
-
-
         // 잡화점 리스트에서 내 리스트로 카드 복제
         public void StoreToMy(Card card)
         {
@@ -206,7 +204,7 @@ namespace com.ThreeCS.McCree
 
 
 
-        // 삭제 예정
+        // ----------- 삭제 예정
         public void InterAction(float time, GameObject interactObj)
         {
             if (interactObj.tag == "QItem_PickUp")

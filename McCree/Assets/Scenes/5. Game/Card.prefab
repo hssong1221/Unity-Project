@@ -58,14 +58,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.82745105, g: 0.6627451, b: 0.40000004, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3753566385559023373, guid: 624e638d73df0b24bbf007d113f341c8, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -272,14 +272,20 @@ MonoBehaviour:
   scopeImg: {fileID: 21300000, guid: d1439a810e1daa64fb204a5c49362dc0, type: 3}
   mustangImg: {fileID: 21300000, guid: 0738a4fb47cd25740934be916331f49d, type: 3}
   barrelImg: {fileID: 21300000, guid: d3a20a2fd4568184296203a47da65b4a, type: 3}
+  dynamiteImg: {fileID: 21300000, guid: f5aec518dbf3c424ab1cc70ff9df9735, type: 3}
+  jailImg: {fileID: 21300000, guid: d598b5f350617304f997fdf147c1f0d3, type: 3}
+  catbalouImg: {fileID: 0}
+  panicImg: {fileID: 0}
+  duelImg: {fileID: 0}
+  blank: {fileID: 0}
   cardInImg: {fileID: 2643383447711097965}
   cardText: {fileID: 1951396915861156421}
   cardBorder: {fileID: 2643383449535095574}
-  cardContent: 2
+  cardContent: 22
   targetUI: {fileID: 2643383449535095575}
   useCard: 0
   delCard: 0
-  storeIdx: 0
+  storeIdx: -1
   ucpui: {fileID: 0}
   dcpui: {fileID: 0}
 --- !u!1 &6587918107849886729
@@ -360,4 +366,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: BEER
+  m_Text: '?'
