@@ -99,6 +99,15 @@ namespace com.ThreeCS.McCree
             card.cardContent = content;
             GameManager.Instance.cardList.Add(card);
         }
+        // 사용한 카드를 카드더미 제일 앞에 넣고 전체에게 동기화
+        [PunRPC]
+        public void CardDeckFrontSync(Card.cType content)
+        {
+            //Debug.Log("datsync : " + content);
+            Card card = new Card();
+            card.cardContent = content;
+            GameManager.Instance.cardList.Insert(0, card);
+        }
 
         // 뱅 카드의 타겟이 되었을 때
         [PunRPC]
@@ -298,9 +307,12 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public void CatSync()
+        public void CatSync(int state)
         {
-            playerInfo.isCat = true;
+            if (state == 0)
+                playerInfo.isCat = true;
+            else
+                playerInfo.isCat = false;
         }
 
         [PunRPC]
@@ -314,6 +326,22 @@ namespace com.ThreeCS.McCree
         {
             if(photonView.IsMine)
                 MineUI.Instance.CatTargetCardDel(num);
+        }
+
+        [PunRPC]
+        public void PanicSync(int state)
+        {
+            if (state == 0)
+                playerInfo.isPanic = true;
+            else
+                playerInfo.isPanic = false;
+        }
+
+        [PunRPC]
+        public void PanicDel(int num)
+        {
+            if (photonView.IsMine)
+                MineUI.Instance.PanicTargetCardDel(num);
         }
     }
 }

@@ -132,6 +132,11 @@ namespace com.ThreeCS.McCree
         // 캣벌로우 사용한 사람
         public bool useCat = false;
 
+        // 강탈의 타겟
+        public bool isPanic = false;
+        // 강탈의 사용한 사람
+        public bool usePanic = false;
+
         // ------------------ 삭제 예정
         public List<ItemList> myItemList;
         // 0번째 Bang

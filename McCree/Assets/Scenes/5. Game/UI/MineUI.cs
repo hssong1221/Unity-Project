@@ -269,5 +269,41 @@ namespace com.ThreeCS.McCree
             }
         }
 
+        public void PanicTargetCardDel(int num)  // 강탈타겟 카드 하나 삭제후 똑같은거 사용자에게 추가
+        {
+            System.Random rand = new System.Random();
+            int n = rand.Next(0, num + 1);  // 내 카드 갯수
+
+            int i = 0;
+            foreach (Card card in playerInfo.mycards)
+            {
+                card.idx = i;
+                i++;
+            }
+
+            // 전체 리스트 맨 앞에 다시 추가
+            photonView.RPC("CardDeckFrontSync", RpcTarget.All, playerInfo.mycards[n].cardContent);
+
+            // 카드가 덱에 추가되는 시간 기다리려고 ispanic을 다시 켜준거 꺼줌
+            photonView.RPC("PanicSync", RpcTarget.All, 1);
+           
+            // 카드 리스트에서 정보 삭제
+            playerInfo.mycards.RemoveAt(n);
+
+            // 카드 정렬
+            CardAlignment();
+
+            // 실제 오브젝트 destroy
+            GameObject[] c = GameObject.FindGameObjectsWithTag("Card");
+            foreach (GameObject card in c)
+            {
+                if (card.GetComponent<Card>().idx == n)
+                {
+                    Destroy(card.gameObject);
+                    break;
+                }
+            }
+        }
+
     }
 }

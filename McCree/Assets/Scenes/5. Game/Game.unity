@@ -826,6 +826,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1053746501}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: panic_c
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: scope_c
       value: 0
       objectReference: {fileID: 0}

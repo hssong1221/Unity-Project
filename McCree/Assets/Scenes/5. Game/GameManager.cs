@@ -721,6 +721,12 @@ namespace com.ThreeCS.McCree
                         photonView.RPC("CardNumSync", RpcTarget.All, playerInfo.mycards.Count);
                         playerInfo.isCat = false;
                     }
+                    // 강탈 타겟팅 됨
+                    if(playerInfo.isPanic)
+                    {
+                        photonView.RPC("CardNumSync", RpcTarget.All, playerInfo.mycards.Count);
+                        playerInfo.isPanic = false;
+                    }
 
                     yield return new WaitForSeconds(0.1f);
                     continue;
@@ -1297,85 +1303,7 @@ namespace com.ThreeCS.McCree
         // 카드  만드는 중
         // 하이라이트 부분이 계속 반복 되므로 따로 함수로 빼는 것을 고려 해보기
         
-        IEnumerator Panic()
-        {
-            isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
-            Material mat;
-            GameObject temp = null;
-
-            while (true)
-            {
-                Debug.Log("강탈 동작 중");
-                // 빔 
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
-                    GameObject go = hit.transform.gameObject;
-
-                    // 강탈은 장착 카드를 훔치지 않기로 했다.
-                    // 마우스 닿은 오브젝트 하이라이트 
-                    if (go.CompareTag("Player"))
-                    {
-                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
-                        mat.EnableKeyword("_EMISSION");
-                        mat.SetColor("_EmissionColor", Color.red * 0.5f);
-                        temp = go;
-                    }
-                    else if (temp != null)
-                    {
-                        mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
-                        mat.EnableKeyword("_EMISSION");
-                        mat.SetColor("_EmissionColor", Color.black);
-                    }
-
-                   
-                    if (go.CompareTag("Player") && bangClick)
-                    {
-                        // 타겟과의 거리가 1일 때만 선택 가능(조준경 시 2)
-                        Debug.Log("플레이어 선택 : " + go);
-                        playerInfo.useCat = true;
-
-                        // 클릭했으니까 하이라이트 꺼야함
-                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
-                        mat.EnableKeyword("_EMISSION");
-                        mat.SetColor("_EmissionColor", Color.black);
-
-                        // 상대편 클릭하고 상대편 덱의 갯수를 가져옴
-                        go.GetComponent<PhotonView>().RPC("CatSync", RpcTarget.All);
-                        yield return new WaitForSeconds(1.5f);
-
-                        // 빈 카드를 덱 갯수 만큼 생성함 (상대편 카드를 뽑는 것처럼 눈속임 )
-                        MineUI.Instance.CatbalouCards(go.GetComponent<PlayerInfo>().mycardNum);
-
-                        // 카드 뽑기할때 방해되서 잠시 끔
-                        delcardPanel.gameObject.SetActive(false);
-
-                        while (playerInfo.useCat)
-                        {
-                            // 선택 대기
-                            Debug.Log("캣벌로우 선택 대기");
-                            yield return null;
-                        }
-                        // 다시 켬
-                        delcardPanel.gameObject.SetActive(true);
-
-                        // 캣 벌로우에 의해 타겟 카드 중 랜덤으로 하나 삭제
-                        go.GetPhotonView().RPC("CatbalouDel", RpcTarget.All, go.GetComponent<PlayerInfo>().mycardNum);
-
-                        break;
-                    }
-                }
-                yield return new WaitForEndOfFrame();
-            }
-            // 뱅에서 쓰던거 재활용
-            bangClick = false;
-            isBang = false;
-
-            yield return new WaitForEndOfFrame();
-        }
+        
         
         
 
@@ -1897,8 +1825,10 @@ namespace com.ThreeCS.McCree
                         mat.SetColor("_EmissionColor", Color.black);
 
                         // 상대편 클릭하고 상대편 덱의 갯수를 가져옴
-                        go.GetComponent<PhotonView>().RPC("CatSync", RpcTarget.All);
-                        yield return new WaitForSeconds(1.5f);
+                        go.GetComponent<PhotonView>().RPC("CatSync", RpcTarget.All, 0);
+
+                        //gameloop2에서 cardNumSync하는거 기다림
+                        yield return new WaitForSeconds(1.2f);
 
                         // 빈 카드를 덱 갯수 만큼 생성함 (상대편 카드를 뽑는 것처럼 눈속임 )
                         MineUI.Instance.CatbalouCards(go.GetComponent<PlayerInfo>().mycardNum);
@@ -1917,6 +1847,9 @@ namespace com.ThreeCS.McCree
 
                         // 캣 벌로우에 의해 타겟 카드 중 랜덤으로 하나 삭제
                         go.GetPhotonView().RPC("CatbalouDel", RpcTarget.All, go.GetComponent<PlayerInfo>().mycardNum);
+
+                        // 캣 벌로우 변수 초기화
+                        go.GetComponent<PhotonView>().RPC("CatSync", RpcTarget.All, 1);
 
                         break;
                     }
@@ -1952,6 +1885,125 @@ namespace com.ThreeCS.McCree
                         photonView.RPC("CardDeckSync", RpcTarget.All, type);
 
                         break;
+                    }
+                }
+                yield return new WaitForEndOfFrame();
+            }
+            // 뱅에서 쓰던거 재활용
+            bangClick = false;
+            isBang = false;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        IEnumerator Panic()
+        {
+            isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
+            Material mat;
+            GameObject temp = null;
+
+            while (true)
+            {
+                Debug.Log("강탈 동작 중");
+                // 빔 
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
+                    GameObject go = hit.transform.gameObject;
+
+                    // 강탈은 장착 카드를 훔치지 않기로 했다.
+                    // 마우스 닿은 오브젝트 하이라이트 
+                    if (go.CompareTag("Player"))
+                    {
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.red * 0.5f);
+                        temp = go;
+                    }
+                    else if (temp != null)
+                    {
+                        mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+                    }
+
+
+                    if (go.CompareTag("Player") && bangClick)
+                    {
+                        // 타겟과의 거리가 1일 때만 선택 가능
+                        Debug.Log("플레이어 선택 : " + go);
+
+                        // 타겟과 내 사이 거리를 구함
+                        int targetIdx = turnList.FindIndex(a => a == go);
+                        targetDistance = MeasureDistance(targetIdx);
+                        // 타겟의 야생마가 있으면 거리 +1
+                        if (go.GetComponent<PlayerInfo>().isMustang)
+                            targetDistance++;
+                        // 내가 스코프를 가지고 있으면 거리 -1
+                        if (playerInfo.isScope)
+                            targetDistance--;
+
+                        // 타겟과의 거리가 1
+                        if (targetDistance <= 1)
+                        {
+                            playerInfo.usePanic = true;
+
+                            // 클릭했으니까 하이라이트 꺼야함
+                            mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                            mat.EnableKeyword("_EMISSION");
+                            mat.SetColor("_EmissionColor", Color.black);
+
+                            // 상대편 클릭하고 상대편 덱의 갯수를 가져옴
+                            go.GetComponent<PhotonView>().RPC("PanicSync", RpcTarget.All, 0);
+
+                            //gameloop2에서 cardNumSync하는거 기다림
+                            yield return new WaitForSeconds(1.2f);
+
+                            // 빈 카드를 덱 갯수 만큼 생성함 - 캣벌로우 함수 가져다 씀 
+                            MineUI.Instance.CatbalouCards(go.GetComponent<PlayerInfo>().mycardNum);
+
+                            // 카드 뽑기할때 방해되서 잠시 끔
+                            delcardPanel.gameObject.SetActive(false);
+
+                            while (playerInfo.usePanic)
+                            {
+                                // 선택 대기
+                                Debug.Log("강탈 선택 대기");
+                                yield return null;
+                            }
+                            // 다시 켬
+                            delcardPanel.gameObject.SetActive(true);
+
+                            // 기다림을 위해 패닉플래그 다시 켜줌
+                            go.GetPhotonView().RPC("PanicSync", RpcTarget.All, 0);
+
+                            // 강탈에 의해 타겟 카드 중 랜덤으로 하나 삭제 
+                            go.GetPhotonView().RPC("PanicDel", RpcTarget.All, go.GetComponent<PlayerInfo>().mycardNum);
+
+                            // 타겟 카드가 덱 제일 앞으로 가니까 카드 하나 뽑으면 강탈 완성
+
+                            // 카드가 덱에 추가 되는 시간 기다림
+                            while (go.GetComponent<PlayerInfo>().isPanic)
+                            {
+                                Debug.Log("카드 맨 앞 추가 기다림");
+                                yield return null;
+                            }
+
+                            // 카드 뽑기
+                            photonView.RPC("GiveCards", RpcTarget.AllViaServer, 1, transform.position);
+
+                            break;
+                        }
+                        else
+                        {
+                            // 타겟과 멀어서 강탈 불가
+                            DistancePanelOnOff(0);
+                            yield return new WaitForSeconds(1f);
+                            DistancePanelOnOff(1);
+                        }
                     }
                 }
                 yield return new WaitForEndOfFrame();

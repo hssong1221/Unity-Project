@@ -378,6 +378,13 @@ namespace com.ThreeCS.McCree
                 player.GetComponent<PlayerInfo>().useCat = false;
                 MineUI.Instance.CatbalouCardUIDel();
             }
+            if (player.GetComponent<PlayerInfo>().usePanic)
+            {
+                // (눈속임) 어떤 카드를 클릭하든 랜덤으로 상대편 카드 하나 삭제
+                Debug.Log("panic 작동중 ");
+                player.GetComponent<PlayerInfo>().usePanic = false;
+                MineUI.Instance.CatbalouCardUIDel(); // 캣벌로우 함수 가져다 씀
+            }
         }
 
         void IDragHandler.OnDrag(PointerEventData eventData)
