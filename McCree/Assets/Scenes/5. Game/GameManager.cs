@@ -1835,6 +1835,7 @@ namespace com.ThreeCS.McCree
 
                         // 카드 뽑기할때 방해되서 잠시 끔
                         delcardPanel.gameObject.SetActive(false);
+                        MineUI.Instance.cardblockingPanel.SetActive(true);
 
                         while (playerInfo.useCat)
                         {
@@ -1844,6 +1845,7 @@ namespace com.ThreeCS.McCree
                         }
                         // 다시 켬
                         delcardPanel.gameObject.SetActive(true);
+                        MineUI.Instance.cardblockingPanel.SetActive(false);
 
                         // 캣 벌로우에 의해 타겟 카드 중 랜덤으로 하나 삭제
                         go.GetPhotonView().RPC("CatbalouDel", RpcTarget.All, go.GetComponent<PlayerInfo>().mycardNum);
@@ -1967,7 +1969,7 @@ namespace com.ThreeCS.McCree
 
                             // 카드 뽑기할때 방해되서 잠시 끔
                             delcardPanel.gameObject.SetActive(false);
-
+                            MineUI.Instance.cardblockingPanel.SetActive(true);
                             while (playerInfo.usePanic)
                             {
                                 // 선택 대기
@@ -1976,6 +1978,8 @@ namespace com.ThreeCS.McCree
                             }
                             // 다시 켬
                             delcardPanel.gameObject.SetActive(true);
+                            MineUI.Instance.cardblockingPanel.SetActive(false);
+
 
                             // 기다림을 위해 패닉플래그 다시 켜줌
                             go.GetPhotonView().RPC("PanicSync", RpcTarget.All, 0);

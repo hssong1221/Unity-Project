@@ -8,6 +8,7 @@ using Photon.Realtime;
 
 namespace com.ThreeCS.McCree
 {
+    // UI는 전체 플레이어에게 공통적으로 보여줘야하는 UI를 다룹니다 (MineUI와 다름)
     public class UI : Controller
     {
         #region Variable Field

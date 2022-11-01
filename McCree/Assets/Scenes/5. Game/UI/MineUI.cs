@@ -10,6 +10,8 @@ namespace com.ThreeCS.McCree
     public class MineUI : MonoBehaviour
     {
         #region 개인UI패널 변수
+        
+        // MineUI 는 본인에게만 보이는 UI를 다루는 곳 입니다. (UI랑 다름)
 
         // 로컬 플레이어의 UI 어디서든 사용가능 (로컬 한정)  
         private static MineUI pInstance;
