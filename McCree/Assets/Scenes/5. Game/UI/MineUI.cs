@@ -119,6 +119,11 @@ namespace com.ThreeCS.McCree
         public GameObject barrelPanel;
         public Text barrelText;
 
+        [Header("결투 UI")]
+        public GameObject duelPanel;
+        public Text duelText;
+        public Button surrenderBtn;
+
         [Header("마우스 입력 블락 패널")]
         public GameObject blockingPanel;
         public GameObject cardblockingPanel;

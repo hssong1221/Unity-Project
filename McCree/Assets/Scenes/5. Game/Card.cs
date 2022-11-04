@@ -371,6 +371,7 @@ namespace com.ThreeCS.McCree
 
                 //Destroy(targetUI.gameObject);
             }
+            // 캣 벌로우 카드 선택 시
             if (player.GetComponent<PlayerInfo>().useCat)
             {
                 // (눈속임) 어떤 카드를 클릭하든 랜덤으로 상대편 카드 하나 삭제
@@ -378,6 +379,7 @@ namespace com.ThreeCS.McCree
                 player.GetComponent<PlayerInfo>().useCat = false;
                 MineUI.Instance.CatbalouCardUIDel();
             }
+            // 강탈 카드 선택 시
             if (player.GetComponent<PlayerInfo>().usePanic)
             {
                 // (눈속임) 어떤 카드를 클릭하든 랜덤으로 상대편 카드 하나 삭제
@@ -431,6 +433,17 @@ namespace com.ThreeCS.McCree
                     {
                         if (targetUI.GetComponent<Card>().cardContent != cType.Bang)
                             return;
+                    }
+                }
+                // 결투 턴일 때
+                else if (GameManager.Instance.duelTurn)
+                {
+                    // 뱅이 아닌 카드라면
+                    if(targetUI.GetComponent<Card>().cardContent != cType.Bang)
+                    {
+                        // 돌려보냄
+                        targetUI.position = startPnt;
+                        return;
                     }
                 }
 
@@ -502,8 +515,21 @@ namespace com.ThreeCS.McCree
             {
                 if(equipCard) // 장착 카드일 때
                     GameManager.Instance.AfterCardUse(cardContent, 0, true);
-                else // 소비 카드 일 때
-                    GameManager.Instance.AfterCardUse(cardContent, 0, false);
+                else // 소비 카드 일 때{
+                {
+                    // 일반 턴에 낸 카드
+                    if (!GameManager.Instance.duelTurn)
+                        GameManager.Instance.AfterCardUse(cardContent, 0, false);
+                    // 결투 턴에 낸 뱅 카드
+                    else
+                    {
+                        // 항복 패널끄고 다음턴으로 자동으로 넘어가게 함
+                        MineUI.Instance.duelPanel.SetActive(false);
+                        GameManager.Instance.NextBtnClick();
+                        // 뱅 카드 덱 뒤에 추가
+                        player.GetComponent<PhotonView>().RPC("CardDeckSync", RpcTarget.All, cType.Bang);
+                    }
+                }
             }
             // 카드 삭제 후 
             else if (delCard)

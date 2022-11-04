@@ -48,7 +48,7 @@ namespace com.ThreeCS.McCree
 
         public IEnumerator coroutine;
 
-        Vector3 hpOffset;
+        public Vector3 hpOffset;
         Vector3 bangOffset;
         Vector3 itemOffset;
         Vector3 progressOffset;

@@ -581,6 +581,8 @@ namespace com.ThreeCS.McCree
             // 앉는 위치 보정
             transform.position += new Vector3(0, 0.1f, 0);
 
+            // 머리위 HP 닉네임 위치 보정
+            ui.hpOffset = new Vector3(0, 1.6f, 0);
         }
         public void StandUp(Transform other)
         {
@@ -594,6 +596,9 @@ namespace com.ThreeCS.McCree
             agent.enabled = true;
             animator.SetBool("isSit", false);
             isSit = false;
+
+            // 머리위 HP 닉네임 위치 보정
+            ui.hpOffset = new Vector3(0, 2f, 0);
         }
 
         

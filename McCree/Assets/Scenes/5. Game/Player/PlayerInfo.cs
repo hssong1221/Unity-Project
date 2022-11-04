@@ -137,6 +137,10 @@ namespace com.ThreeCS.McCree
         // 강탈의 사용한 사람
         public bool usePanic = false;
 
+        // 결투중
+        public bool isDuel = false;
+
+
         // ------------------ 삭제 예정
         public List<ItemList> myItemList;
         // 0번째 Bang

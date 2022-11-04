@@ -208,6 +208,9 @@ namespace com.ThreeCS.McCree
 
         public GameObject delcardPanel; // 카드 삭제 판정 패널
 
+        public bool duelTurn = false; // 결투시 켜짐 특수하게 턴이 돌아가게함
+        public int duelIdx;          // 결투를 사용한 사람의 idx를 저장했다가 끝날 때 턴다시 줘야함
+
         // ----------------------------------- 카드 컨텐츠 구현 -------------------------------
         [HideInInspector]
         public bool isCard;             // 현재 선택한 카드가 있다는 의미
@@ -235,6 +238,10 @@ namespace com.ThreeCS.McCree
         // 잡화점 주인
         [HideInInspector]
         public bool storeMaster = false;
+
+        [HideInInspector]
+        // 결투를 시작 사람
+        public bool duelMaster = false;
 
         
 
@@ -728,6 +735,14 @@ namespace com.ThreeCS.McCree
                         playerInfo.isPanic = false;
                     }
 
+                    // 결투 대기 중
+                    if (playerInfo.isDuel)
+                    {
+                        MineUI.Instance.duelPanel.SetActive(true);
+                        MineUI.Instance.duelText.text = "결투 중... ( 상대편의 대응을 기다리는 중.. )";
+                        MineUI.Instance.surrenderBtn.gameObject.SetActive(false);
+                    }
+
                     yield return new WaitForSeconds(0.1f);
                     continue;
                 }
@@ -735,89 +750,123 @@ namespace com.ThreeCS.McCree
                 yield return new WaitForEndOfFrame();
 
                 // 카드 드로우 하기 전 행동
-                // 감옥 확인
-                System.Random rand = new System.Random();
-                if (playerInfo.isJail)
+                // 결투 중 확인
+                if (duelTurn)
                 {
-                    int a = rand.Next(1, 5);
-                    // 25% 확률로 탈출 가능 75% 확률로 턴 바로 종료
-                    if (a != 1)
+                    // 본인이 결투중인거 아니면 넘어감
+                    if (!playerInfo.isDuel)
                     {
-                        MineUI.Instance.jailText.text = "탈옥 실패";
-                        JailPanelOnOff(0);
                         turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
                         MineUI.Instance.NextButton.SetActive(false);
                         nextSignal = false;
                         myTurn = false;
-                        yield return new WaitForSeconds(1.2f);
-                        photonView.RPC("JailSync", RpcTarget.All, 1);
-                        JailPanelOnOff(1);
                         continue;
                     }
-                    else // 탈옥
-                    {
-                        MineUI.Instance.jailText.text = "탈옥 성공";
-                        JailPanelOnOff(0);
-                        yield return new WaitForSeconds(1.2f);
-                        photonView.RPC("JailSync", RpcTarget.All, 1);
-                        JailPanelOnOff(1);
-                    }
-
-                    // 감옥은 다시 덱에 추가
-                    photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Jail);
-                }
-
-                // 다이너 마이트 확인
-                if (playerInfo.isDynamite)
-                {
-                    int b = rand.Next(1, 3);
-                    //12.5% 확률로 터짐 데미지는 3
-                    if(b == 1) // 터짐
-                    {
-                        MineUI.Instance.dynamiteText.text = "터짐";
-                        DynamitePanelOnOff(0);
-                        // hp 변수 설계상 이렇게 해야함
-                        for(int i = 0; i < 3; i++)
-                        {
-                            playerInfo.hp--;
-                            photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
-                        }
-                        photonView.RPC("DynamiteSync", RpcTarget.All, 1);
-                        yield return new WaitForSeconds(1.2f);
-                        // 터졌으니까 다시 덱에 추가
-                        photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Dynamite);
-                        DynamitePanelOnOff(1);
-                    }
-                    // 안터지면 다음 사람한테 붙음
+                    // 본인이 결투중이면 항복 패널이 뜸
                     else
                     {
-                        MineUI.Instance.dynamiteText.text = "다음사람한테 던짐";
-                        DynamitePanelOnOff(0);
-                        photonView.RPC("DynamiteSync", RpcTarget.All, 1);
-                        yield return new WaitForSeconds(1.2f);
-                        DynamitePanelOnOff(1);
-                        // 다음 사람한테 다이너 마이트 적용
-                        if (tidx + 1 == turnList.Count)
-                            turnList[0].GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
-                        else
-                            turnList[tidx + 1].GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
+                        // 결투 패널 on
+                        MineUI.Instance.duelPanel.SetActive(true);
+                        MineUI.Instance.duelText.text = "결투 중... (BANG 으로 반격하세요)";
+                        MineUI.Instance.surrenderBtn.gameObject.SetActive(true);
+                        // 다음 턴 버튼 안보이게 함
+                        MineUI.Instance.NextButton.SetActive(false);
                     }
                 }
 
+                // 감옥과 다이너마이트는 잡화점턴과 결투턴에는 작동 하면 안됌
+                if(!playerInfo.isStore && !playerInfo.isDuel)
+                {
+                    // 감옥 확인
+                    System.Random rand = new System.Random();
+                    if (playerInfo.isJail)
+                    {
+                        int a = rand.Next(1, 5);
+                        // 25% 확률로 탈출 가능 75% 확률로 턴 바로 종료
+                        if (a != 1)
+                        {
+                            MineUI.Instance.jailText.text = "탈옥 실패";
+                            JailPanelOnOff(0);
+                            turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
+                            MineUI.Instance.NextButton.SetActive(false);
+                            nextSignal = false;
+                            myTurn = false;
+                            yield return new WaitForSeconds(1.2f);
+                            photonView.RPC("JailSync", RpcTarget.All, 1);
+                            JailPanelOnOff(1);
+                            continue;
+                        }
+                        else // 탈옥
+                        {
+                            MineUI.Instance.jailText.text = "탈옥 성공";
+                            JailPanelOnOff(0);
+                            yield return new WaitForSeconds(1.2f);
+                            photonView.RPC("JailSync", RpcTarget.All, 1);
+                            JailPanelOnOff(1);
+                        }
+
+                        // 감옥은 다시 덱에 추가
+                        photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Jail);
+                    }
+
+                    // 다이너 마이트 확인
+                    if (playerInfo.isDynamite)
+                    {
+                        int b = rand.Next(1, 3);
+                        //12.5% 확률로 터짐 데미지는 3
+                        if (b == 1) // 터짐
+                        {
+                            MineUI.Instance.dynamiteText.text = "터짐";
+                            DynamitePanelOnOff(0);
+                            // hp 변수 설계상 이렇게 해야함
+                            for (int i = 0; i < 3; i++)
+                            {
+                                playerInfo.hp--;
+                                photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
+                            }
+                            photonView.RPC("DynamiteSync", RpcTarget.All, 1);
+                            yield return new WaitForSeconds(1.2f);
+                            // 터졌으니까 다시 덱에 추가
+                            photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Dynamite);
+                            DynamitePanelOnOff(1);
+                        }
+                        // 안터지면 다음 사람한테 붙음
+                        else
+                        {
+                            MineUI.Instance.dynamiteText.text = "다음사람한테 던짐";
+                            DynamitePanelOnOff(0);
+                            photonView.RPC("DynamiteSync", RpcTarget.All, 1);
+                            yield return new WaitForSeconds(1.2f);
+                            DynamitePanelOnOff(1);
+                            // 다음 사람한테 다이너 마이트 적용
+                            if (tidx + 1 == turnList.Count)
+                                turnList[0].GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
+                            else
+                                turnList[tidx + 1].GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
+                        }
+                    }
+                }
+                
 
                 // -- 카드 드로우 --
-                if(playerInfo.isStore == false && storeMaster == false)
+                if(playerInfo.isStore == false && storeMaster == false && playerInfo.isDuel == false && duelMaster == false)
                 {
                     // 일반 턴
                     // 본인턴에 카드 2장 뽑으면서 시작
                     turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 1, transform.position);
                 }
-                else
+                else if(playerInfo.isStore == true)
                 {
                     // 잡화점 턴은 카드 안뽑음
                     // 잡화점 본인 턴이 오면 블록 패널 꺼줘서 클릭가능 
                     MineUI.Instance.blockingPanel.SetActive(false);
                     storeMaster = false;
+                }
+                else if(playerInfo.isDuel == false && duelMaster == true)
+                {
+                    // 결투턴이 끝남
+                    duelMaster = false;
+                    MineUI.Instance.NextButton.SetActive(true);
                 }
                 
                 while (true)
@@ -1124,6 +1173,25 @@ namespace com.ThreeCS.McCree
             playerInfo.sendBang = false;
             avoidBtnFlag = true;
         }
+
+        // 결투 중 뱅을 못 내거나 그냥 항복하는 버튼
+        public void SurrenderBtn()
+        {
+            Debug.Log("항복");
+            // 체력 -1
+            playerInfo.hp--;
+            photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
+
+            // duelTurn을 끝내고 각 player의 isduel 상태를 false로
+            // tidx = duelMaster 포함 되어있음 원래 순서로 돌아가는 코드 
+            photonView.RPC("DuelTurn", RpcTarget.All, 1);
+            photonView.RPC("DuelSync", RpcTarget.All, 1);
+
+            // 본인이 항복하면 턴 넘기기 버튼이 사라짐 그래서 다시 켜줌
+            if (duelIdx == tidx)
+                MineUI.Instance.NextButton.SetActive(true);
+        }
+
         // gameloop1 실행 명령
         public void GLStart()
         {
@@ -1304,7 +1372,69 @@ namespace com.ThreeCS.McCree
         // 하이라이트 부분이 계속 반복 되므로 따로 함수로 빼는 것을 고려 해보기
         
         
-        
+        IEnumerator Duel()
+        {
+            isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
+            Material mat;
+            GameObject temp = null;
+
+            while (true)
+            {
+                Debug.Log("결투 동작 중");
+                // 빔 
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
+                    GameObject go = hit.transform.gameObject;
+
+                    // 마우스 닿은 오브젝트 하이라이트 
+                    if (go.CompareTag("Player"))
+                    {
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.red * 0.5f);
+                        temp = go;
+                    }
+                    else if (temp != null)
+                    {
+                        mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+                    }
+
+                    // 결투 상대 선택
+                    if (go.CompareTag("Player") && bangClick)
+                    {
+                        Debug.Log("플레이어 선택 : " + go);
+                        // 클릭했으니까 하이라이트 꺼야함
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+
+                        // GM의 duelTurn을 켜줌
+                        photonView.RPC("DuelTurn", RpcTarget.All, 0);
+
+                        // 본인과 상대편의 playerinfo의 isduel 켜줌
+                        photonView.RPC("DuelSync", RpcTarget.All, 0);
+                        go.GetPhotonView().RPC("DuelSync", RpcTarget.All, 0);
+
+                        // 내가 결투 카드를 내면 상대편부터 결투 턴이 시작 됨
+                        // 턴을 넘겨버림
+                        nextSignal = true;
+                        break;
+                    }
+                }
+                yield return new WaitForEndOfFrame();
+            }
+            // 뱅에서 쓰던거 재활용
+            bangClick = false;
+            isBang = false;
+
+            yield return new WaitForEndOfFrame();
+        }
         
 
         #region 완성된 카드 기능 

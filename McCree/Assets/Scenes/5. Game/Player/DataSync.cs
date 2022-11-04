@@ -343,5 +343,37 @@ namespace com.ThreeCS.McCree
             if (photonView.IsMine)
                 MineUI.Instance.PanicTargetCardDel(num);
         }
+
+        [PunRPC]
+        public void DuelTurn(int state)
+        {
+            if (state == 0)
+            {
+                GameManager.Instance.duelTurn = true;
+                GameManager.Instance.duelIdx = GameManager.Instance.tidx;
+            }
+            else
+            {
+                GameManager.Instance.duelTurn = false;
+                GameManager.Instance.tidx = GameManager.Instance.duelIdx;
+            }
+        }
+
+        [PunRPC]
+        public void DuelSync(int state)
+        {
+            if (state == 0)
+                playerInfo.isDuel = true;
+            else
+            {
+                // 결투 끝낼 때는 각자 하기 어려워서 통채로 초기화
+                foreach(GameObject player in GameManager.Instance.turnList)
+                {
+                    player.GetComponent<PlayerInfo>().isDuel = false;
+                    MineUI.Instance.duelPanel.SetActive(false);
+                }
+            } 
+                
+        }
     }
 }
