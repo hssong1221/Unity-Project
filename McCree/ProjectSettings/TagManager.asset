@@ -24,6 +24,7 @@ TagManager:
   - CardsPos
   - Card
   - Item
+  - Weapon
   layers:
   - Default
   - TransparentFX

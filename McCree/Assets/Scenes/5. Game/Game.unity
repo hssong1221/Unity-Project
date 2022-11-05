@@ -932,15 +932,15 @@ PrefabInstance:
       objectReference: {fileID: 154839047}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: bang_c
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: beer_c
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: duel_c
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: heal_c
@@ -948,11 +948,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: jail_c
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: navy_c
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: avoid_c
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: bangBtn
@@ -1023,6 +1027,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1089932890}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: carbine_c
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: jobImage1
       value: 
       objectReference: {fileID: 332247229}
@@ -1039,12 +1047,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
+      propertyPath: russian_c
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: carbalou_c
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: dynamite_c
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: startPanel
@@ -1920,7 +1932,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4462,7 +4474,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4886,7 +4898,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6987,7 +6999,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7331,7 +7343,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15444,7 +15456,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15868,7 +15880,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -21972,7 +21984,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7769607, y: 1}
+    m_SensorSize: {x: 1.7775701, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -30993,7 +31005,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 175033519940173998, guid: 717996095841504439f1a8c710ca03dc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -41951,58 +41963,6 @@ PrefabInstance:
     - target: {fileID: 2744670765991983476, guid: f791785402835f249899ed3d2519874c, type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2744670766625110419, guid: f791785402835f249899ed3d2519874c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
-      propertyPath: m_Name
-      value: Jail
-      objectReference: {fileID: 0}
-    - target: {fileID: 5125086453080317057, guid: f791785402835f249899ed3d2519874c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
-      propertyPath: m_Name
-      value: Dynamite
-      objectReference: {fileID: 0}
-    - target: {fileID: 6378435947368966523, guid: f791785402835f249899ed3d2519874c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6437277483268557723, guid: f791785402835f249899ed3d2519874c, type: 3}
-      propertyPath: m_Name
-      value: Barrel
-      objectReference: {fileID: 0}
-    - target: {fileID: 6437277483268557723, guid: f791785402835f249899ed3d2519874c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
-      propertyPath: m_Name
-      value: Mustang
-      objectReference: {fileID: 0}
-    - target: {fileID: 6465937426528441464, guid: f791785402835f249899ed3d2519874c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
-      propertyPath: m_Name
-      value: Scope
-      objectReference: {fileID: 0}
-    - target: {fileID: 8170790151525835362, guid: f791785402835f249899ed3d2519874c, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9049210913133124656, guid: f791785402835f249899ed3d2519874c, type: 3}
-      propertyPath: m_Name
-      value: Colt
-      objectReference: {fileID: 0}
-    - target: {fileID: 9049210913133124656, guid: f791785402835f249899ed3d2519874c, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f791785402835f249899ed3d2519874c, type: 3}

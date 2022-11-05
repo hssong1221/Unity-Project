@@ -140,6 +140,12 @@ namespace com.ThreeCS.McCree
         // 결투중
         public bool isDuel = false;
 
+        // 무기 장착 상태 (기본 무기가 아닌 무기들)
+        public bool isWeapon = false;
+
+        //무기 이름
+        public string wName;
+
 
         // ------------------ 삭제 예정
         public List<ItemList> myItemList;
@@ -206,6 +212,8 @@ namespace com.ThreeCS.McCree
 
             // ------------------------ 뱅 최대사거리 ------------------
             maximumRange = 1;
+
+            wName = "Colt";
 
             MineUI.Instance.statusPanel.gameObject.SetActive(true);
 

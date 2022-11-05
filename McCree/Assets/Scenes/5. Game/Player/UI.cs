@@ -48,6 +48,7 @@ namespace com.ThreeCS.McCree
 
         public IEnumerator coroutine;
 
+        [HideInInspector]
         public Vector3 hpOffset;
         Vector3 bangOffset;
         Vector3 itemOffset;

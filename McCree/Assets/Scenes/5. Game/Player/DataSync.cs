@@ -375,5 +375,61 @@ namespace com.ThreeCS.McCree
             } 
                 
         }
+
+        [PunRPC]
+        public void WeaponSync(int state)
+        {
+            GameObject colt = playerManager.mygamePlate.transform.Find("Colt").gameObject;
+            GameObject russian = playerManager.mygamePlate.transform.Find("Russian").gameObject;
+            GameObject navy = playerManager.mygamePlate.transform.Find("Navy").gameObject;
+            GameObject carbine = playerManager.mygamePlate.transform.Find("Carbine").gameObject;
+            GameObject winchester = playerManager.mygamePlate.transform.Find("Winchester").gameObject;
+
+            GameObject[] weapon = new GameObject[5];
+            weapon[0] = colt;
+            weapon[1] = russian;
+            weapon[2] = navy;
+            weapon[3] = carbine;
+            weapon[4] = winchester;
+
+            // 기본 무기 확인
+            if (state == 1)
+                playerInfo.isWeapon = false;
+            else
+                playerInfo.isWeapon = true;
+
+            // 일단 다 끔
+            foreach (GameObject w in weapon)
+                w.SetActive(false);
+
+            // 상황에 맞는 무기를 켜줌
+            switch (state) {
+                case 1: //colt
+                    colt.SetActive(true);
+                    playerInfo.wName = "Colt";
+                    break;
+                case 2: //russian
+                    russian.SetActive(true);
+                    playerInfo.wName = "Russian";
+                    break;
+                case 3: // navy
+                    navy.SetActive(true);
+                    playerInfo.wName = "Navy";
+                    break;
+                case 4: //carbine
+                    carbine.SetActive(true);
+                    playerInfo.wName = "Carbine";
+                    break;
+                case 5: // winchester
+                    winchester.SetActive(true);
+                    playerInfo.wName = "Winchester";
+                    break;
+                default:
+                    break;
+                      
+            }
+            
+
+        }
     }
 }

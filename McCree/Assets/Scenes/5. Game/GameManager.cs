@@ -1281,6 +1281,9 @@ namespace com.ThreeCS.McCree
                 return;
             }
 
+            // 현재 사용 무기 임시 등록
+            Card.cType temp = StringtoEnum(playerInfo.wName);
+
             // 카드 사용 일 때
             // 카드 종류에 따라 실행이 달라진다
             string t = content.ToString();
@@ -1322,15 +1325,27 @@ namespace com.ThreeCS.McCree
                 case "Russian":
                     // 무기 사거리 증가
                     playerInfo.maximumRange = 2;
+                    if (playerInfo.isWeapon) // 현재 무기가 기본 무기가 아니면
+                        photonView.RPC("CardDeckSync", RpcTarget.All, temp);
+                    photonView.RPC("WeaponSync", RpcTarget.All, 2);
                     break;
                 case "Navy":
                     playerInfo.maximumRange = 3;
+                    if (playerInfo.isWeapon) // 현재 무기가 기본 무기가 아니면
+                        photonView.RPC("CardDeckSync", RpcTarget.All, temp);
+                    photonView.RPC("WeaponSync", RpcTarget.All, 3);
                     break;
                 case "Carbine":
                     playerInfo.maximumRange = 4;
+                    if (playerInfo.isWeapon) // 현재 무기가 기본 무기가 아니면
+                        photonView.RPC("CardDeckSync", RpcTarget.All, temp);
+                    photonView.RPC("WeaponSync", RpcTarget.All, 4);
                     break;
                 case "Winchester":
                     playerInfo.maximumRange = 5;
+                    if (playerInfo.isWeapon) // 현재 무기가 기본 무기가 아니면
+                        photonView.RPC("CardDeckSync", RpcTarget.All, temp);
+                    photonView.RPC("WeaponSync", RpcTarget.All, 5);
                     break;
                 case "Scope":
                     photonView.RPC("ScopeSync", RpcTarget.All);
@@ -1362,7 +1377,9 @@ namespace com.ThreeCS.McCree
             
             // 카드더미 동기화 시켜주기 - DataSync로
             if(!equip) // 장착카드 아니면 사용 후 바로 덱에 추가
-                player1.GetComponent<PhotonView>().RPC("CardDeckSync", RpcTarget.All, content);
+                photonView.RPC("CardDeckSync", RpcTarget.All, content);
+
+            
 
         }
 
@@ -1371,70 +1388,6 @@ namespace com.ThreeCS.McCree
         // 카드  만드는 중
         // 하이라이트 부분이 계속 반복 되므로 따로 함수로 빼는 것을 고려 해보기
         
-        
-        IEnumerator Duel()
-        {
-            isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
-            Material mat;
-            GameObject temp = null;
-
-            while (true)
-            {
-                Debug.Log("결투 동작 중");
-                // 빔 
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
-                    GameObject go = hit.transform.gameObject;
-
-                    // 마우스 닿은 오브젝트 하이라이트 
-                    if (go.CompareTag("Player"))
-                    {
-                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
-                        mat.EnableKeyword("_EMISSION");
-                        mat.SetColor("_EmissionColor", Color.red * 0.5f);
-                        temp = go;
-                    }
-                    else if (temp != null)
-                    {
-                        mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
-                        mat.EnableKeyword("_EMISSION");
-                        mat.SetColor("_EmissionColor", Color.black);
-                    }
-
-                    // 결투 상대 선택
-                    if (go.CompareTag("Player") && bangClick)
-                    {
-                        Debug.Log("플레이어 선택 : " + go);
-                        // 클릭했으니까 하이라이트 꺼야함
-                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
-                        mat.EnableKeyword("_EMISSION");
-                        mat.SetColor("_EmissionColor", Color.black);
-
-                        // GM의 duelTurn을 켜줌
-                        photonView.RPC("DuelTurn", RpcTarget.All, 0);
-
-                        // 본인과 상대편의 playerinfo의 isduel 켜줌
-                        photonView.RPC("DuelSync", RpcTarget.All, 0);
-                        go.GetPhotonView().RPC("DuelSync", RpcTarget.All, 0);
-
-                        // 내가 결투 카드를 내면 상대편부터 결투 턴이 시작 됨
-                        // 턴을 넘겨버림
-                        nextSignal = true;
-                        break;
-                    }
-                }
-                yield return new WaitForEndOfFrame();
-            }
-            // 뱅에서 쓰던거 재활용
-            bangClick = false;
-            isBang = false;
-
-            yield return new WaitForEndOfFrame();
-        }
         
 
         #region 완성된 카드 기능 
@@ -1919,7 +1872,7 @@ namespace com.ThreeCS.McCree
                     GameObject go = hit.transform.gameObject;
 
                     // 마우스 닿은 오브젝트 하이라이트 
-                    if (go.CompareTag("Player") || go.CompareTag("Item"))
+                    if (go.CompareTag("Player") || go.CompareTag("Item") || go.CompareTag("Weapon"))
                     {
                         if (go.CompareTag("Player"))
                             mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
@@ -1934,7 +1887,7 @@ namespace com.ThreeCS.McCree
                     {
                         if (temp.CompareTag("Player"))
                             mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
-                        else if (temp.CompareTag("Item"))
+                        else if (temp.CompareTag("Item") || temp.CompareTag("Weapon"))
                             mat = temp.transform.GetComponent<MeshRenderer>().material;
                         else
                             mat = null;
@@ -2011,6 +1964,33 @@ namespace com.ThreeCS.McCree
                         }
 
                         // 아이템 이름이랑 열거형 타입이랑 같기 때문에 이름가지고 enum타입 만들기
+                        Card.cType type = StringtoEnum(go.name);
+
+                        // 장착 해제 된 아이템을 카드로 바꿔서 전체 덱 뒤에 다시 추가
+                        photonView.RPC("CardDeckSync", RpcTarget.All, type);
+
+                        break;
+                    }
+                    else if (go.CompareTag("Weapon") && bangClick)
+                    {
+                        Debug.Log("무기 선택 : " + go);
+                        playerInfo.useCat = true;
+                        // 클릭했으니까 하이라이트 꺼야함
+                        mat = hit.transform.GetComponent<MeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+
+                        // 아이템 클릭하면 부모는 게임플레이트고 그거의 부모가 의자(0 - 6 플레이어 idx)
+                        GameObject tmp = go.transform.parent.gameObject;
+                        GameObject chair = tmp.transform.parent.gameObject;
+
+                        foreach (GameObject itemMaster in turnList)
+                        {
+                            // 무기 주인 찾음 무기는 없어지면서 자동으로 기본무기 colt로 바뀜
+                            if (itemMaster.GetComponent<PlayerManager>().myChair.name.Equals(chair.name))
+                               itemMaster.GetComponent<PhotonView>().RPC("WeaponSync", RpcTarget.All, 1);
+                        }
+                        // 무기 이름이랑 열거형 타입이랑 같기 때문에 이름가지고 enum타입 만들기
                         Card.cType type = StringtoEnum(go.name);
 
                         // 장착 해제 된 아이템을 카드로 바꿔서 전체 덱 뒤에 다시 추가
@@ -2138,6 +2118,70 @@ namespace com.ThreeCS.McCree
                             yield return new WaitForSeconds(1f);
                             DistancePanelOnOff(1);
                         }
+                    }
+                }
+                yield return new WaitForEndOfFrame();
+            }
+            // 뱅에서 쓰던거 재활용
+            bangClick = false;
+            isBang = false;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        IEnumerator Duel()
+        {
+            isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
+            Material mat;
+            GameObject temp = null;
+
+            while (true)
+            {
+                Debug.Log("결투 동작 중");
+                // 빔 
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    //Debug.Log("마우스에 닿음 : " + hit.transform.gameObject);
+                    GameObject go = hit.transform.gameObject;
+
+                    // 마우스 닿은 오브젝트 하이라이트 
+                    if (go.CompareTag("Player"))
+                    {
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.red * 0.5f);
+                        temp = go;
+                    }
+                    else if (temp != null)
+                    {
+                        mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+                    }
+
+                    // 결투 상대 선택
+                    if (go.CompareTag("Player") && bangClick)
+                    {
+                        Debug.Log("플레이어 선택 : " + go);
+                        // 클릭했으니까 하이라이트 꺼야함
+                        mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                        mat.EnableKeyword("_EMISSION");
+                        mat.SetColor("_EmissionColor", Color.black);
+
+                        // GM의 duelTurn을 켜줌
+                        photonView.RPC("DuelTurn", RpcTarget.All, 0);
+
+                        // 본인과 상대편의 playerinfo의 isduel 켜줌
+                        photonView.RPC("DuelSync", RpcTarget.All, 0);
+                        go.GetPhotonView().RPC("DuelSync", RpcTarget.All, 0);
+
+                        // 내가 결투 카드를 내면 상대편부터 결투 턴이 시작 됨
+                        // 턴을 넘겨버림
+                        nextSignal = true;
+                        break;
                     }
                 }
                 yield return new WaitForEndOfFrame();
