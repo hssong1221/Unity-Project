@@ -240,19 +240,38 @@ namespace com.ThreeCS.McCree
 
 
         [PunRPC]
-        public void ScopeSync()
+        public void ScopeSync(int state)
         {
-            playerInfo.isScope = true;
-            GameObject scope = playerManager.mygamePlate.transform.Find("Scope").gameObject;
-            scope.SetActive(true);
+            if(state == 0)
+            {
+                playerInfo.isScope = true;
+                GameObject scope = playerManager.mygamePlate.transform.Find("Scope").gameObject;
+                scope.SetActive(true);
+            }
+            else
+            {
+                playerInfo.isScope = false;
+                GameObject scope = playerManager.mygamePlate.transform.Find("Scope").gameObject;
+                scope.SetActive(false);
+            }
+            
         }
 
         [PunRPC]
-        public void MustangSync()
+        public void MustangSync(int state)
         {
-            playerInfo.isMustang = true;
-            GameObject mustang = playerManager.mygamePlate.transform.Find("Mustang").gameObject;
-            mustang.SetActive(true);
+            if(state == 0)
+            {
+                playerInfo.isMustang = true;
+                GameObject mustang = playerManager.mygamePlate.transform.Find("Mustang").gameObject;
+                mustang.SetActive(true);
+            }
+            else
+            {
+                playerInfo.isMustang = false;
+                GameObject mustang = playerManager.mygamePlate.transform.Find("Mustang").gameObject;
+                mustang.SetActive(false);
+            }
         }
 
         [PunRPC]

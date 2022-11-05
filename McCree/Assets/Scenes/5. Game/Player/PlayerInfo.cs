@@ -146,6 +146,9 @@ namespace com.ThreeCS.McCree
         //무기 이름
         public string wName;
 
+        // 죽음 상태
+        public bool isDeath;
+
 
         // ------------------ 삭제 예정
         public List<ItemList> myItemList;
@@ -201,7 +204,6 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        public bool isDeath;
 
         void Awake()
         {
@@ -259,19 +261,83 @@ namespace com.ThreeCS.McCree
         IEnumerator CurrentHP()
         {
             // 너무 빨리 측정하면 hp 동기화 하기 전이라 사망처리됨 
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(7f);
+            Debug.Log("hp 측정 시작");
+
             while (true)
             {
                 //Debug.Log("현재 체력 : " + hp);
                 if (hp <= 0)
                 {
-                    isDeath = true;
+                    photonView.RPC("Death", RpcTarget.All);
                     break;
                 }
 
                 yield return new WaitForSeconds(1f);
             }
             yield return null;
+        }
+
+        [PunRPC]
+        public void Death()
+        {
+            // 죽음 상태 켜주고 비석도 켜줌
+            isDeath = true;
+            GameObject grave = playerManager.mygamePlate.transform.Find("Grave").gameObject;
+            grave.SetActive(true);
+
+            // 장착 아이템 확인 후 덱으로 돌려보냄
+            if (photonView.IsMine)
+            {
+                if (isScope)
+                {
+                    photonView.RPC("ScopeSync", RpcTarget.All, 1);
+                    photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Scope);
+                }
+                if (isMustang)
+                {
+                    photonView.RPC("MustangSync", RpcTarget.All, 1);
+                    photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Mustang);
+                }
+                if (isBarrel)
+                {
+                    photonView.RPC("BarrelSync", RpcTarget.All, 1);
+                    photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Barrel);
+                }
+                if (isJail)
+                {
+                    photonView.RPC("JailSync", RpcTarget.All, 1);
+                    photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Jail);
+                }
+                if (isDynamite)
+                {
+                    photonView.RPC("DynamiteSync", RpcTarget.All, 1);
+                    photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Dynamite);
+                }
+
+                // 쓰던 총 임시저장
+                Card.cType temp = GameManager.Instance.StringtoEnum(wName);
+                // 일단 colt로 만들고 setactive false
+                photonView.RPC("WeaponSync", RpcTarget.All, 1);
+                GameObject gun = playerManager.mygamePlate.transform.Find("Colt").gameObject;
+                gun.SetActive(false);
+                // 쓰던 총 반납
+                photonView.RPC("CardDeckSync", RpcTarget.All, temp);
+
+                // 손 덱 확인후 전체 덱으로 돌려보냄
+                foreach (Card card in mycards)
+                    photonView.RPC("CardDeckSync", RpcTarget.All, card.cardContent);
+                // 손덱 정보 삭제
+                mycards.Clear();
+
+                // 손덱 오브젝트 삭제
+                GameObject[] cards = GameObject.FindGameObjectsWithTag("Card");
+                foreach (GameObject card in cards)
+                    Destroy(card);
+            }
+
+            // 다른 사람들이 선택 못하게 투명하게 만듬
+            character.SetActive(false);
         }
     }
 }

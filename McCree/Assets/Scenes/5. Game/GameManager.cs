@@ -697,6 +697,16 @@ namespace com.ThreeCS.McCree
                 {
                     turnList[tidx].GetComponent<PhotonView>().RPC("MyTurn", RpcTarget.All, tidx);
                     myTurn = true;
+
+                    // 만약 사망 했을 경우 그냥 넘어감
+                    if (playerInfo.isDeath)
+                    {
+                        turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
+                        MineUI.Instance.NextButton.SetActive(false);
+                        nextSignal = false;
+                        myTurn = false;
+                        continue;
+                    }
                 }
                 // 본인턴이 아니라면 반복문 통과 못하고 대기중
                 else
@@ -879,11 +889,9 @@ namespace com.ThreeCS.McCree
                         myTurn = false;
                         break;
                     }
-                    // -------------------------------------------  본인 턴 때 실행할 것들 여기에 쓰면 됨-------------------------------------------------------
-
+                    // 본인 턴 때 실행 중
                     Debug.Log("턴 소요 중~~~~~~~~");
                     yield return new WaitForSeconds(0.1f);
-                    // ------------------------------------------------------------------------------------------------------------------------------------------
                 }
                 yield return null;
             }
@@ -899,6 +907,7 @@ namespace com.ThreeCS.McCree
         {
             // 너무 빨리 측정하면 hp 동기화 전이라 전부 사망처리됨
             yield return new WaitForSeconds(10f);
+            Debug.Log("게임 종료 조건 측정 시작");
 
             while (!isVictory)
             {
@@ -1262,7 +1271,7 @@ namespace com.ThreeCS.McCree
         }
 
         // string을 enum형태로 바꿔줌 
-        Card.cType StringtoEnum(string s)
+        public Card.cType StringtoEnum(string s)
         {
             return (Card.cType)Enum.Parse(typeof(Card.cType), s);
         }
@@ -1348,10 +1357,10 @@ namespace com.ThreeCS.McCree
                     photonView.RPC("WeaponSync", RpcTarget.All, 5);
                     break;
                 case "Scope":
-                    photonView.RPC("ScopeSync", RpcTarget.All);
+                    photonView.RPC("ScopeSync", RpcTarget.All, 0);
                     break;
                 case "Mustang":
-                    photonView.RPC("MustangSync", RpcTarget.All);
+                    photonView.RPC("MustangSync", RpcTarget.All, 0);
                     break;
                 case "Barrel":
                     photonView.RPC("BarrelSync", RpcTarget.All, 0);
@@ -1971,6 +1980,7 @@ namespace com.ThreeCS.McCree
 
                         break;
                     }
+                    //3. 무기 초기화
                     else if (go.CompareTag("Weapon") && bangClick)
                     {
                         Debug.Log("무기 선택 : " + go);
