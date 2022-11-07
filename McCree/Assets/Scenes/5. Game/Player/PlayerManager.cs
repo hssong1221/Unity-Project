@@ -734,21 +734,42 @@ namespace com.ThreeCS.McCree
         } // --- 아이템 관련 코드 삭제 예정
 
         [PunRPC]
-        public void GiveCardSet(string jsonData) // 카드덱을 나눠주기(카드 순서 동기화)
+        public void GiveCardSet(string jsonData, int state) // 카드덱을 나눠주기(카드 순서 동기화)
         {
-            //GameManager.Instance.cardSet = gameObject.AddComponent<CardSet>();
-
-            // json으로 넘어온거 다시 풀어놓기
-            Card.cType[] initialDeck = JsonConvert.DeserializeObject<Card.cType[]>(jsonData);
-
-            // 모든 사람 카드리스트에 카드 섞은거 넣기
-            for (int i = 0; i < initialDeck.Length; i++)
+            if(state == 0)
             {
-                Card card = new Card();
-                card.cardContent = initialDeck[i];
+                //GameManager.Instance.cardSet = gameObject.AddComponent<CardSet>();
 
-                GameManager.Instance.cardList.Add(card);
+                // json으로 넘어온거 다시 풀어놓기
+                Card.cType[] initialDeck = JsonConvert.DeserializeObject<Card.cType[]>(jsonData);
+
+                // 모든 사람 카드리스트에 카드 섞은거 넣기
+                for (int i = 0; i < initialDeck.Length; i++)
+                {
+                    Card card = new Card();
+                    card.cardContent = initialDeck[i];
+
+                    GameManager.Instance.cardList.Add(card);
+                }
             }
+            else
+            {
+                // json으로 넘어온거 다시 풀어놓기
+                Card.cType[] deck = JsonConvert.DeserializeObject<Card.cType[]>(jsonData);
+
+                // 중간 셔플이므로 원래 있던거 삭제 후 추가
+                GameManager.Instance.cardList.Clear();
+                Debug.Log("셔플 끝");
+                for (int i = 0; i < deck.Length; i++)
+                {
+                    Card card = new Card();
+                    card.cardContent = deck[i];
+                    Debug.Log(deck[i]);
+
+                    GameManager.Instance.cardList.Add(card);
+                }
+            }
+            
         }
 
         [PunRPC]

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -151,6 +152,8 @@ namespace com.ThreeCS.McCree
         public List<Card> cardList = new List<Card>();
         public List<Card> storecardList = new List<Card>();
 
+        #region 카드 종류
+
         [Header("카드 개수")]
         [SerializeField]
         private int bang_c;
@@ -195,6 +198,7 @@ namespace com.ThreeCS.McCree
         [SerializeField]
         private int duel_c;
 
+        #endregion
 
         // 턴 관련 변수들
         [HideInInspector]
@@ -204,14 +208,15 @@ namespace com.ThreeCS.McCree
 
         public bool myTurn = false;    // 내 턴이면 true
 
-        public GameObject usecardPanel; // 카드 사용 판정 패널
-
-        public GameObject delcardPanel; // 카드 삭제 판정 패널
-
         public bool duelTurn = false; // 결투시 켜짐 특수하게 턴이 돌아가게함
         public int duelIdx;          // 결투를 사용한 사람의 idx를 저장했다가 끝날 때 턴다시 줘야함
 
         // ----------------------------------- 카드 컨텐츠 구현 -------------------------------
+
+        public GameObject usecardPanel; // 카드 사용 판정 패널
+
+        public GameObject delcardPanel; // 카드 삭제 판정 패널
+
         [HideInInspector]
         public bool isCard;             // 현재 선택한 카드가 있다는 의미
         // 뱅 상태인지 아닌지
@@ -243,6 +248,8 @@ namespace com.ThreeCS.McCree
         // 결투를 시작 사람
         public bool duelMaster = false;
 
+        // 셔플 인덱스 - 카드를 어느정도 사용하면 다시 섞어줌
+        public int shuffleIdx;
         
 
         #endregion
@@ -272,6 +279,9 @@ namespace com.ThreeCS.McCree
             //Cursor.lockState = CursorLockMode.Confined;
 
             isCard = false;
+
+            // 셔플 인덱스 초기화
+            shuffleIdx = 0;
 
             // 접속 못하면 초기화면으로 쫓아냄
             if (!PhotonNetwork.IsConnected)
@@ -308,6 +318,15 @@ namespace com.ThreeCS.McCree
                 bangClick = true;
             else if (isBang && Input.GetMouseButtonUp(0)) 
                 bangClick = false;
+
+            // 사용한 카드가 점점 많아지면 다시 섞어줘야함
+            // ----------------------------------------------------- shuffle 인덱스 
+            if(shuffleIdx >= 3)
+            {
+                shuffleIdx = 0;
+                if(PhotonNetwork.IsMasterClient && photonView.IsMine)
+                    StartCoroutine("ShuffleCard");
+            }
         }
 
         #endregion
@@ -485,17 +504,38 @@ namespace com.ThreeCS.McCree
             }
 
             //카드 섞인거 확인
-            for (int i = 0; i < initialDeck.Length; i++)
+            /*for (int i = 0; i < initialDeck.Length; i++)
             {
                 Debug.Log("card: " + initialDeck[i]);
-            }
+            }*/
 
             // rpc가 리스트를 넘길수 없으므로 json으로 바꿔서 보냄
             var json = JsonConvert.SerializeObject(initialDeck);
 
-            player1.GetComponent<PhotonView>().RPC("GiveCardSet", RpcTarget.All, json);
+            player1.GetComponent<PhotonView>().RPC("GiveCardSet", RpcTarget.All, json, 0);
 
             yield return new WaitForEndOfFrame();
+        }
+
+        IEnumerator ShuffleCard()
+        {
+            // 임시 리스트
+            List<Card.cType> temp = new List<Card.cType>();
+
+            // 카드 리스트 에서 타입만 임시리스트로
+            Debug.Log("shuffle start");
+            foreach(Card c in cardList)
+            {
+                temp.Add(c.cardContent);
+                Debug.Log(c.cardContent);
+            }
+            // 셔플
+            temp = CommonFunction.ShuffleList(temp);
+            var json = JsonConvert.SerializeObject(temp);
+
+            player1.GetComponent<PhotonView>().RPC("GiveCardSet", RpcTarget.All, json, 1);
+
+            yield return null;
         }
 
         IEnumerator JobandAbility()

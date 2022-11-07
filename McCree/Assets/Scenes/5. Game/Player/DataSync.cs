@@ -98,6 +98,8 @@ namespace com.ThreeCS.McCree
             Card card = new Card();
             card.cardContent = content;
             GameManager.Instance.cardList.Add(card);
+            // 사용한 카드 +1
+            GameManager.Instance.shuffleIdx++;
         }
         // 사용한 카드를 카드더미 제일 앞에 넣고 전체에게 동기화
         [PunRPC]

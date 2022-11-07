@@ -932,15 +932,15 @@ PrefabInstance:
       objectReference: {fileID: 154839047}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: bang_c
-      value: 25
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: beer_c
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: duel_c
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: heal_c
@@ -948,15 +948,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: jail_c
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: navy_c
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: avoid_c
-      value: 12
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: bangBtn
@@ -968,11 +968,11 @@ PrefabInstance:
       objectReference: {fileID: 1053746501}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: panic_c
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: scope_c
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: tempsit
@@ -984,11 +984,11 @@ PrefabInstance:
       objectReference: {fileID: 1840329491}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: barrel_c
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: indian_c
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: jobBoard
@@ -1004,7 +1004,7 @@ PrefabInstance:
       objectReference: {fileID: 1971227187}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: saloon_c
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: targetUI
@@ -1028,7 +1028,7 @@ PrefabInstance:
       objectReference: {fileID: 1089932890}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: carbine_c
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: jobImage1
@@ -1044,19 +1044,19 @@ PrefabInstance:
       objectReference: {fileID: 1250607044}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: mustang_c
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: russian_c
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: carbalou_c
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: dynamite_c
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: startPanel
@@ -1072,11 +1072,11 @@ PrefabInstance:
       objectReference: {fileID: 188952174}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: machinegun_c
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: stagecoach_c
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: usecardPanel
@@ -1084,11 +1084,11 @@ PrefabInstance:
       objectReference: {fileID: 2006930039}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: wellsfargo_c
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: winchester_c
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: targetedPanel
@@ -1096,7 +1096,7 @@ PrefabInstance:
       objectReference: {fileID: 1724993380}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: generalstore_c
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3715993003985175830, guid: 56d9722ff5f353745aee04b9c45644c7, type: 3}
       propertyPath: pnt.Array.data[0]
@@ -21988,7 +21988,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7785016, y: 1}
+    m_SensorSize: {x: 1.7762557, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
