@@ -737,6 +737,7 @@ namespace com.ThreeCS.McCree
                 {
                     turnList[tidx].GetComponent<PhotonView>().RPC("MyTurn", RpcTarget.All, tidx);
                     myTurn = true;
+                    playerInfo.attackerIdx = -1;
 
                     // 만약 사망 했을 경우 그냥 넘어감
                     if (playerInfo.isDeath)
@@ -903,7 +904,7 @@ namespace com.ThreeCS.McCree
                 {
                     // 일반 턴
                     // 본인턴에 카드 2장 뽑으면서 시작
-                    turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 1, transform.position);
+                    turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 1);
                 }
                 else if(playerInfo.isStore == true)
                 {
@@ -949,12 +950,20 @@ namespace com.ThreeCS.McCree
             yield return new WaitForSeconds(10f);
             Debug.Log("게임 종료 조건 측정 시작");
 
+            // 게임 인원수마다 게임 종료 조건이 다름
+            switch (turnList.Count)
+            {
+                case 3:
+                    outlawNum = 1;
+                    viceNum = 1;
+                    renegadeNum = 1;
+                    break;
+                default:
+                    break;
+            }
+
             while (!isVictory)
             {
-                outlawNum = 0;
-                renegadeNum = 0;
-                viceNum = 0;
-
                 foreach (GameObject player in playerList)
                 {
                     
@@ -1012,7 +1021,10 @@ namespace com.ThreeCS.McCree
                 }
 
                 yield return new WaitForSeconds(1f);
+
+            
             }
+
             yield return null;
         }
 
@@ -1503,7 +1515,7 @@ namespace com.ThreeCS.McCree
                         else
                         {
                             // 타겟 선언 및 상대편 화면에 UI 띄움
-                            go.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 1);
+                            go.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 1, tidx);
 
                             // 나의 waitAvoid 상태를 전체에게 동기화
                             playerInfo.waitAvoid = true;
@@ -1544,7 +1556,7 @@ namespace com.ThreeCS.McCree
             {
                 // 본인 제외 전체 공격
                 if (player.GetComponent<PhotonView>().ViewID != player1.GetComponent<PhotonView>().ViewID)
-                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 1);
+                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 1, tidx);
             }
 
             // 나의 waitAvoids 상태를 전체에게 동기화
@@ -1579,7 +1591,7 @@ namespace com.ThreeCS.McCree
             {
                 // 본인 제외 전체 공격
                 if (player.GetComponent<PhotonView>().ViewID != player1.GetComponent<PhotonView>().ViewID)
-                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 2);
+                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 2, tidx);
             }
 
             // 나의 waitBangs 상태를 전체에게 동기화(함수 돌려쓰기)
@@ -2225,7 +2237,7 @@ namespace com.ThreeCS.McCree
                         photonView.RPC("DuelTurn", RpcTarget.All, 0);
 
                         // 본인과 상대편의 playerinfo의 isduel 켜줌
-                        photonView.RPC("DuelSync", RpcTarget.All, 0);
+                        photonView.RPC("DuelSync", RpcTarget.All, 0, tidx);
                         go.GetPhotonView().RPC("DuelSync", RpcTarget.All, 0);
 
                         // 내가 결투 카드를 내면 상대편부터 결투 턴이 시작 됨

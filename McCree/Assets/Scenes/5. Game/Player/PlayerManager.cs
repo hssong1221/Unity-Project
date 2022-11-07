@@ -773,7 +773,7 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public void GiveCards(int num, Vector3 objPos) // 카드 나눠주기(카드 덱을 동기화)
+        public void GiveCards(int num) // 카드 나눠주기(카드 덱을 동기화)
         {
             Debug.Log("num: " + num);
             for (int i = 0; i < num; i++)

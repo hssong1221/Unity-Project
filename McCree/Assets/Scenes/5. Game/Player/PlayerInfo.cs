@@ -77,6 +77,8 @@ namespace com.ThreeCS.McCree
         public bool targetedBang = false; // bang MG에의해 타겟팅
         public bool targetedIndian = false; // indian에 의해 타겟팅
 
+        public int attackerIdx;
+
         [HideInInspector]
         public bool sendAvoid = false;  // 본인이 avoid카드를 냈는지 안냈는지
 
@@ -212,7 +214,9 @@ namespace com.ThreeCS.McCree
 
             isDeath = false;
 
-            // ------------------------ 뱅 최대사거리 ------------------
+            attackerIdx = -1;
+
+            //  뱅 최대사거리 
             maximumRange = 1;
 
             wName = "Colt";
@@ -338,6 +342,17 @@ namespace com.ThreeCS.McCree
 
             // 다른 사람들이 선택 못하게 투명하게 만듬
             character.SetActive(false);
+
+            // 내가 무법자인데 죽으면 죽인사람한테 카드 3장
+            if(playerManager.playerType == GameManager.jType.Outlaw)
+            {
+                // 유효하게 죽었다면
+                if(attackerIdx >= 0)
+                    GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
+            }
+
+            // 내가 부관인데 죽인 사람이 보안관이면 보안관 손 덱 전부 삭제
+            // 구현 예정
         }
     }
 }

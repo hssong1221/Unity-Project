@@ -113,13 +113,16 @@ namespace com.ThreeCS.McCree
 
         // 뱅 카드의 타겟이 되었을 때
         [PunRPC]
-        public void BangTargeted(int state)
+        public void BangTargeted(int state, int attackerIdx)
         {
             // state
             // 1 : bang, MG
             // 2 : indian
             playerInfo.isTarget = state;
+            playerInfo.attackerIdx = attackerIdx;
             GameManager.Instance.TargetedPanelOn();
+
+            // 공격자이름을 타겟에 저장
         }
 
         // 뱅 카드를 내고 회피를 기다리는 상태라는 것을 알림
@@ -381,10 +384,13 @@ namespace com.ThreeCS.McCree
         }
 
         [PunRPC]
-        public void DuelSync(int state)
+        public void DuelSync(int state, int atkIdx)
         {
             if (state == 0)
+            {
                 playerInfo.isDuel = true;
+                playerInfo.attackerIdx = atkIdx;
+            }
             else
             {
                 // 결투 끝낼 때는 각자 하기 어려워서 통채로 초기화
