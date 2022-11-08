@@ -62,6 +62,15 @@ namespace com.ThreeCS.McCree
 
         }
 
+        //UI 조정
+        [PunRPC]
+        public void UIMatch()
+        {
+            ui.hpOffset = new Vector3(0, 1.6f, 0);
+            string temp = "(" + playerManager.playerType.ToString() + ")";
+            ui.nickName.text += temp;
+        }
+
         #region 턴 관련
 
         // 본인 턴에 작동해서 턴 종료버튼이 본인에게만 보임

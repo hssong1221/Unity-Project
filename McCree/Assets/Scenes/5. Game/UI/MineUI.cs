@@ -99,6 +99,10 @@ namespace com.ThreeCS.McCree
         [Header("다음턴 버튼")]
         public GameObject NextButton;
 
+        [Header("알림 UI")] // 나중에 이거 하나로 전부 통합할 예정
+        public GameObject alertPanel;
+        public Text alertText;
+
         [Header("뱅 맞았다는 UI")]
         public GameObject targetedPanel;
         public Text ttext;

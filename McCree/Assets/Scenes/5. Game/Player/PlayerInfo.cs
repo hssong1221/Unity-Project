@@ -67,6 +67,8 @@ namespace com.ThreeCS.McCree
         public int waitAvoids = -1;      // 본인이 전체avoid를 기다리고 있음(-1이 기본 MG사용자만 0으로 바뀜)
         public int waitBangs = -1;      // 본인이 전체 bang을 기다리고 잇음(인디언 사용 시)
 
+        public bool usedBang = false; // 뱅은 한턴에 1번만 써야하니까
+
         // 방어자 상태
         public int isTarget = 0; // 본인이 상대편 카드에 의해 타겟팅이 되었는지
                                  // 0 : 타겟 아님
@@ -237,10 +239,16 @@ namespace com.ThreeCS.McCree
 
             StartCoroutine(CurrentHP());
         }
-        /*void Update()
+        
+        void Update()
         {
-            curhp = hp;
-        }*/
+            if (photonView.IsMine)
+            {
+                mycardNum = mycards.Count;
+                Debug.Log("c n : " + mycardNum);
+            }
+        }
+
         public void Show_Hp()
         {
             for (int i = 0; i < ui.hpImgs.Length; i++)
@@ -280,6 +288,16 @@ namespace com.ThreeCS.McCree
                 yield return new WaitForSeconds(1f);
             }
             yield return null;
+        }
+
+        [PunRPC]
+        public void CardNumView(int num)
+        {
+
+            ui.cardNumText.enabled = true;
+            ui.cardNumText.gameObject.SetActive(true);
+            ui.cardNumText.text = num.ToString();
+
         }
 
         [PunRPC]
@@ -343,16 +361,25 @@ namespace com.ThreeCS.McCree
             // 다른 사람들이 선택 못하게 투명하게 만듬
             character.SetActive(false);
 
-            // 내가 무법자인데 죽으면 죽인사람한테 카드 3장
-            if(playerManager.playerType == GameManager.jType.Outlaw)
+            // 3인 룰에선 죽이면 3장임
+            if(GameManager.Instance.playerList.Length == 3)
             {
                 // 유효하게 죽었다면
-                if(attackerIdx >= 0)
+                if (attackerIdx >= 0)
                     GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
             }
-
-            // 내가 부관인데 죽인 사람이 보안관이면 보안관 손 덱 전부 삭제
-            // 구현 예정
+            else
+            {
+                // 내가 무법자인데 죽으면 죽인사람한테 카드 3장
+                if (playerManager.playerType == GameManager.jType.Outlaw)
+                {
+                    // 유효하게 죽었다면
+                    if (attackerIdx >= 0)
+                        GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
+                }
+                // 내가 부관인데 죽인 사람이 보안관이면 보안관 손 덱 전부 삭제
+                // 구현 예정
+            }
         }
     }
 }

@@ -322,6 +322,13 @@ namespace com.ThreeCS.McCree
             // 누르면 커져서 잘 보이게 만듬
             transform.DOScale(transform.localScale * 1.5f, 0.1f);
 
+            // 뱅을 한번 쓴 상태
+            if (player.GetComponent<PlayerInfo>().usedBang && targetUI.GetComponent<Card>().cardContent == cType.Bang)
+            {
+                GameManager.Instance.alertOrder(1);
+                return;
+            }
+
             if (GameManager.Instance.myTurn == true)
             {
                 PanelOnOFF(1);
@@ -434,6 +441,9 @@ namespace com.ThreeCS.McCree
                         if (targetUI.GetComponent<Card>().cardContent != cType.Bang)
                             return;
                     }
+                    // 뱅을 한번 쓴 상태
+                    if (player.GetComponent<PlayerInfo>().usedBang && targetUI.GetComponent<Card>().cardContent == cType.Bang)
+                        return;
                 }
                 // 결투 턴일 때
                 else if (GameManager.Instance.duelTurn)

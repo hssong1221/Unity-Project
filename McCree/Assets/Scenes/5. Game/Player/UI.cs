@@ -24,6 +24,8 @@ namespace com.ThreeCS.McCree
         public Sprite emptyBullet;
         public Text nickName; // 닉네임
 
+        public Text cardNumText;
+
         [Header("뱅 준비 사거리 표시 관련 UI")]
         public Canvas attackRangeCanvas;  // 공격 사거리 캔버스
         public Image indicatorRangeCircle;// 공격 사거리 이미지
@@ -48,7 +50,6 @@ namespace com.ThreeCS.McCree
 
         public IEnumerator coroutine;
 
-        [HideInInspector]
         public Vector3 hpOffset;
         Vector3 bangOffset;
         Vector3 itemOffset;
@@ -107,17 +108,11 @@ namespace com.ThreeCS.McCree
             itemCanvas.transform.LookAt(itemCanvas.transform.position + Camera.main.transform.forward);
             progressCanvas.transform.LookAt(progressCanvas.transform.position + Camera.main.transform.forward);
 
-            if (photonView.IsMine)
-            {
-                // 각자 캐릭터 머리 위 UI 위치 고정
-                hpCanvas.transform.position = character.transform.position + hpOffset;
-                bangCanvas.transform.position = character.transform.position + bangOffset;
-                itemCanvas.transform.position = character.transform.position + itemOffset;
-                progressCanvas.transform.position = character.transform.position + progressOffset;
-
-            }
-            else
-                return;
+            // 각자 캐릭터 머리 위 UI 위치 고정
+            hpCanvas.transform.position = character.transform.position + hpOffset;
+            bangCanvas.transform.position = character.transform.position + bangOffset;
+            itemCanvas.transform.position = character.transform.position + itemOffset;
+            progressCanvas.transform.position = character.transform.position + progressOffset;
         }
 
 
@@ -200,6 +195,7 @@ namespace com.ThreeCS.McCree
         }
 
 
+        
 
 
 
