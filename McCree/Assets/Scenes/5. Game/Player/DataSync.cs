@@ -222,11 +222,12 @@ namespace com.ThreeCS.McCree
             // 1: 한명 씩 선택하고 false로 돌아옴
             else if(state == 1)
             {
-                playerInfo.isStore = false;
-                MineUI.Instance.cardblockingPanel.SetActive(false);
                 //카드 하나 먹고 자동으로 다음사람으로 넘어감 그렇게 한바퀴 돌고 다시 돌아옴
                 if (photonView.IsMine)
-                    GameManager.Instance.NextBtnClick();
+                    GameManager.Instance.NextBtnClick("store");
+
+                playerInfo.isStore = false;
+                MineUI.Instance.cardblockingPanel.SetActive(false);
             }
         }
 

@@ -216,6 +216,7 @@ namespace com.ThreeCS.McCree
         public GameObject usecardPanel; // 카드 사용 판정 패널
 
         public GameObject delcardPanel; // 카드 삭제 판정 패널
+        public Text delcardText;
 
         [HideInInspector]
         public bool isCard;             // 현재 선택한 카드가 있다는 의미
@@ -321,7 +322,7 @@ namespace com.ThreeCS.McCree
 
             // 사용한 카드가 점점 많아지면 다시 섞어줘야함
             // ----------------------------------------------------- shuffle 인덱스 
-            if(shuffleIdx >= 3)
+            if(shuffleIdx >= 50)
             {
                 shuffleIdx = 0;
                 if(PhotonNetwork.IsMasterClient && photonView.IsMine)
@@ -432,7 +433,61 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        // --------------------------------카드 기능 부활 중------------------------------------
+        IEnumerator JobandAbility()
+        {
+            yield return new WaitForEndOfFrame();
+
+            // (인구수에 맞게 하는 거 추가하기)
+            //List<int> jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
+            List<int> jobList = new List<int>() { 2 ,4, 7 }; // 3인 룰
+
+
+            // 능력 갯수에 맞게 해야함
+            List<int> abilityList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
+
+            jobList = CommonFunction.ShuffleList(jobList);
+            //Debug.Log("잡리스트" + jobList[0] + " " + jobList[1] + " " + jobList[2]);
+            abilityList = CommonFunction.ShuffleList(abilityList);
+            //Debug.Log("어빌리스트" + abilityList[0] + " " + abilityList[1] + " " + abilityList[2]);
+
+
+            // 직업을 나눠주고 동기화 시킴
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                Debug.Log("잡 리스트 번호 : " + jobList[i]);
+                playerList[i].GetComponent<PhotonView>().RPC("JobSelect", RpcTarget.All, jobList[i]);
+            }
+
+            // 능력을 나눠주고 동기화 시킴
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                Debug.Log("어빌 리스트 번호 : " + abilityList[i]);
+                playerList[i].GetComponent<PhotonView>().RPC("AbilitySelect", RpcTarget.All, abilityList[i]);
+            }
+
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                Debug.Log("체력 동기화 : " + playerList[i]);
+                playerList[i].GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All, -10);
+            }
+            yield return new WaitForEndOfFrame();
+        }
+
+        // 애니메이션 스타트
+        IEnumerator AnimPlay()
+        {
+            yield return new WaitForEndOfFrame();
+
+            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+            {
+                playerList[i].GetComponent<PhotonView>().RPC("AnimStart", RpcTarget.All);
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+
+
+        // 카드 덱 초기화 기능
         IEnumerator GiveCardSet()
         {
             // 임시 카드셋
@@ -524,7 +579,7 @@ namespace com.ThreeCS.McCree
 
             // 카드 리스트 에서 타입만 임시리스트로
             Debug.Log("shuffle start");
-            foreach(Card c in cardList)
+            foreach (Card c in cardList)
             {
                 temp.Add(c.cardContent);
                 Debug.Log(c.cardContent);
@@ -538,58 +593,6 @@ namespace com.ThreeCS.McCree
             yield return null;
         }
 
-        IEnumerator JobandAbility()
-        {
-            yield return new WaitForEndOfFrame();
-
-            // (인구수에 맞게 하는 거 추가하기)
-            //List<int> jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
-            List<int> jobList = new List<int>() { 2 ,4, 7 }; // 3인 룰
-
-
-            // 능력 갯수에 맞게 해야함
-            List<int> abilityList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
-
-            jobList = CommonFunction.ShuffleList(jobList);
-            //Debug.Log("잡리스트" + jobList[0] + " " + jobList[1] + " " + jobList[2]);
-            abilityList = CommonFunction.ShuffleList(abilityList);
-            //Debug.Log("어빌리스트" + abilityList[0] + " " + abilityList[1] + " " + abilityList[2]);
-
-
-            // 직업을 나눠주고 동기화 시킴
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                Debug.Log("잡 리스트 번호 : " + jobList[i]);
-                playerList[i].GetComponent<PhotonView>().RPC("JobSelect", RpcTarget.All, jobList[i]);
-            }
-
-            // 능력을 나눠주고 동기화 시킴
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                Debug.Log("어빌 리스트 번호 : " + abilityList[i]);
-                playerList[i].GetComponent<PhotonView>().RPC("AbilitySelect", RpcTarget.All, abilityList[i]);
-            }
-
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                Debug.Log("체력 동기화 : " + playerList[i]);
-                playerList[i].GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All, -10);
-            }
-            yield return new WaitForEndOfFrame();
-        }
-
-        // 애니메이션 스타트
-        IEnumerator AnimPlay()
-        {
-            yield return new WaitForEndOfFrame();
-
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                playerList[i].GetComponent<PhotonView>().RPC("AnimStart", RpcTarget.All);
-            }
-
-            yield return new WaitForEndOfFrame();
-        }
 
         // 게임 동작 시작
         public IEnumerator GameStart()
@@ -668,6 +671,7 @@ namespace com.ThreeCS.McCree
             // 카드 초기화를 위해 켜야함
             usecardPanel.SetActive(true);
             delcardPanel.SetActive(true);
+            delcardText.gameObject.SetActive(false);
 
             // 보안관을 시작으로 순서 정하기 
             // 보안관 앉은 위치찾기
@@ -738,6 +742,11 @@ namespace com.ThreeCS.McCree
 
             StartCoroutine("GameLoop2");
             yield return new WaitForSeconds(1f);
+        }
+        
+        public void GLStart() // gameloop1 실행 명령
+        {
+            StartCoroutine("GameLoop1");
         }
 
         IEnumerator GameLoop2() // 턴이 돌아가는 곳
@@ -928,7 +937,7 @@ namespace com.ThreeCS.McCree
                 {
                     // 일반 턴
                     // 본인턴에 카드 2장 뽑으면서 시작
-                    turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 1);
+                    turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 2);
                 }
                 else if(playerInfo.isStore == true)
                 {
@@ -955,13 +964,14 @@ namespace com.ThreeCS.McCree
                         turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
                         nextSignal = false;
                         myTurn = false;
-                        playerInfo.usedBang = false;
+                        if (!storeMaster)
+                            playerInfo.usedBang = false;
                         break;
                     }
                     // 본인 턴 때 실행 중
                     Debug.Log("턴 소요 중~~~~~~~~");
 
-                    photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNum);
+                    
 
                     yield return new WaitForSeconds(0.3f);
                 }
@@ -1321,13 +1331,20 @@ namespace com.ThreeCS.McCree
         }
 
         // 게임 중 턴 넘기는 버튼
-        public void NextBtnClick() 
+        public void NextBtnClick(string state = "default" ) 
         {
             //Debug.Log("턴 버튼 누름!");
             // 본인 카드가 본인 hp보다 많으면 못넘어감
             if(playerInfo.mycards.Count > playerInfo.hp)
             {
-                StartCoroutine(Alert(0));
+                // 잡화점 턴에는 카드 수 무시
+                if (state.Equals("store"))
+                {
+                    nextSignal = true;
+                    MineUI.Instance.NextButton.SetActive(false);
+                }
+                else
+                    StartCoroutine(Alert(0));
             }
             else
             {
@@ -1336,6 +1353,7 @@ namespace com.ThreeCS.McCree
             }
         }
 
+        // -------------------------------- 알림 패널 관련 0-------------------
         public void alertOrder(int num)
         {
             StartCoroutine(Alert(num));
@@ -1385,11 +1403,7 @@ namespace com.ThreeCS.McCree
                 MineUI.Instance.NextButton.SetActive(true);
         }
 
-        // gameloop1 실행 명령
-        public void GLStart()
-        {
-            StartCoroutine("GameLoop1");
-        }
+       
 
         // 본인 카드덱 찾게 도와줌
         public GameObject CallMyPlayer()
@@ -1463,9 +1477,11 @@ namespace com.ThreeCS.McCree
         // 카드 사용한 거 다시 카드 셋으로 넣는 기능
         public void AfterCardUse(Card.cType content, int state, bool equip) 
         {
+            //playerinfo에서 머리위 카드 숫자 보여줌
+            photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNumView);
+
             //Debug.Log("use card content : " + content);
             // 0: 카드사용 1: 카드 삭제 2: 인디언 사용
-
             // 카드 삭제일 때
             if (state == 1)
             {
@@ -2070,7 +2086,12 @@ namespace com.ThreeCS.McCree
                         if (go.CompareTag("Player"))
                             mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
                         else
-                            mat = hit.transform.GetComponent<MeshRenderer>().material;
+                        {
+                            if (go.name.Equals("Mustang"))
+                                mat = hit.transform.GetChild(0).GetChild(0).gameObject.GetComponent<SkinnedMeshRenderer>().material;
+                            else
+                                mat = hit.transform.GetComponent<MeshRenderer>().material;
+                        }
 
                         mat.EnableKeyword("_EMISSION");
                         mat.SetColor("_EmissionColor", Color.red * 0.5f);
@@ -2081,7 +2102,13 @@ namespace com.ThreeCS.McCree
                         if (temp.CompareTag("Player"))
                             mat = temp.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
                         else if (temp.CompareTag("Item") || temp.CompareTag("Weapon"))
-                            mat = temp.transform.GetComponent<MeshRenderer>().material;
+                        {
+                            // 야생마는 구조가 다름
+                            if (temp.name.Equals("Mustang"))
+                                mat = temp.transform.GetChild(0).GetChild(0).gameObject.GetComponent<SkinnedMeshRenderer>().material;
+                            else
+                                mat = temp.transform.GetComponent<MeshRenderer>().material;
+                        }
                         else
                             mat = null;
 
@@ -2137,9 +2164,18 @@ namespace com.ThreeCS.McCree
                         Debug.Log("아이템 선택 : " + go);
                         playerInfo.useCat = true;
                         // 클릭했으니까 하이라이트 꺼야함
-                        mat = hit.transform.GetComponent<MeshRenderer>().material;
-                        mat.EnableKeyword("_EMISSION");
-                        mat.SetColor("_EmissionColor", Color.black);
+                        if (go.name.Equals("Mustang"))
+                        {
+                            mat = hit.transform.GetChild(0).GetChild(0).gameObject.GetComponent<SkinnedMeshRenderer>().material;
+                            mat.EnableKeyword("_EMISSION");
+                            mat.SetColor("_EmissionColor", Color.black);
+                        }
+                        else
+                        {
+                            mat = hit.transform.GetComponent<MeshRenderer>().material;
+                            mat.EnableKeyword("_EMISSION");
+                            mat.SetColor("_EmissionColor", Color.black);
+                        }
 
                         // 아이템 클릭하면 부모는 게임플레이트고 그거의 부모가 의자(0 - 6 플레이어 idx)
                         GameObject tmp = go.transform.parent.gameObject;

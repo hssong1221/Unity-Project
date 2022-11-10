@@ -298,6 +298,7 @@ namespace com.ThreeCS.McCree
                 Color color_d = delcardPanel.GetComponent<Image>().color;
                 color_d.a = 0f;
                 delcardPanel.GetComponent<Image>().color = color_d;
+                GameManager.Instance.delcardText.gameObject.SetActive(false);
             }
             else if(num == 1) // 불투명
             {
@@ -308,6 +309,7 @@ namespace com.ThreeCS.McCree
                 Color color_d = delcardPanel.GetComponent<Image>().color;
                 color_d.a = 0.4f;
                 delcardPanel.GetComponent<Image>().color = color_d;
+                GameManager.Instance.delcardText.gameObject.SetActive(true);
             }
         }
 
@@ -322,16 +324,10 @@ namespace com.ThreeCS.McCree
             // 누르면 커져서 잘 보이게 만듬
             transform.DOScale(transform.localScale * 1.5f, 0.1f);
 
-            // 뱅을 한번 쓴 상태
-            if (player.GetComponent<PlayerInfo>().usedBang && targetUI.GetComponent<Card>().cardContent == cType.Bang)
-            {
-                GameManager.Instance.alertOrder(1);
-                return;
-            }
-
             if (GameManager.Instance.myTurn == true)
             {
-                PanelOnOFF(1);
+                if (!player.GetComponent<PlayerInfo>().isStore)
+                    PanelOnOFF(1);
                 useCard = false;
 
                 // 현재 카드 사용 중에는 다른거 취급 못하게 함 
@@ -427,6 +423,14 @@ namespace com.ThreeCS.McCree
             // 카드 사용 위치에 올려놔서 카드를 사용함
             if (useCard) 
             {
+                // 뱅을 한번 쓴 상태
+                if (player.GetComponent<PlayerInfo>().usedBang && targetUI.GetComponent<Card>().cardContent == cType.Bang)
+                {
+                    GameManager.Instance.alertOrder(1);
+                    targetUI.position = startPnt;
+                    return;
+                }
+
                 if (player.GetComponent<PlayerInfo>().isTarget == 3)
                 {
                     // 타겟이여서 회피카드를 내야할 때
@@ -535,7 +539,7 @@ namespace com.ThreeCS.McCree
                     {
                         // 항복 패널끄고 다음턴으로 자동으로 넘어가게 함
                         MineUI.Instance.duelPanel.SetActive(false);
-                        GameManager.Instance.NextBtnClick();
+                        GameManager.Instance.NextBtnClick("duel");
                         // 뱅 카드 덱 뒤에 추가
                         player.GetComponent<PhotonView>().RPC("CardDeckSync", RpcTarget.All, cType.Bang);
                     }

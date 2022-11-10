@@ -283,7 +283,7 @@ namespace com.ThreeCS.McCree
         public void PanicTargetCardDel(int num)  // 강탈타겟 카드 하나 삭제후 똑같은거 사용자에게 추가
         {
             System.Random rand = new System.Random();
-            int n = rand.Next(0, num + 1);  // 내 카드 갯수
+            int n = rand.Next(0, num);  // 내 카드 갯수
 
             int i = 0;
             foreach (Card card in playerInfo.mycards)

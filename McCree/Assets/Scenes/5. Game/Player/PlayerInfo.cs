@@ -61,6 +61,7 @@ namespace com.ThreeCS.McCree
         public List<Card> mycards = new List<Card>();
 
         public int mycardNum;
+        public int mycardNumView;
 
         // 공격자 상태
         public bool waitAvoid = false;  // 본인이 지금 상대방의 avoid를 기다리고 있는 중인지
@@ -244,8 +245,8 @@ namespace com.ThreeCS.McCree
         {
             if (photonView.IsMine)
             {
-                mycardNum = mycards.Count;
-                Debug.Log("c n : " + mycardNum);
+                mycardNumView = mycards.Count;
+                //Debug.Log("c n : " + mycardNum);
             }
         }
 
@@ -297,7 +298,6 @@ namespace com.ThreeCS.McCree
             ui.cardNumText.enabled = true;
             ui.cardNumText.gameObject.SetActive(true);
             ui.cardNumText.text = num.ToString();
-
         }
 
         [PunRPC]
@@ -356,30 +356,33 @@ namespace com.ThreeCS.McCree
                 GameObject[] cards = GameObject.FindGameObjectsWithTag("Card");
                 foreach (GameObject card in cards)
                     Destroy(card);
-            }
 
-            // 다른 사람들이 선택 못하게 투명하게 만듬
-            character.SetActive(false);
 
-            // 3인 룰에선 죽이면 3장임
-            if(GameManager.Instance.playerList.Length == 3)
-            {
-                // 유효하게 죽었다면
-                if (attackerIdx >= 0)
-                    GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
-            }
-            else
-            {
-                // 내가 무법자인데 죽으면 죽인사람한테 카드 3장
-                if (playerManager.playerType == GameManager.jType.Outlaw)
+                // 3인 룰에선 죽이면 3장임
+                if (GameManager.Instance.playerList.Length == 3)
                 {
                     // 유효하게 죽었다면
                     if (attackerIdx >= 0)
                         GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
                 }
-                // 내가 부관인데 죽인 사람이 보안관이면 보안관 손 덱 전부 삭제
-                // 구현 예정
+                else
+                {
+                    // 내가 무법자인데 죽으면 죽인사람한테 카드 3장
+                    if (playerManager.playerType == GameManager.jType.Outlaw)
+                    {
+                        // 유효하게 죽었다면
+                        if (attackerIdx >= 0)
+                            GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
+                    }
+                    // 내가 부관인데 죽인 사람이 보안관이면 보안관 손 덱 전부 삭제
+                    // 구현 예정
+                }
             }
+
+            // 다른 사람들이 선택 못하게 투명하게 만듬
+            character.SetActive(false);
+
+          
         }
     }
 }
