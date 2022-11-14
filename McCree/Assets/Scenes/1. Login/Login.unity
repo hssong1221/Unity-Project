@@ -706,15 +706,15 @@ RectTransform:
   m_GameObject: {fileID: 348324739}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 563985321}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.5}
-  m_SizeDelta: {x: -20, y: -13}
+  m_AnchoredPosition: {x: -0.0050354004, y: -0.0007247925}
+  m_SizeDelta: {x: 399.98, y: 99.997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &348324741
 MonoBehaviour:
@@ -738,14 +738,14 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: dbea6ffac31f4a64984afcab8226fcd6, type: 3}
-    m_FontSize: 30
-    m_FontStyle: 1
-    m_BestFit: 0
+    m_FontSize: 80
+    m_FontStyle: 0
+    m_BestFit: 1
     m_MinSize: 2
-    m_MaxSize: 40
+    m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
-    m_RichText: 0
+    m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
@@ -1214,6 +1214,7 @@ MonoBehaviour:
   login_Canvas: {fileID: 1408249424}
   ID_Input: {fileID: 563985322}
   loginBtn: {fileID: 1419114435}
+  username: 
 --- !u!4 &540089938
 Transform:
   m_ObjectHideFlags: 0
@@ -1408,8 +1409,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 12}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -591, y: -283}
-  m_SizeDelta: {x: 230, y: 50}
+  m_AnchoredPosition: {x: -602, y: -314}
+  m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &563985322
 MonoBehaviour:
@@ -4692,15 +4693,15 @@ RectTransform:
   m_GameObject: {fileID: 1270677227}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 563985321}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.5}
-  m_SizeDelta: {x: -20, y: -13}
+  m_AnchoredPosition: {x: 0.0074768066, y: 0.00050354004}
+  m_SizeDelta: {x: 400.03, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1270677229
 MonoBehaviour:
@@ -4724,18 +4725,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: dbea6ffac31f4a64984afcab8226fcd6, type: 3}
-    m_FontSize: 20
+    m_FontSize: 85
     m_FontStyle: 2
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
-    m_MaxSize: 40
+    m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\uC544\uC774\uB514\uB97C \uC785\uB825\uD574\uC8FC\uC138\uC694"
+  m_Text: "\uB2C9\uB124\uC784\uC744 \n\uC785\uB825\uD574\uC8FC\uC138\uC694"
 --- !u!222 &1270677230
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6310,15 +6311,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4822693704460284, guid: 0c5cfbad2d3e92549b7460cfed73db2f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.63
+      value: -8.18
       objectReference: {fileID: 0}
     - target: {fileID: 4822693704460284, guid: 0c5cfbad2d3e92549b7460cfed73db2f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 64.18
+      value: 64.99
       objectReference: {fileID: 0}
     - target: {fileID: 4822693704460284, guid: 0c5cfbad2d3e92549b7460cfed73db2f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.47
+      value: 5.92
       objectReference: {fileID: 0}
     - target: {fileID: 4822693704460284, guid: 0c5cfbad2d3e92549b7460cfed73db2f, type: 3}
       propertyPath: m_LocalRotation.w

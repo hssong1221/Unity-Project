@@ -760,7 +760,7 @@ namespace com.ThreeCS.McCree
             photonView.RPC("MyCardSync", RpcTarget.All);
 
             //playerinfo에서 머리위 카드 숫자 보여줌
-            photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNumView);
+            photonView.RPC("CardNumView", RpcTarget.All, 5);
 
             // 턴 진행
             Debug.Log("현재 턴 진행 진입");
@@ -964,9 +964,6 @@ namespace com.ThreeCS.McCree
 
                 // 본인턴에 본인 몸이 빛남 - 나중에 추가 예정
 
-                //playerinfo에서 머리위 카드 숫자 보여줌
-                photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNumView);
-
                 while (true)
                 {
                     if (nextSignal)
@@ -983,7 +980,7 @@ namespace com.ThreeCS.McCree
                     Debug.Log("턴 소요 중~~~~~~~~");
 
                     //playerinfo에서 머리위 카드 숫자 보여줌 - 해결을 못하면 여기에 배치 할 듯
-                    //photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNumView);
+                    photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNumView);
 
                     yield return new WaitForSeconds(0.3f);
                 }
