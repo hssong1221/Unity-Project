@@ -832,7 +832,10 @@ namespace com.ThreeCS.McCree
                         MineUI.Instance.surrenderBtn.gameObject.SetActive(false);
                     }
 
-                    yield return new WaitForSeconds(0.1f);
+                    //playerinfo에서 머리위 카드 숫자 보여줌 - 해결을 못하면 여기에 배치 할 듯
+                    photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNumView);
+                    yield return new WaitForSeconds(0.3f);
+
                     continue;
                 }
 
@@ -962,18 +965,23 @@ namespace com.ThreeCS.McCree
                     MineUI.Instance.NextButton.SetActive(true);
                 }
 
-                // 본인턴에 본인 몸이 빛남 - 나중에 추가 예정
+                // 본인턴에 본인 몸이 빛남
+                photonView.RPC("TurnColor", RpcTarget.All, tidx, 1);
 
                 while (true)
                 {
                     if (nextSignal)
                     {
                         Debug.Log("턴 넘김");
+                        photonView.RPC("TurnColor", RpcTarget.All, tidx, 0);
+
                         turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
                         nextSignal = false;
                         myTurn = false;
                         if (!storeMaster)
                             playerInfo.usedBang = false;
+
+                        
                         break;
                     }
                     // 본인 턴 때 실행 중
@@ -1370,7 +1378,7 @@ namespace com.ThreeCS.McCree
         {
             //Debug.Log("턴 버튼 누름!");
             // 본인 카드가 본인 hp보다 많으면 못넘어감
-            /*if(playerInfo.mycards.Count > playerInfo.hp)
+            if(playerInfo.mycards.Count > playerInfo.hp)
             {
                 // 잡화점 턴에는 카드 수 무시
                 if (state.Equals("store"))
@@ -1385,11 +1393,11 @@ namespace com.ThreeCS.McCree
             {
                 nextSignal = true;
                 MineUI.Instance.NextButton.SetActive(false);
-            }*/
+            }
 
             // 임시로 해놓은 거
-            nextSignal = true;
-            MineUI.Instance.NextButton.SetActive(false);
+            //nextSignal = true;
+            //MineUI.Instance.NextButton.SetActive(false);
         }
 
         // -------------------------------- 알림 패널 관련 0-------------------
@@ -1462,12 +1470,13 @@ namespace com.ThreeCS.McCree
         }
 
         // 본인이 뱅 타겟되었다는 UI on
-        public void TargetedPanelOn()
+        public void TargetedPanelOn(string msg = "")
         {
             //if(player1.GetComponent<PlayerInfo>().isTarget == true)
             if (playerInfo.isTarget == 1 || playerInfo.isTarget == 2)
             {
                 MineUI.Instance.targetedPanel.SetActive(true);
+                MineUI.Instance.ttext.text = msg;
             }
         }
 

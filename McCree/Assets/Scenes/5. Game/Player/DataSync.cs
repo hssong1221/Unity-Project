@@ -98,6 +98,25 @@ namespace com.ThreeCS.McCree
             playerInfo.attackerIdx = -1;
         }
 
+        // 본인턴에 몸이 빛나서 다른사람에게도 자기 턴이라는 것을 알리기
+        [PunRPC]
+        public void TurnColor(int idx, int state)
+        {
+            Material mat;
+            if (state == 0) //color OFF
+            {
+                mat = GameManager.Instance.turnList[idx].transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                mat.EnableKeyword("_EMISSION");
+                mat.SetColor("_EmissionColor", Color.black * 0.5f);
+            }
+            else if(state == 1) // color ON
+            {
+                mat = GameManager.Instance.turnList[idx].transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
+                mat.EnableKeyword("_EMISSION");
+                mat.SetColor("_EmissionColor", Color.blue * 0.5f);
+            }
+        }
+
         #endregion
 
         [PunRPC]
@@ -135,10 +154,12 @@ namespace com.ThreeCS.McCree
             // 1 : bang, MG
             // 2 : indian
             playerInfo.isTarget = state;
+            // 공격자인덱스를 타겟에 저장
             playerInfo.attackerIdx = attackerIdx;
-            GameManager.Instance.TargetedPanelOn();
-
-            // 공격자이름을 타겟에 저장
+            if(state == 1)
+                GameManager.Instance.TargetedPanelOn("공격 당하는 중! 회피하세요. (Dodge 필요)");
+            else
+                GameManager.Instance.TargetedPanelOn("공격 당하는 중! 반격하세요. (Bang 필요)");
         }
 
         // 뱅 카드를 내고 회피를 기다리는 상태라는 것을 알림
