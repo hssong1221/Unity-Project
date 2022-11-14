@@ -784,8 +784,8 @@ namespace com.ThreeCS.McCree
                         myTurn = false;
                         continue;
                     }
-
-                    playerInfo.attackerIdx = -1;
+                    // 살아있으니까 때린사람 초기화
+                    photonView.RPC("AttackerIdxSync", RpcTarget.All);
                 }
                 // 본인턴이 아니라면 반복문 통과 못하고 대기중
                 else
@@ -937,7 +937,7 @@ namespace com.ThreeCS.McCree
                 }
                 
 
-                // -- 카드 드로우 --
+                // ------ 카드 드로우 -------
                 if(playerInfo.isStore == false && storeMaster == false && playerInfo.isDuel == false && duelMaster == false)
                 {
                     // 일반 턴
@@ -949,6 +949,10 @@ namespace com.ThreeCS.McCree
                     // 잡화점 턴은 카드 안뽑음
                     // 잡화점 본인 턴이 오면 블록 패널 꺼줘서 클릭가능 
                     MineUI.Instance.blockingPanel.SetActive(false);
+                }
+                else if (storeMaster)
+                {
+                    // 잡화점을 사용한 사람이 한바퀴돌고 다시 돌아왔을 때 카드 안뽑음
                     storeMaster = false;
                 }
                 else if(playerInfo.isDuel == false && duelMaster == true)
@@ -1369,7 +1373,7 @@ namespace com.ThreeCS.McCree
         {
             //Debug.Log("턴 버튼 누름!");
             // 본인 카드가 본인 hp보다 많으면 못넘어감
-            if(playerInfo.mycards.Count > playerInfo.hp)
+            /*if(playerInfo.mycards.Count > playerInfo.hp)
             {
                 // 잡화점 턴에는 카드 수 무시
                 if (state.Equals("store"))
@@ -1384,7 +1388,11 @@ namespace com.ThreeCS.McCree
             {
                 nextSignal = true;
                 MineUI.Instance.NextButton.SetActive(false);
-            }
+            }*/
+
+            // 임시로 해놓은 거
+            nextSignal = true;
+            MineUI.Instance.NextButton.SetActive(false);
         }
 
         // -------------------------------- 알림 패널 관련 0-------------------

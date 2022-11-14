@@ -91,6 +91,13 @@ namespace com.ThreeCS.McCree
             GameManager.Instance.tidx++;
         }
 
+        // 턴 지나고 살아있으면 공격자 인덱스 저장한거 삭제하기
+        [PunRPC]
+        public void AttackerIdxSync()
+        {
+            playerInfo.attackerIdx = -1;
+        }
+
         #endregion
 
         [PunRPC]
@@ -120,7 +127,7 @@ namespace com.ThreeCS.McCree
             GameManager.Instance.cardList.Insert(0, card);
         }
 
-        // 뱅 카드의 타겟이 되었을 때
+        // 뱅 카드의 타겟이 되었을 때 (공격카드 포함)
         [PunRPC]
         public void BangTargeted(int state, int attackerIdx)
         {
