@@ -365,14 +365,15 @@ namespace com.ThreeCS.McCree
                 // 내 상태 변경(잡화점 끝)
                 player.GetComponent<PhotonView>().RPC("StoreSync", RpcTarget.All, 1);
 
+                while (player.GetComponent<PlayerInfo>().isStore)
+                    Debug.Log("삭제 전 대기");
+
 
                 // 스토어 리스트에 카드 오브젝트 destroy(모든 사람)
                 foreach (GameObject player in GameManager.Instance.turnList)
                 {
                     player.GetComponent<PhotonView>().RPC("StoreCardDel", RpcTarget.All, storeIdx);
                 }
-
-                //Destroy(targetUI.gameObject);
             }
             // 캣 벌로우 카드 선택 시
             if (player.GetComponent<PlayerInfo>().useCat)

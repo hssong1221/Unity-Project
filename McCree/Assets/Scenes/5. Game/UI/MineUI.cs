@@ -132,7 +132,6 @@ namespace com.ThreeCS.McCree
         public GameObject blockingPanel;
         public GameObject cardblockingPanel;
 
-
         #endregion
 
 

@@ -224,6 +224,8 @@ namespace com.ThreeCS.McCree
 
             wName = "Colt";
 
+            mycardNumView = 5;
+
             MineUI.Instance.statusPanel.gameObject.SetActive(true);
 
             content = GameObject.FindGameObjectWithTag("Content").transform;

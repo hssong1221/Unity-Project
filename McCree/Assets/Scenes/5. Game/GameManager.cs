@@ -109,9 +109,11 @@ namespace com.ThreeCS.McCree
         public Button bangBtn;
 
 
-        [Header("게임 종료 관련 UI")]
+        [Header("게임 승리 패배 관련 UI")]
         public GameObject vicPanel;
-        public GameObject backPlane;
+        public GameObject vicText;  // 승리
+        public GameObject defText;  // 패배
+        public GameObject backPlane;    // 게임종료시 켜지는 배경 판때기
 
         [Header("게임 종료후 출력 될 위치와 플레이어 오브젝트")]
         public GameObject[] pnt;
@@ -241,11 +243,12 @@ namespace com.ThreeCS.McCree
         [HideInInspector]
         public bool avoidBtnFlag = false;
 
+        // 죽은 사람 숫자
+        public int deadman;
+
         // 잡화점 주인
-        [HideInInspector]
         public bool storeMaster = false;
 
-        [HideInInspector]
         // 결투를 시작 사람
         public bool duelMaster = false;
 
@@ -738,7 +741,6 @@ namespace com.ThreeCS.McCree
             // 시점을 1인칭으로 바꿈
             cam.ChildCameras[2].gameObject.SetActive(true);
             cam.ChildCameras[1].gameObject.SetActive(false);
-            
 
             StartCoroutine("GameLoop2");
             yield return new WaitForSeconds(1f);
@@ -756,6 +758,9 @@ namespace com.ThreeCS.McCree
 
             // 시작 전 플레이어들의 카드 리스트를 동기화 시킴
             photonView.RPC("MyCardSync", RpcTarget.All);
+
+            //playerinfo에서 머리위 카드 숫자 보여줌
+            photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNumView);
 
             // 턴 진행
             Debug.Log("현재 턴 진행 진입");
@@ -952,9 +957,11 @@ namespace com.ThreeCS.McCree
                     duelMaster = false;
                     MineUI.Instance.NextButton.SetActive(true);
                 }
-                
-                // 본인턴에 본인 몸이 빛남
 
+                // 본인턴에 본인 몸이 빛남 - 나중에 추가 예정
+
+                //playerinfo에서 머리위 카드 숫자 보여줌
+                photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNumView);
 
                 while (true)
                 {
@@ -971,7 +978,8 @@ namespace com.ThreeCS.McCree
                     // 본인 턴 때 실행 중
                     Debug.Log("턴 소요 중~~~~~~~~");
 
-                    
+                    //playerinfo에서 머리위 카드 숫자 보여줌 - 해결을 못하면 여기에 배치 할 듯
+                    //photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNumView);
 
                     yield return new WaitForSeconds(0.3f);
                 }
@@ -1250,18 +1258,44 @@ namespace com.ThreeCS.McCree
             vicPanel.SetActive(true);
             backPlane.SetActive(true);
 
+            // 카드 UI 버튼 UI싹다 off
+            MineUI.Instance.pos_CardParent.gameObject.SetActive(false);
+            MineUI.Instance.NextButton.SetActive(false);
+
             SpawnWinner();
 
+            // 본인 직업따라 승리 패배 결정
+
+            jType temp = playerManager.playerType;
             switch (winner)
             {
                 case "sherrif":
+                    if (temp == jType.Sheriff || temp == jType.Vice)
+                        vicText.gameObject.SetActive(true);
+                    else
+                        defText.gameObject.SetActive(true);
                     Debug.Log("보안관과 부관 승리!");
                     break;
                 case "outlaw":
+                    if (temp == jType.Outlaw)
+                        vicText.gameObject.SetActive(true);
+                    else
+                        defText.gameObject.SetActive(true);
                     Debug.Log("무법자 승리!");
                     break;
                 case "renegade":
+                    if (temp == jType.Renegade)
+                        vicText.gameObject.SetActive(true);
+                    else
+                        defText.gameObject.SetActive(true);
                     Debug.Log("배신자 승리");
+                    break;
+                case "vice":    // 3인룰 에서만 등장
+                    if (temp == jType.Vice)
+                        vicText.gameObject.SetActive(true);
+                    else
+                        defText.gameObject.SetActive(true);
+                    Debug.Log("부관 승리");
                     break;
                 default:
                     Debug.Log("어딘가에서 조건 빠진게 생김");
@@ -1478,8 +1512,7 @@ namespace com.ThreeCS.McCree
         public void AfterCardUse(Card.cType content, int state, bool equip) 
         {
             //playerinfo에서 머리위 카드 숫자 보여줌
-            photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNumView);
-
+            photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNumView - 1);
             //Debug.Log("use card content : " + content);
             // 0: 카드사용 1: 카드 삭제 2: 인디언 사용
             // 카드 삭제일 때
@@ -1587,9 +1620,6 @@ namespace com.ThreeCS.McCree
             // 카드더미 동기화 시켜주기 - DataSync로
             if(!equip) // 장착카드 아니면 사용 후 바로 덱에 추가
                 photonView.RPC("CardDeckSync", RpcTarget.All, content);
-
-            
-
         }
 
         #endregion
@@ -1699,19 +1729,25 @@ namespace com.ThreeCS.McCree
         {
             photonView.RPC("MgSync", RpcTarget.All, 0);
 
+            deadman = 0;
             // 타겟 선언 및 상대편 화면에 UI 띄움
             foreach (GameObject player in playerList)
             {
                 // 본인 제외 전체 공격
                 if (player.GetComponent<PhotonView>().ViewID != player1.GetComponent<PhotonView>().ViewID)
-                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 1, tidx);
+                {
+                    if (!player.GetComponent<PlayerInfo>().isDeath)
+                        player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 1, tidx);
+                    else
+                        deadman++;
+                }
             }
 
             // 나의 waitAvoids 상태를 전체에게 동기화
             photonView.RPC("WaitAvoid", RpcTarget.All, 1);
 
             // 상대방의 avoid 갯수
-            while (playerInfo.waitAvoids < (playerList.Length - 1))
+            while (playerInfo.waitAvoids < (playerList.Length - (1 + deadman)))
             {
                 Debug.Log(playerInfo.waitAvoids);
                 Debug.Log("상대방의 회피를 기다리는 중 ");
@@ -1726,6 +1762,7 @@ namespace com.ThreeCS.McCree
 
             // 기관총 관련 플래그 초기화
             playerInfo.waitAvoids = -1;
+            deadman = 0;
 
             yield return new WaitForEndOfFrame();
         }
@@ -1733,20 +1770,26 @@ namespace com.ThreeCS.McCree
         IEnumerator Indian()
         {
             photonView.RPC("IndianSync", RpcTarget.All, 0);
+            deadman = 0;
 
             // 타겟 선언 및 상대편 화면에 UI 띄움
             foreach (GameObject player in playerList)
             {
                 // 본인 제외 전체 공격
                 if (player.GetComponent<PhotonView>().ViewID != player1.GetComponent<PhotonView>().ViewID)
-                    player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 2, tidx);
+                {
+                    if (!player.GetComponent<PlayerInfo>().isDeath)
+                        player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 2, tidx);
+                    else
+                        deadman++;
+                }
             }
 
             // 나의 waitBangs 상태를 전체에게 동기화(함수 돌려쓰기)
             photonView.RPC("WaitAvoid", RpcTarget.All, 2);
 
             // 상대방의 bang 갯수
-            while (playerInfo.waitBangs < (playerList.Length - 1))
+            while (playerInfo.waitBangs < (playerList.Length - (1 + deadman)))
             {
                 Debug.Log("상대방의 반격을 기다리는 중 ");
 
@@ -1761,6 +1804,7 @@ namespace com.ThreeCS.McCree
 
             // 인디언 관련 플래그 초기화
             playerInfo.waitBangs = -1;
+            deadman = 0;
             yield return new WaitForEndOfFrame();
         }
 
@@ -1913,6 +1957,10 @@ namespace com.ThreeCS.McCree
             // 모든 사람 hp1 회복
             foreach (GameObject player in turnList)
             {
+                // 죽은사람 건너뛰기
+                if (player.GetComponent<PlayerInfo>().isDeath)
+                    continue;
+
                 int temp = 0;
                 if (player.GetComponent<PlayerInfo>().hp == player.GetComponent<PlayerInfo>().maxHp)
                     temp = player.GetComponent<PlayerInfo>().hp;
@@ -1937,13 +1985,21 @@ namespace com.ThreeCS.McCree
         
         IEnumerator GeneralStore()
         {
+            // 죽은 사람 체크
+            deadman = 0;
+            foreach(GameObject player in turnList)
+            {
+                if (player.GetComponent<PlayerInfo>().isDeath)
+                    deadman++;
+            }
             // 카드를 인원수에 맞게 중앙에 펼침
-            photonView.GetComponent<PhotonView>().RPC("GiveStoreCard", RpcTarget.All, turnList.Count);
+            photonView.GetComponent<PhotonView>().RPC("GiveStoreCard", RpcTarget.All, (turnList.Count - deadman));
 
             // 모든 사람의 isStore true로 만듬
             photonView.GetComponent<PhotonView>().RPC("StoreSync", RpcTarget.All, 0);
 
             storeMaster = true;
+            deadman = 0;
 
             yield return null;
         }
@@ -2405,8 +2461,8 @@ namespace com.ThreeCS.McCree
                         photonView.RPC("DuelTurn", RpcTarget.All, 0);
 
                         // 본인과 상대편의 playerinfo의 isduel 켜줌
-                        photonView.RPC("DuelSync", RpcTarget.All, 0, tidx);
-                        go.GetPhotonView().RPC("DuelSync", RpcTarget.All, 0);
+                        photonView.RPC("DuelSync", RpcTarget.All, 0, -1);
+                        go.GetPhotonView().RPC("DuelSync", RpcTarget.All, 0, tidx);
 
                         // 내가 결투 카드를 내면 상대편부터 결투 턴이 시작 됨
                         // 턴을 넘겨버림

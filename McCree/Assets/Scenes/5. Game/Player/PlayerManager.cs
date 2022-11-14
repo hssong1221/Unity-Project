@@ -653,25 +653,25 @@ namespace com.ThreeCS.McCree
             {
                 case 1:
                     playerManager.playerType = GameManager.jType.Sheriff;
-                    playerInfo.hp = 4;
+                    playerInfo.hp = 2;
                     playerInfo.maxHp = 4;
                     break;
                 case 2:
                 case 3:
                     playerManager.playerType = GameManager.jType.Vice;
-                    playerInfo.hp = 4;
+                    playerInfo.hp = 2;
                     playerInfo.maxHp = 4;
                     break;
                 case 4:
                 case 5:
                 case 6:
                     playerManager.playerType = GameManager.jType.Outlaw;
-                    playerInfo.hp = 4;
+                    playerInfo.hp = 2;
                     playerInfo.maxHp = 4;
                     break;
                 case 7:
                     playerManager.playerType = GameManager.jType.Renegade;
-                    playerInfo.hp = 4;
+                    playerInfo.hp = 2;
                     playerInfo.maxHp = 4;
                     break;
             }

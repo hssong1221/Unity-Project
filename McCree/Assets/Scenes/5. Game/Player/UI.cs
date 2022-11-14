@@ -120,6 +120,9 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         public void GiveStoreCard(int num)
         {
+            // 카드 뽑는 도중에 건들면 버그남 - 카드 정렬 후 풀어주기
+            MineUI.Instance.blockingPanel.SetActive(true);
+
             Debug.Log("잡화점 진입");
             for(int i = 0; i < num; i++)
             {
@@ -133,11 +136,10 @@ namespace com.ThreeCS.McCree
                 var card = Instantiate(cardObject, MineUI.Instance.pos_CardSpwan.position, Quaternion.identity, MineUI.Instance.pos_StoreCardParent);
                 var card2 = card.GetComponent<Card>();
                 GameManager.Instance.storecardList.Add(card2);
-
-                StoreCardAlignment();
-
                 GameManager.Instance.cardList.RemoveAt(0);
             }
+            // 화면 가운데 정렬
+            StoreCardAlignment();
         }
 
         public void StoreCardAlignment()
@@ -152,6 +154,9 @@ namespace com.ThreeCS.McCree
                 targetCard.originPRS = originMyCards[i];
                 targetCard.MoveTransform(targetCard.originPRS, true, 0.9f);
             }
+
+            // 화면 잠금 풀어주기
+            MineUI.Instance.blockingPanel.SetActive(false);
         }
 
         List<Preset> LineAlignment(Transform leftTr, Transform rightTr, int objCount, Vector3 scale)
@@ -192,6 +197,10 @@ namespace com.ThreeCS.McCree
             playerInfo.mycards.Add(temp2);
 
             MineUI.Instance.CardAlignment();
+
+            // 스토어 카드였기 때문에 storeidx가 남아있는데 본인 덱 다시 초기화
+            foreach(Card c in playerInfo.mycards)
+                c.storeIdx = 1000;
         }
 
 
