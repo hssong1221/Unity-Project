@@ -1400,29 +1400,7 @@ namespace com.ThreeCS.McCree
             //MineUI.Instance.NextButton.SetActive(false);
         }
 
-        // -------------------------------- 알림 패널 관련 0-------------------
-        public void alertOrder(int num)
-        {
-            StartCoroutine(Alert(num));
-        }
-
-        IEnumerator Alert(int state)
-        {
-            if(state == 0) // hp 보다 카드가 많은데 nextbutton을 누름
-            {
-                MineUI.Instance.alertPanel.SetActive(true);
-                MineUI.Instance.alertText.text = "본인 카드 수가 본인 HP보다 많을 수 없습니다.";
-                yield return new WaitForSeconds(1.5f);
-                MineUI.Instance.alertPanel.SetActive(false);
-            }
-            else if(state == 1)
-            {
-                MineUI.Instance.alertPanel.SetActive(true);
-                MineUI.Instance.alertText.text = "Bang은 한턴에 한번만 쓸수 있습니다.";
-                yield return new WaitForSeconds(1.5f);
-                MineUI.Instance.alertPanel.SetActive(false);
-            }
-        }
+        
         
         // 게임 중 회피를 못할 때 그냥 맞는 버튼
         public void DamageBtn()
@@ -1443,7 +1421,7 @@ namespace com.ThreeCS.McCree
             // duelTurn을 끝내고 각 player의 isduel 상태를 false로
             // tidx = duelMaster 포함 되어있음 원래 순서로 돌아가는 코드 
             photonView.RPC("DuelTurn", RpcTarget.All, 1);
-            photonView.RPC("DuelSync", RpcTarget.All, 1);
+            photonView.RPC("DuelSync", RpcTarget.All, 1, -1);
 
             // 본인이 항복하면 턴 넘기기 버튼이 사라짐 그래서 다시 켜줌
             if (duelIdx == tidx)
@@ -1584,33 +1562,40 @@ namespace com.ThreeCS.McCree
                     if (playerInfo.isWeapon) // 현재 무기가 기본 무기가 아니면
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 2);
+                    photonView.RPC("AlertInfo", RpcTarget.All, "Weapon", ui.nickName.text, "r");
                     break;
                 case "Navy":
                     playerInfo.maximumRange = 3;
                     if (playerInfo.isWeapon) // 현재 무기가 기본 무기가 아니면
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 3);
+                    photonView.RPC("AlertInfo", RpcTarget.All, "Weapon", ui.nickName.text, "n");
                     break;
                 case "Carbine":
                     playerInfo.maximumRange = 4;
                     if (playerInfo.isWeapon) // 현재 무기가 기본 무기가 아니면
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 4);
+                    photonView.RPC("AlertInfo", RpcTarget.All, "Weapon", ui.nickName.text, "c");
                     break;
                 case "Winchester":
                     playerInfo.maximumRange = 5;
                     if (playerInfo.isWeapon) // 현재 무기가 기본 무기가 아니면
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 5);
+                    photonView.RPC("AlertInfo", RpcTarget.All, "Weapon", ui.nickName.text, "w");
                     break;
                 case "Scope":
                     photonView.RPC("ScopeSync", RpcTarget.All, 0);
+                    photonView.RPC("AlertInfo", RpcTarget.All, "Scope", ui.nickName.text, "");
                     break;
                 case "Mustang":
                     photonView.RPC("MustangSync", RpcTarget.All, 0);
+                    photonView.RPC("AlertInfo", RpcTarget.All, "Mustang", ui.nickName.text, "");
                     break;
                 case "Barrel":
                     photonView.RPC("BarrelSync", RpcTarget.All, 0);
+                    photonView.RPC("AlertInfo", RpcTarget.All, "Barrel", ui.nickName.text, "");
                     break;
                 case "Dynamite":
                     StartCoroutine("Dynamite");
@@ -1638,9 +1623,8 @@ namespace com.ThreeCS.McCree
 
         #endregion
 
-        // 카드  만드는 중
-        // 하이라이트 부분이 계속 반복 되므로 따로 함수로 빼는 것을 고려 해보기
         
+        // 하이라이트 부분이 계속 반복 되므로 따로 함수로 빼는 것을 고려 해보기
         #region 완성된 카드 기능 
 
         IEnumerator Bang()
@@ -1706,6 +1690,9 @@ namespace com.ThreeCS.McCree
                         {
                             // 타겟 선언 및 상대편 화면에 UI 띄움
                             go.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 1, tidx);
+                            // 전체 UI
+                            photonView.RPC("AlertInfo", RpcTarget.All, "Bang", ui.nickName.text, go.GetComponent<UI>().nickName.text);
+
 
                             // 나의 waitAvoid 상태를 전체에게 동기화
                             playerInfo.waitAvoid = true;
@@ -1751,7 +1738,11 @@ namespace com.ThreeCS.McCree
                 if (player.GetComponent<PhotonView>().ViewID != player1.GetComponent<PhotonView>().ViewID)
                 {
                     if (!player.GetComponent<PlayerInfo>().isDeath)
+                    {
                         player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 1, tidx);
+                        // 전체 UI
+                        photonView.RPC("AlertInfo", RpcTarget.All, "MG", ui.nickName.text, "");
+                    }
                     else
                         deadman++;
                 }
@@ -1793,7 +1784,11 @@ namespace com.ThreeCS.McCree
                 if (player.GetComponent<PhotonView>().ViewID != player1.GetComponent<PhotonView>().ViewID)
                 {
                     if (!player.GetComponent<PlayerInfo>().isDeath)
+                    {
                         player.GetComponent<PhotonView>().RPC("BangTargeted", RpcTarget.All, 2, tidx);
+                        // 전체 UI
+                        photonView.RPC("AlertInfo", RpcTarget.All, "Indian", ui.nickName.text, "");
+                    }
                     else
                         deadman++;
                 }
@@ -1963,6 +1958,8 @@ namespace com.ThreeCS.McCree
                 temp = ++playerInfo.hp;
 
             photonView.RPC("SyncHp", RpcTarget.All, temp);
+            //전체 UI
+            photonView.RPC("AlertInfo", RpcTarget.All, "Beer", ui.nickName.text, "");
             yield return new WaitForEndOfFrame();
         }
 
@@ -1982,18 +1979,26 @@ namespace com.ThreeCS.McCree
                     temp = ++player.GetComponent<PlayerInfo>().hp;
                 player.GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All, temp);
             }
+            //전체 UI
+            photonView.RPC("AlertInfo", RpcTarget.All, "Saloon", ui.nickName.text, "");
+
             yield return new WaitForEndOfFrame();
         }
 
         IEnumerator StageCoach()
         {
             turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 2);
+            //전체 UI
+            photonView.RPC("AlertInfo", RpcTarget.All, "Stage", ui.nickName.text, "");
             yield return null;
         }
 
         IEnumerator WellsFargo()
         {
             turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 3);
+            //전체 UI
+            photonView.RPC("AlertInfo", RpcTarget.All, "Wells", ui.nickName.text, "");
+
             yield return null;
         }
         
@@ -2006,6 +2011,9 @@ namespace com.ThreeCS.McCree
                 if (player.GetComponent<PlayerInfo>().isDeath)
                     deadman++;
             }
+            //전체 UI
+            photonView.RPC("AlertInfo", RpcTarget.All, "Store", ui.nickName.text, "");
+
             // 카드를 인원수에 맞게 중앙에 펼침
             photonView.GetComponent<PhotonView>().RPC("GiveStoreCard", RpcTarget.All, (turnList.Count - deadman));
 
@@ -2054,14 +2062,23 @@ namespace com.ThreeCS.McCree
                     if (go.CompareTag("Player") && bangClick)
                     {
                         Debug.Log("플레이어 선택 : " + go);
-
                         // 클릭했으니까 하이라이트 꺼야함
                         mat = hit.transform.GetComponentInChildren<SkinnedMeshRenderer>().material;
                         mat.EnableKeyword("_EMISSION");
                         mat.SetColor("_EmissionColor", Color.black);
 
+                        // 보안관은 감옥에 가둘수 없다.
+                        if (go.GetComponent<PlayerManager>().playerType == jType.Sheriff)
+                        {
+                            Alert(3);
+                            continue;
+                        }
+
                         // 감옥 동기화
                         go.GetComponent<PhotonView>().RPC("JailSync", RpcTarget.All, 0);
+
+                        //전체 UI
+                        photonView.RPC("AlertInfo", RpcTarget.All, "Jail", ui.nickName.text, go.GetComponent<UI>().nickName.text);
 
                         break;
                     }
@@ -2119,6 +2136,9 @@ namespace com.ThreeCS.McCree
 
                         // 다이너마이트 동기화
                         go.GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
+
+                        //전체 UI
+                        photonView.RPC("AlertInfo", RpcTarget.All, "Dyn", ui.nickName.text, go.GetComponent<UI>().nickName.text);
 
                         break;
                     }
@@ -2200,6 +2220,10 @@ namespace com.ThreeCS.McCree
                         // 상대편 클릭하고 상대편 덱의 갯수를 가져옴
                         go.GetComponent<PhotonView>().RPC("CatSync", RpcTarget.All, 0);
 
+                        //전체 UI
+                        photonView.RPC("AlertInfo", RpcTarget.All, "Cat", ui.nickName.text, go.GetComponent<UI>().nickName.text);
+
+
                         //gameloop2에서 cardNumSync하는거 기다림
                         yield return new WaitForSeconds(1.2f);
 
@@ -2247,6 +2271,9 @@ namespace com.ThreeCS.McCree
                             mat.SetColor("_EmissionColor", Color.black);
                         }
 
+                        //전체 UI
+                        photonView.RPC("AlertInfo", RpcTarget.All, "Cat", ui.nickName.text, go.GetComponent<UI>().nickName.text);
+
                         // 아이템 클릭하면 부모는 게임플레이트고 그거의 부모가 의자(0 - 6 플레이어 idx)
                         GameObject tmp = go.transform.parent.gameObject;
                         GameObject chair = tmp.transform.parent.gameObject;
@@ -2279,6 +2306,10 @@ namespace com.ThreeCS.McCree
                         mat = hit.transform.GetComponent<MeshRenderer>().material;
                         mat.EnableKeyword("_EMISSION");
                         mat.SetColor("_EmissionColor", Color.black);
+
+
+                        //전체 UI
+                        photonView.RPC("AlertInfo", RpcTarget.All, "Cat", ui.nickName.text, go.GetComponent<UI>().nickName.text);
 
                         // 아이템 클릭하면 부모는 게임플레이트고 그거의 부모가 의자(0 - 6 플레이어 idx)
                         GameObject tmp = go.transform.parent.gameObject;
@@ -2368,11 +2399,14 @@ namespace com.ThreeCS.McCree
                             mat.EnableKeyword("_EMISSION");
                             mat.SetColor("_EmissionColor", Color.black);
 
+                            //전체 UI
+                            photonView.RPC("AlertInfo", RpcTarget.All, "Panic", ui.nickName.text, go.GetComponent<UI>().nickName.text);
+
                             // 상대편 클릭하고 상대편 덱의 갯수를 가져옴
                             go.GetComponent<PhotonView>().RPC("PanicSync", RpcTarget.All, 0);
 
                             //gameloop2에서 cardNumSync하는거 기다림
-                            yield return new WaitForSeconds(1.2f);
+                            yield return new WaitForSeconds(2f);
 
                             // 빈 카드를 덱 갯수 만큼 생성함 - 캣벌로우 함수 가져다 씀 
                             MineUI.Instance.CatbalouCards(go.GetComponent<PlayerInfo>().mycardNum);
@@ -2471,6 +2505,9 @@ namespace com.ThreeCS.McCree
                         mat.EnableKeyword("_EMISSION");
                         mat.SetColor("_EmissionColor", Color.black);
 
+                        //전체 UI
+                        photonView.RPC("AlertInfo", RpcTarget.All, "Duel", ui.nickName.text, go.GetComponent<UI>().nickName.text);
+
                         // GM의 duelTurn을 켜줌
                         photonView.RPC("DuelTurn", RpcTarget.All, 0);
 
@@ -2495,6 +2532,71 @@ namespace com.ThreeCS.McCree
 
         #endregion
 
+
+
+        #region ALERT 패널 내용 
+        public void alertOrder(int num, string atk = "", string target = "")
+        {
+            StartCoroutine(Alert(num, atk, target));
+        }
+
+        IEnumerator Alert(int state, string atk = "", string target = "")
+        {
+            MineUI.Instance.alertPanel.SetActive(true);
+
+            if (state == 0) // hp 보다 카드가 많은데 nextbutton을 누름
+                MineUI.Instance.alertText.text = "본인 카드 수가 본인 HP보다 많을 수 없습니다.";
+            else if (state == 1)    // 뱅 사용후 또 뱅을 쓰려고 함
+                MineUI.Instance.alertText.text = "Bang은 본인 턴에 한 번만 쓸 수 있습니다.";
+            else if (state == 2)    // 보안관에게 감옥 사용
+                MineUI.Instance.alertText.text = "보안관을 감옥에 가둘 수 없습니다. 당연한거죠.";
+
+            if (state == 10)    // bang 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 " + target + " 에게 발사!";
+            else if (state == 11)    // MG 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 기관총을 난사 중!";
+            else if (state == 12)    // indian 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 인디언을 보내 공격 중!";
+            else if (state == 13)    // beer 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 맥주를 마시고 체력을 회복했습니다.";
+            else if (state == 14)    // saloon 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 모두를 위한 맥주를 한 잔씩 사줍니다. 체력 +1";
+            else if (state == 15)    // 역마차 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 역마차를 털고 카드 2장을 획득!";
+            else if (state == 16)    // 은행 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 은행 금고에서 카드를 3장 획득!";
+            else if (state == 17)    // 잡화점 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 잡화점을 열어 물품을 제공합니다.";
+            else if (state == 18)    // 감옥 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 " + target + "을(를) 감옥에 쳐넣었습니다.";
+            else if (state == 19)    // 다이너마이트 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 " + target + "에게 다이너마이트를 선물합니다.";
+            else if (state == 20)    // 캣벌로우 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 " + target + "의 카드나 아이템을 1개 제거!";
+            else if (state == 21)    // 강탈 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 " + target + "의 카드 한 장을 강탈!";
+            else if (state == 22)    //  결투 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 " + target + "에게 결투 신청!";
+            else if (state == 23)    // 조준경 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 조준경을 장착.";
+            else if (state == 24)    // 야생마 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 야생마를 타고 멀어짐.";
+            else if (state == 25)    // 술통 사용
+                MineUI.Instance.alertText.text = atk + " (이)가 술통 뒤에 숨었음.";
+            else if (state == 30)    
+                MineUI.Instance.alertText.text = atk + " 의 무기 변경( 러시안 리볼버 - 사거리 2 )";
+            else if (state == 31)    
+                MineUI.Instance.alertText.text = atk + " 의 무기 변경( 네이비 리볼버 - 사거리 3 )";
+            else if (state == 32)    
+                MineUI.Instance.alertText.text = atk + " 의 무기 변경( 카빈 소총 - 사거리 4 )";
+            else if (state == 33)    
+                MineUI.Instance.alertText.text = atk + " 의 무기 변경( 윈체스터 - 사거리 5 )";
+
+            yield return new WaitForSeconds(3f);
+            MineUI.Instance.alertPanel.SetActive(false);
+        }
+
+        #endregion
 
         #region Photon Callback
 

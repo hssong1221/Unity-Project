@@ -12,11 +12,16 @@ namespace com.ThreeCS.McCree
 {
     public class DataSync : Controller
     {
-        // 잡화점 카드 동시삭제를 위해 필요
-        public GameObject StoreCard;
+        #region public variable
 
-        // 내 카드덱 동기화하려고 
-        public List<Card> mycards = new List<Card>();
+            // 잡화점 카드 동시삭제를 위해 필요
+            public GameObject StoreCard;
+
+            // 내 카드덱 동기화하려고 
+            public List<Card> mycards = new List<Card>();
+
+        #endregion
+
 
         // 게임 시작 애니메이션 플레이
         [PunRPC]
@@ -28,79 +33,74 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        #region 앉은 후 게임 시작
 
-        // 보안관이 뱅 버튼 눌렀을 때 모든 사람의 인구수ui가 꺼져야함
-        [PunRPC]
-        public void StartUIOff()
-        {
-            GameManager.Instance.startPanel.SetActive(false);
-        }
+        #region 앉은 후 게임 시작하면서 해야하는 것들
 
-        // 게임 루프에 진입 명령
-        [PunRPC]
-        public void Gameloop()
+            // 보안관이 뱅 버튼 눌렀을 때 모든 사람의 인구수ui가 꺼져야함
+            [PunRPC]
+            public void StartUIOff()
+            {
+                GameManager.Instance.startPanel.SetActive(false);
+            }
+
+            // 게임 루프에 진입 명령
+            [PunRPC]
+            public void Gameloop()
         {
             // 본인만 진입시켜서 중복을 막음
             if (photonView.IsMine)
                 GameManager.Instance.GLStart();
         }
 
-        #endregion
-
-        // 내 체력 동기화
-        [PunRPC]
-        public void SyncHp(int hp)
-        {
-            if (hp == -10)
-                playerInfo.Show_Hp();
-            else
+            // 내 체력 동기화
+            [PunRPC]
+            public void SyncHp(int hp)
             {
-                playerInfo.hp = hp;
-                playerInfo.Show_Hp();
+                if (hp == -10)
+                    playerInfo.Show_Hp();
+                else
+                {
+                    playerInfo.hp = hp;
+                    playerInfo.Show_Hp();
+                }
+
             }
 
-        }
+            //UI 조정
+            [PunRPC]
+            public void UIMatch()
+            {
+                ui.hpOffset = new Vector3(0, 1.6f, 0);
+                string temp = "(" + playerManager.playerType.ToString() + ")";
+                ui.nickName.text += temp;
+            }
 
-        //UI 조정
-        [PunRPC]
-        public void UIMatch()
-        {
-            ui.hpOffset = new Vector3(0, 1.6f, 0);
-            string temp = "(" + playerManager.playerType.ToString() + ")";
-            ui.nickName.text += temp;
-        }
+        #endregion
+
 
         #region 턴 관련
 
-        // 본인 턴에 작동해서 턴 종료버튼이 본인에게만 보임
-        [PunRPC]
-        public void MyTurn(int idx)
-        {
-            if (photonView.IsMine)//(혹시 몰라서 추가)
+            // 본인 턴에 작동해서 턴 종료버튼이 본인에게만 보임
+            [PunRPC]
+            public void MyTurn(int idx)
             {
-                Debug.Log("현재 순서 : " + idx);
-                MineUI.Instance.NextButton.SetActive(true);
+                if (photonView.IsMine)//(혹시 몰라서 추가)
+                {
+                    Debug.Log("현재 순서 : " + idx);
+                    MineUI.Instance.NextButton.SetActive(true);
+                }
             }
-        }
 
-        // 현재 턴이 누군지 전체에게 알림
-        [PunRPC]
-        public void TurnIndexPlus()
-        {
-            GameManager.Instance.tidx++;
-        }
+            // 현재 턴이 누군지 전체에게 알림
+            [PunRPC]
+            public void TurnIndexPlus()
+            {
+                GameManager.Instance.tidx++;
+            }
 
-        // 턴 지나고 살아있으면 공격자 인덱스 저장한거 삭제하기
-        [PunRPC]
-        public void AttackerIdxSync()
-        {
-            playerInfo.attackerIdx = -1;
-        }
-
-        // 본인턴에 몸이 빛나서 다른사람에게도 자기 턴이라는 것을 알리기
-        [PunRPC]
-        public void TurnColor(int idx, int state)
+            // 본인턴에 몸이 빛나서 다른사람에게도 자기 턴이라는 것을 알리기
+            [PunRPC]
+            public void TurnColor(int idx, int state)
         {
             Material mat;
             if (state == 0) //color OFF
@@ -117,34 +117,48 @@ namespace com.ThreeCS.McCree
             }
         }
 
+            // 턴 지나고 살아있으면 공격자 인덱스 저장한거 삭제하기
+            [PunRPC]
+            public void AttackerIdxSync()
+            {
+                playerInfo.attackerIdx = -1;
+            }
+
         #endregion
 
-        [PunRPC]
-        public void MyCardSync()
-        {
-            mycards = playerInfo.mycards;
-        }
 
-        // 사용한 카드를 카드더미에 넣고 전체에게 동기화
-        [PunRPC]
-        public void CardDeckSync(Card.cType content)
-        {
-            //Debug.Log("datsync : " + content);
-            Card card = new Card();
-            card.cardContent = content;
-            GameManager.Instance.cardList.Add(card);
-            // 사용한 카드 +1
-            GameManager.Instance.shuffleIdx++;
-        }
-        // 사용한 카드를 카드더미 제일 앞에 넣고 전체에게 동기화
-        [PunRPC]
-        public void CardDeckFrontSync(Card.cType content)
-        {
-            //Debug.Log("datsync : " + content);
-            Card card = new Card();
-            card.cardContent = content;
-            GameManager.Instance.cardList.Insert(0, card);
-        }
+        #region 덱에 카드를 추가 하는 부분
+
+            [PunRPC]
+            public void MyCardSync()
+            {
+                mycards = playerInfo.mycards;
+            }
+
+            // 사용한 카드를 카드더미에 넣고 전체에게 동기화
+            [PunRPC]
+            public void CardDeckSync(Card.cType content)
+            {
+                //Debug.Log("datsync : " + content);
+                Card card = new Card();
+                card.cardContent = content;
+                GameManager.Instance.cardList.Add(card);
+                // 사용한 카드 +1
+                GameManager.Instance.shuffleIdx++;
+            }
+            // 사용한 카드를 카드더미 제일 앞에 넣고 전체에게 동기화
+            [PunRPC]
+            public void CardDeckFrontSync(Card.cType content)
+            {
+                //Debug.Log("datsync : " + content);
+                Card card = new Card();
+                card.cardContent = content;
+                GameManager.Instance.cardList.Insert(0, card);
+            }
+
+        #endregion
+
+        #region 카드 기능 구현할 때 필요한 data 동기화 하는 부분 
 
         // 뱅 카드의 타겟이 되었을 때 (공격카드 포함)
         [PunRPC]
@@ -494,6 +508,61 @@ namespace com.ThreeCS.McCree
                       
             }
             
+
+        }
+
+        #endregion
+
+        [PunRPC]
+        public void AlertInfo(string state, string atk, string target)
+        {
+            Debug.Log(state);
+            Debug.Log("atk : " + atk);
+            Debug.Log("target : " + target);
+
+            if (state.Equals("Bang"))
+                GameManager.Instance.alertOrder(10, atk, target);
+            else if(state.Equals("MG"))
+                GameManager.Instance.alertOrder(11, atk);
+            else if (state.Equals("Indian"))
+                GameManager.Instance.alertOrder(12, atk);
+            else if (state.Equals("Beer"))
+                GameManager.Instance.alertOrder(13, atk);
+            else if (state.Equals("Saloon"))
+                GameManager.Instance.alertOrder(14, atk);
+            else if (state.Equals("Stage"))
+                GameManager.Instance.alertOrder(15, atk);
+            else if (state.Equals("Wells"))
+                GameManager.Instance.alertOrder(16, atk);
+            else if (state.Equals("Store"))
+                GameManager.Instance.alertOrder(17, atk);
+            else if (state.Equals("Jail"))
+                GameManager.Instance.alertOrder(18, atk, target);
+            else if (state.Equals("Dyn"))
+                GameManager.Instance.alertOrder(19, atk, target);
+            else if (state.Equals("Cat"))
+                GameManager.Instance.alertOrder(20, atk, target);
+            else if (state.Equals("Panic"))
+                GameManager.Instance.alertOrder(21, atk, target);
+            else if (state.Equals("Duel"))
+                GameManager.Instance.alertOrder(22, atk, target);
+            else if (state.Equals("Scope"))
+                GameManager.Instance.alertOrder(23, atk);
+            else if (state.Equals("Mustang"))
+                GameManager.Instance.alertOrder(24, atk);
+            else if (state.Equals("Barrel"))
+                GameManager.Instance.alertOrder(25, atk);
+            else if (state.Equals("Weapon"))
+            {
+                if(target.Equals("r"))
+                    GameManager.Instance.alertOrder(30, atk);
+                else if (target.Equals("n"))
+                    GameManager.Instance.alertOrder(31, atk);
+                else if (target.Equals("c"))
+                    GameManager.Instance.alertOrder(32, atk);
+                else if (target.Equals("w"))
+                    GameManager.Instance.alertOrder(33, atk);
+            }
 
         }
     }
