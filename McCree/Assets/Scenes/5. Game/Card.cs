@@ -92,7 +92,7 @@ namespace com.ThreeCS.McCree
         // mycards 에서의 카드 인덱스
         public int idx = 0;
 
-        // storeList에서의 인덱스(잡화점때 삭제 카드 인식에 필요)
+        // storeList에서의 인덱스(잡화점때 삭제 카드 인식에 필요 - 강탈 캣벌루도 사용)
         public int storeIdx;
 
         [Header("카드 사용 판정 패널")]
@@ -289,7 +289,8 @@ namespace com.ThreeCS.McCree
         // 카드 선택시 판정 패널 보였다 안보였다 하는 거
         public void PanelOnOFF(int num)
         {
-            if(num == 0) // 투명
+            // 투명
+            if (num == 0) 
             {
                 Color color = usecardPanel.GetComponent<Image>().color;
                 color.a = 0f;
@@ -300,7 +301,8 @@ namespace com.ThreeCS.McCree
                 delcardPanel.GetComponent<Image>().color = color_d;
                 GameManager.Instance.delcardText.gameObject.SetActive(false);
             }
-            else if(num == 1) // 불투명
+            // 불투명
+            else if (num == 1) 
             {
                 Color color = usecardPanel.GetComponent<Image>().color;
                 color.a = 0.4f;
@@ -328,6 +330,10 @@ namespace com.ThreeCS.McCree
             {
                 if (!player.GetComponent<PlayerInfo>().isStore)
                     PanelOnOFF(1);
+
+                if (player.GetComponent<PlayerInfo>().useCat || player.GetComponent<PlayerInfo>().usePanic)
+                    PanelOnOFF(0);
+
                 useCard = false;
 
                 // 현재 카드 사용 중에는 다른거 취급 못하게 함 
@@ -382,6 +388,7 @@ namespace com.ThreeCS.McCree
                 Debug.Log("catcard 작동중 ");
                 player.GetComponent<PlayerInfo>().useCat = false;
                 MineUI.Instance.CatbalouCardUIDel();
+
             }
             // 강탈 카드 선택 시
             if (player.GetComponent<PlayerInfo>().usePanic)
@@ -541,7 +548,7 @@ namespace com.ThreeCS.McCree
                         // 항복 패널끄고 다음턴으로 자동으로 넘어가게 함
                         MineUI.Instance.duelPanel.SetActive(false);
                         GameManager.Instance.NextBtnClick("duel");
-                        // 뱅 카드 덱 뒤에 추가
+                        // 사용한 뱅 카드 덱 뒤에 추가
                         player.GetComponent<PhotonView>().RPC("CardDeckSync", RpcTarget.All, cType.Bang);
                     }
                 }

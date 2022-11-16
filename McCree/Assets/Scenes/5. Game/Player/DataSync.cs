@@ -98,6 +98,13 @@ namespace com.ThreeCS.McCree
                 GameManager.Instance.tidx++;
             }
 
+            // 현재 턴이 누군지 알리면서 직접 이동(결투용)
+            [PunRPC]
+            public void TurnIndexMove(int idx)
+            {
+                GameManager.Instance.tidx = idx;
+            }
+
             // 본인턴에 몸이 빛나서 다른사람에게도 자기 턴이라는 것을 알리기
             [PunRPC]
             public void TurnColor(int idx, int state)
@@ -173,7 +180,7 @@ namespace com.ThreeCS.McCree
             if(state == 1)
                 GameManager.Instance.TargetedPanelOn("공격 당하는 중! 회피하세요. (Dodge 필요)");
             else
-                GameManager.Instance.TargetedPanelOn("공격 당하는 중! 반격하세요. (Bang 필요)");
+                GameManager.Instance.TargetedPanelOn("인디언이 공격하는 중! 반격하세요. (Bang 필요)");
         }
 
         // 뱅 카드를 내고 회피를 기다리는 상태라는 것을 알림
@@ -269,7 +276,6 @@ namespace com.ThreeCS.McCree
                     GameManager.Instance.NextBtnClick("store");
 
                 playerInfo.isStore = false;
-                MineUI.Instance.cardblockingPanel.SetActive(false);
             }
         }
 
@@ -563,7 +569,19 @@ namespace com.ThreeCS.McCree
                 else if (target.Equals("w"))
                     GameManager.Instance.alertOrder(33, atk);
             }
+            else if (state.Equals("Avoid1"))
+                GameManager.Instance.alertOrder(40, atk);
+            else if (state.Equals("Avoid2"))
+                GameManager.Instance.alertOrder(41, atk);
+        }
 
+        [PunRPC]
+        public void PanelOn()
+        {
+            foreach(GameObject player in GameManager.Instance.turnList)
+            {
+                player.GetComponent<MineUI>().cardblockingPanel.SetActive(false);
+            }
         }
     }
 }

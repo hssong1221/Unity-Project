@@ -211,7 +211,7 @@ namespace com.ThreeCS.McCree
         public bool myTurn = false;    // 내 턴이면 true
 
         public bool duelTurn = false; // 결투시 켜짐 특수하게 턴이 돌아가게함
-        public int duelIdx;          // 결투를 사용한 사람의 idx를 저장했다가 끝날 때 턴다시 줘야함
+        
 
         // ----------------------------------- 카드 컨텐츠 구현 -------------------------------
 
@@ -251,6 +251,12 @@ namespace com.ThreeCS.McCree
 
         // 결투를 시작 사람
         public bool duelMaster = false;
+
+        // 결투를 사용한 사람의 idx를 저장했다가 끝날 때 턴다시 줘야함
+        public int duelIdx;
+
+        // 항복버튼을 눌렀을 떄
+        public bool surrenBtn = false;
 
         // 셔플 인덱스 - 카드를 어느정도 사용하면 다시 섞어줌
         public int shuffleIdx;
@@ -613,7 +619,7 @@ namespace com.ThreeCS.McCree
             //yield return new WaitForSeconds(0.5f);
             //abilUIAnimator.SetTrigger("Abil");
             abilText.text += AblityText();
-            abilText.text += "\n3. 당신의 능력을 잘 활용하십시오";
+            //abilText.text += "\n3. 당신의 능력을 잘 활용하십시오";
 
 
             // Status 창 (인벤토리창 동기화)
@@ -622,7 +628,7 @@ namespace com.ThreeCS.McCree
 
 
             // ------------------------------------------------ 사람들이 텍스트를 읽을 시간 부여(나중에 다시 활성화) ----------------------------
-            //yield return new WaitForSeconds(12f);
+            //yield return new WaitForSeconds(7.5f);
             abilPanel.SetActive(false);
             MineUI.Instance.leftTopPanel.SetActive(true);
             MineUI.Instance.rightBottomPanel.SetActive(true);
@@ -784,8 +790,13 @@ namespace com.ThreeCS.McCree
                         myTurn = false;
                         continue;
                     }
-                    // 살아있으니까 때린사람 초기화
-                    photonView.RPC("AttackerIdxSync", RpcTarget.All);
+
+                    // 결투 할때는 때린사람 초기화 안함
+                    if (!duelTurn)
+                    {
+                        // 살아있다면 본인을 때린사람 초기화 
+                        photonView.RPC("AttackerIdxSync", RpcTarget.All);
+                    }
                 }
                 // 본인턴이 아니라면 반복문 통과 못하고 대기중
                 else
@@ -830,6 +841,9 @@ namespace com.ThreeCS.McCree
                         MineUI.Instance.duelPanel.SetActive(true);
                         MineUI.Instance.duelText.text = "결투 중... ( 상대편의 대응을 기다리는 중.. )";
                         MineUI.Instance.surrenderBtn.gameObject.SetActive(false);
+
+                        MineUI.Instance.cardblockingPanel.SetActive(true);
+                        MineUI.Instance.NextButton.gameObject.SetActive(false);
                     }
 
                     //playerinfo에서 머리위 카드 숫자 보여줌 - 해결을 못하면 여기에 배치 할 듯
@@ -861,7 +875,8 @@ namespace com.ThreeCS.McCree
                         MineUI.Instance.duelPanel.SetActive(true);
                         MineUI.Instance.duelText.text = "결투 중... (BANG 으로 반격하세요)";
                         MineUI.Instance.surrenderBtn.gameObject.SetActive(true);
-                        // 다음 턴 버튼 안보이게 함
+
+                        MineUI.Instance.cardblockingPanel.SetActive(false);
                         MineUI.Instance.NextButton.SetActive(false);
                     }
                 }
@@ -957,12 +972,15 @@ namespace com.ThreeCS.McCree
                 {
                     // 잡화점을 사용한 사람이 한바퀴돌고 다시 돌아왔을 때 카드 안뽑음
                     storeMaster = false;
+                    // 그리고 막아둔 카드 블로킹 패널을 열어준다
+                    photonView.RPC("PanelOn", RpcTarget.All);
                 }
                 else if(playerInfo.isDuel == false && duelMaster == true)
                 {
                     // 결투턴이 끝남
                     duelMaster = false;
                     MineUI.Instance.NextButton.SetActive(true);
+                    MineUI.Instance.cardblockingPanel.SetActive(false);
                 }
 
                 // 본인턴에 본인 몸이 빛남
@@ -972,16 +990,31 @@ namespace com.ThreeCS.McCree
                 {
                     if (nextSignal)
                     {
+                        // 결투신청 당하고 항복한 사람이 하는 행동
+                        if (surrenBtn && !duelMaster)
+                        {
+                            surrenBtn = false;
+                            photonView.RPC("TurnColor", RpcTarget.All, tidx, 0);
+                            nextSignal = false;
+                            myTurn = false;
+                            // 듀얼 턴 끝내고 듀얼 상태도 초기화
+                            photonView.RPC("DuelTurn", RpcTarget.All, 1);
+                            photonView.RPC("DuelSync", RpcTarget.All, 1, -1);
+                            // 원래 턴으로 이동
+                            photonView.RPC("TurnIndexMove", RpcTarget.All, duelIdx);
+
+                            break;
+                        }
                         Debug.Log("턴 넘김");
                         photonView.RPC("TurnColor", RpcTarget.All, tidx, 0);
 
                         turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
                         nextSignal = false;
                         myTurn = false;
-                        if (!storeMaster)
+                        // 잡화점이나 결투 연사람이 뱅을 먼저 썼더라면 여기를 통과 못함
+                        if (!storeMaster && !duelMaster)
                             playerInfo.usedBang = false;
 
-                        
                         break;
                     }
                     // 본인 턴 때 실행 중
@@ -1190,7 +1223,9 @@ namespace com.ThreeCS.McCree
                     jobImage3.sprite = deputy3;
 
                     abilImage.sprite = deputy4;
-                    abilText.text = "1. 보안관을 도와 무법자를 모두 사살하십시오.";
+                    //abilText.text = "1. 보안관을 도와 무법자를 모두 사살하십시오.";
+                    abilText.text = "1. 배신자를 처단 하십시오.";
+
                     break;
                 case jType.Outlaw:
                     Debug.Log("당신은 무법자입니다.");
@@ -1202,7 +1237,8 @@ namespace com.ThreeCS.McCree
                     jobImage3.sprite = outlaw3;
 
                     abilImage.sprite = outlaw4;
-                    abilText.text = "1. 무법자들과 함께 보안관을 사살하십시오.";
+                    //abilText.text = "1. 무법자들과 함께 보안관을 사살하십시오.";
+                    abilText.text = "1. 부관을 사살하십시오.";
                     break;
                 case jType.Renegade:
                     Debug.Log("당신은 배신자입니다.");
@@ -1214,7 +1250,8 @@ namespace com.ThreeCS.McCree
                     jobImage3.sprite = renegade3;
 
                     abilImage.sprite = renegade4;
-                    abilText.text = "1. 보안관에겐 부관처럼 무법자에겐 친구처럼 보이십시오.";
+                    //abilText.text = "1. 보안관에겐 부관처럼 무법자에겐 친구처럼 보이십시오.";
+                    abilText.text = "1. 무법자를 배신하십시오.";
                     break;
             }
             MineUI.Instance.questTitle.text = abilText.text.Substring(2);
@@ -1231,25 +1268,25 @@ namespace com.ThreeCS.McCree
             switch (playerManager.abilityType)
             {
                 case aType.BangMissed:
-                    temp = "\n2. 뱅과 빗나감이 같은 능력이 됩니다.";
+                    //temp = "\n2. 뱅과 빗나감이 같은 능력이 됩니다.";
                     break;
                 case aType.DrinkBottle:
-                    temp = "\n2. 당신옆에 항상 술통이 있습니다.";
+                    //temp = "\n2. 당신옆에 항상 술통이 있습니다.";
                     break;
                 case aType.HumanVolcanic:
-                    temp = "\n2. 뱅을 마구 쏠 수 있습니다.";
+                    //temp = "\n2. 뱅을 마구 쏠 수 있습니다.";
                     break;
                 case aType.OnehpOnecard:
-                    temp = "\n2. 체력이 달았다면 카드를 얻습니다.";
+                    //temp = "\n2. 체력이 달았다면 카드를 얻습니다.";
                     break;
                 case aType.ThreeCard:
-                    temp = "\n2. 카드를 뽑을 때 3장을 보고 2장을 가져옵니다.";
+                    //temp = "\n2. 카드를 뽑을 때 3장을 보고 2장을 가져옵니다.";
                     break;
                 case aType.TwocardOnecard:
-                    temp = "\n2. 카드 펼치기를 할 때 2장을 뽑고 한장을 선택할 수 있습니다.";
+                    //temp = "\n2. 카드 펼치기를 할 때 2장을 뽑고 한장을 선택할 수 있습니다.";
                     break;
                 case aType.TwocardOnehp:
-                    temp = "\n2. 카드 2장을 버리고 체력을 얻습니다.";
+                    //temp = "\n2. 카드 2장을 버리고 체력을 얻습니다.";
                     break;
             }
             return temp;
@@ -1381,7 +1418,7 @@ namespace com.ThreeCS.McCree
             if(playerInfo.mycards.Count > playerInfo.hp)
             {
                 // 잡화점 턴에는 카드 수 무시
-                if (state.Equals("store"))
+                if (state.Equals("store") || state.Equals("duel"))
                 {
                     nextSignal = true;
                     MineUI.Instance.NextButton.SetActive(false);
@@ -1411,21 +1448,29 @@ namespace com.ThreeCS.McCree
         }
 
         // 결투 중 뱅을 못 내거나 그냥 항복하는 버튼
+        // 항복 버튼은 듀얼중 본인 턴일때만 보이는거 참고
         public void SurrenderBtn()
         {
             Debug.Log("항복");
+
             // 체력 -1
             playerInfo.hp--;
             photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
 
-            // duelTurn을 끝내고 각 player의 isduel 상태를 false로
-            // tidx = duelMaster 포함 되어있음 원래 순서로 돌아가는 코드 
-            photonView.RPC("DuelTurn", RpcTarget.All, 1);
-            photonView.RPC("DuelSync", RpcTarget.All, 1, -1);
-
-            // 본인이 항복하면 턴 넘기기 버튼이 사라짐 그래서 다시 켜줌
-            if (duelIdx == tidx)
-                MineUI.Instance.NextButton.SetActive(true);
+            // 본인이 결투하고 본인이 항복
+            if(duelMaster)
+            {
+                surrenBtn = false;
+                // 듀얼 턴 끝내고 듀얼 상태도 초기화
+                photonView.RPC("DuelTurn", RpcTarget.All, 1);
+                photonView.RPC("DuelSync", RpcTarget.All, 1, -1);
+            }   
+            // 결투 신청당하고 항복함
+            else
+            {
+                nextSignal = true;
+                surrenBtn = true;
+            }
         }
 
        
@@ -1521,6 +1566,8 @@ namespace com.ThreeCS.McCree
             // 카드 사용 일 때
             // 카드 종류에 따라 실행이 달라진다
             string t = content.ToString();
+            // 카드 사용시 일단 새로운 카드 클릭 막음
+            MineUI.Instance.cardblockingPanel.SetActive(true);
             switch (t)
             {
                 case "Bang":
@@ -1554,6 +1601,8 @@ namespace com.ThreeCS.McCree
                     StartCoroutine("Saloon");
                     break;
                 case "GeneralStore":
+                    // 잡화점 내부 코드에서 블록 패널 실행
+                    MineUI.Instance.cardblockingPanel.SetActive(false);
                     StartCoroutine("GeneralStore");
                     break;
                 case "Russian":
@@ -1563,6 +1612,7 @@ namespace com.ThreeCS.McCree
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 2);
                     photonView.RPC("AlertInfo", RpcTarget.All, "Weapon", ui.nickName.text, "r");
+                    MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Navy":
                     playerInfo.maximumRange = 3;
@@ -1570,6 +1620,7 @@ namespace com.ThreeCS.McCree
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 3);
                     photonView.RPC("AlertInfo", RpcTarget.All, "Weapon", ui.nickName.text, "n");
+                    MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Carbine":
                     playerInfo.maximumRange = 4;
@@ -1577,6 +1628,7 @@ namespace com.ThreeCS.McCree
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 4);
                     photonView.RPC("AlertInfo", RpcTarget.All, "Weapon", ui.nickName.text, "c");
+                    MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Winchester":
                     playerInfo.maximumRange = 5;
@@ -1584,18 +1636,22 @@ namespace com.ThreeCS.McCree
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 5);
                     photonView.RPC("AlertInfo", RpcTarget.All, "Weapon", ui.nickName.text, "w");
+                    MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Scope":
                     photonView.RPC("ScopeSync", RpcTarget.All, 0);
                     photonView.RPC("AlertInfo", RpcTarget.All, "Scope", ui.nickName.text, "");
+                    MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Mustang":
                     photonView.RPC("MustangSync", RpcTarget.All, 0);
                     photonView.RPC("AlertInfo", RpcTarget.All, "Mustang", ui.nickName.text, "");
+                    MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Barrel":
                     photonView.RPC("BarrelSync", RpcTarget.All, 0);
                     photonView.RPC("AlertInfo", RpcTarget.All, "Barrel", ui.nickName.text, "");
+                    MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Dynamite":
                     StartCoroutine("Dynamite");
@@ -1698,17 +1754,20 @@ namespace com.ThreeCS.McCree
                             playerInfo.waitAvoid = true;
                             photonView.RPC("WaitAvoid", RpcTarget.All, 0);
 
+                            // 화면 잠금
+                            MineUI.Instance.blockingPanel.SetActive(true);
+
                             // 상대방의 avoid 기다림
                             while (playerInfo.waitAvoid == true)
                             {
                                 Debug.Log("상대방의 회피를 기다리는 중 ");
-
-                                // 투명 패널 켜서 기다리는 동안 입력 막기
-                                MineUI.Instance.blockingPanel.SetActive(true);
                                 yield return new WaitForSeconds(0.1f);
                             }
                             Debug.Log("상대방의 회피를 기다리는 상태를 빠져나옴 ");
+
+                            // 블록 패널 off
                             MineUI.Instance.blockingPanel.SetActive(false);
+                            MineUI.Instance.cardblockingPanel.SetActive(false);
 
                             // 끝나면 루프 종료
                             break;
@@ -1720,7 +1779,7 @@ namespace com.ThreeCS.McCree
             // 뱅 관련 플래그 초기화
             bangClick = false;
             isBang = false;
-
+            // 뱅 한번 씀
             playerInfo.usedBang = true;
 
             yield return new WaitForEndOfFrame();
@@ -1751,17 +1810,21 @@ namespace com.ThreeCS.McCree
             // 나의 waitAvoids 상태를 전체에게 동기화
             photonView.RPC("WaitAvoid", RpcTarget.All, 1);
 
+            // 화면 잠금
+            MineUI.Instance.blockingPanel.SetActive(true);
+
             // 상대방의 avoid 갯수
             while (playerInfo.waitAvoids < (playerList.Length - (1 + deadman)))
             {
                 Debug.Log(playerInfo.waitAvoids);
                 Debug.Log("상대방의 회피를 기다리는 중 ");
-                // 투명 패널 켜서 기다리는 동안 입력 막기
-                MineUI.Instance.blockingPanel.SetActive(true);
                 yield return new WaitForSeconds(0.1f);
             }
             Debug.Log("상대방의 회피를 기다리는 상태를 빠져나옴 ");
+            
+            //블록 패널 off
             MineUI.Instance.blockingPanel.SetActive(false);
+            MineUI.Instance.cardblockingPanel.SetActive(false);
 
             photonView.RPC("MgSync", RpcTarget.All, 1);
 
@@ -1797,18 +1860,21 @@ namespace com.ThreeCS.McCree
             // 나의 waitBangs 상태를 전체에게 동기화(함수 돌려쓰기)
             photonView.RPC("WaitAvoid", RpcTarget.All, 2);
 
+            // 화면 잠금
+            MineUI.Instance.blockingPanel.SetActive(true);
+
             // 상대방의 bang 갯수
             while (playerInfo.waitBangs < (playerList.Length - (1 + deadman)))
             {
                 Debug.Log("상대방의 반격을 기다리는 중 ");
-
-                // 투명 패널 켜서 기다리는 동안 입력 막기
-                MineUI.Instance.blockingPanel.SetActive(true);
                 yield return new WaitForSeconds(0.1f);
             }
             Debug.Log("상대방의 반격을 기다리는 상태를 빠져나옴 ");
-            MineUI.Instance.blockingPanel.SetActive(false);
 
+            // 카드 블록 패널 off
+            MineUI.Instance.blockingPanel.SetActive(false);
+            MineUI.Instance.cardblockingPanel.SetActive(false);
+            
             photonView.RPC("IndianSync", RpcTarget.All, 1);
 
             // 인디언 관련 플래그 초기화
@@ -1862,11 +1928,15 @@ namespace com.ThreeCS.McCree
                 if (avoidFlag == 0)
                 {
                     Debug.Log("회피 카드 내서 빠져나옴");
+                    // 전체 UI
+                    photonView.RPC("AlertInfo", RpcTarget.All, "Avoid1", ui.nickName.text, "");
                 }
                 else if (avoidFlag == 1)
                 {
                     playerInfo.hp--;
                     photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
+                    // 전체 UI
+                    photonView.RPC("AlertInfo", RpcTarget.All, "Avoid2", ui.nickName.text, "");
                     Debug.Log("맞고 빠져나옴");
                 }
 
@@ -1909,12 +1979,16 @@ namespace com.ThreeCS.McCree
                 if (avoidFlag == 0)
                 {
                     Debug.Log("반격 카드 내서 빠져나옴");
+                    // 전체 UI
+                    photonView.RPC("AlertInfo", RpcTarget.All, "Avoid1", ui.nickName.text, "");
                 }
                 else if (avoidFlag == 1)
                 {
                     playerInfo.hp--;
                     photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
                     Debug.Log("맞고 빠져나옴");
+                    // 전체 UI
+                    photonView.RPC("AlertInfo", RpcTarget.All, "Avoid2", ui.nickName.text, "");
                 }
 
                 foreach (GameObject player in turnList)
@@ -1939,6 +2013,9 @@ namespace com.ThreeCS.McCree
             // 타겟 화면 UI 끔
             MineUI.Instance.targetedPanel.SetActive(false);
 
+            // 카드 블록 패널 off
+            MineUI.Instance.cardblockingPanel.SetActive(false);
+
             // 회피관련 플래그 초기화
             avoidBtnFlag = false;
             playerInfo.sendAvoid = false;
@@ -1960,6 +2037,8 @@ namespace com.ThreeCS.McCree
             photonView.RPC("SyncHp", RpcTarget.All, temp);
             //전체 UI
             photonView.RPC("AlertInfo", RpcTarget.All, "Beer", ui.nickName.text, "");
+            // 카드 블록 패널 off
+            MineUI.Instance.cardblockingPanel.SetActive(false);
             yield return new WaitForEndOfFrame();
         }
 
@@ -1981,7 +2060,8 @@ namespace com.ThreeCS.McCree
             }
             //전체 UI
             photonView.RPC("AlertInfo", RpcTarget.All, "Saloon", ui.nickName.text, "");
-
+            // 카드 블록 패널 off
+            MineUI.Instance.cardblockingPanel.SetActive(false);
             yield return new WaitForEndOfFrame();
         }
 
@@ -1990,6 +2070,8 @@ namespace com.ThreeCS.McCree
             turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 2);
             //전체 UI
             photonView.RPC("AlertInfo", RpcTarget.All, "Stage", ui.nickName.text, "");
+            // 카드 블록 패널 off
+            MineUI.Instance.cardblockingPanel.SetActive(false);
             yield return null;
         }
 
@@ -1998,10 +2080,12 @@ namespace com.ThreeCS.McCree
             turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 3);
             //전체 UI
             photonView.RPC("AlertInfo", RpcTarget.All, "Wells", ui.nickName.text, "");
-
+            // 카드 블록 패널 off
+            MineUI.Instance.cardblockingPanel.SetActive(false);
             yield return null;
         }
         
+        //blcok UI
         IEnumerator GeneralStore()
         {
             // 죽은 사람 체크
@@ -2014,14 +2098,18 @@ namespace com.ThreeCS.McCree
             //전체 UI
             photonView.RPC("AlertInfo", RpcTarget.All, "Store", ui.nickName.text, "");
 
-            // 카드를 인원수에 맞게 중앙에 펼침
-            photonView.GetComponent<PhotonView>().RPC("GiveStoreCard", RpcTarget.All, (turnList.Count - deadman));
-
             // 모든 사람의 isStore true로 만듬
             photonView.GetComponent<PhotonView>().RPC("StoreSync", RpcTarget.All, 0);
 
+            // 카드를 인원수에 맞게 중앙에 펼침
+            photonView.GetComponent<PhotonView>().RPC("GiveStoreCard", RpcTarget.All, (turnList.Count - deadman));
+
+            // 카드 정렬할 때 카드 건들면 안됨
+            MineUI.Instance.blockingPanel.SetActive(true);
+            yield return new WaitForSeconds(1.5f);
+            MineUI.Instance.blockingPanel.SetActive(false);
+
             storeMaster = true;
-            deadman = 0;
 
             yield return null;
         }
@@ -2070,7 +2158,7 @@ namespace com.ThreeCS.McCree
                         // 보안관은 감옥에 가둘수 없다.
                         if (go.GetComponent<PlayerManager>().playerType == jType.Sheriff)
                         {
-                            Alert(3);
+                            StartCoroutine(Alert(2));
                             continue;
                         }
 
@@ -2079,7 +2167,8 @@ namespace com.ThreeCS.McCree
 
                         //전체 UI
                         photonView.RPC("AlertInfo", RpcTarget.All, "Jail", ui.nickName.text, go.GetComponent<UI>().nickName.text);
-
+                        // 카드 블록 패널 off
+                        MineUI.Instance.cardblockingPanel.SetActive(false);
                         break;
                     }
                 }
@@ -2139,7 +2228,8 @@ namespace com.ThreeCS.McCree
 
                         //전체 UI
                         photonView.RPC("AlertInfo", RpcTarget.All, "Dyn", ui.nickName.text, go.GetComponent<UI>().nickName.text);
-
+                        // 카드 블록 패널 off
+                        MineUI.Instance.cardblockingPanel.SetActive(false);
                         break;
                     }
                 }
@@ -2225,14 +2315,13 @@ namespace com.ThreeCS.McCree
 
 
                         //gameloop2에서 cardNumSync하는거 기다림
-                        yield return new WaitForSeconds(1.2f);
+                        yield return new WaitForSeconds(2f);
 
                         // 빈 카드를 덱 갯수 만큼 생성함 (상대편 카드를 뽑는 것처럼 눈속임 )
                         MineUI.Instance.CatbalouCards(go.GetComponent<PlayerInfo>().mycardNum);
 
                         // 카드 뽑기할때 방해되서 잠시 끔
                         delcardPanel.gameObject.SetActive(false);
-                        MineUI.Instance.cardblockingPanel.SetActive(true);
 
                         while (playerInfo.useCat)
                         {
@@ -2413,7 +2502,6 @@ namespace com.ThreeCS.McCree
 
                             // 카드 뽑기할때 방해되서 잠시 끔
                             delcardPanel.gameObject.SetActive(false);
-                            MineUI.Instance.cardblockingPanel.SetActive(true);
                             while (playerInfo.usePanic)
                             {
                                 // 선택 대기
@@ -2422,6 +2510,7 @@ namespace com.ThreeCS.McCree
                             }
                             // 다시 켬
                             delcardPanel.gameObject.SetActive(true);
+                            // 카드 블록 패널 off
                             MineUI.Instance.cardblockingPanel.SetActive(false);
 
 
@@ -2508,12 +2597,19 @@ namespace com.ThreeCS.McCree
                         //전체 UI
                         photonView.RPC("AlertInfo", RpcTarget.All, "Duel", ui.nickName.text, go.GetComponent<UI>().nickName.text);
 
+                        // 카드 블록 패널 off
+                        MineUI.Instance.cardblockingPanel.SetActive(false);
+
                         // GM의 duelTurn을 켜줌
                         photonView.RPC("DuelTurn", RpcTarget.All, 0);
 
                         // 본인과 상대편의 playerinfo의 isduel 켜줌
-                        photonView.RPC("DuelSync", RpcTarget.All, 0, -1);
+                        int oppIdx = turnList.FindIndex(a => a == go);
+                        photonView.RPC("DuelSync", RpcTarget.All, 0, oppIdx);
                         go.GetPhotonView().RPC("DuelSync", RpcTarget.All, 0, tidx);
+
+                        // 듀얼을 시작한 사람 
+                        duelMaster = true;
 
                         // 내가 결투 카드를 내면 상대편부터 결투 턴이 시작 됨
                         // 턴을 넘겨버림
@@ -2544,19 +2640,26 @@ namespace com.ThreeCS.McCree
         {
             MineUI.Instance.alertPanel.SetActive(true);
 
+
+            // 일반 알림
             if (state == 0) // hp 보다 카드가 많은데 nextbutton을 누름
                 MineUI.Instance.alertText.text = "본인 카드 수가 본인 HP보다 많을 수 없습니다.";
             else if (state == 1)    // 뱅 사용후 또 뱅을 쓰려고 함
                 MineUI.Instance.alertText.text = "Bang은 본인 턴에 한 번만 쓸 수 있습니다.";
             else if (state == 2)    // 보안관에게 감옥 사용
                 MineUI.Instance.alertText.text = "보안관을 감옥에 가둘 수 없습니다. 당연한거죠.";
+            else if(state == 3)
+                MineUI.Instance.alertText.text = "타겟을 선택하십시오.";
+            else if (state == 4)
+                MineUI.Instance.alertText.text = "타겟 또는 상대방의 아이템을 선택하십시오.";
 
+            // 카드 알림
             if (state == 10)    // bang 사용
                 MineUI.Instance.alertText.text = atk + " (이)가 " + target + " 에게 발사!";
             else if (state == 11)    // MG 사용
-                MineUI.Instance.alertText.text = atk + " (이)가 기관총을 난사 중!";
+                MineUI.Instance.alertText.text = atk + " (이)가 모두에게 기관총을 난사 중!";
             else if (state == 12)    // indian 사용
-                MineUI.Instance.alertText.text = atk + " (이)가 인디언을 보내 공격 중!";
+                MineUI.Instance.alertText.text = atk + " (이)가 인디언을 보내 전체 공격 중!";
             else if (state == 13)    // beer 사용
                 MineUI.Instance.alertText.text = atk + " (이)가 맥주를 마시고 체력을 회복했습니다.";
             else if (state == 14)    // saloon 사용
@@ -2591,6 +2694,10 @@ namespace com.ThreeCS.McCree
                 MineUI.Instance.alertText.text = atk + " 의 무기 변경( 카빈 소총 - 사거리 4 )";
             else if (state == 33)    
                 MineUI.Instance.alertText.text = atk + " 의 무기 변경( 윈체스터 - 사거리 5 )";
+            else if (state == 40)
+                MineUI.Instance.alertText.text = atk + " (이)가 공격을 피했습니다!";
+            else if (state == 41)
+                MineUI.Instance.alertText.text = atk + " (이)가 공격에 당했습니다!";
 
             yield return new WaitForSeconds(3f);
             MineUI.Instance.alertPanel.SetActive(false);

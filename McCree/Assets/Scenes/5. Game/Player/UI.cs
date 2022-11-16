@@ -120,9 +120,6 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         public void GiveStoreCard(int num)
         {
-            // 카드 뽑는 도중에 건들면 버그남 - 카드 정렬 후 풀어주기
-            MineUI.Instance.blockingPanel.SetActive(true);
-
             Debug.Log("잡화점 진입");
             for(int i = 0; i < num; i++)
             {
@@ -154,9 +151,6 @@ namespace com.ThreeCS.McCree
                 targetCard.originPRS = originMyCards[i];
                 targetCard.MoveTransform(targetCard.originPRS, true, 0.9f);
             }
-
-            // 화면 잠금 풀어주기
-            MineUI.Instance.blockingPanel.SetActive(false);
         }
 
         List<Preset> LineAlignment(Transform leftTr, Transform rightTr, int objCount, Vector3 scale)

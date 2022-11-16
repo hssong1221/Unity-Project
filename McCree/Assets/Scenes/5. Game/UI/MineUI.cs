@@ -247,7 +247,7 @@ namespace com.ThreeCS.McCree
         public void CatTargetCardDel(int num)  // 캣벌로우 타겟의 카드 하나 랜덤 삭제
         {
             System.Random rand = new System.Random();
-            int n = rand.Next(0, num + 1);  // 내 카드 갯수
+            int n = rand.Next(0, num);  // 내 카드 갯수
 
             Debug.Log("카드 갯수 : " + num);
 
