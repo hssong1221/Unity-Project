@@ -201,11 +201,11 @@ namespace com.ThreeCS.McCree
         private int duel_c;
 
         #endregion
-
         // 턴 관련 변수들
         [HideInInspector]
         public bool nextSignal = false; // 턴을 다음사람에게 넘기라는 변수
-        [HideInInspector]   
+        //[HideInInspector]
+        [Header("턴 관련")]
         public int tidx;                // 현재 턴을 가지고 있는 사람의 turnList index
 
         public bool myTurn = false;    // 내 턴이면 true
@@ -232,6 +232,9 @@ namespace com.ThreeCS.McCree
         // 타겟과의 거리측정 결과
         public int targetDistance;
 
+        // 때릴 수 있는 타겟의 수
+        public int ableHitNum;
+
         // sendAvoid에 들어가는 파라미터
         // 0 : 공격자에게 뱅을 맞고 회피나 맞기를 했다고 알림
         // 1 : 공격자에게 기관총을 맞고 ~
@@ -248,6 +251,9 @@ namespace com.ThreeCS.McCree
 
         // 잡화점 주인
         public bool storeMaster = false;
+
+        // 다이너마이트 주인 idx 터져서 죽은 사람한테 공격자 지정할떄 씀
+        public int dynamiteIdx;
 
         // 결투를 시작 사람
         public bool duelMaster = false;
@@ -292,6 +298,10 @@ namespace com.ThreeCS.McCree
 
             // 셔플 인덱스 초기화
             shuffleIdx = 0;
+            // 타격가능 타겟 
+            ableHitNum = 0;
+            // tnt초기화
+            dynamiteIdx = -1;
 
             // 접속 못하면 초기화면으로 쫓아냄
             if (!PhotonNetwork.IsConnected)
@@ -448,8 +458,18 @@ namespace com.ThreeCS.McCree
 
             // (인구수에 맞게 하는 거 추가하기)
             //List<int> jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
-            List<int> jobList = new List<int>() { 2 ,4, 7 }; // 3인 룰
+            List<int> jobList = null;
 
+            if (playerList.Length == 3)
+                jobList = new List<int>() { 2 ,4, 7 }; // 3인 룰
+            else if(playerList.Length == 4)
+                jobList = new List<int>() { 1, 4, 5, 7 }; // 4인 룰
+            else if (playerList.Length == 5)
+                jobList = new List<int>() { 1, 2, 4, 5, 7 }; // 5인 룰
+            else if (playerList.Length == 6)
+                jobList = new List<int>() { 1, 2, 4, 5, 6, 7 }; // 6인 룰
+            else if (playerList.Length == 7)
+                jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 }; // 7인 룰
 
             // 능력 갯수에 맞게 해야함
             List<int> abilityList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
@@ -757,7 +777,7 @@ namespace com.ThreeCS.McCree
             StartCoroutine("GameLoop1");
         }
 
-        IEnumerator GameLoop2() // 턴이 돌아가는 곳
+        IEnumerator GameLoop2() // 턴이 돌아가는 곳dw
         { 
             tidx = 0;
             nextSignal = false;
@@ -772,7 +792,7 @@ namespace com.ThreeCS.McCree
             Debug.Log("현재 턴 진행 진입");
             while (!isVictory)
             {
-                if (tidx == turnList.Count)
+                if (tidx >= turnList.Count)
                     tidx = 0;
 
                 // 본인이 턴리스트 순서와 같아야 본인 턴 (중복 rpc 방지위해 본인 것만)
@@ -881,7 +901,7 @@ namespace com.ThreeCS.McCree
                     }
                 }
 
-                // 감옥과 다이너마이트는 잡화점턴과 결투턴에는 작동 하면 안됌
+                // 감옥과 다이너마이트 는 잡화점턴과 결투턴에는 작동 하면 안됌
                 if(!playerInfo.isStore && !playerInfo.isDuel)
                 {
                     // 감옥 확인
@@ -892,23 +912,29 @@ namespace com.ThreeCS.McCree
                         // 25% 확률로 탈출 가능 75% 확률로 턴 바로 종료
                         if (a != 1)
                         {
-                            MineUI.Instance.jailText.text = "탈옥 실패";
+                            MineUI.Instance.jailText.text = "탈옥 실패(75%)";
                             JailPanelOnOff(0);
-                            turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
                             MineUI.Instance.NextButton.SetActive(false);
                             nextSignal = false;
                             myTurn = false;
-                            yield return new WaitForSeconds(1.2f);
+
+                            yield return new WaitForSeconds(2f);
+
+                            turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
                             photonView.RPC("JailSync", RpcTarget.All, 1);
+                            // 전체 알림
+                            photonView.RPC("AlertInfo", RpcTarget.All, "JailFail", ui.nickName.text, "");
                             JailPanelOnOff(1);
                             continue;
                         }
                         else // 탈옥
                         {
-                            MineUI.Instance.jailText.text = "탈옥 성공";
+                            MineUI.Instance.jailText.text = "탈옥 성공(25%)";
                             JailPanelOnOff(0);
-                            yield return new WaitForSeconds(1.2f);
+                            yield return new WaitForSeconds(2f);
                             photonView.RPC("JailSync", RpcTarget.All, 1);
+                            // 전체 알림
+                            photonView.RPC("AlertInfo", RpcTarget.All, "JailEsc", ui.nickName.text, "");
                             JailPanelOnOff(1);
                         }
 
@@ -923,33 +949,60 @@ namespace com.ThreeCS.McCree
                         //12.5% 확률로 터짐 데미지는 3
                         if (b == 1) // 터짐
                         {
-                            MineUI.Instance.dynamiteText.text = "터짐";
+                            MineUI.Instance.dynamiteText.text = "다이너마이트가 터졌습니다.(12.5%)";
                             DynamitePanelOnOff(0);
+                            photonView.RPC("DynamiteSync", RpcTarget.All, 1);
+                            // 전체 알림
+                            photonView.RPC("AlertInfo", RpcTarget.All, "DynBoom", ui.nickName.text, "");
+                            yield return new WaitForSeconds(2f);
+                            // 터졌으니까 다시 덱에 추가
+                            photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Dynamite);
+                            DynamitePanelOnOff(1);
+
                             // hp 변수 설계상 이렇게 해야함
-                            for (int i = 0; i < 3; i++)
+                            for (int i = 0; i < 4; i++)
                             {
                                 playerInfo.hp--;
                                 photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
                             }
-                            photonView.RPC("DynamiteSync", RpcTarget.All, 1);
-                            yield return new WaitForSeconds(1.2f);
-                            // 터졌으니까 다시 덱에 추가
-                            photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Dynamite);
-                            DynamitePanelOnOff(1);
                         }
                         // 안터지면 다음 사람한테 붙음
                         else
                         {
-                            MineUI.Instance.dynamiteText.text = "다음사람한테 던짐";
+                            MineUI.Instance.dynamiteText.text = "다음사람한테 던짐(87.5%)";
                             DynamitePanelOnOff(0);
                             photonView.RPC("DynamiteSync", RpcTarget.All, 1);
-                            yield return new WaitForSeconds(1.2f);
+                            // 전체 알림
+                            photonView.RPC("AlertInfo", RpcTarget.All, "DynNext", ui.nickName.text, "");
+                            yield return new WaitForSeconds(2f);
                             DynamitePanelOnOff(1);
                             // 다음 사람한테 다이너 마이트 적용
-                            if (tidx + 1 == turnList.Count)
-                                turnList[0].GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
-                            else
-                                turnList[tidx + 1].GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
+                            int didx = tidx;
+                            while (true)
+                            {
+                                if (didx + 1 == turnList.Count)
+                                {
+                                    didx = 0;
+                                    // 죽은사람 체그
+                                    if (!turnList[didx].GetComponent<PlayerInfo>().isDeath)
+                                    {
+                                        turnList[didx].GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
+                                        break;
+                                    }
+                                    else
+                                        didx++;
+                                }
+                                else
+                                {
+                                    if (!turnList[didx + 1].GetComponent<PlayerInfo>().isDeath)
+                                    {
+                                        turnList[didx + 1].GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
+                                        break;
+                                    }
+                                    else
+                                        didx++;
+                                }
+                            }
                         }
                     }
                 }
@@ -961,6 +1014,7 @@ namespace com.ThreeCS.McCree
                     // 일반 턴
                     // 본인턴에 카드 2장 뽑으면서 시작
                     turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 2);
+                    MineUI.Instance.cardblockingPanel.SetActive(false);
                 }
                 else if(playerInfo.isStore == true)
                 {
@@ -973,7 +1027,7 @@ namespace com.ThreeCS.McCree
                     // 잡화점을 사용한 사람이 한바퀴돌고 다시 돌아왔을 때 카드 안뽑음
                     storeMaster = false;
                     // 그리고 막아둔 카드 블로킹 패널을 열어준다
-                    photonView.RPC("PanelOn", RpcTarget.All);
+                    MineUI.Instance.cardblockingPanel.SetActive(false);
                 }
                 else if(playerInfo.isDuel == false && duelMaster == true)
                 {
@@ -985,6 +1039,8 @@ namespace com.ThreeCS.McCree
 
                 // 본인턴에 본인 몸이 빛남
                 photonView.RPC("TurnColor", RpcTarget.All, tidx, 1);
+
+                AbleScan();
 
                 while (true)
                 {
@@ -1005,9 +1061,9 @@ namespace com.ThreeCS.McCree
 
                             break;
                         }
+
                         Debug.Log("턴 넘김");
                         photonView.RPC("TurnColor", RpcTarget.All, tidx, 0);
-
                         turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
                         nextSignal = false;
                         myTurn = false;
@@ -1022,6 +1078,10 @@ namespace com.ThreeCS.McCree
 
                     //playerinfo에서 머리위 카드 숫자 보여줌 - 해결을 못하면 여기에 배치 할 듯
                     photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNumView);
+
+                    // 데미지를 입고 hp 0이하로 내려갔는데 승리조건은 아니라면 턴을 자동으로 넘김
+                    if (playerInfo.hp <= 0 && nextSignal == false)
+                        nextSignal = true;
 
                     yield return new WaitForSeconds(0.3f);
                 }
@@ -1042,89 +1102,98 @@ namespace com.ThreeCS.McCree
             Debug.Log("게임 종료 조건 측정 시작");
 
             // 게임 인원수마다 게임 종료 조건이 다름
-            switch (turnList.Count)
+            switch (playerList.Length)
             {
                 case 3:
                     outlawNum = 1;
                     viceNum = 1;
                     renegadeNum = 1;
                     break;
+                case 4:
+                    outlawNum = 2;
+                    viceNum = 0;
+                    renegadeNum = 1;
+                    break;
                 default:
                     break;
             }
 
-            // 3인 룰 : 부관 -> 배신자 -> 무법자 -> 부관 을 제거해야함 본인이 제거 못하면 최후의 1인이 남아야함
+           
             while (!isVictory)
             {
+                // 3인 룰 : 부관 -> 배신자 -> 무법자 -> 부관 을 제거해야함 본인이 제거 못하면 최후의 1인이 남아야함
                 // 현재 남은 인원수
-                int left = turnList.Count;
-                foreach (GameObject player in playerList)
+                if(playerList.Length == 3)
                 {
-                    // 현재 플레이어를 죽인사람 인덱스
-                    int kidx = player.GetComponent<PlayerInfo>().attackerIdx;
+                    int left = turnList.Count;
+                    foreach (GameObject player in playerList)
+                    {
+                        // 현재 플레이어를 죽인사람 인덱스
+                        int kidx = player.GetComponent<PlayerInfo>().attackerIdx;
 
-                    // 부관 사망
-                    if (player.GetComponent<PlayerManager>().playerType == jType.Vice && player.GetComponent<PlayerInfo>().isDeath)
-                    {
-                        left--;
-                        // 부관이 무법자에게 당하면 무법자 승
-                        if (turnList[kidx].GetComponent<PlayerManager>().playerType == jType.Outlaw)
+                        // 부관 사망
+                        if (player.GetComponent<PlayerManager>().playerType == jType.Vice && player.GetComponent<PlayerInfo>().isDeath)
                         {
-                            Victory("outlaw");
-                            isVictory = true;
-                        }
-                    }
-                    // 배신자 사망
-                    if (player.GetComponent<PlayerManager>().playerType == jType.Renegade && player.GetComponent<PlayerInfo>().isDeath)
-                    {
-                        left--;
-                        // 배신자가 부관에게 당하면 부관 승
-                        if (turnList[kidx].GetComponent<PlayerManager>().playerType == jType.Vice)
-                        {
-                            Victory("sherrif");
-                            isVictory = true;
-                        }
-                    }
-                    // 무법자 사망
-                    if (player.GetComponent<PlayerManager>().playerType == jType.Outlaw && player.GetComponent<PlayerInfo>().isDeath)
-                    {
-                        left--;
-                        // 무법자가 배신자에게 당하면 배신자 승
-                        if (turnList[kidx].GetComponent<PlayerManager>().playerType == jType.Renegade)
-                        {
-                            Victory("renegade");
-                            isVictory = true;
-                        }
-                    }
-                }
-
-                // 최후의 1인이 되면 승리
-                if (left == 1)
-                {
-                    foreach (GameObject player in turnList)
-                    {
-                        // 살아잇으면 승리
-                        if(player.GetComponent<PlayerInfo>().isDeath == false)
-                        {
-                            isVictory = true;
-                            if (player.GetComponent<PlayerManager>().playerType == jType.Renegade)
-                                Victory("renegade");
-                            else if (player.GetComponent<PlayerManager>().playerType == jType.Outlaw)
+                            left--;
+                            // 부관이 무법자에게 당하면 무법자 승
+                            if (turnList[kidx].GetComponent<PlayerManager>().playerType == jType.Outlaw)
+                            {
                                 Victory("outlaw");
-                            else if (player.GetComponent<PlayerManager>().playerType == jType.Vice)
-                                Victory("vice");
+                                isVictory = true;
+                            }
+                        }
+                        // 배신자 사망
+                        if (player.GetComponent<PlayerManager>().playerType == jType.Renegade && player.GetComponent<PlayerInfo>().isDeath)
+                        {
+                            left--;
+                            // 배신자가 부관에게 당하면 부관 승
+                            if (turnList[kidx].GetComponent<PlayerManager>().playerType == jType.Vice)
+                            {
+                                Victory("sherrif");
+                                isVictory = true;
+                            }
+                        }
+                        // 무법자 사망
+                        if (player.GetComponent<PlayerManager>().playerType == jType.Outlaw && player.GetComponent<PlayerInfo>().isDeath)
+                        {
+                            left--;
+                            // 무법자가 배신자에게 당하면 배신자 승
+                            if (turnList[kidx].GetComponent<PlayerManager>().playerType == jType.Renegade)
+                            {
+                                Victory("renegade");
+                                isVictory = true;
+                            }
                         }
                     }
-                }
-                yield return new WaitForSeconds(1f);
-            }
 
+                    // 최후의 1인이 되면 승리
+                    if (left == 1)
+                    {
+                        foreach (GameObject player in turnList)
+                        {
+                            // 살아잇으면 승리
+                            if (player.GetComponent<PlayerInfo>().isDeath == false)
+                            {
+                                isVictory = true;
+                                if (player.GetComponent<PlayerManager>().playerType == jType.Renegade)
+                                    Victory("renegade");
+                                else if (player.GetComponent<PlayerManager>().playerType == jType.Outlaw)
+                                    Victory("outlaw");
+                                else if (player.GetComponent<PlayerManager>().playerType == jType.Vice)
+                                    Victory("vice");
+                            }
+                        }
+                    }
+                    yield return new WaitForSeconds(1f);
+                }
+            }
+           
             // 4-7인 룰
             /*while (!isVictory)
             {
                 foreach (GameObject player in playerList)
                 {
-                    
+
                     if(player.GetComponent<PlayerManager>().playerType == jType.Sheriff && player.GetComponent<PlayerInfo>().isDeath)
                     {
                         // 보안관 사망시 무법자 승리
@@ -1180,9 +1249,8 @@ namespace com.ThreeCS.McCree
 
                 yield return new WaitForSeconds(1f);
 
-            
-            }*/
 
+            }*/
             yield return null;
         }
 
@@ -1223,8 +1291,10 @@ namespace com.ThreeCS.McCree
                     jobImage3.sprite = deputy3;
 
                     abilImage.sprite = deputy4;
-                    //abilText.text = "1. 보안관을 도와 무법자를 모두 사살하십시오.";
-                    abilText.text = "1. 배신자를 처단 하십시오.";
+                    if(playerList.Length == 3)
+                        abilText.text = "1. 배신자를 처단 하십시오.";
+                    else
+                        abilText.text = "1. 보안관을 도와 무법자를 모두 사살하십시오.";
 
                     break;
                 case jType.Outlaw:
@@ -1238,7 +1308,11 @@ namespace com.ThreeCS.McCree
 
                     abilImage.sprite = outlaw4;
                     //abilText.text = "1. 무법자들과 함께 보안관을 사살하십시오.";
-                    abilText.text = "1. 부관을 사살하십시오.";
+                    if (playerList.Length == 3)
+                        abilText.text = "1. 부관을 사살하십시오.";
+                    else
+                        abilText.text = "1. 다른 무법자들과 함께 보안관을 사살하십시오.";
+
                     break;
                 case jType.Renegade:
                     Debug.Log("당신은 배신자입니다.");
@@ -1250,8 +1324,11 @@ namespace com.ThreeCS.McCree
                     jobImage3.sprite = renegade3;
 
                     abilImage.sprite = renegade4;
-                    //abilText.text = "1. 보안관에겐 부관처럼 무법자에겐 친구처럼 보이십시오.";
-                    abilText.text = "1. 무법자를 배신하십시오.";
+                    if (playerList.Length == 3)
+                        abilText.text = "1. 무법자를 배신하십시오.";
+                    else
+                        abilText.text = "1. 최후의 1인이 되십시오. 보안관과 1대 1 상황이 되면 이깁니다.";
+
                     break;
             }
             MineUI.Instance.questTitle.text = abilText.text.Substring(2);
@@ -1395,6 +1472,7 @@ namespace com.ThreeCS.McCree
             }
         }
         
+
         // 게임 시작하기 위한 버튼
         public void BangBtnClick()
         {
@@ -1415,7 +1493,7 @@ namespace com.ThreeCS.McCree
         {
             //Debug.Log("턴 버튼 누름!");
             // 본인 카드가 본인 hp보다 많으면 못넘어감
-            if(playerInfo.mycards.Count > playerInfo.hp)
+            /*if(playerInfo.mycards.Count > playerInfo.hp)
             {
                 // 잡화점 턴에는 카드 수 무시
                 if (state.Equals("store") || state.Equals("duel"))
@@ -1430,15 +1508,13 @@ namespace com.ThreeCS.McCree
             {
                 nextSignal = true;
                 MineUI.Instance.NextButton.SetActive(false);
-            }
+            }*/
 
             // 임시로 해놓은 거
-            //nextSignal = true;
-            //MineUI.Instance.NextButton.SetActive(false);
+            nextSignal = true;
+            MineUI.Instance.NextButton.SetActive(false);
         }
 
-        
-        
         // 게임 중 회피를 못할 때 그냥 맞는 버튼
         public void DamageBtn()
         {
@@ -1454,6 +1530,7 @@ namespace com.ThreeCS.McCree
             Debug.Log("항복");
 
             // 체력 -1
+            // 한번 쓰면 바로 뒤지라고 임시로 해놓음
             playerInfo.hp--;
             photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
 
@@ -1492,6 +1569,29 @@ namespace com.ThreeCS.McCree
             return result;
         }
 
+        // 때릴 수 있는 타겟 수 측정
+        public void AbleScan()
+        {
+            // 타격 할 수 있는 타겟의 수를 구함
+            ableHitNum = -1; // 본인 제외
+            foreach (GameObject player in turnList)
+            {
+                // 죽은 사람 거름
+                if (player.GetComponent<PlayerInfo>().isDeath)
+                    continue;
+                else
+                {
+                    int targetIdx = turnList.FindIndex(a => a == player);
+                    targetDistance = MeasureDistance(targetIdx);
+                    if (player.GetComponent<PlayerInfo>().isMustang)
+                        targetDistance++;
+
+                    if (targetDistance <= playerInfo.maximumRange)
+                        ableHitNum++;
+                }
+            }
+        }
+
         // 본인이 뱅 타겟되었다는 UI on
         public void TargetedPanelOn(string msg = "")
         {
@@ -1511,6 +1611,7 @@ namespace com.ThreeCS.McCree
             else
                 MineUI.Instance.distancePanel.SetActive(false);
         }
+
 
         // 감옥 UI ONOFF
         public void JailPanelOnOff(int state)
@@ -1559,6 +1660,7 @@ namespace com.ThreeCS.McCree
                 player1.GetComponent<PhotonView>().RPC("CardDeckSync", RpcTarget.All, content);
                 return;
             }
+
 
             // 현재 사용 무기 임시 등록
             Card.cType temp = StringtoEnum(playerInfo.wName);
@@ -1671,9 +1773,11 @@ namespace com.ThreeCS.McCree
                 default:
                     break;
             }
-            
+
+            // 타겟 수 측정 갱신
+            AbleScan();
             // 카드더미 동기화 시켜주기 - DataSync로
-            if(!equip) // 장착카드 아니면 사용 후 바로 덱에 추가
+            if (!equip) // 장착카드 아니면 사용 후 바로 덱에 추가
                 photonView.RPC("CardDeckSync", RpcTarget.All, content);
         }
 
@@ -2360,12 +2464,12 @@ namespace com.ThreeCS.McCree
                             mat.SetColor("_EmissionColor", Color.black);
                         }
 
-                        //전체 UI
-                        photonView.RPC("AlertInfo", RpcTarget.All, "Cat", ui.nickName.text, go.GetComponent<UI>().nickName.text);
-
                         // 아이템 클릭하면 부모는 게임플레이트고 그거의 부모가 의자(0 - 6 플레이어 idx)
                         GameObject tmp = go.transform.parent.gameObject;
                         GameObject chair = tmp.transform.parent.gameObject;
+
+                        //전체 UI
+                        photonView.RPC("AlertInfo", RpcTarget.All, "Cat", ui.nickName.text, sitList[int.Parse(chair.name)].GetComponent<UI>().nickName.text);
 
                         foreach (GameObject itemMaster in turnList)
                         {
@@ -2377,6 +2481,9 @@ namespace com.ThreeCS.McCree
                                 itemMaster.GetComponent<PhotonView>().RPC(t, RpcTarget.All, 1);
                             }
                         }
+
+                        // 카드 블록 패널 off
+                        MineUI.Instance.cardblockingPanel.SetActive(false);
 
                         // 아이템 이름이랑 열거형 타입이랑 같기 때문에 이름가지고 enum타입 만들기
                         Card.cType type = StringtoEnum(go.name);
@@ -2396,13 +2503,12 @@ namespace com.ThreeCS.McCree
                         mat.EnableKeyword("_EMISSION");
                         mat.SetColor("_EmissionColor", Color.black);
 
-
-                        //전체 UI
-                        photonView.RPC("AlertInfo", RpcTarget.All, "Cat", ui.nickName.text, go.GetComponent<UI>().nickName.text);
-
                         // 아이템 클릭하면 부모는 게임플레이트고 그거의 부모가 의자(0 - 6 플레이어 idx)
                         GameObject tmp = go.transform.parent.gameObject;
                         GameObject chair = tmp.transform.parent.gameObject;
+
+                        //전체 UI
+                        photonView.RPC("AlertInfo", RpcTarget.All, "Cat", ui.nickName.text, sitList[int.Parse(chair.name)].GetComponent<UI>().nickName.text);
 
                         foreach (GameObject itemMaster in turnList)
                         {
@@ -2410,6 +2516,10 @@ namespace com.ThreeCS.McCree
                             if (itemMaster.GetComponent<PlayerManager>().myChair.name.Equals(chair.name))
                                itemMaster.GetComponent<PhotonView>().RPC("WeaponSync", RpcTarget.All, 1);
                         }
+
+                        // 카드 블록 패널 off
+                        MineUI.Instance.cardblockingPanel.SetActive(false);
+
                         // 무기 이름이랑 열거형 타입이랑 같기 때문에 이름가지고 enum타입 만들기
                         Card.cType type = StringtoEnum(go.name);
 
@@ -2652,6 +2762,8 @@ namespace com.ThreeCS.McCree
                 MineUI.Instance.alertText.text = "타겟을 선택하십시오.";
             else if (state == 4)
                 MineUI.Instance.alertText.text = "타겟 또는 상대방의 아이템을 선택하십시오.";
+            else if (state == 5)
+                MineUI.Instance.alertText.text = "사거리내에 공격할 수 있는 적이 없습니다.";
 
             // 카드 알림
             if (state == 10)    // bang 사용
@@ -2672,8 +2784,16 @@ namespace com.ThreeCS.McCree
                 MineUI.Instance.alertText.text = atk + " (이)가 잡화점을 열어 물품을 제공합니다.";
             else if (state == 18)    // 감옥 사용
                 MineUI.Instance.alertText.text = atk + " (이)가 " + target + "을(를) 감옥에 쳐넣었습니다.";
+            else if (state == 181)    // 감옥에서 탈옥
+                MineUI.Instance.alertText.text = atk + " (이)가 탈옥에 성공했습니다.";
+            else if (state == 182)    // 감옥 탈옥 실패
+                MineUI.Instance.alertText.text = atk + " (이)가 탈옥하지 못했습니다.";
             else if (state == 19)    // 다이너마이트 사용
                 MineUI.Instance.alertText.text = atk + " (이)가 " + target + "에게 다이너마이트를 선물합니다.";
+            else if (state == 191)    // 다이너마이트 터짐
+                MineUI.Instance.alertText.text = atk + " (이)가 옆사람에게 다이너마이트를 던졌습니다.";
+            else if (state == 192)    // 다이너마이트 넘김
+                MineUI.Instance.alertText.text = atk + " (이)가 가진 다이너마이트가 터졌습니다.";
             else if (state == 20)    // 캣벌로우 사용
                 MineUI.Instance.alertText.text = atk + " (이)가 " + target + "의 카드나 아이템을 1개 제거!";
             else if (state == 21)    // 강탈 사용
@@ -2681,9 +2801,9 @@ namespace com.ThreeCS.McCree
             else if (state == 22)    //  결투 사용
                 MineUI.Instance.alertText.text = atk + " (이)가 " + target + "에게 결투 신청!";
             else if (state == 23)    // 조준경 사용
-                MineUI.Instance.alertText.text = atk + " (이)가 조준경을 장착.";
+                MineUI.Instance.alertText.text = atk + " (이)가 조준경을 장착. (사거리 +1)";
             else if (state == 24)    // 야생마 사용
-                MineUI.Instance.alertText.text = atk + " (이)가 야생마를 타고 멀어짐.";
+                MineUI.Instance.alertText.text = atk + " (이)가 야생마를 타고 멀어짐. (거리 +1)";
             else if (state == 25)    // 술통 사용
                 MineUI.Instance.alertText.text = atk + " (이)가 술통 뒤에 숨었음.";
             else if (state == 30)    

@@ -359,12 +359,19 @@ namespace com.ThreeCS.McCree
         {
             if(state == 0) // 다이너 마이트 장착
             {
+                // 다이너마이트 주인 저장 최초 한번만
+                if(GameManager.Instance.dynamiteIdx == -1)
+                    GameManager.Instance.dynamiteIdx = GameManager.Instance.tidx;
                 playerInfo.isDynamite = true;
                 GameObject dynamite = playerManager.mygamePlate.transform.Find("Dynamite").gameObject;
                 dynamite.SetActive(true);
             }
             else // 터지거나 다음 사람한테 넘겨줌
             {
+                // 터지면 공격자 저장
+                playerInfo.attackerIdx = GameManager.Instance.dynamiteIdx;
+                if (GameManager.Instance.dynamiteIdx != -1)
+                    GameManager.Instance.dynamiteIdx = -1; // 다시 초기화
                 playerInfo.isDynamite = false;
                 GameObject dynamite = playerManager.mygamePlate.transform.Find("Dynamite").gameObject;
                 dynamite.SetActive(false);
@@ -544,8 +551,16 @@ namespace com.ThreeCS.McCree
                 GameManager.Instance.alertOrder(17, atk);
             else if (state.Equals("Jail"))
                 GameManager.Instance.alertOrder(18, atk, target);
+            else if (state.Equals("JailEsc"))
+                GameManager.Instance.alertOrder(181, atk);
+            else if (state.Equals("JailFail"))
+                GameManager.Instance.alertOrder(182, atk);
             else if (state.Equals("Dyn"))
                 GameManager.Instance.alertOrder(19, atk, target);
+            else if (state.Equals("DynNext"))
+                GameManager.Instance.alertOrder(191, atk);
+            else if (state.Equals("DynBoom"))
+                GameManager.Instance.alertOrder(192, atk);
             else if (state.Equals("Cat"))
                 GameManager.Instance.alertOrder(20, atk, target);
             else if (state.Equals("Panic"))
@@ -573,15 +588,6 @@ namespace com.ThreeCS.McCree
                 GameManager.Instance.alertOrder(40, atk);
             else if (state.Equals("Avoid2"))
                 GameManager.Instance.alertOrder(41, atk);
-        }
-
-        [PunRPC]
-        public void PanelOn()
-        {
-            foreach(GameObject player in GameManager.Instance.turnList)
-            {
-                player.GetComponent<MineUI>().cardblockingPanel.SetActive(false);
-            }
         }
     }
 }

@@ -137,7 +137,7 @@ namespace com.ThreeCS.McCree
         public GameObject mygamePlate;
         public GameObject myChair;
 
-        // 장착무기상태--------------------------------------------------------------------------------
+        // 장착무기상태-------안씀-------------------------------------------------------------------------
         private bool _EquipedNone;
         public bool EquipedNone
         {
@@ -449,7 +449,7 @@ namespace com.ThreeCS.McCree
 
         #region  Methods
 
-        // 뱅 준비 (공격 사거리 표시)
+        // 뱅 준비 (공격 사거리 표시) - 안씀
         void AttackRange()
         {
             if (!isAiming)
@@ -475,7 +475,7 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        // 뱅!
+        // 뱅! - 안씀
         void Bang()
         {
 
@@ -535,7 +535,7 @@ namespace com.ThreeCS.McCree
         }
 
 
-        // 포탈에 상호작용 했을 때 동작
+        // 포탈에 상호작용 했을 때 동작 - 안씀
         public void Move(Transform target)
         {
             transform.position = target.position;
@@ -640,7 +640,7 @@ namespace com.ThreeCS.McCree
                 MineUI.Instance.statusPanel.SetActive(false);
                 isInventoryOpen = false;
             }
-        }
+        }   // 안씀   
         #endregion
 
 
@@ -705,27 +705,6 @@ namespace com.ThreeCS.McCree
                     break;
             }
         }
-
-
-        [PunRPC]
-        public void GiveItems(string jsonData, int photonViewId)
-        {
-            Item.iType pickedItem = JsonConvert.DeserializeObject<Item.iType>(jsonData);
-
-
-            if (photonView.IsMine)
-            {
-                foreach (ItemList itemList in playerInfo.myItemList)
-                {
-                    if (itemList.item.ability == pickedItem)
-                    {
-                        itemList.itemCount++;
-                        break;
-                    }
-                }
-            }
-            Character_Notice_Text("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
-        } // --- 아이템 관련 코드 삭제 예정
 
         [PunRPC]
         public void GiveCardSet(string jsonData, int state) // 카드덱을 나눠주기(카드 순서 동기화)
@@ -801,9 +780,29 @@ namespace com.ThreeCS.McCree
 
         }
 
-        
+
 
         // ------------------------------------ 퀘스트는 나중에 싹다 없애버릴 것 -------------------------------------------------------
+
+        [PunRPC]
+        public void GiveItems(string jsonData, int photonViewId)
+        {
+            Item.iType pickedItem = JsonConvert.DeserializeObject<Item.iType>(jsonData);
+
+
+            if (photonView.IsMine)
+            {
+                foreach (ItemList itemList in playerInfo.myItemList)
+                {
+                    if (itemList.item.ability == pickedItem)
+                    {
+                        itemList.itemCount++;
+                        break;
+                    }
+                }
+            }
+            Character_Notice_Text("<color=#000000>" + pickedItem.ToString() + " 을 흭득하였습니다!" + "</color>");
+        } // --- 아이템 관련 코드 삭제 예정
 
         [PunRPC]
         public void GetQuest(string questTitle)

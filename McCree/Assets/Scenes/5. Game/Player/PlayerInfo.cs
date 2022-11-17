@@ -359,6 +359,9 @@ namespace com.ThreeCS.McCree
                 foreach (GameObject card in cards)
                     Destroy(card);
 
+                // 혹시나 end turn 버튼 보이면 없애기 그리고 카드 블록 패널도 켜기
+                MineUI.Instance.cardblockingPanel.SetActive(true);
+                MineUI.Instance.NextButton.gameObject.SetActive(false);
 
                 // 3인 룰에선 죽이면 3장임
                 if (GameManager.Instance.playerList.Length == 3)
@@ -376,15 +379,19 @@ namespace com.ThreeCS.McCree
                         if (attackerIdx >= 0)
                             GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
                     }
-                    // 내가 부관인데 죽인 사람이 보안관이면 보안관 손 덱 전부 삭제
                     // 구현 예정
+                    // 내가 부관이고 죽었는데
+                    /*if (playerManager.playerType == GameManager.jType.Vice)
+                    {
+                        // 보안관이 죽인거면 손 카드 압수
+                        if (GameManager.Instance.turnList[playerInfo.attackerIdx].GetComponent<PlayerManager>().playerType == GameManager.jType.Sheriff)
+                            GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
+                    }*/
                 }
             }
 
             // 다른 사람들이 선택 못하게 투명하게 만듬
             character.SetActive(false);
-
-          
         }
     }
 }
