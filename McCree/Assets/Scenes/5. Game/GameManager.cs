@@ -233,7 +233,8 @@ namespace com.ThreeCS.McCree
         public int targetDistance;
 
         // 때릴 수 있는 타겟의 수
-        public int ableHitNum;
+        public int ableBangNum;
+        public int ablePanicNum;
 
         // sendAvoid에 들어가는 파라미터
         // 0 : 공격자에게 뱅을 맞고 회피나 맞기를 했다고 알림
@@ -299,7 +300,9 @@ namespace com.ThreeCS.McCree
             // 셔플 인덱스 초기화
             shuffleIdx = 0;
             // 타격가능 타겟 
-            ableHitNum = 0;
+            ableBangNum = 0;
+            ablePanicNum = 0;
+
             // tnt초기화
             dynamiteIdx = -1;
 
@@ -945,13 +948,13 @@ namespace com.ThreeCS.McCree
                     // 다이너 마이트 확인
                     if (playerInfo.isDynamite)
                     {
-                        int b = rand.Next(1, 3);
+                        int b = rand.Next(1, 9);
                         //12.5% 확률로 터짐 데미지는 3
                         if (b == 1) // 터짐
                         {
                             MineUI.Instance.dynamiteText.text = "다이너마이트가 터졌습니다.(12.5%)";
                             DynamitePanelOnOff(0);
-                            photonView.RPC("DynamiteSync", RpcTarget.All, 1);
+                            photonView.RPC("DynamiteSync", RpcTarget.All, 2);
                             // 전체 알림
                             photonView.RPC("AlertInfo", RpcTarget.All, "DynBoom", ui.nickName.text, "");
                             yield return new WaitForSeconds(2f);
@@ -960,7 +963,7 @@ namespace com.ThreeCS.McCree
                             DynamitePanelOnOff(1);
 
                             // hp 변수 설계상 이렇게 해야함
-                            for (int i = 0; i < 4; i++)
+                            for (int i = 0; i < 3; i++)
                             {
                                 playerInfo.hp--;
                                 photonView.RPC("SyncHp", RpcTarget.All, playerInfo.hp);
@@ -982,18 +985,18 @@ namespace com.ThreeCS.McCree
                             {
                                 if (didx + 1 == turnList.Count)
                                 {
-                                    didx = 0;
                                     // 죽은사람 체그
-                                    if (!turnList[didx].GetComponent<PlayerInfo>().isDeath)
+                                    if (!turnList[0].GetComponent<PlayerInfo>().isDeath)
                                     {
-                                        turnList[didx].GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
+                                        turnList[0].GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
                                         break;
                                     }
                                     else
-                                        didx++;
+                                        didx = 0;
                                 }
                                 else
                                 {
+                                    // 죽은사람 체그
                                     if (!turnList[didx + 1].GetComponent<PlayerInfo>().isDeath)
                                     {
                                         turnList[didx + 1].GetComponent<PhotonView>().RPC("DynamiteSync", RpcTarget.All, 0);
@@ -1040,7 +1043,8 @@ namespace com.ThreeCS.McCree
                 // 본인턴에 본인 몸이 빛남
                 photonView.RPC("TurnColor", RpcTarget.All, tidx, 1);
 
-                AbleScan();
+                AbleScan(0);
+                AbleScan(1);
 
                 while (true)
                 {
@@ -1570,10 +1574,16 @@ namespace com.ThreeCS.McCree
         }
 
         // 때릴 수 있는 타겟 수 측정
-        public void AbleScan()
+        public void AbleScan(int state)
         {
+            // 0 : bang 1 : panic
+            
             // 타격 할 수 있는 타겟의 수를 구함
-            ableHitNum = -1; // 본인 제외
+            if(state == 0)
+                ableBangNum = -1; // 본인 제외
+            else
+                ablePanicNum = -1;
+
             foreach (GameObject player in turnList)
             {
                 // 죽은 사람 거름
@@ -1586,8 +1596,17 @@ namespace com.ThreeCS.McCree
                     if (player.GetComponent<PlayerInfo>().isMustang)
                         targetDistance++;
 
-                    if (targetDistance <= playerInfo.maximumRange)
-                        ableHitNum++;
+                    if(state == 0) // 뱅은 본인 무기 사거리사 추가로 들어감
+                    {
+                        Debug.Log("다른 사람 뱅 측정 거리 : " + targetDistance);
+                        if (targetDistance <= playerInfo.atkRange + playerInfo.weaponRange)
+                            ableBangNum++;
+                    }
+                    if(state == 1) // 강탈엔 상대방의 야생마여부 본인의 조준경 여부만 관여함
+                    {
+                        if (targetDistance <= playerInfo.atkRange)
+                            ablePanicNum++;
+                    }
                 }
             }
         }
@@ -1709,7 +1728,6 @@ namespace com.ThreeCS.McCree
                     break;
                 case "Russian":
                     // 무기 사거리 증가
-                    playerInfo.maximumRange = 2;
                     if (playerInfo.isWeapon) // 현재 무기가 기본 무기가 아니면
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 2);
@@ -1717,7 +1735,6 @@ namespace com.ThreeCS.McCree
                     MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Navy":
-                    playerInfo.maximumRange = 3;
                     if (playerInfo.isWeapon) // 현재 무기가 기본 무기가 아니면
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 3);
@@ -1725,7 +1742,6 @@ namespace com.ThreeCS.McCree
                     MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Carbine":
-                    playerInfo.maximumRange = 4;
                     if (playerInfo.isWeapon) // 현재 무기가 기본 무기가 아니면
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 4);
@@ -1733,7 +1749,6 @@ namespace com.ThreeCS.McCree
                     MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Winchester":
-                    playerInfo.maximumRange = 5;
                     if (playerInfo.isWeapon) // 현재 무기가 기본 무기가 아니면
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 5);
@@ -1775,7 +1790,9 @@ namespace com.ThreeCS.McCree
             }
 
             // 타겟 수 측정 갱신
-            AbleScan();
+            AbleScan(0);
+            AbleScan(1);
+
             // 카드더미 동기화 시켜주기 - DataSync로
             if (!equip) // 장착카드 아니면 사용 후 바로 덱에 추가
                 photonView.RPC("CardDeckSync", RpcTarget.All, content);
@@ -1839,7 +1856,7 @@ namespace com.ThreeCS.McCree
                         //Debug.Log("Target Dis : " + targetDistance);
 
                         // 측정 거리 > 본인 최대 사거리 (뱅 불가)
-                        if (targetDistance > playerInfo.maximumRange)
+                        if (targetDistance > playerInfo.atkRange + playerInfo.weaponRange)
                         {
                             //Debug.Log("뱅 불가함");
                             DistancePanelOnOff(0);

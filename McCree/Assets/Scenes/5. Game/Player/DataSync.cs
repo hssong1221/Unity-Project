@@ -366,15 +366,20 @@ namespace com.ThreeCS.McCree
                 GameObject dynamite = playerManager.mygamePlate.transform.Find("Dynamite").gameObject;
                 dynamite.SetActive(true);
             }
-            else // 터지거나 다음 사람한테 넘겨줌
+            else if(state == 1) // 다음 사람한테 넘겨줌
             {
-                // 터지면 공격자 저장
-                playerInfo.attackerIdx = GameManager.Instance.dynamiteIdx;
-                if (GameManager.Instance.dynamiteIdx != -1)
-                    GameManager.Instance.dynamiteIdx = -1; // 다시 초기화
                 playerInfo.isDynamite = false;
                 GameObject dynamite = playerManager.mygamePlate.transform.Find("Dynamite").gameObject;
                 dynamite.SetActive(false);
+            }
+            else if (state == 2) // 터짐
+            {
+                // 터지면 공격자 저장
+                playerInfo.attackerIdx = GameManager.Instance.dynamiteIdx;
+                playerInfo.isDynamite = false;
+                GameObject dynamite = playerManager.mygamePlate.transform.Find("Dynamite").gameObject;
+                dynamite.SetActive(false);
+                GameManager.Instance.dynamiteIdx = -1;
             }
         }
 
@@ -498,30 +503,32 @@ namespace com.ThreeCS.McCree
             switch (state) {
                 case 1: //colt
                     colt.SetActive(true);
+                    playerInfo.weaponRange = 0;
                     playerInfo.wName = "Colt";
                     break;
                 case 2: //russian
                     russian.SetActive(true);
+                    playerInfo.weaponRange = 1;
                     playerInfo.wName = "Russian";
                     break;
                 case 3: // navy
                     navy.SetActive(true);
+                    playerInfo.weaponRange = 2;
                     playerInfo.wName = "Navy";
                     break;
                 case 4: //carbine
                     carbine.SetActive(true);
+                    playerInfo.weaponRange = 3;
                     playerInfo.wName = "Carbine";
                     break;
                 case 5: // winchester
                     winchester.SetActive(true);
+                    playerInfo.weaponRange = 4;
                     playerInfo.wName = "Winchester";
                     break;
                 default:
                     break;
-                      
             }
-            
-
         }
 
         #endregion

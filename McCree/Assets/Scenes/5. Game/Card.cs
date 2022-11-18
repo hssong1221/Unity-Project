@@ -431,10 +431,20 @@ namespace com.ThreeCS.McCree
             // 카드 사용 위치에 올려놔서 카드를 사용함
             if (useCard) 
             {
-                // 공격할 수 있는 적이 없을 떄
-                if(GameManager.Instance.ableHitNum == 0)
+                // 뱅 할 수 있는 적이 없을 떄
+                if(GameManager.Instance.ableBangNum == 0)
                 {
-                    if(targetUI.GetComponent<Card>().cardContent == cType.Bang || targetUI.GetComponent<Card>().cardContent == cType.Panic)
+                    if(targetUI.GetComponent<Card>().cardContent == cType.Bang )
+                    {
+                        GameManager.Instance.alertOrder(5);
+                        targetUI.position = startPnt;
+                        return;
+                    }
+                }
+                // 강탈 할 수 있는 적이 없을 떄
+                if (GameManager.Instance.ablePanicNum == 0)
+                {
+                    if (targetUI.GetComponent<Card>().cardContent == cType.Panic)
                     {
                         GameManager.Instance.alertOrder(5);
                         targetUI.position = startPnt;

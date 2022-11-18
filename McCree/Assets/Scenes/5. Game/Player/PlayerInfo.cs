@@ -80,7 +80,7 @@ namespace com.ThreeCS.McCree
         public bool targetedBang = false; // bang MG에의해 타겟팅
         public bool targetedIndian = false; // indian에 의해 타겟팅
 
-        public int attackerIdx;
+        public int attackerIdx; // 나를 공격한 사람의 idx
 
         [HideInInspector]
         public bool sendAvoid = false;  // 본인이 avoid카드를 냈는지 안냈는지
@@ -96,8 +96,10 @@ namespace com.ThreeCS.McCree
         // 잡화점 상태인지 아닌지
         public bool isStore = false;
 
-        // 본인의 최대 사거리
-        public int maximumRange;
+        // 본인의 기본 사거리
+        public int atkRange;
+        // 본인 무기 사거리
+        public int weaponRange;
 
 
         // 스코프 장착 상태
@@ -109,13 +111,13 @@ namespace com.ThreeCS.McCree
                 scope = value;
     
                 if (isScope)
-                    maximumRange += 1;
+                    atkRange += 1;
                 else
                 {
-                    if (maximumRange > 1)
-                        maximumRange -= 1;
-                    else if (maximumRange == 1)
-                        maximumRange = 1;
+                    if (atkRange > 1)
+                        atkRange -= 1;
+                    else if (atkRange == 1)
+                        atkRange = 1;
                 }
             }
         }
@@ -219,8 +221,8 @@ namespace com.ThreeCS.McCree
 
             attackerIdx = -1;
 
-            //  뱅 최대사거리 
-            maximumRange = 1;
+            atkRange = 1;
+            weaponRange = 0;
 
             wName = "Colt";
 
@@ -367,7 +369,7 @@ namespace com.ThreeCS.McCree
                 if (GameManager.Instance.playerList.Length == 3)
                 {
                     // 유효하게 죽었다면
-                    if (attackerIdx >= 0)
+                    if (attackerIdx >= 0 && attackerIdx != GameManager.Instance.tidx)
                         GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
                 }
                 else
