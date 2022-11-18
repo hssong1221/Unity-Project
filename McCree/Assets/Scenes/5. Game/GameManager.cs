@@ -635,11 +635,11 @@ namespace com.ThreeCS.McCree
             jobPanel.SetActive(true);
             jobText.text = JobText();
 
-            //yield return new WaitForSeconds(6f);
+            yield return new WaitForSeconds(6f);
             jobPanel.SetActive(false);
             abilPanel.SetActive(true);
 
-            //yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f);
             //abilUIAnimator.SetTrigger("Abil");
             abilText.text += AblityText();
             //abilText.text += "\n3. 당신의 능력을 잘 활용하십시오";
@@ -651,7 +651,7 @@ namespace com.ThreeCS.McCree
 
 
             // ------------------------------------------------ 사람들이 텍스트를 읽을 시간 부여(나중에 다시 활성화) ----------------------------
-            //yield return new WaitForSeconds(7.5f);
+            yield return new WaitForSeconds(7.5f);
             abilPanel.SetActive(false);
             MineUI.Instance.leftTopPanel.SetActive(true);
             MineUI.Instance.rightBottomPanel.SetActive(true);
@@ -1497,7 +1497,7 @@ namespace com.ThreeCS.McCree
         {
             //Debug.Log("턴 버튼 누름!");
             // 본인 카드가 본인 hp보다 많으면 못넘어감
-            /*if(playerInfo.mycards.Count > playerInfo.hp)
+            if(playerInfo.mycards.Count > playerInfo.hp)
             {
                 // 잡화점 턴에는 카드 수 무시
                 if (state.Equals("store") || state.Equals("duel"))
@@ -1512,11 +1512,11 @@ namespace com.ThreeCS.McCree
             {
                 nextSignal = true;
                 MineUI.Instance.NextButton.SetActive(false);
-            }*/
+            }
 
             // 임시로 해놓은 거
-            nextSignal = true;
-            MineUI.Instance.NextButton.SetActive(false);
+            //nextSignal = true;
+            //MineUI.Instance.NextButton.SetActive(false);
         }
 
         // 게임 중 회피를 못할 때 그냥 맞는 버튼
