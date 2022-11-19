@@ -109,6 +109,9 @@ namespace com.ThreeCS.McCree
         // 카드를 들고 있는 플레이어를 의미함(본인)
         protected GameObject player;
 
+        // 코루틴 캐싱
+        WaitForSeconds wait1f = new WaitForSeconds(1f);
+
         #endregion
 
         void Awake()
@@ -431,10 +434,12 @@ namespace com.ThreeCS.McCree
             // 카드 사용 위치에 올려놔서 카드를 사용함
             if (useCard) 
             {
-                // 뱅 할 수 있는 적이 없을 떄
-                if(GameManager.Instance.ableBangNum == 0)
+                // 뱅 할 수 있는 적이 없을 떄( 다만 결투 턴에서는 사거리 무효임, 인디언 회피 할때도 무효 )
+                if(GameManager.Instance.ableBangNum == 0 
+                    && !GameManager.Instance.duelTurn 
+                    && !player.GetComponent<PlayerInfo>().targetedIndian)
                 {
-                    if(targetUI.GetComponent<Card>().cardContent == cType.Bang )
+                    if (targetUI.GetComponent<Card>().cardContent == cType.Bang)
                     {
                         GameManager.Instance.alertOrder(5);
                         targetUI.position = startPnt;
@@ -452,14 +457,7 @@ namespace com.ThreeCS.McCree
                     }
                 }
 
-                // 뱅을 한번 쓴 상태
-                if (player.GetComponent<PlayerInfo>().usedBang && targetUI.GetComponent<Card>().cardContent == cType.Bang)
-                {
-                    GameManager.Instance.alertOrder(1);
-                    targetUI.position = startPnt;
-                    return;
-                }
-
+                // 타겟 상태
                 if (player.GetComponent<PlayerInfo>().isTarget == 3)
                 {
                     // 타겟이여서 회피카드를 내야할 때
@@ -485,6 +483,17 @@ namespace com.ThreeCS.McCree
                     if(targetUI.GetComponent<Card>().cardContent != cType.Bang)
                     {
                         // 돌려보냄
+                        targetUI.position = startPnt;
+                        return;
+                    }
+                }
+                // 그외 나머지
+                else
+                {
+                    // 뱅을 한번 쓴 상태
+                    if (player.GetComponent<PlayerInfo>().usedBang && targetUI.GetComponent<Card>().cardContent == cType.Bang)
+                    {
+                        GameManager.Instance.alertOrder(1);
                         targetUI.position = startPnt;
                         return;
                     }
@@ -532,7 +541,7 @@ namespace com.ThreeCS.McCree
             else if (delCard)
                 StartCoroutine("CardUse2");
 
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
 
         // 카드 사용 애니메이션
@@ -545,7 +554,8 @@ namespace com.ThreeCS.McCree
             int height = Screen.height;
             Vector3 vec = new Vector3(width / 2, height / 2, 0);
             this.transform.DOMove(vec, dtime);
-            yield return new WaitForSeconds(1f);
+
+            yield return wait1f;
 
             StartCoroutine("CardUse2");
         }
@@ -585,14 +595,14 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.CardAlignment();
 
             // 잠시 대기
-            yield return new WaitForSeconds(1f);
+            yield return wait1f;
 
             // 다른 카드 선택 가능하게 풀어줌
             GameManager.Instance.isCard = false;
 
             StartCoroutine("CardUse3", 0);
 
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
 
         IEnumerator CardUse3()

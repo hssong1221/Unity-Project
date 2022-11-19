@@ -70,11 +70,22 @@ namespace com.ThreeCS.McCree
             [PunRPC]
             public void UIMatch()
             {
-                ui.hpOffset = new Vector3(0, 1.6f, 0);
-                string temp = "(" + playerManager.playerType.ToString() + ")";
-                ui.nickName.text += temp;
+                if(GameManager.Instance.playerList.Length == 3)
+                {
+                    ui.hpOffset = new Vector3(0, 1.6f, 0);
+                    string temp = "(" + playerManager.playerType.ToString() + ")";
+                    ui.nickName.text += temp;
+                }
+                else
+                {
+                    ui.hpOffset = new Vector3(0, 1.6f, 0);
+                    if (playerManager.playerType.ToString().Equals("Sheriff"))
+                    {
+                        string temp = "(" + playerManager.playerType.ToString() + ")";
+                        ui.nickName.text += temp;
+                    }
+                }
             }
-
         #endregion
 
 
@@ -177,7 +188,11 @@ namespace com.ThreeCS.McCree
             playerInfo.isTarget = state;
             // 공격자인덱스를 타겟에 저장
             playerInfo.attackerIdx = attackerIdx;
-            if(state == 1)
+            // 혹시나 잠겨있는 블록 패널 해제
+            MineUI.Instance.cardblockingPanel.SetActive(false);
+            MineUI.Instance.blockingPanel.SetActive(false);
+
+            if (state == 1)
                 GameManager.Instance.TargetedPanelOn("공격 당하는 중! 회피하세요. (Dodge 필요)");
             else
                 GameManager.Instance.TargetedPanelOn("인디언이 공격하는 중! 반격하세요. (Bang 필요)");

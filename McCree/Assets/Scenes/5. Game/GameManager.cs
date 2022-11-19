@@ -17,6 +17,13 @@ using Newtonsoft.Json;
 
 namespace com.ThreeCS.McCree
 {
+    internal static class YieldCache
+    {
+        // 코루틴 최적화 용
+        // WaitForEndOfFrame 용
+        public static readonly WaitForEndOfFrame WaitForEndOfFrame = new WaitForEndOfFrame();
+    }
+
     public class GameManager : MonoBehaviourPunCallbacks
     {
         #region Variable Fields
@@ -267,7 +274,12 @@ namespace com.ThreeCS.McCree
 
         // 셔플 인덱스 - 카드를 어느정도 사용하면 다시 섞어줌
         public int shuffleIdx;
-        
+
+        // --------------코루틴 캐싱
+        WaitForSeconds wait05f = new WaitForSeconds(0.5f);
+        WaitForSeconds wait1f = new WaitForSeconds(1f);
+        WaitForSeconds wait2f = new WaitForSeconds(2f);
+        WaitForSeconds wait3f = new WaitForSeconds(3f);
 
         #endregion
 
@@ -359,7 +371,7 @@ namespace com.ThreeCS.McCree
         // 캐릭터 생성
         IEnumerator InstantiateResource()
         {
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
 
             StartCoroutine(SpawnPlayer());
             StartCoroutine(SpawnNpc());
@@ -390,7 +402,7 @@ namespace com.ThreeCS.McCree
         IEnumerator SpawnPlayer()
         {
             RaiseEventManager.Instance.Spwan_Player();
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         IEnumerator SpawnNpc()
@@ -418,7 +430,7 @@ namespace com.ThreeCS.McCree
                 }
             }
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         IEnumerator WaitAllPlayers()
@@ -428,7 +440,7 @@ namespace com.ThreeCS.McCree
             {
                 Debug.Log("PM 방 총원 : " + PhotonNetwork.PlayerList.Length);
                 Debug.Log("PM 현재 로딩된 인원 수 : " + playerList.Length);
-                yield return null;
+                yield return YieldCache.WaitForEndOfFrame;
             }
 
             // 의자에 전체 인원 수 적용
@@ -457,7 +469,7 @@ namespace com.ThreeCS.McCree
 
         IEnumerator JobandAbility()
         {
-            yield return new WaitForEndOfFrame();
+            yield return null;
 
             // (인구수에 맞게 하는 거 추가하기)
             //List<int> jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
@@ -502,20 +514,21 @@ namespace com.ThreeCS.McCree
                 Debug.Log("체력 동기화 : " + playerList[i]);
                 playerList[i].GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All, -10);
             }
-            yield return new WaitForEndOfFrame();
+
+            yield return null;
         }
 
         // 애니메이션 스타트
         IEnumerator AnimPlay()
         {
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
 
             for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
             {
                 playerList[i].GetComponent<PhotonView>().RPC("AnimStart", RpcTarget.All);
             }
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
 
@@ -601,7 +614,7 @@ namespace com.ThreeCS.McCree
 
             player1.GetComponent<PhotonView>().RPC("GiveCardSet", RpcTarget.All, json, 0);
 
-            yield return new WaitForEndOfFrame();
+            yield return null;
         }
 
         IEnumerator ShuffleCard()
@@ -631,7 +644,8 @@ namespace com.ThreeCS.McCree
         {
             // 직업 선택 텍스트랑 애니메이션 재생
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
+
             jobPanel.SetActive(true);
             jobText.text = JobText();
 
@@ -639,7 +653,7 @@ namespace com.ThreeCS.McCree
             jobPanel.SetActive(false);
             abilPanel.SetActive(true);
 
-            yield return new WaitForSeconds(0.5f);
+            yield return wait05f;
             //abilUIAnimator.SetTrigger("Abil");
             abilText.text += AblityText();
             //abilText.text += "\n3. 당신의 능력을 잘 활용하십시오";
@@ -675,6 +689,7 @@ namespace com.ThreeCS.McCree
             }
 
             Debug.Log("시작 가능!");
+            // 게임 인원수에 따라 시작하는 사람이 다름(3인:부관 나머지 :보안관)
             foreach (GameObject player in playerList)
             {
                 if (player.GetComponent<PhotonView>().IsMine)
@@ -753,18 +768,17 @@ namespace com.ThreeCS.McCree
                 // turnlist에 턴 순서대로 플레이어들이 들어가 있음
             }
 
-            yield return new WaitForEndOfFrame();
+            yield return null;
 
             // 카드 나눠주기 중복 방지를 위해 마스터클라이언트 혼자만 작동(1번만 해야하는 동작임)
             if (PhotonNetwork.IsMasterClient)
             {
-                // 맨 처음에 5장씩 뿌림
+                // 맨 처음에 전체에게 5장씩 뿌림
                 for (int i = 0; i < turnList.Count; i++)
                 {
                     // 동시에
                     turnList[i].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 5);
                 }
-                yield return new WaitForEndOfFrame();
             }
 
             // 시점을 1인칭으로 바꿈
@@ -772,6 +786,7 @@ namespace com.ThreeCS.McCree
             cam.ChildCameras[1].gameObject.SetActive(false);
 
             StartCoroutine("GameLoop2");
+
             yield return new WaitForSeconds(1f);
         }
         
@@ -871,12 +886,13 @@ namespace com.ThreeCS.McCree
 
                     //playerinfo에서 머리위 카드 숫자 보여줌 - 해결을 못하면 여기에 배치 할 듯
                     photonView.RPC("CardNumView", RpcTarget.All, playerInfo.mycardNumView);
-                    yield return new WaitForSeconds(0.3f);
+
+                    yield return wait05f;
 
                     continue;
                 }
 
-                yield return new WaitForEndOfFrame();
+                yield return YieldCache.WaitForEndOfFrame;
 
                 // 카드 드로우 하기 전 행동
                 // 결투 중 확인
@@ -921,7 +937,7 @@ namespace com.ThreeCS.McCree
                             nextSignal = false;
                             myTurn = false;
 
-                            yield return new WaitForSeconds(2f);
+                            yield return wait2f;
 
                             turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
                             photonView.RPC("JailSync", RpcTarget.All, 1);
@@ -934,7 +950,8 @@ namespace com.ThreeCS.McCree
                         {
                             MineUI.Instance.jailText.text = "탈옥 성공(25%)";
                             JailPanelOnOff(0);
-                            yield return new WaitForSeconds(2f);
+                            yield return wait2f;
+
                             photonView.RPC("JailSync", RpcTarget.All, 1);
                             // 전체 알림
                             photonView.RPC("AlertInfo", RpcTarget.All, "JailEsc", ui.nickName.text, "");
@@ -957,7 +974,8 @@ namespace com.ThreeCS.McCree
                             photonView.RPC("DynamiteSync", RpcTarget.All, 2);
                             // 전체 알림
                             photonView.RPC("AlertInfo", RpcTarget.All, "DynBoom", ui.nickName.text, "");
-                            yield return new WaitForSeconds(2f);
+                            yield return wait2f;
+
                             // 터졌으니까 다시 덱에 추가
                             photonView.RPC("CardDeckSync", RpcTarget.All, Card.cType.Dynamite);
                             DynamitePanelOnOff(1);
@@ -977,7 +995,8 @@ namespace com.ThreeCS.McCree
                             photonView.RPC("DynamiteSync", RpcTarget.All, 1);
                             // 전체 알림
                             photonView.RPC("AlertInfo", RpcTarget.All, "DynNext", ui.nickName.text, "");
-                            yield return new WaitForSeconds(2f);
+                            yield return wait2f;
+
                             DynamitePanelOnOff(1);
                             // 다음 사람한테 다이너 마이트 적용
                             int didx = tidx;
@@ -1087,14 +1106,13 @@ namespace com.ThreeCS.McCree
                     if (playerInfo.hp <= 0 && nextSignal == false)
                         nextSignal = true;
 
-                    yield return new WaitForSeconds(0.3f);
+                    yield return wait05f;
                 }
-                yield return null;
+                yield return YieldCache.WaitForEndOfFrame;
             }
-
             //------------ 게임이 끝남 -------------
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
         }
        
 
@@ -1105,7 +1123,7 @@ namespace com.ThreeCS.McCree
             yield return new WaitForSeconds(10f);
             Debug.Log("게임 종료 조건 측정 시작");
 
-            // 게임 인원수마다 게임 종료 조건이 다름
+            // 게임 인원수마다 게임 종료 조건이 다름 - 보기 편하라고 해놓은거고 나중에 삭제 
             switch (playerList.Length)
             {
                 case 3:
@@ -1127,7 +1145,7 @@ namespace com.ThreeCS.McCree
             {
                 // 3인 룰 : 부관 -> 배신자 -> 무법자 -> 부관 을 제거해야함 본인이 제거 못하면 최후의 1인이 남아야함
                 // 현재 남은 인원수
-                if(playerList.Length == 3)
+                if (playerList.Length == 3)
                 {
                     int left = turnList.Count;
                     foreach (GameObject player in playerList)
@@ -1188,74 +1206,59 @@ namespace com.ThreeCS.McCree
                             }
                         }
                     }
-                    yield return new WaitForSeconds(1f);
-                }
-            }
-           
-            // 4-7인 룰
-            /*while (!isVictory)
-            {
-                foreach (GameObject player in playerList)
-                {
 
-                    if(player.GetComponent<PlayerManager>().playerType == jType.Sheriff && player.GetComponent<PlayerInfo>().isDeath)
+                    yield return wait1f;
+                }
+                else if(playerList.Length == 4)
+                {
+                    int sherrifNum = 1;
+                    outlawNum = 2;
+                    viceNum = 0;
+                    renegadeNum = 1;
+                    foreach (GameObject player in playerList)
                     {
-                        // 보안관 사망시 무법자 승리
-                        Victory("outlaw");
+                        // 보안관 사망
+                        if (player.GetComponent<PlayerManager>().playerType == jType.Sheriff && player.GetComponent<PlayerInfo>().isDeath)
+                            sherrifNum--;
+
+                        // 무법자 사망
+                        if (player.GetComponent<PlayerManager>().playerType == jType.Outlaw && player.GetComponent<PlayerInfo>().isDeath)
+                            outlawNum--;
+
+                        // 배신자 사망
+                        if (player.GetComponent<PlayerManager>().playerType == jType.Renegade && player.GetComponent<PlayerInfo>().isDeath)
+                            renegadeNum--;
+                    }
+
+                    // 승리 판정은 이곳에서
+                    // 보안관 사망시
+                    if (sherrifNum == 0)
+                    {
+                        // 무법자는 전부 죽었고 배신자와 1대1하다 사망하면 배신자 승
+                        if (outlawNum == 0 && renegadeNum == 1)
+                        {
+                            Victory("renegade");
+                            isVictory = true;
+                        }
+                        // 죽을 당시에 무법자가 한명이라도 있으면 무법자 승
+                        if (outlawNum != 0)
+                        {
+                            Victory("outlaw");
+                            isVictory = true;
+                        }
+                    }
+                    
+                    // 무법자와 배신자가 전부 죽으면 보안관 승
+                    if (outlawNum == 0 && renegadeNum == 0)
+                    {
+                        Victory("sherrif");
                         isVictory = true;
                     }
-                    else if(player.GetComponent<PlayerManager>().playerType == jType.Outlaw)
-                    {
-                        //현재 남아있는 무법자 수
-                        if (!player.GetComponent<PlayerInfo>().isDeath)
-                        {
-                            outlawNum++;
-                        }
-                        Debug.Log("현재 무법자 수 : " + outlawNum);
-                    }
-                    else if(player.GetComponent<PlayerManager>().playerType == jType.Renegade)
-                    {
-                        // 현재 남아있는 배신자 수
-                        if (!player.GetComponent<PlayerInfo>().isDeath)
-                        {
-                            renegadeNum++;
-                        }
-                        Debug.Log("현재 배신자 수 : " + renegadeNum);
 
-                    }
-                    else if(player.GetComponent<PlayerManager>().playerType == jType.Vice)
-                    {
-                        // 현재 남아있는 부관 수
-                        if (!player.GetComponent<PlayerInfo>().isDeath)
-                        {
-                            viceNum++;
-                        }
-                        Debug.Log("현재 부관 수 : " + viceNum);
-
-                    }
-
-                    //Debug.Log("플레이어 : " + player.GetComponent<PlayerManager>().playerType + "    플레이어 hp : " + player.GetComponent<PlayerInfo>().hp);
+                    yield return wait1f;
                 }
-
-                // 부관과 무법자가 모두 사망해서 보안관과 1대1일이 되면 배신자 승리
-                if (viceNum == 0 && outlawNum == 0)
-                {
-                    Victory("renegade");
-                    isVictory = true;
-                }
-
-                // 무법자 배신자 모두 사망하면 보안관 승리
-                if (outlawNum == 0 && renegadeNum == 0)
-                {
-                    Victory("sherrif");
-                    isVictory = true;
-                }
-
-                yield return new WaitForSeconds(1f);
-
-
-            }*/
-            yield return null;
+            }
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         
@@ -1330,8 +1333,8 @@ namespace com.ThreeCS.McCree
                     abilImage.sprite = renegade4;
                     if (playerList.Length == 3)
                         abilText.text = "1. 무법자를 배신하십시오.";
-                    else
-                        abilText.text = "1. 최후의 1인이 되십시오. 보안관과 1대 1 상황이 되면 이깁니다.";
+                    else if(playerList.Length == 4)
+                        abilText.text = "1. 보안관을 도와 무법자를 제거하고 마지막에 보안관을 배신하십시오.";
 
                     break;
             }
@@ -1545,6 +1548,8 @@ namespace com.ThreeCS.McCree
                 // 듀얼 턴 끝내고 듀얼 상태도 초기화
                 photonView.RPC("DuelTurn", RpcTarget.All, 1);
                 photonView.RPC("DuelSync", RpcTarget.All, 1, -1);
+                // 턴 버튼 살리기
+                MineUI.Instance.NextButton.gameObject.SetActive(true);
             }   
             // 결투 신청당하고 항복함
             else
@@ -1860,7 +1865,7 @@ namespace com.ThreeCS.McCree
                         {
                             //Debug.Log("뱅 불가함");
                             DistancePanelOnOff(0);
-                            yield return new WaitForSeconds(1f);
+                            yield return wait1f;
                             DistancePanelOnOff(1);
                         }
                         else
@@ -1882,7 +1887,7 @@ namespace com.ThreeCS.McCree
                             while (playerInfo.waitAvoid == true)
                             {
                                 Debug.Log("상대방의 회피를 기다리는 중 ");
-                                yield return new WaitForSeconds(0.1f);
+                                yield return wait05f;
                             }
                             Debug.Log("상대방의 회피를 기다리는 상태를 빠져나옴 ");
 
@@ -1895,7 +1900,7 @@ namespace com.ThreeCS.McCree
                         }
                     }
                 }
-                yield return new WaitForEndOfFrame();
+                yield return YieldCache.WaitForEndOfFrame;
             }
             // 뱅 관련 플래그 초기화
             bangClick = false;
@@ -1903,7 +1908,7 @@ namespace com.ThreeCS.McCree
             // 뱅 한번 씀
             playerInfo.usedBang = true;
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         IEnumerator MachineGun()
@@ -1939,7 +1944,7 @@ namespace com.ThreeCS.McCree
             {
                 Debug.Log(playerInfo.waitAvoids);
                 Debug.Log("상대방의 회피를 기다리는 중 ");
-                yield return new WaitForSeconds(0.1f);
+                yield return wait05f;
             }
             Debug.Log("상대방의 회피를 기다리는 상태를 빠져나옴 ");
             
@@ -1953,7 +1958,7 @@ namespace com.ThreeCS.McCree
             playerInfo.waitAvoids = -1;
             deadman = 0;
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         IEnumerator Indian()
@@ -1988,7 +1993,7 @@ namespace com.ThreeCS.McCree
             while (playerInfo.waitBangs < (playerList.Length - (1 + deadman)))
             {
                 Debug.Log("상대방의 반격을 기다리는 중 ");
-                yield return new WaitForSeconds(0.1f);
+                yield return wait05f;
             }
             Debug.Log("상대방의 반격을 기다리는 상태를 빠져나옴 ");
 
@@ -2001,7 +2006,8 @@ namespace com.ThreeCS.McCree
             // 인디언 관련 플래그 초기화
             playerInfo.waitBangs = -1;
             deadman = 0;
-            yield return new WaitForEndOfFrame();
+
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         IEnumerator Avoid(int state)
@@ -2029,7 +2035,7 @@ namespace com.ThreeCS.McCree
                         {
                             MineUI.Instance.barrelText.text = "술통에 맞음";
                             BarrelPanelOnOff(0);
-                            yield return new WaitForSeconds(1.2f);
+                            yield return wait2f;
                             BarrelPanelOnOff(1);
                             break;
                         }
@@ -2042,7 +2048,7 @@ namespace com.ThreeCS.McCree
                         break;
                     }
 
-                    yield return new WaitForSeconds(0.1f);
+                    yield return wait05f;
                 }
 
                 // 상황에 따른 HP 상태
@@ -2093,7 +2099,7 @@ namespace com.ThreeCS.McCree
                         avoidFlag = 1;
                         break;
                     }
-                    yield return new WaitForSeconds(0.1f);
+                    yield return wait05f;
                 }
 
                 // 상황에 따른 HP 상태
@@ -2144,11 +2150,12 @@ namespace com.ThreeCS.McCree
             playerInfo.targetedBang = false;
             playerInfo.targetedIndian = false;
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         IEnumerator Beer()
         {
+            yield return null;
             int temp = 0;
             if (playerInfo.hp == playerInfo.maxHp)
                 temp = playerInfo.hp;
@@ -2160,11 +2167,12 @@ namespace com.ThreeCS.McCree
             photonView.RPC("AlertInfo", RpcTarget.All, "Beer", ui.nickName.text, "");
             // 카드 블록 패널 off
             MineUI.Instance.cardblockingPanel.SetActive(false);
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         IEnumerator Saloon()
         {
+            yield return null;
             // 모든 사람 hp1 회복
             foreach (GameObject player in turnList)
             {
@@ -2177,17 +2185,20 @@ namespace com.ThreeCS.McCree
                     temp = player.GetComponent<PlayerInfo>().hp;
                 else if (player.GetComponent<PlayerInfo>().hp < player.GetComponent<PlayerInfo>().maxHp)
                     temp = ++player.GetComponent<PlayerInfo>().hp;
+
                 player.GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All, temp);
             }
             //전체 UI
             photonView.RPC("AlertInfo", RpcTarget.All, "Saloon", ui.nickName.text, "");
             // 카드 블록 패널 off
             MineUI.Instance.cardblockingPanel.SetActive(false);
-            yield return new WaitForEndOfFrame();
+
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         IEnumerator StageCoach()
         {
+            yield return null;
             turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 2);
             //전체 UI
             photonView.RPC("AlertInfo", RpcTarget.All, "Stage", ui.nickName.text, "");
@@ -2198,6 +2209,7 @@ namespace com.ThreeCS.McCree
 
         IEnumerator WellsFargo()
         {
+            yield return null;
             turnList[tidx].GetComponent<PhotonView>().RPC("GiveCards", RpcTarget.AllViaServer, 3);
             //전체 UI
             photonView.RPC("AlertInfo", RpcTarget.All, "Wells", ui.nickName.text, "");
@@ -2209,6 +2221,7 @@ namespace com.ThreeCS.McCree
         //blcok UI
         IEnumerator GeneralStore()
         {
+            yield return null;
             // 죽은 사람 체크
             deadman = 0;
             foreach(GameObject player in turnList)
@@ -2227,7 +2240,7 @@ namespace com.ThreeCS.McCree
 
             // 카드 정렬할 때 카드 건들면 안됨
             MineUI.Instance.blockingPanel.SetActive(true);
-            yield return new WaitForSeconds(1.5f);
+            yield return wait2f;
             MineUI.Instance.blockingPanel.SetActive(false);
 
             storeMaster = true;
@@ -2279,27 +2292,28 @@ namespace com.ThreeCS.McCree
                         // 보안관은 감옥에 가둘수 없다.
                         if (go.GetComponent<PlayerManager>().playerType == jType.Sheriff)
                         {
-                            StartCoroutine(Alert(2));
-                            continue;
+                            alertOrder(2);
                         }
+                        else // 나머지 사람들
+                        {
+                            // 감옥 동기화
+                            go.GetComponent<PhotonView>().RPC("JailSync", RpcTarget.All, 0);
 
-                        // 감옥 동기화
-                        go.GetComponent<PhotonView>().RPC("JailSync", RpcTarget.All, 0);
-
-                        //전체 UI
-                        photonView.RPC("AlertInfo", RpcTarget.All, "Jail", ui.nickName.text, go.GetComponent<UI>().nickName.text);
-                        // 카드 블록 패널 off
-                        MineUI.Instance.cardblockingPanel.SetActive(false);
-                        break;
+                            //전체 UI
+                            photonView.RPC("AlertInfo", RpcTarget.All, "Jail", ui.nickName.text, go.GetComponent<UI>().nickName.text);
+                            // 카드 블록 패널 off
+                            MineUI.Instance.cardblockingPanel.SetActive(false);
+                            break;
+                        }
                     }
                 }
-                yield return new WaitForEndOfFrame();
+                yield return YieldCache.WaitForEndOfFrame;
             }
             // 뱅에서 쓰던거 재활용
             bangClick = false;
             isBang = false;
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         IEnumerator Dynamite()
@@ -2354,13 +2368,13 @@ namespace com.ThreeCS.McCree
                         break;
                     }
                 }
-                yield return new WaitForEndOfFrame();
+                yield return YieldCache.WaitForEndOfFrame;
             }
             // 뱅에서 쓰던거 재활용
             bangClick = false;
             isBang = false;
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         IEnumerator Catbalou()
@@ -2436,7 +2450,7 @@ namespace com.ThreeCS.McCree
 
 
                         //gameloop2에서 cardNumSync하는거 기다림
-                        yield return new WaitForSeconds(2f);
+                        yield return wait2f;
 
                         // 빈 카드를 덱 갯수 만큼 생성함 (상대편 카드를 뽑는 것처럼 눈속임 )
                         MineUI.Instance.CatbalouCards(go.GetComponent<PlayerInfo>().mycardNum);
@@ -2546,13 +2560,13 @@ namespace com.ThreeCS.McCree
                         break;
                     }
                 }
-                yield return new WaitForEndOfFrame();
+                yield return YieldCache.WaitForEndOfFrame;
             }
             // 뱅에서 쓰던거 재활용
             bangClick = false;
             isBang = false;
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         IEnumerator Panic()
@@ -2622,7 +2636,7 @@ namespace com.ThreeCS.McCree
                             go.GetComponent<PhotonView>().RPC("PanicSync", RpcTarget.All, 0);
 
                             //gameloop2에서 cardNumSync하는거 기다림
-                            yield return new WaitForSeconds(2f);
+                            yield return wait2f;
 
                             // 빈 카드를 덱 갯수 만큼 생성함 - 캣벌로우 함수 가져다 씀 
                             MineUI.Instance.CatbalouCards(go.GetComponent<PlayerInfo>().mycardNum);
@@ -2665,18 +2679,18 @@ namespace com.ThreeCS.McCree
                         {
                             // 타겟과 멀어서 강탈 불가
                             DistancePanelOnOff(0);
-                            yield return new WaitForSeconds(1f);
+                            yield return wait2f;
                             DistancePanelOnOff(1);
                         }
                     }
                 }
-                yield return new WaitForEndOfFrame();
+                yield return YieldCache.WaitForEndOfFrame;
             }
             // 뱅에서 쓰던거 재활용
             bangClick = false;
             isBang = false;
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         IEnumerator Duel()
@@ -2744,13 +2758,13 @@ namespace com.ThreeCS.McCree
                         break;
                     }
                 }
-                yield return new WaitForEndOfFrame();
+                yield return YieldCache.WaitForEndOfFrame;
             }
             // 뱅에서 쓰던거 재활용
             bangClick = false;
             isBang = false;
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldCache.WaitForEndOfFrame;
         }
 
         #endregion
@@ -2831,12 +2845,12 @@ namespace com.ThreeCS.McCree
                 MineUI.Instance.alertText.text = atk + " 의 무기 변경( 카빈 소총 - 사거리 4 )";
             else if (state == 33)    
                 MineUI.Instance.alertText.text = atk + " 의 무기 변경( 윈체스터 - 사거리 5 )";
-            else if (state == 40)
+            else if (state == 40)   // 회피 함
                 MineUI.Instance.alertText.text = atk + " (이)가 공격을 피했습니다!";
-            else if (state == 41)
+            else if (state == 41)   // 회피 못함
                 MineUI.Instance.alertText.text = atk + " (이)가 공격에 당했습니다!";
 
-            yield return new WaitForSeconds(3f);
+            yield return wait3f;
             MineUI.Instance.alertPanel.SetActive(false);
         }
 

@@ -277,6 +277,7 @@ namespace com.ThreeCS.McCree
 
         IEnumerator CurrentHP()
         {
+            var wait1f = new WaitForSeconds(1f);
             // 너무 빨리 측정하면 hp 동기화 하기 전이라 사망처리됨 
             yield return new WaitForSeconds(7f);
             Debug.Log("hp 측정 시작");
@@ -290,7 +291,7 @@ namespace com.ThreeCS.McCree
                     break;
                 }
 
-                yield return new WaitForSeconds(1f);
+                yield return wait1f;
             }
             yield return null;
         }
@@ -372,7 +373,7 @@ namespace com.ThreeCS.McCree
                     if (attackerIdx >= 0 && attackerIdx != GameManager.Instance.tidx)
                         GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
                 }
-                else
+                else // 4 - 7인 룰
                 {
                     // 내가 무법자인데 죽으면 죽인사람한테 카드 3장
                     if (playerManager.playerType == GameManager.jType.Outlaw)
