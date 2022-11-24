@@ -551,9 +551,10 @@ namespace com.ThreeCS.McCree
         [PunRPC]
         public void AlertInfo(string state, string atk, string target)
         {
-            Debug.Log(state);
-            Debug.Log("atk : " + atk);
-            Debug.Log("target : " + target);
+            Debug.Log(state + " atk : " + atk + " target : " + target);
+
+            if(state.Equals("6"))
+                GameManager.Instance.alertOrder(6);
 
             if (state.Equals("Bang"))
                 GameManager.Instance.alertOrder(10, atk, target);
@@ -610,6 +611,16 @@ namespace com.ThreeCS.McCree
                 GameManager.Instance.alertOrder(40, atk);
             else if (state.Equals("Avoid2"))
                 GameManager.Instance.alertOrder(41, atk);
+
+            else if (state.Equals("SDie"))
+                GameManager.Instance.alertOrder(50, atk);
+            else if (state.Equals("VDie"))
+                GameManager.Instance.alertOrder(51, atk);
+            else if (state.Equals("ODie"))
+                GameManager.Instance.alertOrder(52, atk);
+            else if (state.Equals("RDie"))
+                GameManager.Instance.alertOrder(53, atk);
+
         }
     }
 }

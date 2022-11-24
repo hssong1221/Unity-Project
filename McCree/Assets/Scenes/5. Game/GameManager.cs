@@ -649,11 +649,11 @@ namespace com.ThreeCS.McCree
             jobPanel.SetActive(true);
             jobText.text = JobText();
 
-            yield return new WaitForSeconds(6f);
+            //yield return new WaitForSeconds(6f);
             jobPanel.SetActive(false);
             abilPanel.SetActive(true);
 
-            yield return wait05f;
+            //yield return wait05f;
             //abilUIAnimator.SetTrigger("Abil");
             abilText.text += AblityText();
             //abilText.text += "\n3. 당신의 능력을 잘 활용하십시오";
@@ -665,7 +665,7 @@ namespace com.ThreeCS.McCree
 
 
             // ------------------------------------------------ 사람들이 텍스트를 읽을 시간 부여(나중에 다시 활성화) ----------------------------
-            yield return new WaitForSeconds(7.5f);
+            //yield return new WaitForSeconds(7.5f);
             abilPanel.SetActive(false);
             MineUI.Instance.leftTopPanel.SetActive(true);
             MineUI.Instance.rightBottomPanel.SetActive(true);
@@ -823,6 +823,7 @@ namespace com.ThreeCS.McCree
                     if (playerInfo.isDeath)
                     {
                         turnList[tidx].GetComponent<PhotonView>().RPC("TurnIndexPlus", RpcTarget.All);
+                        photonView.RPC("AttackerIdxSync", RpcTarget.All);
                         MineUI.Instance.NextButton.SetActive(false);
                         nextSignal = false;
                         myTurn = false;
@@ -1136,6 +1137,21 @@ namespace com.ThreeCS.McCree
                     viceNum = 0;
                     renegadeNum = 1;
                     break;
+                case 5:
+                    outlawNum = 2;
+                    viceNum = 1;
+                    renegadeNum = 1;
+                    break;
+                case 6:
+                    outlawNum = 3;
+                    viceNum = 1;
+                    renegadeNum = 1;
+                    break;
+                case 7:
+                    outlawNum = 3;
+                    viceNum = 2;
+                    renegadeNum = 1;
+                    break;
                 default:
                     break;
             }
@@ -1157,33 +1173,42 @@ namespace com.ThreeCS.McCree
                         if (player.GetComponent<PlayerManager>().playerType == jType.Vice && player.GetComponent<PlayerInfo>().isDeath)
                         {
                             left--;
-                            // 부관이 무법자에게 당하면 무법자 승
-                            if (turnList[kidx].GetComponent<PlayerManager>().playerType == jType.Outlaw)
+                            if(kidx != -1) // 한번만 체크하고 아니면 다음부터는 초기화되서 체크 안함
                             {
-                                Victory("outlaw");
-                                isVictory = true;
+                                // 부관이 무법자에게 당하면 무법자 승
+                                if (turnList[kidx].GetComponent<PlayerManager>().playerType == jType.Outlaw)
+                                {
+                                    Victory("outlaw");
+                                    isVictory = true;
+                                }
                             }
                         }
                         // 배신자 사망
                         if (player.GetComponent<PlayerManager>().playerType == jType.Renegade && player.GetComponent<PlayerInfo>().isDeath)
                         {
                             left--;
-                            // 배신자가 부관에게 당하면 부관 승
-                            if (turnList[kidx].GetComponent<PlayerManager>().playerType == jType.Vice)
+                            if (kidx != -1) // 한번만 체크하고 아니면 다음부터는 초기화되서 체크 안함
                             {
-                                Victory("sherrif");
-                                isVictory = true;
+                                // 배신자가 부관에게 당하면 부관 승
+                                if (turnList[kidx].GetComponent<PlayerManager>().playerType == jType.Vice)
+                                {
+                                    Victory("sherrif");
+                                    isVictory = true;
+                                }
                             }
                         }
                         // 무법자 사망
                         if (player.GetComponent<PlayerManager>().playerType == jType.Outlaw && player.GetComponent<PlayerInfo>().isDeath)
                         {
                             left--;
-                            // 무법자가 배신자에게 당하면 배신자 승
-                            if (turnList[kidx].GetComponent<PlayerManager>().playerType == jType.Renegade)
+                            if (kidx != -1) // 한번만 체크하고 아니면 다음부터는 초기화되서 체크 안함
                             {
-                                Victory("renegade");
-                                isVictory = true;
+                                // 무법자가 배신자에게 당하면 배신자 승
+                                if (turnList[kidx].GetComponent<PlayerManager>().playerType == jType.Renegade)
+                                {
+                                    Victory("renegade");
+                                    isVictory = true;
+                                }
                             }
                         }
                     }
@@ -1209,7 +1234,7 @@ namespace com.ThreeCS.McCree
 
                     yield return wait1f;
                 }
-                else if(playerList.Length == 4)
+                else if(playerList.Length == 4) // 4인룰
                 {
                     int sherrifNum = 1;
                     outlawNum = 2;
@@ -1247,7 +1272,6 @@ namespace com.ThreeCS.McCree
                             isVictory = true;
                         }
                     }
-                    
                     // 무법자와 배신자가 전부 죽으면 보안관 승
                     if (outlawNum == 0 && renegadeNum == 0)
                     {
@@ -1256,6 +1280,72 @@ namespace com.ThreeCS.McCree
                     }
 
                     yield return wait1f;
+                }
+                else // 5 - 7인 룰
+                {
+                    int sherrifNum = 1;
+                    if(playerList.Length == 5)
+                    {
+                        outlawNum = 2;
+                        viceNum = 1;
+                        renegadeNum = 1;
+                    }
+                    else if(playerList.Length == 6)
+                    {
+                        outlawNum = 3;
+                        viceNum = 1;
+                        renegadeNum = 1;
+                    }
+                    else
+                    {
+                        outlawNum = 3;
+                        viceNum = 2;
+                        renegadeNum = 1;
+                    }
+                    foreach (GameObject player in playerList)
+                    {
+                        // 보안관 사망
+                        if (player.GetComponent<PlayerManager>().playerType == jType.Sheriff && player.GetComponent<PlayerInfo>().isDeath)
+                            sherrifNum--;
+
+                        // 부관 사망
+                        if (player.GetComponent<PlayerManager>().playerType == jType.Vice && player.GetComponent<PlayerInfo>().isDeath)
+                            viceNum--;
+
+                        // 무법자 사망
+                        if (player.GetComponent<PlayerManager>().playerType == jType.Outlaw && player.GetComponent<PlayerInfo>().isDeath)
+                            outlawNum--;
+
+                        // 배신자 사망
+                        if (player.GetComponent<PlayerManager>().playerType == jType.Renegade && player.GetComponent<PlayerInfo>().isDeath)
+                            renegadeNum--;
+                    }
+
+                    // 승리 판정은 이곳에서
+                    // 보안관 사망시
+                    if (sherrifNum == 0)
+                    {
+                        // 무법자는 전부 죽었고 부관도 다 죽었고 배신자와 1대1하다 사망하면 배신자 승
+                        if (outlawNum == 0 && viceNum == 0 && renegadeNum == 1)
+                        {
+                            Victory("renegade");
+                            isVictory = true;
+                        }
+                        // 죽을 당시에 무법자가 한명이라도 있으면 무법자 승
+                        if (outlawNum != 0)
+                        {
+                            Victory("outlaw");
+                            isVictory = true;
+                        }
+                    }
+                    // 무법자와 배신자가 전부 죽으면 보안관 승
+                    if (outlawNum == 0 && renegadeNum == 0)
+                    {
+                        Victory("sherrif");
+                        isVictory = true;
+                    }
+
+                    yield return wait2f;
                 }
             }
             yield return YieldCache.WaitForEndOfFrame;
@@ -1286,7 +1376,11 @@ namespace com.ThreeCS.McCree
 
                     // 능력 이미지랑 텍스트
                     abilImage.sprite = sheriff4;
-                    abilText.text = "1. 부관을 찾고 무법자를 모두 사살하십시오.";
+                    if(playerList.Length == 4)
+                        abilText.text = "1. 무법자를 모두 사살하십시오.";
+                    else
+                        abilText.text = "1. 부관을 찾고 무법자를 모두 사살하십시오.";
+
                     break;
                 case jType.Vice:
                     Debug.Log("당신은 부관입니다.");
@@ -1335,6 +1429,8 @@ namespace com.ThreeCS.McCree
                         abilText.text = "1. 무법자를 배신하십시오.";
                     else if(playerList.Length == 4)
                         abilText.text = "1. 보안관을 도와 무법자를 제거하고 마지막에 보안관을 배신하십시오.";
+                    else
+                        abilText.text = "1. 부관과 무법자를 모두 제거하고 마지막에 보안관을 배신하십시오.";
 
                     break;
             }
@@ -1500,7 +1596,7 @@ namespace com.ThreeCS.McCree
         {
             //Debug.Log("턴 버튼 누름!");
             // 본인 카드가 본인 hp보다 많으면 못넘어감
-            if(playerInfo.mycards.Count > playerInfo.hp)
+            /*if(playerInfo.mycards.Count > playerInfo.hp)
             {
                 // 잡화점 턴에는 카드 수 무시
                 if (state.Equals("store") || state.Equals("duel"))
@@ -1515,11 +1611,11 @@ namespace com.ThreeCS.McCree
             {
                 nextSignal = true;
                 MineUI.Instance.NextButton.SetActive(false);
-            }
+            }*/
 
             // 임시로 해놓은 거
-            //nextSignal = true;
-            //MineUI.Instance.NextButton.SetActive(false);
+            nextSignal = true;
+            MineUI.Instance.NextButton.SetActive(false);
         }
 
         // 게임 중 회피를 못할 때 그냥 맞는 버튼
@@ -1814,6 +1910,8 @@ namespace com.ThreeCS.McCree
             isBang = true;
             Material mat;
             GameObject temp = null;
+
+            alertOrder(3);
 
             while (true)
             {
@@ -2253,7 +2351,7 @@ namespace com.ThreeCS.McCree
             isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
             Material mat;
             GameObject temp = null;
-
+            alertOrder(3);
             while (true)
             {
                 Debug.Log("jail 동작 중");
@@ -2321,7 +2419,7 @@ namespace com.ThreeCS.McCree
             isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
             Material mat;
             GameObject temp = null;
-
+            alertOrder(3);
             while (true)
             {
                 Debug.Log("dynamite 동작 중");
@@ -2382,6 +2480,7 @@ namespace com.ThreeCS.McCree
             isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
             Material mat;
             GameObject temp = null;
+            alertOrder(4);
 
             while (true)
             {
@@ -2574,7 +2673,7 @@ namespace com.ThreeCS.McCree
             isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
             Material mat;
             GameObject temp = null;
-
+            alertOrder(3);
             while (true)
             {
                 Debug.Log("강탈 동작 중");
@@ -2698,7 +2797,7 @@ namespace com.ThreeCS.McCree
             isBang = true;          // 뱅에서 쓰던거 재활용(필요한 기능이 같아서)
             Material mat;
             GameObject temp = null;
-
+            alertOrder(3);
             while (true)
             {
                 Debug.Log("결투 동작 중");
@@ -2795,6 +2894,7 @@ namespace com.ThreeCS.McCree
                 MineUI.Instance.alertText.text = "타겟 또는 상대방의 아이템을 선택하십시오.";
             else if (state == 5)
                 MineUI.Instance.alertText.text = "사거리내에 공격할 수 있는 적이 없습니다.";
+            
 
             // 카드 알림
             if (state == 10)    // bang 사용
@@ -2849,8 +2949,29 @@ namespace com.ThreeCS.McCree
                 MineUI.Instance.alertText.text = atk + " (이)가 공격을 피했습니다!";
             else if (state == 41)   // 회피 못함
                 MineUI.Instance.alertText.text = atk + " (이)가 공격에 당했습니다!";
+            else if (state == 50)   // 보안관 사망
+                MineUI.Instance.alertText.text = "보안관" + atk + " (이)가 사망했습니다.";
+            else if (state == 51)   // 부관 사망
+                MineUI.Instance.alertText.text = "부관 " + atk + " (이)가 당했습니다!";
+            else if (state == 52)   // 무법자 사망
+                MineUI.Instance.alertText.text = "무법자 " + atk + " (이)가 사살되었습니다.";
+            else if (state == 53)   // 배신자 사망
+                MineUI.Instance.alertText.text = "배신자 " + atk + " (이)가 사살되었습니다.";
 
             yield return wait3f;
+
+            // 사용 할 곳을 찾아야함
+            if (state == 6)
+            {
+                MineUI.Instance.alertText.text = "무법자 현상금 - 카드 3장 획득.";
+                yield return wait2f;
+            }
+            else if (state == 7) 
+            {
+                MineUI.Instance.alertText.text = "부관 사살 - 카드 압수";
+                yield return wait2f;
+            }
+
             MineUI.Instance.alertPanel.SetActive(false);
         }
 

@@ -284,9 +284,11 @@ namespace com.ThreeCS.McCree
 
             while (true)
             {
+                yield return null;
                 //Debug.Log("현재 체력 : " + hp);
                 if (hp <= 0)
                 {
+                    yield return null;
                     photonView.RPC("Death", RpcTarget.All);
                     break;
                 }
@@ -316,6 +318,16 @@ namespace com.ThreeCS.McCree
             // 장착 아이템 확인 후 덱으로 돌려보냄
             if (photonView.IsMine)
             {
+                // 죽으면 직업 알림 - 잘 적용 되지 않고 있따.
+                if(playerManager.playerType == GameManager.jType.Sheriff)
+                    photonView.RPC("AlertInfo", RpcTarget.All, "SDie", ui.nickName.text, "");
+                else if (playerManager.playerType == GameManager.jType.Sheriff)
+                    photonView.RPC("AlertInfo", RpcTarget.All, "VDie", ui.nickName.text, "");
+                else if (playerManager.playerType == GameManager.jType.Sheriff)
+                    photonView.RPC("AlertInfo", RpcTarget.All, "ODie", ui.nickName.text, "");
+                else if (playerManager.playerType == GameManager.jType.Sheriff)
+                    photonView.RPC("AlertInfo", RpcTarget.All, "RDie", ui.nickName.text, "");
+
                 if (isScope)
                 {
                     photonView.RPC("ScopeSync", RpcTarget.All, 1);
@@ -344,16 +356,22 @@ namespace com.ThreeCS.McCree
 
                 // 쓰던 총 임시저장
                 Card.cType temp = GameManager.Instance.StringtoEnum(wName);
+
                 // 일단 colt로 만들고 setactive false
                 photonView.RPC("WeaponSync", RpcTarget.All, 1);
+                
+                // ------------- 본인 눈에만 없이지는 중임
                 GameObject gun = playerManager.mygamePlate.transform.Find("Colt").gameObject;
                 gun.SetActive(false);
+
                 // 쓰던 총 반납
                 photonView.RPC("CardDeckSync", RpcTarget.All, temp);
+
 
                 // 손 덱 확인후 전체 덱으로 돌려보냄
                 foreach (Card card in mycards)
                     photonView.RPC("CardDeckSync", RpcTarget.All, card.cardContent);
+
                 // 손덱 정보 삭제
                 mycards.Clear();
 
@@ -370,31 +388,60 @@ namespace com.ThreeCS.McCree
                 if (GameManager.Instance.playerList.Length == 3)
                 {
                     // 유효하게 죽었다면
-                    if (attackerIdx >= 0 && attackerIdx != GameManager.Instance.tidx)
-                        GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
+                    if (attackerIdx >= 0 && attackerIdx != GameManager.Instance.turnList[attackerIdx].GetComponent<PlayerInfo>().attackerIdx)
+                        GameManager.Instance.turnList[attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
                 }
                 else // 4 - 7인 룰
                 {
                     // 내가 무법자인데 죽으면 죽인사람한테 카드 3장
                     if (playerManager.playerType == GameManager.jType.Outlaw)
                     {
-                        // 유효하게 죽었다면
-                        if (attackerIdx >= 0)
-                            GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
+                        // 유효하게 죽었다면 그리고 자해데미지가 아니라면
+                        if (attackerIdx >= 0 && attackerIdx != GameManager.Instance.turnList[attackerIdx].GetComponent<PlayerInfo>().attackerIdx)
+                        {
+                            GameManager.Instance.turnList[attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
+                            // alert
+                            //GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("AlertInfo", RpcTarget.All, "6", "", "");
+                        }
                     }
                     // 구현 예정
                     // 내가 부관이고 죽었는데
-                    /*if (playerManager.playerType == GameManager.jType.Vice)
+                    if (playerManager.playerType == GameManager.jType.Vice)
                     {
                         // 보안관이 죽인거면 손 카드 압수
-                        if (GameManager.Instance.turnList[playerInfo.attackerIdx].GetComponent<PlayerManager>().playerType == GameManager.jType.Sheriff)
-                            GameManager.Instance.turnList[playerInfo.attackerIdx].GetPhotonView().RPC("GiveCards", RpcTarget.AllViaServer, 3);
-                    }*/
+                        if (GameManager.Instance.turnList[attackerIdx].GetComponent<PlayerManager>().playerType == GameManager.jType.Sheriff)
+                        {
+                            GameManager.Instance.turnList[attackerIdx].GetPhotonView().RPC("KillVice", RpcTarget.All);
+                        }
+                    }
                 }
             }
 
             // 다른 사람들이 선택 못하게 투명하게 만듬
             character.SetActive(false);
+            // 공격자 초기화
+            //attackerIdx = -1;
+        }
+
+        [PunRPC]
+        public void KillVice()
+        {
+            if (photonView.IsMine)
+            {
+                // 손 덱 확인후 전체 덱으로 돌려보냄
+                foreach (Card card in mycards)
+                    photonView.RPC("CardDeckSync", RpcTarget.All, card.cardContent);
+                // 손덱 정보 삭제
+                mycards.Clear();
+
+                // 손덱 오브젝트 삭제
+                GameObject[] cards = GameObject.FindGameObjectsWithTag("Card");
+                foreach (GameObject card in cards)
+                    Destroy(card);
+
+                // alert
+                GameManager.Instance.alertOrder(7);
+            }
         }
     }
 }
