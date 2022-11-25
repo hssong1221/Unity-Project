@@ -374,7 +374,6 @@ namespace com.ThreeCS.McCree
             yield return YieldCache.WaitForEndOfFrame;
 
             StartCoroutine(SpawnPlayer());
-            StartCoroutine(SpawnNpc());
 
             //StartCoroutine(SpawnMap());
         }
@@ -403,12 +402,6 @@ namespace com.ThreeCS.McCree
         {
             RaiseEventManager.Instance.Spwan_Player();
             yield return YieldCache.WaitForEndOfFrame;
-        }
-
-        IEnumerator SpawnNpc()
-        {
-            RaiseEventManager.Instance.Spawn_NPC();
-            yield return null;
         }
 
         IEnumerator FindMinePv()
@@ -1192,7 +1185,7 @@ namespace com.ThreeCS.McCree
                                 // 배신자가 부관에게 당하면 부관 승
                                 if (turnList[kidx].GetComponent<PlayerManager>().playerType == jType.Vice)
                                 {
-                                    Victory("sherrif");
+                                    Victory("sheriff");
                                     isVictory = true;
                                 }
                             }
@@ -1236,7 +1229,7 @@ namespace com.ThreeCS.McCree
                 }
                 else if(playerList.Length == 4) // 4인룰
                 {
-                    int sherrifNum = 1;
+                    int sheriffNum = 1;
                     outlawNum = 2;
                     viceNum = 0;
                     renegadeNum = 1;
@@ -1244,7 +1237,7 @@ namespace com.ThreeCS.McCree
                     {
                         // 보안관 사망
                         if (player.GetComponent<PlayerManager>().playerType == jType.Sheriff && player.GetComponent<PlayerInfo>().isDeath)
-                            sherrifNum--;
+                            sheriffNum--;
 
                         // 무법자 사망
                         if (player.GetComponent<PlayerManager>().playerType == jType.Outlaw && player.GetComponent<PlayerInfo>().isDeath)
@@ -1257,7 +1250,7 @@ namespace com.ThreeCS.McCree
 
                     // 승리 판정은 이곳에서
                     // 보안관 사망시
-                    if (sherrifNum == 0)
+                    if (sheriffNum == 0)
                     {
                         // 무법자는 전부 죽었고 배신자와 1대1하다 사망하면 배신자 승
                         if (outlawNum == 0 && renegadeNum == 1)
@@ -1275,7 +1268,7 @@ namespace com.ThreeCS.McCree
                     // 무법자와 배신자가 전부 죽으면 보안관 승
                     if (outlawNum == 0 && renegadeNum == 0)
                     {
-                        Victory("sherrif");
+                        Victory("sheriff");
                         isVictory = true;
                     }
 
@@ -1283,7 +1276,7 @@ namespace com.ThreeCS.McCree
                 }
                 else // 5 - 7인 룰
                 {
-                    int sherrifNum = 1;
+                    int sheriffNum = 1;
                     if(playerList.Length == 5)
                     {
                         outlawNum = 2;
@@ -1306,7 +1299,7 @@ namespace com.ThreeCS.McCree
                     {
                         // 보안관 사망
                         if (player.GetComponent<PlayerManager>().playerType == jType.Sheriff && player.GetComponent<PlayerInfo>().isDeath)
-                            sherrifNum--;
+                            sheriffNum--;
 
                         // 부관 사망
                         if (player.GetComponent<PlayerManager>().playerType == jType.Vice && player.GetComponent<PlayerInfo>().isDeath)
@@ -1323,7 +1316,7 @@ namespace com.ThreeCS.McCree
 
                     // 승리 판정은 이곳에서
                     // 보안관 사망시
-                    if (sherrifNum == 0)
+                    if (sheriffNum == 0)
                     {
                         // 무법자는 전부 죽었고 부관도 다 죽었고 배신자와 1대1하다 사망하면 배신자 승
                         if (outlawNum == 0 && viceNum == 0 && renegadeNum == 1)
@@ -1341,7 +1334,7 @@ namespace com.ThreeCS.McCree
                     // 무법자와 배신자가 전부 죽으면 보안관 승
                     if (outlawNum == 0 && renegadeNum == 0)
                     {
-                        Victory("sherrif");
+                        Victory("sheriff");
                         isVictory = true;
                     }
 
@@ -1495,7 +1488,7 @@ namespace com.ThreeCS.McCree
             jType temp = playerManager.playerType;
             switch (winner)
             {
-                case "sherrif":
+                case "sheriff":
                     if (temp == jType.Sheriff || temp == jType.Vice)
                         vicText.gameObject.SetActive(true);
                     else

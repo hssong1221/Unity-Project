@@ -26,28 +26,6 @@ namespace com.ThreeCS.McCree
 
         public Text cardNumText;
 
-        [Header("뱅 준비 사거리 표시 관련 UI")]
-        public Canvas attackRangeCanvas;  // 공격 사거리 캔버스
-        public Image indicatorRangeCircle;// 공격 사거리 이미지
-        public int attackRange; // 기본 공격 사거리 일단 1로 설정해놓은상태
-
-        [Header("Bang! 말풍선 관련 UI")]
-        public Canvas bangCanvas;         // 뱅 말풍선 캔버스
-        public Image bangGifImg;          // 뱅 말풍선 gif 이미지
-
-
-        [Header("아이템 관련 UI")]
-        public Canvas itemCanvas;   // 아이템 알림 캔버스
-        public Text itemNotice;     // 아이템 알림 텍스트
-
-
-        [Header("ProgressBar 관련 UI")]
-        public Canvas progressCanvas;
-        public Text progressText;
-        public Text progressPercent;
-        public Image progressBar;
-        float currentValue;
-
         public IEnumerator coroutine;
 
         public Vector3 hpOffset;
@@ -73,22 +51,6 @@ namespace com.ThreeCS.McCree
 
         private void Start()
         {
-            // 기본사거리
-            attackRange = 1;
-            // 기본 Indicator Range img 크기
-            indicatorRangeCircle.rectTransform.localScale = new Vector3(attackRange, attackRange, 0);
-            // 공격범위 UI 꺼주기
-            indicatorRangeCircle.enabled = false;
-            // 뱅 말풍선 UI 꺼주기
-            bangGifImg.enabled = false;
-            // 아이템 공지 UI 꺼주기
-            itemNotice.enabled = false;
-
-            // 프로그레스바 UI 꺼주기
-            progressText.enabled = false;
-            progressBar.enabled = false;
-            progressPercent.enabled = false;
-
             if (photonView.IsMine)
             {
                 nickName.text = PhotonNetwork.LocalPlayer.NickName;
@@ -97,24 +59,15 @@ namespace com.ThreeCS.McCree
             {
                 nickName.text = GetComponent<PhotonView>().Owner.NickName;
             }
-
         }
 
         void Update()
         {
             // 플레이어 머리 위 UI 각도 고정
             hpCanvas.transform.LookAt(hpCanvas.transform.position + Camera.main.transform.forward);
-            bangCanvas.transform.LookAt(bangCanvas.transform.position + Camera.main.transform.forward);
-            itemCanvas.transform.LookAt(itemCanvas.transform.position + Camera.main.transform.forward);
-            progressCanvas.transform.LookAt(progressCanvas.transform.position + Camera.main.transform.forward);
-
             // 각자 캐릭터 머리 위 UI 위치 고정
             hpCanvas.transform.position = character.transform.position + hpOffset;
-            bangCanvas.transform.position = character.transform.position + bangOffset;
-            itemCanvas.transform.position = character.transform.position + itemOffset;
-            progressCanvas.transform.position = character.transform.position + progressOffset;
         }
-
 
 
         [PunRPC]
@@ -197,148 +150,6 @@ namespace com.ThreeCS.McCree
                 c.storeIdx = 1000;
         }
 
-
-        
-
-
-
-
-
-
-        // ----------- 삭제 예정
-        public void InterAction(float time, GameObject interactObj)
-        {
-            if (interactObj.tag == "QItem_PickUp")
-            {
-                progressText.text = interactObj.name+" 치우는 중...";
-                animSync.SendPlayAnimationEvent(photonView.ViewID, "Pick", "Trigger");
-            }
-
-            else if (interactObj.tag == "QItem_TransPort")
-            {
-                progressText.text = interactObj.name + " 들어 올리는 중...";
-                animSync.SendPlayAnimationEvent(photonView.ViewID, "Lift", "Trigger");
-            }
-                
-            playerManager.isPicking = true;
-            LoadingProgreeCircle(time, interactObj);
-        }
-
-        public void LoadingProgreeCircle(float time, GameObject interactObj)
-        {
-            progressText.enabled = true;
-            progressBar.enabled = true;
-            progressPercent.enabled = true;
-
-            currentValue = 0;
-            if (coroutine != null)
-                StopCoroutine(coroutine);
-            coroutine = LoadingProgreeCircleCoroutine(time, interactObj);
-            StartCoroutine(coroutine);
-        }
-
-        IEnumerator LoadingProgreeCircleCoroutine(float time, GameObject interactObj)
-        {
-            while (playerManager.isPicking)
-            {
-                currentValue += 100 * Time.deltaTime / time; // 아마 초단위 맞을듯?
-                progressPercent.text = ((int)currentValue).ToString() + "%";
-                progressBar.fillAmount = currentValue / 100;
-                MineUI.Instance.interactionPanel.SetActive(false);
-
-                if (interactObj.GetComponent<LiftItem>() != null)
-                {
-                    if (interactObj.GetComponent<LiftItem>().isLifting)
-                    {
-                        Off_ProgressUI();
-                        yield break;
-                    }
-                }
-
-                if (progressBar.fillAmount > 0.99)
-                {
-                    foreach (SubQuestList subQuestObj in playerInfo.myQuestList)
-                    {
-                        Quest_Interface_PT_Obj ptQuest = (Quest_Interface_PT_Obj)subQuestObj.questObj;
-
-                        if (interactObj.name == ptQuest.quest.bringGameObj.name)
-                        {
-                            if (interactObj.tag == "QItem_PickUp")
-                            {
-                                Quest_PickUp_Obj pickQuest = (Quest_PickUp_Obj)ptQuest;
-
-                                pickQuest.count++; // 퀘스트 아이템 개수 증가
-                                MineUI.Instance.interactionPanel.SetActive(false);
-
-                                // 증가한 아이템 개수로 텍스트 바꿔줌
-                                subQuestObj.questTitle.text = pickQuest.questTitle_progress;
-
-                                Debug.Log("줍기 성공!");
-                                Destroy(interactObj); // 애니메이션 끝나면 오브젝트 파괴
-                            }
-                            else if (interactObj.tag == "QItem_TransPort")
-                            {
-                                Quest_Transport_Obj pickQuest = (Quest_Transport_Obj)ptQuest;
-
-                                if (pickQuest.qrange == Quest_Obj.oType.World) // 월드 퀘스트 아이템일때
-                                {
-                                    //Debug.Log(interactObj.GetComponent<PhotonView>().ViewID);
-                                    photonView.RPC("PickUp_Transform_Item", RpcTarget.All, interactObj.GetComponent<PhotonView>().ViewID);
-                                }
-                                else // 개인 퀘스트 아이템 일때
-                                {
-                                    interactObj.transform.SetParent(playerManager.objectTransPos);
-                                    interactObj.GetComponent<ParticleSystem>().Stop();
-                                    interactObj.GetComponent<ParticleSystem>().Clear();
-                                    // position 오브젝트의 위치를 항상 월드의 원점을 기준으로 월드 공간상에 선언한다.
-                                    // localPosition 부모의 위치 기준으로 설정한다
-                                    interactObj.transform.localPosition = new Vector3(0f, 0f, 0f);
-                                    interactObj.transform.localRotation = Quaternion.identity;
-                                    interactObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-
-                                    Debug.Log("들어올리기 성공!");
-                                    playerManager.isLifting = true;
-                                }
-                            }
-                            break;
-                        }
-                    }
-                    Off_ProgressUI();
-                    //interactObj.SetActive(false);
-
-                    
-                }
-                yield return null;
-            }
-        }
-
-        public void Off_ProgressUI() // 원 진행도, interaction 코루틴 스탑
-        {
-            playerManager.isPicking = false;
-            if (coroutine != null) 
-                StopCoroutine(coroutine);
-            interaction.StopCoroutine_Direct(interaction.coroutine_Interact);
-            progressText.enabled = false;
-            progressBar.enabled = false;
-            progressPercent.enabled = false;
-        }
-
-        public void CanCel_Animation()
-        {
-            MineUI.Instance.interactionPanel.SetActive(true);
-
-            playerManager.isPicking = false;
-            if (coroutine != null) // 원 진행도 코루틴만 스탑, 다시 주울수있도록 interaction코루틴은 끄지않음
-                StopCoroutine(coroutine);
-            progressText.enabled = false;
-            progressBar.enabled = false;
-            progressPercent.enabled = false;
-        }
         #endregion
-
-
-
     }
-
-
 }

@@ -31,14 +31,14 @@ namespace com.ThreeCS.McCree
         private string nickName;
         private string confirm_password;
 
-        private PlayFabModule playFabModule;
+        //private PlayFabModule playFabModule;
         EventSystem system; // tab키 enter키 사용할수있는 그런것
 
         void Awake()
         {
             backBtn.onClick.AddListener(Back_Btn);
             registerCompleteBtn.onClick.AddListener(RegisterComplete_Btn);
-            playFabModule = GameObject.Find("LoadingUI").GetComponent<PlayFabModule>();
+            //playFabModule = GameObject.Find("LoadingUI").GetComponent<PlayFabModule>();
         }
 
         private void Start()
@@ -156,7 +156,7 @@ namespace com.ThreeCS.McCree
                     Password = password,
                     Email = email
                 };
-                PlayFabClientAPI.RegisterPlayFabUser(request, playFabModule.RegisterSuccess, playFabModule.RegisterFailure);
+                //PlayFabClientAPI.RegisterPlayFabUser(request, playFabModule.RegisterSuccess, playFabModule.RegisterFailure);
 
                 LoadingUI.Instance.msg_Text.text = "회원 등록 중...";
                 LoadingUI.Instance.close_Btn.gameObject.SetActive(false);

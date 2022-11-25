@@ -141,7 +141,6 @@ namespace com.ThreeCS.McCree
             pInstance = this;
 
             interactionRect = interactionPanel.GetComponent<RectTransform>();
-            questcloseBtn.onClick.AddListener(Close_Quest_Detail_Panel);
             isquestDetailopen = false;
         }
 
@@ -151,14 +150,6 @@ namespace com.ThreeCS.McCree
             playerManager = player.GetComponent<PlayerManager>();
             playerInfo = player.GetComponent<PlayerInfo>();
             ui = player.GetComponent<UI>();
-        }
-        public void Close_Quest_Detail_Panel()
-        {
-            if (isquestDetailopen)
-            {
-                questDetail.SetActive(false);
-                isquestDetailopen = false;
-            }
         }
 
 

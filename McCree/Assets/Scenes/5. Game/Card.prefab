@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: db7d7bc2e53ce0440b43c5dc67a0631c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 38b65d544c3d0af448c0ba223d730ec2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -274,19 +274,19 @@ MonoBehaviour:
   barrelImg: {fileID: 21300000, guid: d3a20a2fd4568184296203a47da65b4a, type: 3}
   dynamiteImg: {fileID: 21300000, guid: f5aec518dbf3c424ab1cc70ff9df9735, type: 3}
   jailImg: {fileID: 21300000, guid: d598b5f350617304f997fdf147c1f0d3, type: 3}
-  catbalouImg: {fileID: 21300000, guid: db7d7bc2e53ce0440b43c5dc67a0631c, type: 3}
-  panicImg: {fileID: 21300000, guid: db7d7bc2e53ce0440b43c5dc67a0631c, type: 3}
-  duelImg: {fileID: 21300000, guid: db7d7bc2e53ce0440b43c5dc67a0631c, type: 3}
+  catbalouImg: {fileID: 21300000, guid: 38b65d544c3d0af448c0ba223d730ec2, type: 3}
+  panicImg: {fileID: 21300000, guid: b8c74978cc1919b4e86d30c69d6ded14, type: 3}
+  duelImg: {fileID: 21300000, guid: a28177d2aa984394099def28a9f68656, type: 3}
   blank: {fileID: 21300000, guid: db7d7bc2e53ce0440b43c5dc67a0631c, type: 3}
   cardInImg: {fileID: 2643383447711097965}
   cardText: {fileID: 1951396915861156421}
   cardBorder: {fileID: 2643383449535095574}
-  cardContent: 22
+  cardContent: 8
   targetUI: {fileID: 2643383449535095575}
   useCard: 0
   delCard: 0
   idx: 0
-  storeIdx: -1
+  storeIdx: 1000
   ucpui: {fileID: 0}
   dcpui: {fileID: 0}
   equipCard: 0
@@ -368,4 +368,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: '?'
+  m_Text: STORE

@@ -157,60 +157,7 @@ namespace com.ThreeCS.McCree
         public bool isDeath;
 
 
-        // ------------------ 삭제 예정
-        public List<ItemList> myItemList;
-        // 0번째 Bang
-        // 1번째 Avoid
-        // 2번째 Beer
-        public List<SubQuestList> myQuestList;
-
         protected Transform content;
-
-        public Transform pistolPos;
-        //public Transform shotgunPos;
-        public Transform riflePos;
-
-        [SerializeField]
-        protected Weapon_Obj _equipedWeapon;
-        public Weapon_Obj equipedWeapon
-        { 
-            get { return _equipedWeapon; }
-            set
-            {
-
-                _equipedWeapon = value;
-
-                if(_equipedWeapon.wepaon.kind == Weapon.iType.Pistol)
-                {
-                    playerManager.EquipedNone = false;
-                    playerManager.EquipedPistol = true;
-                    playerManager.EquipedRifle = false;
-                    //animSync.SendPlayAnimationEvent(photonView.ViewID, "Pistol", "Trigger");
-
-                    _equipedWeapon.gameObject.transform.SetParent(pistolPos);
-                    _equipedWeapon.transform.localPosition = new Vector3(0f, 0f, 0f);
-                    _equipedWeapon.transform.localRotation = Quaternion.identity;
-
-                    riflePos.gameObject.SetActive(false);
-                    pistolPos.gameObject.SetActive(true);
-                }
-                else if (_equipedWeapon.wepaon.kind == Weapon.iType.Rifle)
-                {
-                    playerManager.EquipedNone = false;
-                    playerManager.EquipedPistol = false;
-                    playerManager.EquipedRifle = true;
-                    //animSync.SendPlayAnimationEvent(photonView.ViewID, "Rifle", "Trigger");
-
-                    _equipedWeapon.gameObject.transform.SetParent(riflePos);
-                    _equipedWeapon.transform.localPosition = new Vector3(0f, 0f, 0f);
-                    _equipedWeapon.transform.localRotation = Quaternion.identity;
-
-                    pistolPos.gameObject.SetActive(false);
-                    riflePos.gameObject.SetActive(true);
-                }
-            }
-        }
-
 
         void Awake()
         {
@@ -231,15 +178,7 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.statusPanel.gameObject.SetActive(true);
 
             content = GameObject.FindGameObjectWithTag("Content").transform;
-
-            myItemList = new List<ItemList>();
-
-            myQuestList = new List<SubQuestList>();
-
-            for (int i=0; i<content.childCount; i++)
-            {
-                myItemList.Add(content.GetChild(i).GetComponent<ItemList>());
-            }
+            
             MineUI.Instance.statusPanel.gameObject.SetActive(false);
 
             StartCoroutine(CurrentHP());
