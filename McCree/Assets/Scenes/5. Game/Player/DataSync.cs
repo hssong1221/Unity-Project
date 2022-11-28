@@ -506,7 +506,15 @@ namespace com.ThreeCS.McCree
 
             // 기본 무기 확인
             if (state == 1)
+            {
                 playerInfo.isWeapon = false;
+                if (photonView.IsMine)
+                {
+                    MineUI.Instance.wIMG.sprite = MineUI.Instance.wImg1;
+                    MineUI.Instance.wName.text = "COLT";
+                    MineUI.Instance.wRange.text = "1";
+                }
+            }
             else
                 playerInfo.isWeapon = true;
 

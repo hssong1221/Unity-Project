@@ -34,10 +34,10 @@ namespace com.ThreeCS.McCree
         {
             obj = gameObject;
             objBtn = obj.GetComponent<Button>();
-            objBtn.onClick.AddListener(Quest_Detail);
+            //objBtn.onClick.AddListener(Quest_Detail);
         }
 
-        void Quest_Detail()
+        /*void Quest_Detail()
         {
             MineUI.Instance.questNpcName.text = questObj.quest.npcName;
             MineUI.Instance.questNpcImg.sprite = questObj.quest.npcImg;
@@ -47,7 +47,7 @@ namespace com.ThreeCS.McCree
 
             MineUI.Instance.questDetail.SetActive(true);
             MineUI.Instance.isquestDetailopen = true;
-        }
+        }*/
 
     }
 }

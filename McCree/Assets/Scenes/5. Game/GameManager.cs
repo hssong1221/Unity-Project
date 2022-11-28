@@ -1826,6 +1826,9 @@ namespace com.ThreeCS.McCree
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 2);
                     photonView.RPC("AlertInfo", RpcTarget.All, "Weapon", ui.nickName.text, "r");
+                    MineUI.Instance.wIMG.sprite = MineUI.Instance.wImg2;
+                    MineUI.Instance.wName.text = "RUSSIAN REV";
+                    MineUI.Instance.wRange.text = "2";
                     MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Navy":
@@ -1833,6 +1836,9 @@ namespace com.ThreeCS.McCree
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 3);
                     photonView.RPC("AlertInfo", RpcTarget.All, "Weapon", ui.nickName.text, "n");
+                    MineUI.Instance.wIMG.sprite = MineUI.Instance.wImg3;
+                    MineUI.Instance.wName.text = "NAVY REV";
+                    MineUI.Instance.wRange.text = "3";
                     MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Carbine":
@@ -1840,6 +1846,9 @@ namespace com.ThreeCS.McCree
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 4);
                     photonView.RPC("AlertInfo", RpcTarget.All, "Weapon", ui.nickName.text, "c");
+                    MineUI.Instance.wIMG.sprite = MineUI.Instance.wImg4;
+                    MineUI.Instance.wName.text = "CARBINE RF";
+                    MineUI.Instance.wRange.text = "4";
                     MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Winchester":
@@ -1847,6 +1856,9 @@ namespace com.ThreeCS.McCree
                         photonView.RPC("CardDeckSync", RpcTarget.All, temp);
                     photonView.RPC("WeaponSync", RpcTarget.All, 5);
                     photonView.RPC("AlertInfo", RpcTarget.All, "Weapon", ui.nickName.text, "w");
+                    MineUI.Instance.wIMG.sprite = MineUI.Instance.wImg5;
+                    MineUI.Instance.wName.text = "WINCHESTER RF";
+                    MineUI.Instance.wRange.text = "5";
                     MineUI.Instance.cardblockingPanel.SetActive(false);
                     break;
                 case "Scope":

@@ -138,6 +138,7 @@ namespace com.ThreeCS.McCree
         public void matchImg()
         {
             cardText.fontSize = 90;
+            cardText.color = Color.white;
             equipCard = false;
             if (this.cardContent == cType.Bang)
             {
@@ -250,8 +251,9 @@ namespace com.ThreeCS.McCree
             else if (this.cardContent == cType.Catbalou)
             {
                 cardInImg.sprite = catbalouImg;
-                cardText.text = "CAT BALOU";
+                cardText.color = Color.black;
                 cardText.fontSize = 65;
+                cardText.text = "CAT BALOU";
             }
             else if (this.cardContent == cType.Panic)
             {

@@ -53,31 +53,21 @@ namespace com.ThreeCS.McCree
         public RectTransform interactionRect;
         public Text interactionText;
 
-        [Header("NPC 대화 UI")]
-        public GameObject chatPanel;
-        public Text npcName;
-        public Text npcChat;
-        public Image npcImg;
-        public GameObject npcbtns;
-        public Button acceptBtn;
-        public Button rejectBtn;
-
         [Header("Mission UI (RightTop)")]
         public GameObject rightTop;
         public Button mainQuestBtn;
         public Text questTitle;
-        public Transform worldQuestPanel;
-        public Transform subQuestPanel;
         public GameObject questObj;
 
-        [Header("Quest Dtail UI 퀘스트 상세보기 창")]
-        public GameObject questDetail;
-        public Image questNpcImg;
-        public Text questNpcName;
-        public Text questTitle2;
-        public Text questContent;
-        public Button questcloseBtn;
-        public bool isquestDetailopen;
+        [Header("무기 UI (RightBottom)")]
+        public Image wIMG;
+        public Sprite wImg1;
+        public Sprite wImg2;
+        public Sprite wImg3;
+        public Sprite wImg4;
+        public Sprite wImg5;
+        public Text wName;
+        public Text wRange;
 
 
         [HideInInspector]
@@ -141,7 +131,6 @@ namespace com.ThreeCS.McCree
             pInstance = this;
 
             interactionRect = interactionPanel.GetComponent<RectTransform>();
-            isquestDetailopen = false;
         }
 
         public void FindMinePv(GameObject player)
