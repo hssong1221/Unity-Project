@@ -6,7 +6,7 @@ namespace com.ThreeCS.McCree
 {
     public class ScreenRatio : MonoBehaviour
     {
-    #if UNITY_ANDROID
+#if UNITY_ANDROID
         private void Awake()
         {
             Camera cam = GetComponent<Camera>();
@@ -14,7 +14,6 @@ namespace com.ThreeCS.McCree
             // 카메라 컴포넌트의 Viewport Rect
             Rect rt = cam.rect;
 
-            // 현재 세로 모드 9:16, 반대로 하고 싶으면 16:9를 입력.
             float scale_height = ((float)Screen.width / Screen.height) / ((float)16 / 9); // (가로 / 세로)
             float scale_width = 1f / scale_height;
 
@@ -33,8 +32,9 @@ namespace com.ThreeCS.McCree
         }
 
         void OnPreCull() => GL.Clear(true, true, Color.black);
+#endif
     }
-    #endif
+
 }
 
 

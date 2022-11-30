@@ -79,8 +79,8 @@ namespace com.ThreeCS.McCree
 
 
         // 캐릭터 키보드 움직임 구현
-        float h;
-        float v;
+        public float h;
+        public float v;
 
         Vector3 moveVec;
         Vector3 moveDir;
@@ -103,6 +103,8 @@ namespace com.ThreeCS.McCree
 
             MineUI.Instance.inventoryBtn.onClick.AddListener(Inventory); // 아이템 이미지
             MineUI.Instance.mainQuestBtn.onClick.AddListener(Inventory); // 메인 목표 
+
+            
 
             // 포톤뷰에 의한 내 플레이어만
             if (photonView.IsMine)
@@ -154,14 +156,34 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        private void FixedUpdate() // move
+        void FixedUpdate() // move
         {
-            
             if (photonView.IsMine && !isSit)
             {
-                
                 h = Input.GetAxis("Horizontal");
                 v = Input.GetAxis("Vertical");
+
+                // 모바일 조이패드 (포톤뷰 때문에 조이컨트롤을 여기에 선언하면 이벤트 트리거로 내부에 값이 안 넣어진다.)
+                if (GameManager.Instance.isControl)
+                {
+                    if (GameManager.Instance.joyControl[0]) { h = -1f; v = 1f; }
+                    if (GameManager.Instance.joyControl[1]) { h = 0; v = 1f; }
+                    if (GameManager.Instance.joyControl[2]) { h = 1f; v = 1f; }
+                    if (GameManager.Instance.joyControl[3]) { h = -1f; v = 0; }
+                    if (GameManager.Instance.joyControl[4]) { h = 0; v = 0; }
+                    if (GameManager.Instance.joyControl[5]) { h = 1f; v = 0; }
+                    if (GameManager.Instance.joyControl[6]) { h = -1f; v = -1f; }
+                    if (GameManager.Instance.joyControl[7]) { h = 0; v = -1f; }
+                    if (GameManager.Instance.joyControl[8]) { h = 1f; v = -1f; }
+                }
+                else
+                {
+                    for (int i = 0; i < 9; i++){
+                        GameManager.Instance.joyControl[i] = false;
+                    }
+                }
+                
+            
 
                 if (!canBehave || PunChat.Instance.usingInput) // 일단 임시로 inputfield사용중일때 캐릭터 움직임 금지
                 {   // 플레이어가 동작중일때 0 0 넣어줘서 못 움직이게 만듬
@@ -185,7 +207,8 @@ namespace com.ThreeCS.McCree
                 // Rigidbody의 MovePosition 메소드로 캐릭터 이동
                 // transfrom.position을 사용해도 되지만 얇은 벽등을 통과할 문제등이 생길 수 있다.
                 // 객체의 충돌을 유지하면서 이동하기 위해 MovePosition을 사용 했다.
-                rb.MovePosition(rb.position + moveDir * Time.fixedDeltaTime * moveSpeed);
+                //rb.MovePosition(rb.position + moveDir * Time.fixedDeltaTime * moveSpeed);
+                rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * moveDir);
 
                 animator.SetFloat("Speed", moveDir.magnitude); 
             }
@@ -291,25 +314,25 @@ namespace com.ThreeCS.McCree
             {
                 case 1:
                     playerManager.playerType = GameManager.jType.Sheriff;
-                    playerInfo.hp = 1;
+                    playerInfo.hp = 5;
                     playerInfo.maxHp = 5;
                     break;
                 case 2:
                 case 3:
                     playerManager.playerType = GameManager.jType.Vice;
-                    playerInfo.hp = 1;
+                    playerInfo.hp = 4;
                     playerInfo.maxHp = 4;
                     break;
                 case 4:
                 case 5:
                 case 6:
                     playerManager.playerType = GameManager.jType.Outlaw;
-                    playerInfo.hp = 1;
+                    playerInfo.hp = 4;
                     playerInfo.maxHp = 4;
                     break;
                 case 7:
                     playerManager.playerType = GameManager.jType.Renegade;
-                    playerInfo.hp = 1;
+                    playerInfo.hp = 4;
                     playerInfo.maxHp = 4;
                     break;
             }

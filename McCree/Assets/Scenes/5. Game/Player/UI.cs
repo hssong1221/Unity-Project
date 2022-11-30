@@ -69,6 +69,9 @@ namespace com.ThreeCS.McCree
             hpCanvas.transform.position = character.transform.position + hpOffset;
         }
 
+        #endregion
+
+        #region 플레이어 공통 UI (잡화점)
 
         [PunRPC]
         public void GiveStoreCard(int num)

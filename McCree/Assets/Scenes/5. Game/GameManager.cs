@@ -150,6 +150,12 @@ namespace com.ThreeCS.McCree
         public Sprite outlaw4;
         public Sprite renegade4;
 
+        [Header("모바일 조이패드 관련 변수")]
+        public bool isControl;
+        public bool[] joyControl;
+        //카드 랑 터치랑 같이 못 움직이게
+        public bool cardTouch;
+
 
         // 한 게임에서 사용할 전체 아이템 세트
         public ItemSet entireItemSet;
@@ -318,6 +324,8 @@ namespace com.ThreeCS.McCree
             // tnt초기화
             dynamiteIdx = -1;
 
+
+
             // 접속 못하면 초기화면으로 쫓아냄
             if (!PhotonNetwork.IsConnected)
             {
@@ -364,9 +372,9 @@ namespace com.ThreeCS.McCree
             }
         }
 
-        #endregion
+#endregion
 
-        #region Coroutine
+#region Coroutine
 
         // 캐릭터 생성
         IEnumerator InstantiateResource()
@@ -458,6 +466,11 @@ namespace com.ThreeCS.McCree
                 StartCoroutine(GiveCardSet());
 
             }
+
+            MineUI.Instance.Joypad.SetActive(false);
+#if UNITY_ANDROID
+            MineUI.Instance.Joypad.SetActive(true);
+#endif
         }
 
         IEnumerator JobandAbility()
@@ -478,6 +491,10 @@ namespace com.ThreeCS.McCree
                 jobList = new List<int>() { 1, 2, 4, 5, 6, 7 }; // 6인 룰
             else if (playerList.Length == 7)
                 jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 }; // 7인 룰
+
+            // 실험용
+            if(playerList.Length == 1)
+                jobList = new List<int>() { 1 }; // 7인 룰
 
             // 능력 갯수에 맞게 해야함
             List<int> abilityList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
@@ -1344,8 +1361,37 @@ namespace com.ThreeCS.McCree
             yield return YieldCache.WaitForEndOfFrame;
         }
 
-        
+
+#endregion
+
+#region 모바일 조이 패드  관련
+
+        public void JoyPad(int type)
+        {
+            for (int i = 0; i < 9; i++)
+                joyControl[i] = (i == type);
+        }
+
+        public void JoyUp()
+        {
+            isControl = false;
+        }
+        public void JoyDown()
+        {
+            isControl = true;
+        }
+
+        public void JoyBtn()
+        {
+            
+            if (player1.GetComponent<Interaction>().triggerStay)
+                player1.GetComponent<Interaction>().isSit = true;
+
+            MineUI.Instance.JoyBtn.gameObject.SetActive(false);
+        }
+
         #endregion
+
 
         #region Public Methods
 
@@ -1582,6 +1628,9 @@ namespace com.ThreeCS.McCree
                 // 머리위 HP 닉네임 위치 보정
                 player.GetComponent<PhotonView>().RPC("UIMatch", RpcTarget.All);
             }
+#if UNITY_ANDROID
+            MineUI.Instance.Joypad.SetActive(false);
+#endif
         }
 
         // 게임 중 턴 넘기는 버튼
@@ -1589,7 +1638,7 @@ namespace com.ThreeCS.McCree
         {
             //Debug.Log("턴 버튼 누름!");
             // 본인 카드가 본인 hp보다 많으면 못넘어감
-            /*if(playerInfo.mycards.Count > playerInfo.hp)
+            if(playerInfo.mycards.Count > playerInfo.hp)
             {
                 // 잡화점 턴에는 카드 수 무시
                 if (state.Equals("store") || state.Equals("duel"))
@@ -1604,11 +1653,11 @@ namespace com.ThreeCS.McCree
             {
                 nextSignal = true;
                 MineUI.Instance.NextButton.SetActive(false);
-            }*/
+            }
 
             // 임시로 해놓은 거
-            nextSignal = true;
-            MineUI.Instance.NextButton.SetActive(false);
+            //nextSignal = true;
+            //MineUI.Instance.NextButton.SetActive(false);
         }
 
         // 게임 중 회피를 못할 때 그냥 맞는 버튼
@@ -1904,11 +1953,11 @@ namespace com.ThreeCS.McCree
                 photonView.RPC("CardDeckSync", RpcTarget.All, content);
         }
 
-        #endregion
+#endregion
 
         
         // 하이라이트 부분이 계속 반복 되므로 따로 함수로 빼는 것을 고려 해보기
-        #region 완성된 카드 기능 
+#region 완성된 카드 기능 
 
         IEnumerator Bang()
         {
@@ -2871,11 +2920,11 @@ namespace com.ThreeCS.McCree
             yield return YieldCache.WaitForEndOfFrame;
         }
 
-        #endregion
+#endregion
 
 
 
-        #region ALERT 패널 내용 
+#region ALERT 패널 내용 
         public void alertOrder(int num, string atk = "", string target = "")
         {
             StartCoroutine(Alert(num, atk, target));
@@ -2980,9 +3029,9 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.alertPanel.SetActive(false);
         }
 
-        #endregion
+#endregion
 
-        #region Photon Callback
+#region Photon Callback
 
         public override void OnPlayerEnteredRoom(Player other)
         {
@@ -3007,7 +3056,7 @@ namespace com.ThreeCS.McCree
         }
 
        
-        #endregion
+#endregion
 
     }
 }

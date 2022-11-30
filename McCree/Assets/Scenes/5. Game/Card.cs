@@ -124,6 +124,8 @@ namespace com.ThreeCS.McCree
 
             // 본인 카드 덱을 찾으려면 본인이 누군지 알아야함
             player = GameManager.Instance.CallMyPlayer();
+
+            GameManager.Instance.cardTouch = false;
         }
 
         public void posValue(Vector3 myCardPos)
@@ -326,6 +328,8 @@ namespace com.ThreeCS.McCree
         {
             Debug.Log("현재카드 : " + targetUI.GetComponent<Card>().cardContent);
 
+            GameManager.Instance.cardTouch = true;
+
             startPnt = targetUI.position;
             moveBegin = eventData.position;
             // 누르면 커져서 잘 보이게 만듬
@@ -353,6 +357,7 @@ namespace com.ThreeCS.McCree
 
         void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
         {
+            GameManager.Instance.cardTouch = false;
             //Debug.Log("마우스 뗴기");
             PanelOnOFF(0);
             Vector3 vec = new Vector3(1, 1, 1);
@@ -407,6 +412,7 @@ namespace com.ThreeCS.McCree
 
         void IDragHandler.OnDrag(PointerEventData eventData)
         {
+            GameManager.Instance.cardTouch = true;
             if (GameManager.Instance.myTurn == true)
             {
                 if (player.GetComponent<PlayerInfo>().isTarget == 3)
@@ -433,6 +439,7 @@ namespace com.ThreeCS.McCree
 
         void IEndDragHandler.OnEndDrag(PointerEventData eventData)
         {
+            GameManager.Instance.cardTouch = false;
             // 카드 사용 위치에 올려놔서 카드를 사용함
             if (useCard) 
             {

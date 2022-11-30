@@ -10,6 +10,7 @@ namespace com.ThreeCS.McCree
 {
     public class Interaction : Controller
     {
+        #region variable
 
         private IEnumerator _coroutine_Chat;
         public IEnumerator coroutine_Chat
@@ -44,6 +45,8 @@ namespace com.ThreeCS.McCree
         public int sitNum = 0;   // 본인
 
         public string chairName; // 앉은 의자 이름
+
+        #endregion
 
         //private IEnumerator _coroutine;
         //public IEnumerator coroutine
@@ -86,6 +89,10 @@ namespace com.ThreeCS.McCree
                         MineUI.Instance.interactionPanel.SetActive(true);
                         MineUI.Instance.interactionText.text = "앉기";
                         Debug.Log("의자");
+
+#if UNITY_ANDROID
+                        MineUI.Instance.JoyBtn.gameObject.SetActive(true);
+#endif
 
                         //의자 하이라이트
                         mr = other.GetComponent<MeshRenderer>();
@@ -145,6 +152,9 @@ namespace com.ThreeCS.McCree
 
                         MineUI.Instance.interactionPanel.SetActive(false);
                         mat.SetColor("_EmissionColor", Color.black);
+#if UNITY_ANDROID
+                        MineUI.Instance.JoyBtn.gameObject.SetActive(false);
+#endif
 
                         sitNum--;
                         GameManager.Instance.NumCheckStand();
@@ -216,6 +226,6 @@ namespace com.ThreeCS.McCree
             else if(num == 1)
                 playerchair.GetComponent<ChairManager>().isPlayer = false;
         }
-    
+        
     }
 }

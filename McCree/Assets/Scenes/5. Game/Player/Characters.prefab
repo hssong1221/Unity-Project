@@ -1765,6 +1765,8 @@ MonoBehaviour:
   _objectTransPos: {fileID: 4608065460106329307}
   bulletAttackedPos: {fileID: 6755281479944650918}
   maxAttackDistance: 5
+  isControl: 0
+  joyControl: 000000000000000000
   cardObject: {fileID: 2643383449535095578, guid: 25721e9ab19bfd1409d58b81e2fc801e, type: 3}
 --- !u!114 &3280754104980646606
 MonoBehaviour:

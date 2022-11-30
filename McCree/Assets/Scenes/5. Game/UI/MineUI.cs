@@ -122,6 +122,11 @@ namespace com.ThreeCS.McCree
         public GameObject blockingPanel;
         public GameObject cardblockingPanel;
 
+        [Header("모바일 전용 UI")]
+        public GameObject Joypad;
+        public Button JoyBtn;
+
+
         #endregion
 
 

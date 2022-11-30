@@ -2,6 +2,7 @@ using System.Collections;
 using System;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Cinemachine;
 
 using Photon.Pun;
@@ -16,9 +17,12 @@ namespace com.ThreeCS.McCree
         private CinemachineVirtualCamera Cam;
 
         private CinemachineClearShot ccam;
+
         #endregion
 
         #region Public Fields
+
+        public Card card;
 
         public Transform target;
         public GameObject player;
@@ -29,6 +33,11 @@ namespace com.ThreeCS.McCree
         protected float mouseX;
         protected float mouseY;
         protected float mouseLeftClick = 0f;
+
+        //모바일 터치 입력값
+        protected float touchX;
+        protected float touchY;
+        protected float touchClick = 0f;
 
         #endregion
 
@@ -45,6 +54,25 @@ namespace com.ThreeCS.McCree
 
         void Update()
         {
+#if UNITY_ANDROID
+            if (Input.touchCount == 1)
+            {
+                touchX = Input.touches[0].deltaPosition.x;
+                touchY = Input.touches[0].deltaPosition.y;
+                touchClick = 1f;
+            }
+            else if (Input.touchCount == 0)
+            {
+                touchClick = 0f;
+            }
+
+            if (GameManager.Instance.cardTouch)
+                touchClick = 0f;
+
+            Cam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_InputAxisValue = touchY * touchClick * 0.05f;
+            Cam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_InputAxisValue = touchX * touchClick * 0.05f;
+#else
+
             if (Input.GetMouseButton(1))
                 mouseLeftClick = 1f;
             else if (Input.GetMouseButtonUp(1))
@@ -64,11 +92,16 @@ namespace com.ThreeCS.McCree
                 e.ToString();
                 //Debug.Log(e);
             }
+#endif
         }
+
+
 
         #endregion
 
         #region methods
+
+
 
         public void PortalIn()
         {
