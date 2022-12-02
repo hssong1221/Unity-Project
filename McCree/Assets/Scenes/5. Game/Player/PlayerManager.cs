@@ -207,7 +207,6 @@ namespace com.ThreeCS.McCree
                 // Rigidbody의 MovePosition 메소드로 캐릭터 이동
                 // transfrom.position을 사용해도 되지만 얇은 벽등을 통과할 문제등이 생길 수 있다.
                 // 객체의 충돌을 유지하면서 이동하기 위해 MovePosition을 사용 했다.
-                //rb.MovePosition(rb.position + moveDir * Time.fixedDeltaTime * moveSpeed);
                 rb.MovePosition(rb.position + moveSpeed * Time.fixedDeltaTime * moveDir);
 
                 animator.SetFloat("Speed", moveDir.magnitude); 

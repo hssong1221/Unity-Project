@@ -470,6 +470,8 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.Joypad.SetActive(false);
 #if UNITY_ANDROID
             MineUI.Instance.Joypad.SetActive(true);
+            // 모바일에서는 화면이 안꺼지게 한다.
+            Screen.sleepTimeout = SleepTimeout.NeverSleep;
 #endif
         }
 
@@ -659,11 +661,11 @@ namespace com.ThreeCS.McCree
             jobPanel.SetActive(true);
             jobText.text = JobText();
 
-            //yield return new WaitForSeconds(6f);
+            yield return new WaitForSeconds(6f);
             jobPanel.SetActive(false);
             abilPanel.SetActive(true);
 
-            //yield return wait05f;
+            yield return wait05f;
             //abilUIAnimator.SetTrigger("Abil");
             abilText.text += AblityText();
             //abilText.text += "\n3. 당신의 능력을 잘 활용하십시오";
@@ -675,7 +677,7 @@ namespace com.ThreeCS.McCree
 
 
             // ------------------------------------------------ 사람들이 텍스트를 읽을 시간 부여(나중에 다시 활성화) ----------------------------
-            //yield return new WaitForSeconds(7.5f);
+            yield return new WaitForSeconds(7.5f);
             abilPanel.SetActive(false);
             MineUI.Instance.leftTopPanel.SetActive(true);
             MineUI.Instance.rightBottomPanel.SetActive(true);
@@ -798,8 +800,12 @@ namespace com.ThreeCS.McCree
             StartCoroutine("GameLoop2");
 
             yield return new WaitForSeconds(1f);
+
+#if UNITY_ANDROID
+            MineUI.Instance.Joypad.SetActive(false);
+#endif
         }
-        
+
         public void GLStart() // gameloop1 실행 명령
         {
             StartCoroutine("GameLoop1");
@@ -1628,9 +1634,7 @@ namespace com.ThreeCS.McCree
                 // 머리위 HP 닉네임 위치 보정
                 player.GetComponent<PhotonView>().RPC("UIMatch", RpcTarget.All);
             }
-#if UNITY_ANDROID
-            MineUI.Instance.Joypad.SetActive(false);
-#endif
+
         }
 
         // 게임 중 턴 넘기는 버튼

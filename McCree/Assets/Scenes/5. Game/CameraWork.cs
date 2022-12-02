@@ -69,8 +69,16 @@ namespace com.ThreeCS.McCree
             if (GameManager.Instance.cardTouch)
                 touchClick = 0f;
 
-            Cam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_InputAxisValue = touchY * touchClick * 0.05f;
-            Cam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_InputAxisValue = touchX * touchClick * 0.05f;
+            try
+            {
+                Cam.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_InputAxisValue = touchY * touchClick * 0.05f;
+                Cam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_InputAxisValue = touchX * touchClick * 0.05f;
+            }
+            catch (Exception e)
+            {
+                e.ToString();
+                //Debug.Log(e);
+            }
 #else
 
             if (Input.GetMouseButton(1))
