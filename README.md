@@ -11,7 +11,7 @@
 + 백엔드 구성  
   * [사용한 SDK](#사용한-SDK)  
   * [Scene 흐름](#Scene-흐름)  
-  * [백엔드 흐름](#백엔드-흐름)  
+  * [턴 구현 로직](#턴-구현-로직)  
 + 인게임 구성
   * [게임 매니저](#게임-매니저)
   * [퀘스트](#퀘스트)
@@ -43,26 +43,20 @@
 
 
 + ## Scene 흐름
-  <img src = "https://user-images.githubusercontent.com/22339727/162636663-39a812e1-ae07-4fdd-846d-3391b5c5fd28.png" width="70%" heigth="70%">  
-   
-  인게임 씬(Scene)에선, 마스터 클라이언트가 제어하는 게임 마스터와 개인 UI를 싱글톤으로 구현하여 개인만이 사용할 수 있는 콘텐츠에 접근 가능  
+  <img src = "https://user-images.githubusercontent.com/22339258/207252893-25651a84-bbed-421e-b090-5c6ea1296be1.png" width="70%" heigth="70%">  
 
-+ ## 백엔드 흐름
-  ![PhotonConnect1](https://user-images.githubusercontent.com/22339727/159645959-60d4f109-49c6-41b9-b9de-d7fc9399d3e4.jpg)
-  ![PhotonConnect2](https://user-images.githubusercontent.com/22339727/159645964-9905a2bf-f7de-45e0-b44e-4373e2dbaba5.jpg)
+
++ ## 턴 구현 로직
+  ![PhotonConnect1](https://user-images.githubusercontent.com/22339258/207252888-ffc76cee-c6a5-4072-83cb-27a7459d6ce7.png)
   
   
-  |로그인|등록|
+  |로그인|룸|
   |:-:|:-:|
-  |![로그인](https://user-images.githubusercontent.com/22339727/174549870-023e9bec-7b9f-45c0-b06c-99d15a43e00b.png) | ![등록](https://user-images.githubusercontent.com/22339727/174549879-fd3e26dc-f5fc-4b07-85d0-615697073d28.png) |
+  |![로그인](https://user-images.githubusercontent.com/22339258/207252873-eb75cadf-fa9b-4988-b843-96e6e9d91ece.png) | ![룸](https://user-images.githubusercontent.com/22339258/207252880-2ef79285-4571-4a99-bf8b-40cc3dd5630f.png) |
   
-  |로비|룸|
+  |게임플레이|모바일버전|
   |:-:|:-:|
-  |![로비](https://user-images.githubusercontent.com/22339727/174549887-40f4e234-bdb1-4a8d-b43d-75fba7685488.png) | ![룸](https://user-images.githubusercontent.com/22339727/174549888-026f6704-a471-4022-ad16-fb8b1f897e42.png) |
-  
-+ ## PlayFab
-  ![PlayFab](https://user-images.githubusercontent.com/22339727/174550462-179d98e5-e7b4-4d6e-b8c4-1644ed73d893.png)
-  회원 정보는 PlayFab에 저장되어있으며 로그인 성공 시, PlayFab의 닉네임을 포톤 닉네임으로 가져옴  
+  |![게임플레이](https://user-images.githubusercontent.com/22339258/207252882-f434c497-f431-485e-8895-1bbfec4ef1e7.png) | <img src = "https://user-images.githubusercontent.com/22339258/207252885-601672c7-cb45-49b2-8091-f8a7e515a134.jpg" width="65%" heigth="65%">   ||
   
 
 ---
