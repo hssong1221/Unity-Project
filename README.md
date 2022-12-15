@@ -3,6 +3,7 @@
 사용엔진: Unity 2020.3.25f1  
 개발기간: 2022.01.01 ~ 04.21, 07.18 ~ 12.02  
 게임 플레이 영상: https://www.youtube.com/watch?v=Mkr0GmjKpYc
+코드 있는 부분으로 바로가기 : https://github.com/hssong1221/Unity-Project/tree/Song/McCree/Assets/Scenes
 
 ---
 목차
