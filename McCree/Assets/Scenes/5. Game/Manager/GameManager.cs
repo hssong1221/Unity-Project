@@ -105,14 +105,6 @@ namespace com.ThreeCS.McCree
         public Image abilImage;
         public Text abilText;
 
-        [Header("게임 시작 관련 UI(의자 주변)")]
-        public Canvas startCanvas;
-        public GameObject startPanel;
-        public Text pnumText; // 플레이어 앉은 숫자
-        public int sitNum = 0; // 앉아 있는 숫자
-        public Button bangBtn;
-
-
         [Header("게임 승리 패배 관련 UI")]
         public GameObject vicPanel;
         public GameObject vicText;  // 승리
@@ -349,9 +341,6 @@ namespace com.ThreeCS.McCree
 
         private void Update()
         {
-            // 인원 체크 UI가 계속 정면을 보게 만듬
-            startCanvas.transform.LookAt(startCanvas.transform.position + Camera.main.transform.forward);
-
             // 뱅 카드 사용 중(상대방을 눌러야하는 카드에는 다 적용된다.)
             if (isBang && Input.GetMouseButtonDown(0))
                 bangClick = true;
@@ -439,9 +428,6 @@ namespace com.ThreeCS.McCree
                 Debug.Log("PM 현재 로딩된 인원 수 : " + playerList.Length);
                 yield return YieldCache.WaitForEndOfFrame;
             }
-
-            // 의자에 전체 인원 수 적용
-            pnumText.text = sitNum + " / " + playerList.Length;
 
             SetPhotonView(); // 자기 자신의 PhotonView, 관련 스크립트 찾기
             //StartCoroutine(FindMinePv());  // 자기 자신의 PhotonView, 관련 스크립트 찾기
@@ -681,7 +667,6 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.rightTop.SetActive(true);
 
             // 전부 테이블에 앉으면 시작 준비 끝
-            bangBtn.gameObject.SetActive(false);
             bool checkflag = true;
             while (checkflag)
             {
@@ -706,16 +691,12 @@ namespace com.ThreeCS.McCree
                     if(playerList.Length == 3 )
                     {
                         if (player.GetComponent<PlayerManager>().playerType == jType.Vice)
-                        {
-                            bangBtn.gameObject.SetActive(true);
-                        }
+                            GameStartManager.bangBtnOnAction();
                     }
                     else
                     {
                         if (player.GetComponent<PlayerManager>().playerType == jType.Sheriff)
-                        {
-                            bangBtn.gameObject.SetActive(true);
-                        }
+                            GameStartManager.bangBtnOnAction();
                     }
                 }
             }
@@ -1621,11 +1602,11 @@ namespace com.ThreeCS.McCree
                 if (max < playerList[i].GetComponent<Interaction>().sitNum)
                     max = playerList[i].GetComponent<Interaction>().sitNum;
             }
-            sitNum = max;
+            GameStartManager.playerSitNum = max;
 
             for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
             {
-                playerList[i].GetComponent<PhotonView>().RPC("NumCheck", RpcTarget.All, sitNum);
+                playerList[i].GetComponent<PhotonView>().RPC("NumCheck", RpcTarget.All, GameStartManager.playerSitNum);
             }
         }
         public void NumCheckStand()
@@ -1636,11 +1617,11 @@ namespace com.ThreeCS.McCree
                 if(playerList[i].GetComponent<Interaction>().sitNum < min)
                     min = playerList[i].GetComponent<Interaction>().sitNum; 
             }
-            sitNum = min;
+            GameStartManager.playerSitNum = min;
 
             for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
             {
-                playerList[i].GetComponent<PhotonView>().RPC("NumCheck", RpcTarget.All, sitNum);
+                playerList[i].GetComponent<PhotonView>().RPC("NumCheck", RpcTarget.All, GameStartManager.playerSitNum);
             }
         }
         

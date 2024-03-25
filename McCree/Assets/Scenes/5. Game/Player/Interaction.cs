@@ -175,8 +175,7 @@ namespace com.ThreeCS.McCree
         public void NumCheck(int n) // 탁자 위 인원수 UI
         {
             sitNum = n;
-            // 앉은 인원 / 전체 인원
-            GameManager.Instance.pnumText.text = sitNum + " / " + GameManager.Instance.playerList.Length;
+            GameStartManager.setPlayerNumAction();
         }
 
         [PunRPC]    

@@ -132,6 +132,7 @@ namespace com.ThreeCS.McCree
             //플레이어 오브젝트가 전부 담김
             GameManager.Instance.playerList = GameObject.FindGameObjectsWithTag("Player");
             Debug.Log("플레이어 수(만큼 나올 듯) : " + GameManager.Instance.playerList.Length);
+            GameStartManager.setPlayerNumAction();
         }
 
 

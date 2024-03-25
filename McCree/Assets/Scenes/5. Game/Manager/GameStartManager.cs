@@ -12,20 +12,27 @@ namespace com.ThreeCS.McCree
         [Header("게임 시작 관련 UI(의자 주변)")]
         public Canvas startCanvas;
         public GameObject startPanel;
-        public Text playerNumText;
-        public int playerSitNum;
+        public Text playerNumText; // 플레이어 앉은 숫자
+        public static int playerSitNum;   // 앉아 있는 숫자
         public Button bangBtn;
 
         public static Action startUIOffAction;
-        // Start is called before the first frame update
+        public static Action bangBtnOnAction;
+        public static Action setPlayerNumAction;
+
         void Start()
         {
+            playerSitNum = 0;
+
             startPanel.SetActive(true);
             bangBtn.onClick.AddListener(BangBtnClick);
+            bangBtn.gameObject.SetActive(false);
+
             startUIOffAction = () => { startPanelOff(); };
+            bangBtnOnAction = () => { bangBtnOn(); };
+            setPlayerNumAction = () => { SetPlayerNumText(); };
         }
 
-        // Update is called once per frame
         void Update()
         {
             // 인원 체크 UI가 계속 정면을 보게 만듬
@@ -49,6 +56,17 @@ namespace com.ThreeCS.McCree
         public void startPanelOff()
         {
             startPanel.SetActive(false);
+        }
+
+        public void bangBtnOn()
+        {
+            bangBtn.gameObject.SetActive(true);
+        }
+
+        public void SetPlayerNumText()
+        {
+            // 앉은 인원 / 전체 인원
+            playerNumText.text = playerSitNum + " / " + GameManager.Instance.playerList.Length;
         }
     }
 }
