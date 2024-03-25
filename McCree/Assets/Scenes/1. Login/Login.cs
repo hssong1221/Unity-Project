@@ -60,8 +60,6 @@ namespace com.ThreeCS.McCree
             // 포톤 채팅서버 연결
             PunChat.Instance.Connect();
         }
-
-
         #endregion
     }
 

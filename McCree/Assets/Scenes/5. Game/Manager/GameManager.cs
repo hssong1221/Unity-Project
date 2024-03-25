@@ -30,7 +30,6 @@ namespace com.ThreeCS.McCree
 
         // 게임 매니저 어디서든 사용가능
         private static GameManager pInstance;
-
         public static GameManager Instance
         {
             get { return pInstance; }
@@ -71,7 +70,6 @@ namespace com.ThreeCS.McCree
         [Header("게임 승리 변수")]
         public bool isVictory = false;
 
-
         public enum jType
         {
             Error,
@@ -91,7 +89,6 @@ namespace com.ThreeCS.McCree
             TwocardOnecard,
             DrinkBottle
         } //능력 타입
-
 
         [Header("직업 관련 UI")]
         public GameObject jobPanel;
@@ -290,7 +287,6 @@ namespace com.ThreeCS.McCree
         #endregion
 
         #region MonoBehaviour CallBacks
-
         void Awake()
         {
             // 어디서든 쓸 수 있게 인스턴스화
@@ -412,7 +408,7 @@ namespace com.ThreeCS.McCree
             yield return YieldCache.WaitForEndOfFrame;
         }
 
-        IEnumerator FindMinePv()
+        /*IEnumerator FindMinePv()
         {
             foreach (GameObject player in playerList)
             {
@@ -432,7 +428,7 @@ namespace com.ThreeCS.McCree
             }
 
             yield return YieldCache.WaitForEndOfFrame;
-        }
+        }*/
 
         IEnumerator WaitAllPlayers()
         {
@@ -447,7 +443,8 @@ namespace com.ThreeCS.McCree
             // 의자에 전체 인원 수 적용
             pnumText.text = sitNum + " / " + playerList.Length;
 
-            StartCoroutine(FindMinePv());  // 자기 자신의 PhotonView, 관련 스크립트 찾기
+            SetPhotonView(); // 자기 자신의 PhotonView, 관련 스크립트 찾기
+            //StartCoroutine(FindMinePv());  // 자기 자신의 PhotonView, 관련 스크립트 찾기
 
             StartCoroutine(EndGame()); // 게임 종료 조건을 판단
 
@@ -1400,6 +1397,33 @@ namespace com.ThreeCS.McCree
 
 
         #region Public Methods
+        // 내 포톤뷰 꺼내가기
+        public PhotonView GetPhotonView()
+        {
+            if(photonView == null)
+                photonView = player1.GetComponent<PhotonView>();
+            return photonView;
+        }
+        // 내 정보 등록
+        public void SetPhotonView()
+        {
+            foreach (GameObject player in playerList)
+            {
+                if (player.GetComponent<PhotonView>().IsMine)
+                {
+                    player1 = player;
+                    photonView = player.GetComponent<PhotonView>();
+                    playerManager = player.GetComponent<PlayerManager>();
+                    playerInfo = player.GetComponent<PlayerInfo>();
+
+                    ui = player.GetComponent<UI>();
+
+                    MineUI.Instance.FindMinePv(player);
+                    RaiseEventManager.Instance.FindMinePv(player);
+                    break;
+                }
+            }
+        }
 
         // 직업 관련 텍스트
         public string JobText()
@@ -1620,22 +1644,6 @@ namespace com.ThreeCS.McCree
             }
         }
         
-
-        // 게임 시작하기 위한 버튼
-        public void BangBtnClick()
-        {
-            foreach (GameObject player in playerList)
-            {
-                // 모든 사람의 turnlist에 정보 저장을 위함
-                player.GetComponent<PhotonView>().RPC("StartUIOff", RpcTarget.All);
-                // 모든 사람의 gameloop 진입을 위함
-                player.GetComponent<PhotonView>().RPC("Gameloop", RpcTarget.All);
-
-                // 머리위 HP 닉네임 위치 보정
-                player.GetComponent<PhotonView>().RPC("UIMatch", RpcTarget.All);
-            }
-
-        }
 
         // 게임 중 턴 넘기는 버튼
         public void NextBtnClick(string state = "default" ) 
@@ -1977,7 +1985,6 @@ namespace com.ThreeCS.McCree
                 // 빔 
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-
 
                 if (Physics.Raycast(ray, out hit))
                 {

@@ -6,6 +6,9 @@ namespace com.ThreeCS.McCree
 {
     public class ScreenRatio : MonoBehaviour
     {
+
+
+
 #if UNITY_ANDROID
         private void Awake()
         {

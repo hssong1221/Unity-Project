@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Newtonsoft.Json;
 
@@ -20,8 +21,8 @@ namespace com.ThreeCS.McCree
             // 내 카드덱 동기화하려고 
             public List<Card> mycards = new List<Card>();
 
+            
         #endregion
-
 
         // 게임 시작 애니메이션 플레이
         [PunRPC]
@@ -36,21 +37,22 @@ namespace com.ThreeCS.McCree
 
         #region 앉은 후 게임 시작하면서 해야하는 것들
 
+        
             // 보안관이 뱅 버튼 눌렀을 때 모든 사람의 인구수ui가 꺼져야함
             [PunRPC]
             public void StartUIOff()
             {
-                GameManager.Instance.startPanel.SetActive(false);
+                GameStartManager.startUIOffAction();
             }
 
             // 게임 루프에 진입 명령
             [PunRPC]
-            public void Gameloop()
-        {
+            public void GameLoop()
+            {
             // 본인만 진입시켜서 중복을 막음
             if (photonView.IsMine)
                 GameManager.Instance.GLStart();
-        }
+            }
 
             // 내 체력 동기화
             [PunRPC]

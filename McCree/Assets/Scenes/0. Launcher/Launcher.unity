@@ -879,7 +879,6 @@ GameObject:
   - component: {fileID: 298621452}
   - component: {fileID: 298621451}
   - component: {fileID: 298621450}
-  - component: {fileID: 298621449}
   - component: {fileID: 298621448}
   - component: {fileID: 298621447}
   m_Layer: 0
@@ -912,18 +911,6 @@ MonoBehaviour:
   msg_Canvas: {fileID: 93476055}
   msg_Text: {fileID: 994987431}
   close_Btn: {fileID: 1027884776}
---- !u!114 &298621449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 298621446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b57c859f2ef68346939a8c3f8baba50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &298621450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7675,7 +7662,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1928937026}
   m_HandleRect: {fileID: 1928937025}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

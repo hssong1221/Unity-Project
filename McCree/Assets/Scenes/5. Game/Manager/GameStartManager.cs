@@ -1,0 +1,56 @@
+using System.Collections;
+using System.Collections.Generic;
+using System;
+using UnityEngine;
+using UnityEngine.UI;
+using Photon.Pun;
+
+namespace com.ThreeCS.McCree 
+{
+    public class GameStartManager : MonoBehaviour
+    {
+        [Header("게임 시작 관련 UI(의자 주변)")]
+        public Canvas startCanvas;
+        public GameObject startPanel;
+        public Text playerNumText;
+        public int playerSitNum;
+        public Button bangBtn;
+
+        public static Action startUIOffAction;
+        // Start is called before the first frame update
+        void Start()
+        {
+            startPanel.SetActive(true);
+            bangBtn.onClick.AddListener(BangBtnClick);
+            startUIOffAction = () => { startPanelOff(); };
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            // 인원 체크 UI가 계속 정면을 보게 만듬
+            startCanvas.transform.LookAt(startCanvas.transform.position + Camera.main.transform.forward);
+        }
+
+        // 게임 시작하기 위한 버튼
+        public void BangBtnClick()
+        {
+            foreach (GameObject player in GameManager.Instance.playerList)
+            {
+                // 모든 사람의 turnlist에 정보 저장을 위함
+                player.GetComponent<PhotonView>().RPC("StartUIOff", RpcTarget.All);
+                // 모든 사람의 gameloop 진입을 위함
+                player.GetComponent<PhotonView>().RPC("GameLoop", RpcTarget.All);
+                // 머리위 HP 닉네임 위치 보정
+                player.GetComponent<PhotonView>().RPC("UIMatch", RpcTarget.All);
+            }
+        }
+
+        public void startPanelOff()
+        {
+            startPanel.SetActive(false);
+        }
+    }
+}
+
+

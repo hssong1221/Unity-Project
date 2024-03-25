@@ -38,7 +38,6 @@ namespace com.ThreeCS.McCree
 
         protected void Awake()
         {
-
             character = transform.gameObject;
             //character = GameObject.FindWithTag("Player");
             //rootPos = character.transform.Find("Root");
