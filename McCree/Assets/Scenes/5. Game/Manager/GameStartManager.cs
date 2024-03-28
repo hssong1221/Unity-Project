@@ -33,7 +33,7 @@ namespace com.ThreeCS.McCree
             setPlayerNumAction = () => { SetPlayerNumText(); };
 
             // 임시로 켜놓은 거니까 무조건 없애야함
-            bangBtnOn();
+            //bangBtnOn();
         }
 
         void Update()
@@ -45,7 +45,7 @@ namespace com.ThreeCS.McCree
         // 게임 시작하기 위한 버튼
         public void BangBtnClick()
         {
-            MasterPlayerManager.masterPlayerAction();
+            MasterPlayerManager.masterPlayerAction?.Invoke();
 
             foreach (GameObject player in GameManager.Instance.playerList)
             {

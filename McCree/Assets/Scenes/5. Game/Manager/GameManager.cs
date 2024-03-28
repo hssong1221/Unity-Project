@@ -90,21 +90,6 @@ namespace com.ThreeCS.McCree
             DrinkBottle
         } //능력 타입
 
-        [Header("직업 관련 UI")]
-        public GameObject jobPanel;
-        public RectTransform jobBoard;
-        public Text jobText;
-        public Image jobImage1;         // 직업마다 이미지가 다르게 할 것
-        public Image jobImage2;
-        public Image jobImage3;
-        private Animator jobUIAnimator;
-        private Animator abilUIAnimator;
-
-        [Header("고유 능력 관련 UI")]
-        public GameObject abilPanel;
-        public Image abilImage;
-        public Text abilText;
-
         [Header("게임 승리 패배 관련 UI")]
         public GameObject vicPanel;
         public GameObject vicText;  // 승리
@@ -114,30 +99,6 @@ namespace com.ThreeCS.McCree
         [Header("게임 종료후 출력 될 위치와 플레이어 오브젝트")]
         public GameObject[] pnt;
         public GameObject[] player;
-
-
-        [Header("직업 일러스트")]
-        public Sprite sheriff1;  // 보안관 일러스트
-        public Sprite sheriff2;
-        public Sprite sheriff3;
-
-        public Sprite deputy1;     // 부관   일러스트
-        public Sprite deputy2;
-        public Sprite deputy3;
-
-        public Sprite outlaw1;   // 무법자 일러스트
-        public Sprite outlaw2;
-        public Sprite outlaw3;
-
-        public Sprite renegade1;  // 배신자 일러스트
-        public Sprite renegade2;
-        public Sprite renegade3;
-
-        [Header("어빌 일러스트")]
-        public Sprite sheriff4;  // 능력 나올 때의 직업 일러
-        public Sprite deputy4;
-        public Sprite outlaw4;
-        public Sprite renegade4;
 
         [Header("모바일 조이패드 관련 변수")]
         public bool isControl;
@@ -284,9 +245,6 @@ namespace com.ThreeCS.McCree
             // 어디서든 쓸 수 있게 인스턴스화
             pInstance = this;
 
-            jobUIAnimator = jobPanel.GetComponent<Animator>();
-            abilUIAnimator = abilPanel.GetComponent<Animator>();
-
             // 로비브금 끄기 
             BGMLobby = GameObject.Find("BGMLobby");
             Destroy(BGMLobby);
@@ -311,8 +269,6 @@ namespace com.ThreeCS.McCree
 
             // tnt초기화
             dynamiteIdx = -1;
-
-
 
             // 접속 못하면 초기화면으로 쫓아냄
             if (!PhotonNetwork.IsConnected)
@@ -578,40 +534,9 @@ namespace com.ThreeCS.McCree
             yield return null;
         }
 
-
         // 게임 동작 시작
         public IEnumerator GameStart()
         {
-            // 직업 선택 텍스트랑 애니메이션 재생
-            /*
-            yield return YieldCache.WaitForEndOfFrame;
-
-            jobPanel.SetActive(true);
-            jobText.text = JobText();
-
-            yield return new WaitForSeconds(6f);
-            jobPanel.SetActive(false);
-            abilPanel.SetActive(true);
-
-            yield return wait05f;
-            //abilUIAnimator.SetTrigger("Abil");
-            abilText.text += AblityText();
-            //abilText.text += "\n3. 당신의 능력을 잘 활용하십시오";
-
-
-            // Status 창 (인벤토리창 동기화)
-            StatusUI.Instance.job_Name.text = jobText.text;
-            StatusUI.Instance.job_Explain.text = abilText.text;
-
-
-            // ------------------------------------------------ 사람들이 텍스트를 읽을 시간 부여(나중에 다시 활성화) ----------------------------
-            yield return new WaitForSeconds(7.5f);
-            abilPanel.SetActive(false);
-            MineUI.Instance.leftTopPanel.SetActive(true);
-            MineUI.Instance.rightBottomPanel.SetActive(true);
-            MineUI.Instance.rightTop.SetActive(true);
-            */
-
             // 전부 테이블에 앉으면 시작 준비 끝
             bool checkflag = true;
             while (checkflag)
@@ -1331,6 +1256,11 @@ namespace com.ThreeCS.McCree
                 photonView = player1.GetComponent<PhotonView>();
             return photonView;
         }
+        public PlayerManager GetPlayerManager()
+        {
+            return playerManager;
+        }
+
         // 내 정보 등록
         public void SetPhotonView()
         {
@@ -1351,127 +1281,7 @@ namespace com.ThreeCS.McCree
                 }
             }
         }
-        public PlayerManager GetPlayerManager()
-        {
-            return playerManager;
-        }
-
-        // 직업 관련 텍스트
-        public string JobText()
-        {
-            string temp = "";
-            Debug.Log(playerManager.playerType);
-            switch (playerManager.playerType)
-            {
-                // 플레이어 타입마다 다른 그림 부여 (애니메이션도 다 다르게 하려 햇는데 일단 하나로 함)
-                case jType.Sheriff:
-                    Debug.Log("당신은 보안관입니다.");
-                    jobUIAnimator.SetTrigger("Sheriff");
-                    temp = "SHERIFF\n보 안 관.";
-
-                    // 직업 이미지 3장 
-                    jobImage1.sprite = sheriff1;
-                    jobImage2.sprite = sheriff2;
-                    jobImage3.sprite = sheriff3;
-
-                    // 능력 이미지랑 텍스트
-                    abilImage.sprite = sheriff4;
-                    if(playerList.Length == 4)
-                        abilText.text = "1. 무법자를 모두 사살하십시오.";
-                    else
-                        abilText.text = "1. 부관을 찾고 무법자를 모두 사살하십시오.";
-
-                    break;
-                case jType.Vice:
-                    Debug.Log("당신은 부관입니다.");
-                    jobUIAnimator.SetTrigger("Deputy");
-                    temp = "DEPUTY\n 부  관";
-
-                    jobImage1.sprite = deputy1;
-                    jobImage2.sprite = deputy2;
-                    jobImage3.sprite = deputy3;
-
-                    abilImage.sprite = deputy4;
-                    if(playerList.Length == 3)
-                        abilText.text = "1. 배신자를 처단 하십시오.";
-                    else
-                        abilText.text = "1. 보안관을 도와 무법자를 모두 사살하십시오.";
-
-                    break;
-                case jType.Outlaw:
-                    Debug.Log("당신은 무법자입니다.");
-                    jobUIAnimator.SetTrigger("Outlaw");
-                    temp = "OUTLAW\n무 법 자";
-
-                    jobImage1.sprite = outlaw1;
-                    jobImage2.sprite = outlaw2;
-                    jobImage3.sprite = outlaw3;
-
-                    abilImage.sprite = outlaw4;
-                    //abilText.text = "1. 무법자들과 함께 보안관을 사살하십시오.";
-                    if (playerList.Length == 3)
-                        abilText.text = "1. 부관을 사살하십시오.";
-                    else
-                        abilText.text = "1. 다른 무법자들과 함께 보안관을 사살하십시오.";
-
-                    break;
-                case jType.Renegade:
-                    Debug.Log("당신은 배신자입니다.");
-                    jobUIAnimator.SetTrigger("Renegade");
-                    temp = "RENEGADE\n배 신 자";
-
-                    jobImage1.sprite = renegade1;
-                    jobImage2.sprite = renegade2;
-                    jobImage3.sprite = renegade3;
-
-                    abilImage.sprite = renegade4;
-                    if (playerList.Length == 3)
-                        abilText.text = "1. 무법자를 배신하십시오.";
-                    else if(playerList.Length == 4)
-                        abilText.text = "1. 보안관을 도와 무법자를 제거하고 마지막에 보안관을 배신하십시오.";
-                    else
-                        abilText.text = "1. 부관과 무법자를 모두 제거하고 마지막에 보안관을 배신하십시오.";
-
-                    break;
-            }
-            MineUI.Instance.questTitle.text = abilText.text.Substring(2);
-
-            return temp;
-        }
-
-        // 능력 관련 텍스트
-        public string AblityText()
-        {
-            // 능력 UI 애니메이션 
-            string temp = "";
-            Debug.Log(playerManager.abilityType);
-            switch (playerManager.abilityType)
-            {
-                case aType.BangMissed:
-                    //temp = "\n2. 뱅과 빗나감이 같은 능력이 됩니다.";
-                    break;
-                case aType.DrinkBottle:
-                    //temp = "\n2. 당신옆에 항상 술통이 있습니다.";
-                    break;
-                case aType.HumanVolcanic:
-                    //temp = "\n2. 뱅을 마구 쏠 수 있습니다.";
-                    break;
-                case aType.OnehpOnecard:
-                    //temp = "\n2. 체력이 달았다면 카드를 얻습니다.";
-                    break;
-                case aType.ThreeCard:
-                    //temp = "\n2. 카드를 뽑을 때 3장을 보고 2장을 가져옵니다.";
-                    break;
-                case aType.TwocardOnecard:
-                    //temp = "\n2. 카드 펼치기를 할 때 2장을 뽑고 한장을 선택할 수 있습니다.";
-                    break;
-                case aType.TwocardOnehp:
-                    //temp = "\n2. 카드 2장을 버리고 체력을 얻습니다.";
-                    break;
-            }
-            return temp;
-        }
-
+        
         // 방 나가기 임시 구현
         public void LeaveRoom()
         {

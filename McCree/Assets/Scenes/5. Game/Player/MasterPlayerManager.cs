@@ -52,6 +52,9 @@ namespace com.ThreeCS.McCree
             // 실험용
             if (pList.Length == 1)
                 jobList = new List<int>() { 1 }; // 7인 룰
+            // 실험용
+            if (pList.Length == 2)
+                jobList = new List<int>() { 1,4 }; // 7인 룰
 
 
             jobList = CommonFunction.ShuffleList(jobList);
@@ -179,6 +182,7 @@ namespace com.ThreeCS.McCree
             {
                 IntroAniUI.introAction();
                 //StartCoroutine(GameManager.Instance.GameStart());
+                StartCoroutine(GameManager.Instance.GameStart());
             }
         }
         #endregion

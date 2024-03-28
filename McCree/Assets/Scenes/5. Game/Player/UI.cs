@@ -32,25 +32,20 @@ namespace com.ThreeCS.McCree
         Vector3 bangOffset;
         Vector3 itemOffset;
         Vector3 progressOffset;
-
-
         #endregion
 
         #region MonoBehaviour CallBacks
 
-        void Awake()
+        void Start()
         {
-            base.Awake();  // Controller Awake 함수 그대로 사용
-
             hpOffset = new Vector3(0, 2.0f, 0);
             bangOffset = new Vector3(0, 3.0f, 0);
             itemOffset = new Vector3(0f, 1.0f, 0f);
             progressOffset = new Vector3(0, 2.5f, 0f);
-        }
 
+            foreach (var i in hpImgs)
+                i.SetActive(false);
 
-        private void Start()
-        {
             if (photonView.IsMine)
             {
                 nickName.text = PhotonNetwork.LocalPlayer.NickName;

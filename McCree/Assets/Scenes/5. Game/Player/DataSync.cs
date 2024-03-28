@@ -20,16 +20,10 @@ namespace com.ThreeCS.McCree
 
             // 내 카드덱 동기화하려고 
             public List<Card> mycards = new List<Card>();
-
             
         #endregion
 
-        
-
-
         #region 앉은 후 게임 시작하면서 해야하는 것들
-
-        
             // 보안관이 뱅 버튼 눌렀을 때 모든 사람의 인구수ui가 꺼져야함
             [PunRPC]
             public void StartUIOff()
@@ -45,20 +39,6 @@ namespace com.ThreeCS.McCree
             if (photonView.IsMine)
                 GameManager.Instance.GLStart();
             }
-
-            // 내 체력 동기화
-            /*[PunRPC]
-            public void SyncHp(int hp)
-            {
-                //초기 설정
-                if (hp == -10)
-                    playerInfo.Show_Hp();
-                else
-                {
-                    playerInfo.hp = hp;
-                    playerInfo.Show_Hp();
-                }
-            }*/
 
             //UI 조정
             [PunRPC]
@@ -82,9 +62,7 @@ namespace com.ThreeCS.McCree
             }
         #endregion
 
-
         #region 턴 관련
-
             // 본인 턴에 작동해서 턴 종료버튼이 본인에게만 보임
             [PunRPC]
             public void MyTurn(int idx)
@@ -138,9 +116,7 @@ namespace com.ThreeCS.McCree
 
         #endregion
 
-
         #region 덱에 카드를 추가 하는 부분
-
             [PunRPC]
             public void MyCardSync()
             {

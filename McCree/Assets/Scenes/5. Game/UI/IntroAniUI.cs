@@ -72,7 +72,7 @@ namespace com.ThreeCS.McCree
             StartCoroutine(IntroAniPlay());
         }
 
-        public IEnumerator IntroAniPlay()
+        IEnumerator IntroAniPlay()
         {
             playerManager = GameManager.Instance.GetPlayerManager();
 
