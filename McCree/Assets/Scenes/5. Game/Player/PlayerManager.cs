@@ -126,8 +126,6 @@ namespace com.ThreeCS.McCree
             canBehave = true;
         }
 
-        
-
         public override void OnDisable()
         {
             base.OnDisable();
@@ -250,9 +248,6 @@ namespace com.ThreeCS.McCree
             isSit = false;
         }
 
-
-        
-
         void Inventory()
         {
             if (!isInventoryOpen)
@@ -269,7 +264,6 @@ namespace com.ThreeCS.McCree
             }
         }   // 안씀   
         #endregion
-
 
         #region Pun RPC
 

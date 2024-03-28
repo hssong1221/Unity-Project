@@ -21815,7 +21815,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7787021, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -34434,6 +34434,7 @@ GameObject:
   - component: {fileID: 1942663462}
   - component: {fileID: 1942663461}
   - component: {fileID: 1942663460}
+  - component: {fileID: 1942663466}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -34641,6 +34642,43 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1942663466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942663459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 725ac733c77dda14e9c92b01d330f488, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jobPanel: {fileID: 717715626}
+  jobBoard: {fileID: 1710986271}
+  jobText: {fileID: 1053746501}
+  jobImage1: {fileID: 332247229}
+  jobImage2: {fileID: 787454514}
+  jobImage3: {fileID: 1250607044}
+  abilPanel: {fileID: 289738520}
+  abilImage: {fileID: 1894615348}
+  abilText: {fileID: 1840329491}
+  sheriff1: {fileID: 0}
+  sheriff2: {fileID: 0}
+  sheriff3: {fileID: 0}
+  deputy1: {fileID: 0}
+  deputy2: {fileID: 0}
+  deputy3: {fileID: 0}
+  outlaw1: {fileID: 0}
+  outlaw2: {fileID: 0}
+  outlaw3: {fileID: 0}
+  renegade1: {fileID: 0}
+  renegade2: {fileID: 0}
+  renegade3: {fileID: 0}
+  sheriff4: {fileID: 0}
+  deputy4: {fileID: 0}
+  outlaw4: {fileID: 0}
+  renegade4: {fileID: 0}
 --- !u!1 &1943326628
 GameObject:
   m_ObjectHideFlags: 0

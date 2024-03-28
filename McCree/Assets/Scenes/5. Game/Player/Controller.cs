@@ -21,9 +21,9 @@ namespace com.ThreeCS.McCree
         protected PlayerInfo playerInfo;
         protected Interaction interaction;
         protected UI ui;
-        protected MineUI mineUI;
+        //protected MineUI mineUI;
         protected DataSync dataSync;
-        protected TurnManager turnManager;
+        //protected TurnManager turnManager;
 
         protected bool trigger;
 
@@ -54,7 +54,7 @@ namespace com.ThreeCS.McCree
             animator = GetComponent<Animator>();
             rb = GetComponent<Rigidbody>();
 
-            turnManager = new TurnManager();
+            //turnManager = new TurnManager();
         }
     }
 }

@@ -177,7 +177,8 @@ namespace com.ThreeCS.McCree
         {
             if (photonView.IsMine)
             {
-                StartCoroutine(GameManager.Instance.GameStart());
+                IntroAniUI.introAction();
+                //StartCoroutine(GameManager.Instance.GameStart());
             }
         }
         #endregion

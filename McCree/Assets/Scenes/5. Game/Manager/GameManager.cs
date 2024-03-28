@@ -458,6 +458,7 @@ namespace com.ThreeCS.McCree
         }
 
         // 애니메이션 스타트
+        /*
         IEnumerator AnimPlay()
         {
             yield return YieldCache.WaitForEndOfFrame;
@@ -469,7 +470,7 @@ namespace com.ThreeCS.McCree
 
             yield return YieldCache.WaitForEndOfFrame;
         }
-
+        */
 
         // 카드 덱 초기화 기능
         IEnumerator GiveCardSet()
@@ -582,7 +583,7 @@ namespace com.ThreeCS.McCree
         public IEnumerator GameStart()
         {
             // 직업 선택 텍스트랑 애니메이션 재생
-
+            /*
             yield return YieldCache.WaitForEndOfFrame;
 
             jobPanel.SetActive(true);
@@ -609,6 +610,7 @@ namespace com.ThreeCS.McCree
             MineUI.Instance.leftTopPanel.SetActive(true);
             MineUI.Instance.rightBottomPanel.SetActive(true);
             MineUI.Instance.rightTop.SetActive(true);
+            */
 
             // 전부 테이블에 앉으면 시작 준비 끝
             bool checkflag = true;
@@ -1348,6 +1350,10 @@ namespace com.ThreeCS.McCree
                     break;
                 }
             }
+        }
+        public PlayerManager GetPlayerManager()
+        {
+            return playerManager;
         }
 
         // 직업 관련 텍스트
