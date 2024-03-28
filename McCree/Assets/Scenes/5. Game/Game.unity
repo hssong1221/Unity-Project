@@ -6562,7 +6562,6 @@ MonoBehaviour:
   startCanvas: {fileID: 1971227188}
   startPanel: {fileID: 1971227189}
   playerNumText: {fileID: 1971227187}
-  playerSitNum: 0
   bangBtn: {fileID: 41869138}
 --- !u!1 &479009671
 GameObject:
@@ -21816,7 +21815,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7773438, y: 1}
+    m_SensorSize: {x: 1.7787021, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0

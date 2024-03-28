@@ -432,85 +432,29 @@ namespace com.ThreeCS.McCree
             SetPhotonView(); // 자기 자신의 PhotonView, 관련 스크립트 찾기
             //StartCoroutine(FindMinePv());  // 자기 자신의 PhotonView, 관련 스크립트 찾기
 
-            StartCoroutine(EndGame()); // 게임 종료 조건을 판단
+            //StartCoroutine(EndGame()); // 게임 종료 조건을 판단
 
+            
             if (PhotonNetwork.IsMasterClient && photonView.IsMine)
             {
-
                 // 직업이랑 능력을 나누어 준다.
-                StartCoroutine(JobandAbility());
+                //StartCoroutine(JobandAbility());
 
-                StartCoroutine(AnimPlay());
+                //StartCoroutine(AnimPlay());
 
-                // 카드 나눠주는것
-                //StartCoroutine(Cards());
+                //// 카드 나눠주는것
+                ////StartCoroutine(Cards());
 
                 // ------------------------------------카드 기능 부활 중------------------------------------
                 StartCoroutine(GiveCardSet());
-
             }
-
+            
             MineUI.Instance.Joypad.SetActive(false);
 #if UNITY_ANDROID
             MineUI.Instance.Joypad.SetActive(true);
             // 모바일에서는 화면이 안꺼지게 한다.
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 #endif
-        }
-
-        IEnumerator JobandAbility()
-        {
-            yield return null;
-
-            // (인구수에 맞게 하는 거 추가하기)
-            //List<int> jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
-            List<int> jobList = null;
-
-            if (playerList.Length == 3)
-                jobList = new List<int>() { 2 ,4, 7 }; // 3인 룰
-            else if(playerList.Length == 4)
-                jobList = new List<int>() { 1, 4, 5, 7 }; // 4인 룰
-            else if (playerList.Length == 5)
-                jobList = new List<int>() { 1, 2, 4, 5, 7 }; // 5인 룰
-            else if (playerList.Length == 6)
-                jobList = new List<int>() { 1, 2, 4, 5, 6, 7 }; // 6인 룰
-            else if (playerList.Length == 7)
-                jobList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 }; // 7인 룰
-
-            // 실험용
-            if(playerList.Length == 1)
-                jobList = new List<int>() { 1 }; // 7인 룰
-
-            // 능력 갯수에 맞게 해야함
-            List<int> abilityList = new List<int>() { 1, 2, 3, 4, 5, 6, 7 };
-
-            jobList = CommonFunction.ShuffleList(jobList);
-            //Debug.Log("잡리스트" + jobList[0] + " " + jobList[1] + " " + jobList[2]);
-            abilityList = CommonFunction.ShuffleList(abilityList);
-            //Debug.Log("어빌리스트" + abilityList[0] + " " + abilityList[1] + " " + abilityList[2]);
-
-
-            // 직업을 나눠주고 동기화 시킴
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                Debug.Log("잡 리스트 번호 : " + jobList[i]);
-                playerList[i].GetComponent<PhotonView>().RPC("JobSelect", RpcTarget.All, jobList[i]);
-            }
-
-            // 능력을 나눠주고 동기화 시킴
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                Debug.Log("어빌 리스트 번호 : " + abilityList[i]);
-                playerList[i].GetComponent<PhotonView>().RPC("AbilitySelect", RpcTarget.All, abilityList[i]);
-            }
-
-            for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-            {
-                Debug.Log("체력 동기화 : " + playerList[i]);
-                playerList[i].GetComponent<PhotonView>().RPC("SyncHp", RpcTarget.All, -10);
-            }
-
-            yield return null;
         }
 
         // 애니메이션 스타트

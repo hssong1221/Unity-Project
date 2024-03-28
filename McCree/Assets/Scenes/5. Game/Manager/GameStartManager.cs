@@ -31,6 +31,9 @@ namespace com.ThreeCS.McCree
             startUIOffAction = () => { startPanelOff(); };
             bangBtnOnAction = () => { bangBtnOn(); };
             setPlayerNumAction = () => { SetPlayerNumText(); };
+
+            // 임시로 켜놓은 거니까 무조건 없애야함
+            bangBtnOn();
         }
 
         void Update()
@@ -42,6 +45,8 @@ namespace com.ThreeCS.McCree
         // 게임 시작하기 위한 버튼
         public void BangBtnClick()
         {
+            MasterPlayerManager.masterPlayerAction();
+
             foreach (GameObject player in GameManager.Instance.playerList)
             {
                 // 모든 사람의 turnlist에 정보 저장을 위함

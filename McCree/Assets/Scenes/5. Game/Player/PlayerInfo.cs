@@ -10,6 +10,8 @@ namespace com.ThreeCS.McCree
 {
     public class PlayerInfo : Controller
     {
+        #region variable
+        
         private static PlayerInfo pInstance;
 
         public static PlayerInfo Instance
@@ -159,6 +161,8 @@ namespace com.ThreeCS.McCree
 
         protected Transform content;
 
+        #endregion
+
         void Awake()
         {
             base.Awake();  // Controller Awake 함수 그대로 사용
@@ -181,7 +185,7 @@ namespace com.ThreeCS.McCree
             
             MineUI.Instance.statusPanel.gameObject.SetActive(false);
 
-            StartCoroutine(CurrentHP());
+            //StartCoroutine(CurrentHP());
         }
         
         void Update()
@@ -192,6 +196,10 @@ namespace com.ThreeCS.McCree
                 //Debug.Log("c n : " + mycardNum);
             }
         }
+
+        #region public methods
+
+        
 
         public void Show_Hp()
         {
@@ -236,6 +244,10 @@ namespace com.ThreeCS.McCree
             }
             yield return null;
         }
+
+        #endregion
+
+        #region PunRPC
 
         [PunRPC]
         public void CardNumView(int num)
@@ -382,5 +394,7 @@ namespace com.ThreeCS.McCree
                 GameManager.Instance.alertOrder(7);
             }
         }
+
+        #endregion
     }
 }

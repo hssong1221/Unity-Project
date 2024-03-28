@@ -1644,6 +1644,7 @@ GameObject:
   - component: {fileID: 6215404349552739522}
   - component: {fileID: 6215404349552739545}
   - component: {fileID: 6215404349552739551}
+  - component: {fileID: 634473551014363896}
   - component: {fileID: 3280754104980646606}
   - component: {fileID: 6215404349552739547}
   - component: {fileID: 3042995828838473885}
@@ -1768,6 +1769,18 @@ MonoBehaviour:
   h: 0
   v: 0
   cardObject: {fileID: 2643383449535095578, guid: 25721e9ab19bfd1409d58b81e2fc801e, type: 3}
+--- !u!114 &634473551014363896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6215404349552837223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8f7a1b01679fef4faab51c36c804346, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3280754104980646606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1782,7 +1795,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StoreCard: {fileID: 0}
   mycards: []
-  gameStartManager: {fileID: 88513796322088611, guid: 82418688a5e05ea448dd1bb207936ac3, type: 3}
 --- !u!114 &6215404349552739547
 MonoBehaviour:
   m_ObjectHideFlags: 0

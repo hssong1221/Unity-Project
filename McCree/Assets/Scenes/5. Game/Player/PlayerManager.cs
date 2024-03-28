@@ -126,15 +126,7 @@ namespace com.ThreeCS.McCree
             canBehave = true;
         }
 
-        [PunRPC]
-        public void PlayerListSync()
-        {
-            //플레이어 오브젝트가 전부 담김
-            GameManager.Instance.playerList = GameObject.FindGameObjectsWithTag("Player");
-            Debug.Log("플레이어 수(만큼 나올 듯) : " + GameManager.Instance.playerList.Length);
-            GameStartManager.setPlayerNumAction();
-        }
-
+        
 
         public override void OnDisable()
         {
@@ -258,6 +250,38 @@ namespace com.ThreeCS.McCree
             isSit = false;
         }
 
+
+        
+
+        void Inventory()
+        {
+            if (!isInventoryOpen)
+            {
+                //MineUI.Instance.title_Item.text = "";
+                //MineUI.Instance.explain_Item.text = "";
+                MineUI.Instance.statusPanel.SetActive(true);
+                isInventoryOpen = true;
+            }
+            else
+            {
+                MineUI.Instance.statusPanel.SetActive(false);
+                isInventoryOpen = false;
+            }
+        }   // 안씀   
+        #endregion
+
+
+        #region Pun RPC
+
+        [PunRPC]
+        public void PlayerListSync()
+        {
+            //플레이어 오브젝트가 전부 담김
+            GameManager.Instance.playerList = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log("플레이어 수(만큼 나올 듯) : " + GameManager.Instance.playerList.Length);
+            GameStartManager.setPlayerNumAction();
+        }
+
         [PunRPC]
         public void SitnumSync()
         {
@@ -284,86 +308,6 @@ namespace com.ThreeCS.McCree
                     mygamePlate = c.GetComponent<ChairManager>().gamePlate;
                     mygamePlate.gameObject.SetActive(true);
                 }
-            }
-        }
-
-        void Inventory()
-        {
-            if (!isInventoryOpen)
-            {
-                //MineUI.Instance.title_Item.text = "";
-                //MineUI.Instance.explain_Item.text = "";
-                MineUI.Instance.statusPanel.SetActive(true);
-                isInventoryOpen = true;
-            }
-            else
-            {
-                MineUI.Instance.statusPanel.SetActive(false);
-                isInventoryOpen = false;
-            }
-        }   // 안씀   
-        #endregion
-
-
-        #region GameMaster 로 부터 받은 정보 로컬과 동기화
-
-        [PunRPC]
-        public void JobSelect(int num) // 내 직업 동기화 
-        {
-            switch (num)
-            {
-                case 1:
-                    playerManager.playerType = GameManager.jType.Sheriff;
-                    playerInfo.hp = 5;
-                    playerInfo.maxHp = 5;
-                    break;
-                case 2:
-                case 3:
-                    playerManager.playerType = GameManager.jType.Vice;
-                    playerInfo.hp = 4;
-                    playerInfo.maxHp = 4;
-                    break;
-                case 4:
-                case 5:
-                case 6:
-                    playerManager.playerType = GameManager.jType.Outlaw;
-                    playerInfo.hp = 4;
-                    playerInfo.maxHp = 4;
-                    break;
-                case 7:
-                    playerManager.playerType = GameManager.jType.Renegade;
-                    playerInfo.hp = 4;
-                    playerInfo.maxHp = 4;
-                    break;
-            }
-        }
-
-        [PunRPC]
-        public void AbilitySelect(int num) // 내 능력 동기화 
-        {
-            switch (num)
-            {
-                case 1:
-                    playerManager.abilityType = GameManager.aType.BangMissed;
-                    break;
-                case 2:
-                    playerManager.abilityType = GameManager.aType.DrinkBottle;
-                    break;
-                case 3:
-                    playerManager.abilityType = GameManager.aType.HumanVolcanic;
-                    break;
-                case 4:
-                    playerManager.abilityType = GameManager.aType.OnehpOnecard;
-                    break;
-                case 5:
-                    playerManager.abilityType = GameManager.aType.ThreeCard;
-                    break;
-                case 6:
-                    playerManager.abilityType = GameManager.aType.TwocardOnecard;
-                    break;
-                case 7:
-                    playerManager.abilityType = GameManager.aType.TwocardOnehp;
-                    break;
             }
         }
 

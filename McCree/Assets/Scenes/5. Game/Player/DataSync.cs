@@ -24,15 +24,7 @@ namespace com.ThreeCS.McCree
             
         #endregion
 
-        // 게임 시작 애니메이션 플레이
-        [PunRPC]
-        public void AnimStart()
-        {
-            if (photonView.IsMine)
-            {
-                StartCoroutine(GameManager.Instance.GameStart());
-            }
-        }
+        
 
 
         #region 앉은 후 게임 시작하면서 해야하는 것들
@@ -55,9 +47,10 @@ namespace com.ThreeCS.McCree
             }
 
             // 내 체력 동기화
-            [PunRPC]
+            /*[PunRPC]
             public void SyncHp(int hp)
             {
+                //초기 설정
                 if (hp == -10)
                     playerInfo.Show_Hp();
                 else
@@ -65,8 +58,7 @@ namespace com.ThreeCS.McCree
                     playerInfo.hp = hp;
                     playerInfo.Show_Hp();
                 }
-
-            }
+            }*/
 
             //UI 조정
             [PunRPC]

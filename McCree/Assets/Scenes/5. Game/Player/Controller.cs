@@ -17,12 +17,13 @@ namespace com.ThreeCS.McCree
 
         protected Controller controller;
         protected PlayerManager playerManager;
+        protected MasterPlayerManager masterPlayerManager;
         protected PlayerInfo playerInfo;
         protected Interaction interaction;
         protected UI ui;
         protected MineUI mineUI;
         protected DataSync dataSync;
-
+        protected TurnManager turnManager;
 
         protected bool trigger;
 
@@ -44,6 +45,7 @@ namespace com.ThreeCS.McCree
 
             controller = GetComponent<Controller>();
             playerManager = GetComponent<PlayerManager>();
+            masterPlayerManager = GetComponent<MasterPlayerManager>();
             playerInfo = GetComponent<PlayerInfo>();
             interaction = GetComponent<Interaction>();
             ui = GetComponent<UI>();
@@ -51,6 +53,8 @@ namespace com.ThreeCS.McCree
 
             animator = GetComponent<Animator>();
             rb = GetComponent<Rigidbody>();
+
+            turnManager = new TurnManager();
         }
     }
 }
